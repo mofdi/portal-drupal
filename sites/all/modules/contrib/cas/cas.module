@@ -496,17 +496,15 @@ function cas_user_load($users) {
 /**
  * Implements hook_user_insert().
  *
- * When a user is created, record their CAS username if provided.
+ * When a user is created, always create also a matching CAS username.
  */
 function cas_user_insert(&$edit, $account, $category) {
-  if (!empty($edit['cas_name'])) {
-    db_insert('cas_user')
-      ->fields(array(
-        'cas_name' => $edit['cas_name'],
-        'uid' => $account->uid,
-      ))
-      ->execute();
-  }
+  db_insert('cas_user')
+    ->fields(array(
+      'cas_name' => $account->name,
+      'uid' => $account->uid,
+    ))
+    ->execute();
   // Update $account to reflect changes.
   $users = array($account->uid => $account);
   cas_user_load($users);
