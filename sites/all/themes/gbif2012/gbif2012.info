@@ -1,5 +1,5 @@
 name = 'GBIF 2012'
-description = 'A GBIF theme based on <a href="http://drupal.org/project/omega">Omega</a>. HTML5 compatible.'
+description = 'A GBIF theme based on <a href="http://drupal.org/project/omega">Omega</a>. Design elements from <a href="http://www.vizzuality.com/">Vizzuality</a>. HTML5 compatible.'
 core = '7.x'
 engine = 'phptemplate'
 screenshot = 'screenshot.png'
