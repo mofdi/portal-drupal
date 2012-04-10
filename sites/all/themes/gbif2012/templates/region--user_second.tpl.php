@@ -1,7 +1,13 @@
 <aside<?php print $attributes; ?>>
   <div<?php print $content_attributes; ?>>
-    <a href="/user">Log in</a> or <a href="/user/register">Create a new account</a>
     <?php
+      if ($user->uid == 0) {
+        print '<a href="/user">Log in</a> or <a href="/user/register">Create a new account</a>';
+      }
+      else {
+        print t('Welcome, !username! ', array('!username' => theme('username', array('account' => $user))));
+        print l(t('Log out'), 'user/logout', array('attributes' => array('class' => array('logout'))));
+      }
       print $content;
     ?>
   </div>
