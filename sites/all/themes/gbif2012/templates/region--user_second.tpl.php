@@ -2,7 +2,7 @@
   <div<?php print $content_attributes; ?>>
     <?php
       if ($user->uid == 0) {
-        print '<a href="/user">Log in</a> or <a href="/user/register">Create a new account</a>';
+        print '<a href="' . $base_url . '/user">Log in</a> or <a href="' . $base_url . '/user/register">Create a new account</a>';
       }
       else {
         print t('Welcome, !username! ', array('!username' => theme('username', array('account' => $user))));
