@@ -1,6 +1,7 @@
 <aside<?php print $attributes; ?>>
   <div<?php print $content_attributes; ?>>
     <?php
+      global $base_url;
       if ($user->uid == 0) {
         print '<a href="' . $base_url . '/user">Log in</a> or <a href="' . $base_url . '/user/register">Create a new account</a>';
       }
