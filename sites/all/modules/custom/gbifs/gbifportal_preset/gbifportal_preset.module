@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the gbifportal_preset feature.
+ */
+
+include_once('gbifportal_preset.features.inc');
