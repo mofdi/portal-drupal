@@ -465,3 +465,44 @@ section #block-gbif-spdsht-available-templates {
   margin: 0px;
   padding: 0px;
 }
+
+h3#modal-title {
+  font-family: DINOT-Regular;
+  font-size: 1.6em;
+  text-transform: uppercase;
+}
+
+div.popups-container {
+  border: 4px solid rgba(204, 204, 204, .4);
+  border-radius: 5px;
+}
+
+div.modal-forms-modal-content .popups-container {
+  padding-top: 15px;
+}
+
+#modal-content {
+  padding-right: 30px;
+}
+
+form#user-login {
+  background: #E5F5FA;
+  width: 100%;
+  padding: 10px 5px 30px 5px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+div.modal-forms-modal-content .popups-close {
+  background: url("../images/close.png") no-repeat center center;
+}
+
+div.modal-forms-modal-content .popups-close:hover {
+  background: url("../images/close.png") no-repeat center center;
+}
+
+div.modal-forms-modal-content .form-item label {
+  font-family: DINOT-Regular;
+  text-transform: uppercase;
+  font-size: 1em;
+}
