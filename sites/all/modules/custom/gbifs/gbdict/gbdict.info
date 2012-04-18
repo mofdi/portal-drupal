@@ -1,0 +1,8 @@
+name = Init GBIF specific drupal taxonomy
+description = "Allows users to bulk init a GBIF specific drupal taxonomy"
+package = GBIF specific taxonomy
+core = 7.x
+files[] = gbdict.module
+files[] = gbdict.install
+files[] = gbdict.admin.inc
+configure=admin/config/content/gbdict/gbdict
