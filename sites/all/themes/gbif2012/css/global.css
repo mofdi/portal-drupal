@@ -202,13 +202,13 @@ h4, h5, h6 {
 
 h1.site-name {
   font-size: 1.35em;
-  margin-top: 3px;
+  margin-top: 0px;
   line-height: 1.6em;
 }
 
 h2.site-name {
   font-size: 1.35em;
-  margin-top: 3px;
+  margin-top: 0px;
   line-height: 1.6em;
 }
 
@@ -225,6 +225,10 @@ h2.site-name {
 
 .logo-img {
   margin-right: 10px;
+}
+
+img#logo {
+  height: 38px;
 }
 
 #region-search {
