@@ -110,6 +110,7 @@ a {
 #block-superfish-1 {
   margin-top: 18px;
   z-index: 10;
+  font-size: 1em;
 }
 #block-superfish-1 h2 { display: none; }
 #block-superfish-1 ul li { background: none; border: none; }
@@ -232,7 +233,7 @@ h2.site-name {
 }
 
 #block-search-form {
-  margin-top: 12px;
+  margin-top: 10px;
 }
 
 #search-block-form div.container-inline {
