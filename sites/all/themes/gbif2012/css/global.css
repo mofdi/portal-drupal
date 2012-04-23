@@ -42,7 +42,7 @@ a {
 }
 
 #region-user-second .region-user-second-inner {
-  padding-right: 12px;
+  text-align: center;
 }
 
 #region-user-second a {
@@ -67,6 +67,8 @@ a {
 #region-menu {
   font-family: DINOT-Medium;
   font-size: 1.15em;
+  margin-right: 0px;
+  width: 440px;
 }
 
 #main-menu {
@@ -102,13 +104,11 @@ a {
 
 #region-menu nav {
   margin-top: 15px;
-  padding: 0 200px 0 0;
+  padding: 0 0 0 0;
 }
 
 #block-superfish-1 {
-  margin-right: 180px;
   margin-top: 18px;
-  float: right;
   z-index: 10;
 }
 #block-superfish-1 h2 { display: none; }
@@ -226,10 +226,13 @@ h2.site-name {
   margin-right: 10px;
 }
 
-#block-search-form {
-  width: 180px;
+#region-search {
+  margin: 0 10px 0 0;
   float: right;
-  margin-top: -67px;
+}
+
+#block-search-form {
+  margin-top: 12px;
 }
 
 #search-block-form div.container-inline {
