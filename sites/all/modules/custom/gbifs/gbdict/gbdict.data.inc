@@ -15,13 +15,14 @@ function get_gbif_drp_taxonomy( $what='vocabularies' ) {
 				'organizations'=>'Organizations',
 				'community'=>'Community',
 				'training'=>'Training',
-				'capacity'=>'Capacity'
+				'capacity'=>'Capacity',
+				'corenews' => 'Corenews',
 				) ;
 
 	$terms = array ( 'science_policy' => array ( 'science'=>'Science description', 'policy'=>'Policy description', 'usecase'=>'Usecase description', ),
 					'data'=> array ( 'datapub'=>'Data publication description','dataset'=>'Data set description', ),
 					'informatics'=> array ( 'api'=>'API description', 'standards'=>'GBIF standard description', 'protocols'=>'Protocols used in GBIF description', 'infrastructure'=>'Infastrucure description', ),
-					'opportunities'=> array ( 'external_contracts'=>'External Contracts description', 'award_nominations'=>'Award Nominations description' , ''=>'Support Calls', ),
+					'opportunities'=> array ( 'external_contracts'=>'External Contracts description', 'award_nominations'=>'Award Nominations description' , 'support_calls'=>'Support Calls', ),
 					'regions'=> array ('europe'=>'Europe', 'latinamerica'=>'Latin America','africa'=>'Africa','northamerica'=>'North America','asia'=>'Asia','oceania'=>'Oceania', ),
 					'countries'=> array (
 									'AF'=>'Afghanistan',
@@ -275,6 +276,7 @@ function get_gbif_drp_taxonomy( $what='vocabularies' ) {
 					'community'=> array ( 'community1'=>'Community1 description','community2'=>'Community2 description', ),
 					'training'=> array ( 'training1'=>'training1 description', 'training2'=>'training2 description',),
 					'capacity'=> array ( 'capacity1'=>'capacity2 description', 'capacity2'=>'capacity2 description',),
+					'corenews'=> array ( 'news'=>'basic news item description', 'announcement'=>'announcement description',),
 				) ;
 
 	if ( $what === 'vocabularies' ) {
