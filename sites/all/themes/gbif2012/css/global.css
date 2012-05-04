@@ -6,16 +6,17 @@ html {
 }
 
 Body {
-  padding: 3px 0px 0px 0px;
+  padding: 0px;
   margin: 0px;
-  background: url("../images/top_bar.jpg") repeat-x;
   background-color: #EFEFEF;
   height: 100%;
 }
 
 #page {
   min-height: 100%;
+  padding-top: 3px;
   position: relative;
+  background: url("../images/top_bar.jpg") repeat-x;
 }
 
 a {
