@@ -67,9 +67,25 @@ function cas_server_theme() {
   );
 }
 
+/**
+ * Implements hook_cas_server_user_attributes().
+ *
+ * Returns the user's roles.
+ */
+function cas_server_cas_server_user_attributes($account, $service) {
+  return array(
+    'uid'           => $account->uid,
+    'mail'          => $account->mail,
+    'created'       => $account->created,
+    'timezone'      => $account->timezone,
+    'language'      => $account->language,
+    'drupal_roles'  => $account->roles,
+  );
+}
+
 function cas_server_service_return() {
   global $user;
-  $service = $_COOKIE[CAS_LOGIN_COOKIE];
+  $service = isset($_COOKIE[CAS_LOGIN_COOKIE]) ? $_COOKIE[CAS_LOGIN_COOKIE] : '';
   if ($service && $user->uid) {
     $ticket = _cas_server_save_ticket($user->uid, $service);
     setcookie(CAS_LOGIN_COOKIE, "", -3600);
@@ -85,21 +101,23 @@ function cas_server_login() {
   // Set login cookie so that we know we're in the process of logging in
   global $user;
   $output='';
+  $service = isset($_REQUEST['service']) ? $_REQUEST['service'] : '';
+  $gateway = isset($_REQUEST['gateway']);
   if ($user->uid) {
-    if ($_GET['service']) {
-      $_COOKIE[CAS_LOGIN_COOKIE] = $_REQUEST['service'];
+    if ($service) {
+      $_COOKIE[CAS_LOGIN_COOKIE] = $service;
     }
     $output=t('You have successfully logged into CAS');
     cas_server_service_return();
   }
   else {
-    if (isset($_GET['gateway']) && isset($_GET['service'])) {
-      drupal_goto($_GET['service']);
+    if ($gateway && $service) {
+      drupal_goto($service);
     }
     else {
       // Redirect to user login
-      if ($_GET['service']) {
-        setcookie(CAS_LOGIN_COOKIE, $_REQUEST['service']);
+      if ($service) {
+        setcookie(CAS_LOGIN_COOKIE, $service);
       }
       $output .= l(t('Login'), 'user', array('query' => array('destination' => 'cas/login')));
       drupal_goto('user', array('query' => array('destination' => 'cas/login')));
@@ -114,8 +132,8 @@ function cas_server_login() {
  */
 function cas_server_validate() {
   //Obtain the ticket from the url and validate it.
-  $ticket = $_GET['ticket'];
-  $service = $_GET['service'];
+  $ticket = isset($_REQUEST['ticket']) ? $_REQUEST['ticket'] : '';
+  $service = isset($_REQUEST['service']) ? $_REQUEST['service'] : '';
   $user_name = _cas_server_validate($service, $ticket);
   if ($user_name) {
     print "yes\n";
@@ -131,28 +149,32 @@ function cas_server_validate() {
  * Returns data in xml
  */
 function cas_server_service_validate() {
-  $ticket = $_GET['ticket'];
-  $service = $_GET['service'];
+  $ticket = isset($_REQUEST['ticket']) ? $_REQUEST['ticket'] : '';
+  $service = isset($_REQUEST['service']) ? $_REQUEST['service'] : '';
   $user_name = _cas_server_validate($service, $ticket);
-  if (!$user_name ) $cas_error='INVALID_TICKET';
+  if (!$user_name) $cas_error='INVALID_TICKET';
   if (!$ticket || !$service) $cas_error='INVALID_REQUEST';
 
   header('Content-type:', 'text/xml');
   if ($user_name) {
     //@TODO Generate proxy granting ticket
-    print "<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>\n" .
-          "  <cas:authenticationSuccess>\n" .
-          "    <cas:user>$user_name</cas:user>\n" .
-          "  </cas:authenticationSuccess>\n" .
-          "</cas:serviceResponse>\n";
+    $account = user_load_by_name($user_name);
+
+    // Generate a list of attributes to return.
+    $attributes = module_invoke_all('cas_server_user_attributes', $account, $service, $ticket);
+
+    // Let other modules alter the list of attributes.
+    $context = array(
+      'service' => $service,
+      'ticket' => $ticket,
+    );
+    drupal_alter('cas_server_user_attributes', $attributes, $account, $context);
+
+    print theme('cas_service_validate_success', array('name' => $user_name, 'attributes' => $attributes));
     watchdog('cas', 'User %name CAS sucessully authenticated.', array('%name' => $user_name));
   }
   else {
-    print "<cas:serviceReponse xmlns:cas='http://www.yale.edu/tp/cas'>\n" .
-          "  <cas:authenticationFailure code=\"$cas_error\">\n" .
-          "     Ticket $ticket not recognized.\n" .
-          "  </cas:authenticationFailure>" .
-          "</cas:serviceResponse>";
+    print theme('cas_service_validate_failure', array('ticket' => $ticket, 'error_code' => $cas_error));
     watchdog('cas', 'Ticket %ticket for service %service not recognized.', array('%ticket' => $ticket, '%service' => $service));
   }
 }
@@ -198,16 +220,23 @@ function _cas_server_save_ticket($uid, $service) {
 }
 
 /**
- * Cas Logout
+ * Menu callback; triggers a CAS logout.
+ *
  * @TODO: Implement single sign out support
  */
 function cas_server_logout() {
-  // Destroy the current session:
+  global $user;
+
+  watchdog('user', 'Session closed for %name.', array('%name' => $user->name));
+
+  module_invoke_all('user_logout', $user);
+
+  // Destroy the current session, and reset $user to the anonymous user.
   session_destroy();
-  module_invoke_all('user', 'logout', NULL, $user);
-  $output = t('<p>You have been logged out successfully</p>');
-  if ($_GET['url'])  {
-    $output .= '<p>' . l(t('Continue'), $_GET['url']) . '</p>';
+
+  $output = '<p>' . t('You have been logged out successfully.') . '</p>';
+  if (isset($_REQUEST['url'])) {
+    $output .= '<p>' . l(t('Continue'), $_REQUEST['url']) . '</p>';
   }
   return $output;
 }
