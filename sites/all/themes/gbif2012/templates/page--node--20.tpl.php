@@ -22,7 +22,7 @@
 				</div>
 				<div class="grid-6 region region-content" id="region-content" >
 								<?php
-								$block = module_invoke('views','block_view','featured-block_1');
+								$block = module_invoke('views','block_view','Featured-block_1');
 								print render($block);
 								?>
 				</div>
@@ -92,7 +92,7 @@
 					<div class="block-inner clearfix">
 						<div class="content clearfix" style="border: 0">
 										<?php
-										$block = module_invoke('views','block_view','avcontent-block') ;
+										$block = module_invoke('views','block_view','AVContent-block') ;
 										print render($block);
 										?>
 
