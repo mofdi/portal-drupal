@@ -68,6 +68,18 @@ minplayer.players.youtube.getMediaId = function(file) {
 };
 
 /**
+ * Returns a preview image for this media player.
+ *
+ * @param {object} file A {@link minplayer.file} object.
+ * @param {string} type The type of image.
+ * @return {string} The full path to the preview image.
+ */
+minplayer.players.youtube.getImage = function(file, type) {
+  type = (type == 'thumbnail') ? '1' : '0';
+  return 'http://img.youtube.com/vi/' + file.id + '/' + type + '.jpg';
+};
+
+/**
  * Translates the player state for the YouTube API player.
  *
  * @param {number} playerState The YouTube player state.
@@ -171,7 +183,7 @@ minplayer.players.youtube.prototype.create = function() {
   this.poll((function(player) {
     return function() {
       var ready = jQuery('#' + player.playerId).length > 0;
-      ready = ready && window.hasOwnProperty('YT');
+      ready = ready && ('YT' in window);
       ready = ready && (typeof YT.Player == 'function');
       if (ready) {
         // Determine the origin of this script.

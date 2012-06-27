@@ -153,11 +153,12 @@ minplayer.prototype.addEvents = function() {
         // If an error occurs within the html5 media player, then try
         // to fall back to the flash player.
         if (player.currentPlayer == 'html5') {
+          minplayer.player = 'minplayer';
           player.options.file.player = 'minplayer';
           player.loadPlayer();
         }
         else {
-          player.error(data);
+          player.showError(data);
         }
       });
 
@@ -174,14 +175,22 @@ minplayer.prototype.addEvents = function() {
  *
  * @param {string} error The error to display on the player.
  */
-minplayer.prototype.error = function(error) {
+minplayer.prototype.showError = function(error) {
   error = error || '';
   if (this.elements.error) {
 
     // Set the error text.
     this.elements.error.text(error);
     if (error) {
+      // Show the error message.
       this.elements.error.show();
+
+      // Only show this error for a time interval.
+      setTimeout((function(player) {
+        return function() {
+          player.elements.error.hide('slow');
+        };
+      })(this), 5000);
     }
     else {
       this.elements.error.hide();
@@ -246,42 +255,30 @@ minplayer.prototype.getFiles = function() {
 
 /**
  * Returns the full media player object.
+ *
  * @param {array} files An array of files to chose from.
  * @return {object} The best media file to play in the current browser.
  */
-minplayer.prototype.getMediaFile = function(files) {
+minplayer.getMediaFile = function(files) {
 
   // If there are no files then return null.
   if (!files) {
     return null;
   }
 
-  // If the file is a single string, then return the file object.
-  if (typeof files === 'string') {
-    return new minplayer.file({'path': files});
-  }
-
   // If the file is already a file object then just return.
-  if (files.path || files.id) {
+  if ((typeof files === 'string') || files.path || files.id) {
     return new minplayer.file(files);
   }
 
   // Add the files and get the best player to play.
-  var i = files.length, bestPriority = 0, mFile = null, file = null;
-  while (i--) {
-    file = files[i];
-
-    // Get the minplayer file object.
-    if (typeof file === 'string') {
-      file = new minplayer.file({'path': file});
-    }
-    else {
-      file = new minplayer.file(file);
-    }
-
-    // Determine the best file for this browser.
-    if (file.priority > bestPriority) {
-      mFile = file;
+  var bestPriority = 0, mFile = null, file = null;
+  for (var i in files) {
+    if (files.hasOwnProperty(i)) {
+      file = new minplayer.file(files[i]);
+      if (file.player && (file.priority > bestPriority)) {
+        mFile = file;
+      }
     }
   }
 
@@ -300,12 +297,12 @@ minplayer.prototype.loadPlayer = function() {
   }
 
   if (!this.options.file.player) {
-    this.error('Cannot play media: ' + this.options.file.mimetype);
+    this.showError('Cannot play media: ' + this.options.file.mimetype);
     return;
   }
 
   // Reset the error.
-  this.error();
+  this.showError();
 
   // Only destroy if the current player is different than the new player.
   var player = this.options.file.player.toString();
@@ -318,7 +315,7 @@ minplayer.prototype.loadPlayer = function() {
 
     // Do nothing if we don't have a display.
     if (!this.elements.display) {
-      this.error('No media display found.');
+      this.showError('No media display found.');
       return;
     }
 
@@ -349,6 +346,7 @@ minplayer.prototype.loadPlayer = function() {
   else if (this.media) {
 
     // Now load the different media file.
+    this.media.options = this.options;
     this.media.load(this.options.file);
   }
 };
@@ -365,7 +363,7 @@ minplayer.prototype.load = function(files) {
 
   // If no file was provided, then get it.
   this.options.files = files || this.options.files;
-  this.options.file = this.getMediaFile(this.options.files);
+  this.options.file = minplayer.getMediaFile(this.options.files);
 
   // Now load the player.
   this.loadPlayer();

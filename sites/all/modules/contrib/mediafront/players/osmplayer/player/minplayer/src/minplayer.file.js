@@ -9,6 +9,15 @@ var minplayer = minplayer || {};
  * @param {object} file A media file object with minimal required information.
  */
 minplayer.file = function(file) {
+
+  file = (typeof file === 'string') ? {path: file} : file;
+
+  // If we already are a minplayer file, then just return this file.
+  if (file.hasOwnProperty('isMinPlayerFile')) {
+    return file;
+  }
+
+  this.isMinPlayerFile = true;
   this.duration = file.duration || 0;
   this.bytesTotal = file.bytesTotal || 0;
   this.quality = file.quality || 0;
@@ -28,13 +37,16 @@ minplayer.file = function(file) {
   }
 
   // Get the player.
-  this.player = file.player || this.getBestPlayer();
+  this.player = minplayer.player || file.player || this.getBestPlayer();
   this.priority = file.priority || this.getPriority();
   this.id = file.id || this.getId();
   if (!this.path) {
     this.path = this.id;
   }
 };
+
+/** Used to force the player for all media. */
+minplayer.player = '';
 
 /**
  * Returns the best player for the job.
@@ -43,15 +55,18 @@ minplayer.file = function(file) {
  */
 minplayer.file.prototype.getBestPlayer = function() {
   var bestplayer = null, bestpriority = 0;
-  jQuery.each(minplayer.players, (function(file) {
-    return function(name, player) {
-      var priority = player.getPriority();
-      if (player.canPlay(file) && (priority > bestpriority)) {
-        bestplayer = name;
-        bestpriority = priority;
-      }
-    };
-  })(this));
+  // Only try for video files.
+  if (this.type == 'video') {
+    jQuery.each(minplayer.players, (function(file) {
+      return function(name, player) {
+        var priority = player.getPriority();
+        if (player.canPlay(file) && (priority > bestpriority)) {
+          bestplayer = name;
+          bestpriority = priority;
+        }
+      };
+    })(this));
+  }
   return bestplayer;
 };
 

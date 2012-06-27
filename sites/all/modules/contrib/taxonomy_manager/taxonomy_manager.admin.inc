@@ -93,6 +93,7 @@ function taxonomy_manager_form($form, &$form_state, $voc, $tid = 0, $filter = NU
     '#suffix' => '</div>',
   );
   
+  taxonomy_manager_form_voc_jumper($form);
   if (_taxonomy_manager_voc_is_empty($voc->vid)) {
     $text = t('No terms available');
     $form['text'] = array( 
@@ -208,8 +209,13 @@ function taxonomy_manager_form($form, &$form_state, $voc, $tid = 0, $filter = NU
   if (isset($form_state['values']['load-tid'])) {
     $tid = $form_state['values']['load-tid'];
   }
+  // Something on the term data has been submitted, e.g. the 'add another item'
+  // button
+  elseif (isset($form_state['term']) && is_object($form_state['term'])) {
+    $tid = $form_state['term']->tid;
+  }
   taxonomy_manager_term_data_form($form, $form_state, $tid, $voc->vid);
-  
+
   return $form;
 }
 
@@ -361,6 +367,23 @@ function taxonomy_manager_double_tree_form($form, &$form_state, $voc1, $voc2, $t
   }
 
   return $form;
+}
+
+/**
+ * Adds a voc jumper menu, if ctools is enabled.
+ */
+function taxonomy_manager_form_voc_jumper(&$form) {
+  if (module_exists('ctools')) {
+    $options = array();
+    foreach (taxonomy_vocabulary_get_names() as $voc) {
+      $options[url('admin/structure/taxonomy_manager/voc/' . $voc->machine_name)] = $voc->name;
+    }
+    ctools_include('jump-menu');
+    $settings = array(
+      'choose' => t('-- Switch vocabulary --'),
+    );
+    $form = ctools_jump_menu($form, $form_state, $options, $settings);
+  }
 }
 
 /**
@@ -824,6 +847,9 @@ function taxonomy_manager_term_data_form(&$form, &$form_state, $tid = 0, $vid1, 
     unset($form_state['term']);
     $form['term_data'] = taxonomy_form_term($form['term_data'], $form_state, $term);
     $form['term_data']['description']['#rows'] = 2;
+    // Disable wysiwyg editor as long as #356480 (lazy-loading) is not resolved.
+    $form['term_data']['description']['#wysiwyg'] = FALSE;
+
     $form['term_data']['weight'] = $form['term_data']['relations']['weight'];
     unset($form['term_data']['relations']);
     unset($form['term_data']['actions']);
@@ -858,10 +884,46 @@ function taxonomy_manager_term_data_form(&$form, &$form_state, $tid = 0, $vid1, 
       ),
       '#weight' => 20,
     );
+
+    // UUID integration.
+    if (module_exists('uuid')) {
+      $uuids = entity_get_uuid_by_id('taxonomy_term', array($tid));
+      if (count($uuids)) {
+        $form['term_data']['uuid'] = array(
+          '#markup' => t('UUID: @uuid', array('@uuid' => reset($uuids))),
+          '#weight' => -10,
+        );
+      }
+    }
+    _taxonomy_manager_term_data_form_filter_file_fields($form);
   }
-  
+
   $form['term_data']['#prefix'] = '<div id="taxonomy-term-data-replace">';
   $form['term_data']['#suffix'] = '</div>';
+}
+
+/**
+ * Removes file fields from the term data form, as they do not work on the
+ * nested form structure and link to the original term edit form instead.
+ *
+ * See #1195940, hack necessary until #1329856/#1468686 get fixed.
+ */
+function _taxonomy_manager_term_data_form_filter_file_fields(&$form) {
+  foreach (element_children($form['term_data']) as $key) {
+    $field = &$form['term_data'][$key];
+    if (isset($field['#type']) && $field['#type'] == 'container' && isset($field['#language']) && isset($field[$field['#language']])) {
+      foreach (element_children($field[$field['#language']]) as $delta) {
+        $element = &$field[$field['#language']][$delta];
+        if (isset($element['#type']) && $element['#type'] == "managed_file") {
+          $form['term_data']['file_field_info'] = array(
+            '#markup' => '<div class="term-data-form-file-field-info">' . t('Edit file fields <a href="!url" target="_blank">here</a>.', array('!url' => url('taxonomy/term/' . $form['term_data']['#term']['tid'] . '/edit'))) .'</div>',
+          );
+          unset($form['term_data'][$key]);
+          break;
+        }
+      }
+    }
+  }
 }
 
 /**
