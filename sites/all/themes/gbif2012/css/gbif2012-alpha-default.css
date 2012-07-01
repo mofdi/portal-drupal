@@ -1,1 +1,40 @@
 /* This file will hold styles for all layouts using the alpha grid (i.e. not the mobile layout). */
+
+/* Change the link style of the theme
+ *
+ */
+
+
+a {
+	underline: none
+	}
+
+
+/* Position the "Featured" title and controls */
+
+.featured_title_wrapper {
+	background-image: url('../images/50_alpha_white.png') ;
+	background-repeat: repeat ;
+	float: left;
+	margin-bottom: -50px ;
+	position: relative ;
+	z-index: 999 ;	
+	}
+.featured_title_fix {
+	display: block ;
+	margin: 5px ;
+	}
+
+.featured_title_fix a {
+	
+	font: bold 12px Arial,Helvetica,Sans ;
+	text-decoration: none ;
+
+} 
+
+.vscc_controls {
+	margin: -25px 0 0 5px ;
+	position: relative ;
+	z-index: 999 ;
+
+	}
