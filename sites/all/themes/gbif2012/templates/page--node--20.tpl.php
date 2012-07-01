@@ -25,7 +25,7 @@
 								$block = module_invoke('views','block_view','Featured-block_1');
 								print render($block);
 								?>
-				<a href="#">more...</a>
+				<a href="/drupal/viewallfeaturedarticles">more...</a>
 				</div>
 			</div>
 
