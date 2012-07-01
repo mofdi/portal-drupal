@@ -13,18 +13,19 @@
 		<div id="zone-content" class="zone zone-content clearfix container-24">    
 					<h4 style="margin: 0 0 20px 10px">Newsroom</h4>
 			<div class="clearfix container-24">
-				<div class="grid-18 region region-content" id="region-content" 
+				<div class="grid-12 region region-content" id="region-content" 
 								<h6>GBIF News</h6>
 								<?php
 								$block = module_invoke('views','block_view','gbif_core_news-block');
 								print render($block);
 								?>
 				</div>
-				<div class="grid-6 region region-content" id="region-content" >
+				<div class="grid-12 region region-content" id="region-content" >
 								<?php
 								$block = module_invoke('views','block_view','Featured-block_1');
 								print render($block);
 								?>
+				<a href="#">more...</a>
 				</div>
 			</div>
 
