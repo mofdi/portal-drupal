@@ -248,7 +248,9 @@ function mediafront_get_playlist_from_view($view, $limit = 10, $start = 0) {
       if ($node = mediafront_get_node('view', $row, $fields)) {
 
         // Add the node ID.
-        $node['nid'] = $row->nid;
+        if (!empty($row->nid)) {
+          $node['nid'] = $row->nid;
+        }
 
         // Add this node.
         $playlist['nodes'][] = $node;
@@ -414,7 +416,14 @@ function mediafront_preview_field_form($preview_default = 'mediafront_original',
  * @return array
  */
 function mediafront_get_media_preview($media) {
-  if (($media->class == 'media') && module_exists('media')) {
+
+  // Make sure this is a valid media file.
+  if (($media->class == 'media') &&
+       module_exists('media') &&
+       !empty($media->file) &&
+       !empty($media->file->type)) {
+
+    // Get the preview thumbnail image.
     $preview = media_get_thumbnail_preview($media->file);
     if ($preview) {
       $preview['#file'] = (object)$preview['#file'];
@@ -455,6 +464,9 @@ function mediafront_get_node_field_instance_value($value) {
     else {
       return file_load($value['fid']);
     }
+  }
+  else {
+    return $value;
   }
 }
 
@@ -501,7 +513,13 @@ function mediafront_get_view_field_value($row, $field) {
     $offset = $field['field']->options['delta_offset'];
     $value = !empty($row->{$field_name}[$offset]) ? $row->{$field_name}[$offset]['raw'] : array();
   }
-  return (is_array($value) && !empty($value[0])) ? $value : array($value);
+  $values = (!$value || (is_array($value) && !empty($value[0]))) ? $value : array($value);
+  foreach ($values as $key => $value) {
+    if (is_array($value)) {
+      $values[$key] = mediafront_get_node_field_instance_value($value);
+    }
+  }
+  return $values;
 }
 
 /**
@@ -565,19 +583,19 @@ function mediafront_get_node($type, $entity, $fields) {
 
         // If this is the title field.
         else if ($field['type'] == 'title') {
-          $node['title'] = $values[0];
+          $node['title'] = is_array($values[0]) ? $values[0]['safe_value'] : $values[0];
         }
 
         // If this is a custom field.
         else if ($field['type'] == 'custom') {
 
           // Add this field to the node values.
-          $node[$options['custom']] = $values[0];
+          $node[$options['custom']] = is_array($values[0]) ? $values[0]['safe_value'] : $values[0];
         }
         else {
 
           // All other fields are added directly to the node.
-          $node[$field['field']] = $values[0];
+          $node[$field['field']] = is_array($values[0]) ? $values[0]['safe_value'] : $values[0];
         }
       }
     }

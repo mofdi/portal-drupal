@@ -43,12 +43,19 @@
       this.hideShow = function(show, animate) {
         var playerPos = {}, displayPos = {};
         var displaySize = this.display[size]();
+        var e = this.options.vertical ? 'e' : 's';
+        var w = this.options.vertical ? 'w' : 'n';
+        var from = show ? 'ui-icon-triangle-1-' + w : 'ui-icon-triangle-1-' + e;
+        var to = show ? 'ui-icon-triangle-1-' + e : 'ui-icon-triangle-1-' + w;
+        jQuery('span', this.elements.hideShow).removeClass(from).addClass(to);
         playerPos[position] = show ? displaySize : 0;
-        if (animate) {
-          player.elements.minplayer.animate(playerPos, 'fast');
-        }
-        else {
-          player.elements.minplayer.css(playerPos);
+        if (player.elements.minplayer) {
+          if (animate) {
+            player.elements.minplayer.animate(playerPos, 'fast');
+          }
+          else {
+            player.elements.minplayer.css(playerPos);
+          }
         }
         displayPos[margin] = show ? 0 : -displaySize;
         if (animate) {
@@ -61,6 +68,18 @@
         }
       };
 
+      // Bind when the playlist loads.
+      this.bind('playlistLoad', (function(playlist) {
+        return function(event, data) {
+          if (data.nodes.length === 1) {
+            playlist.hideShow(false, true);
+          }
+          else {
+            playlist.hideShow(true, true);
+          }
+        };
+      })(this));
+
       // Perform the show hide functionality of the playlist.
       if (this.elements.hideShow) {
         this.elements.hideShow.bind('click', (function(playlist) {
@@ -70,9 +89,6 @@
             var e = playlist.options.vertical ? 'e' : 's';
             var w = playlist.options.vertical ? 'w' : 'n';
             var show = button.hasClass('ui-icon-triangle-1-' + w);
-            var from = show ? 'ui-icon-triangle-1-' + w : 'ui-icon-triangle-1-' + e;
-            var to = show ? 'ui-icon-triangle-1-' + e : 'ui-icon-triangle-1-' + w;
-            jQuery('span', playlist.elements.hideShow).removeClass(from).addClass(to);
             playlist.hideShow(show, true);
           };
         })(this));

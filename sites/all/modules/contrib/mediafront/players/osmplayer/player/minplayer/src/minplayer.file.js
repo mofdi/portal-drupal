@@ -10,6 +10,11 @@ var minplayer = minplayer || {};
  */
 minplayer.file = function(file) {
 
+  // If there isn't a file provided, then just return null.
+  if (!file) {
+    return null;
+  }
+
   file = (typeof file === 'string') ? {path: file} : file;
 
   // If we already are a minplayer file, then just return this file.
@@ -55,18 +60,15 @@ minplayer.player = '';
  */
 minplayer.file.prototype.getBestPlayer = function() {
   var bestplayer = null, bestpriority = 0;
-  // Only try for video files.
-  if (this.type == 'video') {
-    jQuery.each(minplayer.players, (function(file) {
-      return function(name, player) {
-        var priority = player.getPriority();
-        if (player.canPlay(file) && (priority > bestpriority)) {
-          bestplayer = name;
-          bestpriority = priority;
-        }
-      };
-    })(this));
-  }
+  jQuery.each(minplayer.players, (function(file) {
+    return function(name, player) {
+      var priority = player.getPriority();
+      if (player.canPlay(file) && (priority > bestpriority)) {
+        bestplayer = name;
+        bestpriority = priority;
+      }
+    };
+  })(this));
   return bestplayer;
 };
 

@@ -15,7 +15,7 @@ function mediafront_views_plugins() {
     'module' => 'mediafront', // This just tells our themes are elsewhere.
     'style' => array(
       'mediaplayer' => array(
-        'title' => t('Media Player'),
+        'title' => t('MediaFront Player'),
         'help' => t('Shows this view as a Media Player, mapping fields to the playlist elements.'),
         'handler' => 'mediafront_plugin_style_player',
         'path' => "$path/views",
@@ -77,6 +77,39 @@ function mediafront_form_views_ui_config_item_form_submit(&$form, &$form_state) 
 
   // Store these settings in the field handler options.
   $form_state['handler']->options['mediafront'] = $form_state['values']['options']['mediafront'];
+}
+
+/**
+ * Links the mediafront fields to the player.
+ */
+function mediafront_views_player_pre_render($view) {
+  static $instance = 0;
+  $instance++;
+
+  // Mediafront ID.
+  $id = 'mediafront_' . $view->name . '_' . $instance;
+
+  // Determine if any field wishes to link to the media player.
+  foreach ($view->field as $name => $field) {
+    if (!empty($field->options['mediafront']['link_to_player'])) {
+      drupal_add_js('
+        (function($) {
+          $(document).ready(function() {
+            $(".views-field-' . drupal_clean_css_identifier($name) . '").each(function(index, element) {
+              $(element).click(function(event) {
+                event.preventDefault();
+                minplayer.get("' . $id . '", "player", function(player) {
+                  player.loadNode(Drupal.settings.mediafront["' . $id . '"].playlist.nodes[index]);
+                });
+              });
+            });
+          });
+        })(jQuery);
+      ', 'inline');
+    }
+  }
+
+  return $id;
 }
 
 /**

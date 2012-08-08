@@ -1823,12 +1823,8 @@ minplayer.bind = function(event, id, plugin, callback) {
     })(this));
   }
 
-  // See if there were any plugins selected.
-  if (selected.length == 0) {
-
-    // If not, then add it to the queue to bind later.
-    minplayer.addQueue(this, event, id, plugin, callback);
-  }
+  // Add it to the queue for post bindings...
+  minplayer.addQueue(this, event, id, plugin, callback);
 
   // Return that this wasn't handled.
   return (selected.length > 0);
@@ -2871,6 +2867,11 @@ var minplayer = minplayer || {};
  */
 minplayer.file = function(file) {
 
+  // If there isn't a file provided, then just return null.
+  if (!file) {
+    return null;
+  }
+
   file = (typeof file === 'string') ? {path: file} : file;
 
   // If we already are a minplayer file, then just return this file.
@@ -2916,18 +2917,15 @@ minplayer.player = '';
  */
 minplayer.file.prototype.getBestPlayer = function() {
   var bestplayer = null, bestpriority = 0;
-  // Only try for video files.
-  if (this.type == 'video') {
-    jQuery.each(minplayer.players, (function(file) {
-      return function(name, player) {
-        var priority = player.getPriority();
-        if (player.canPlay(file) && (priority > bestpriority)) {
-          bestplayer = name;
-          bestpriority = priority;
-        }
-      };
-    })(this));
-  }
+  jQuery.each(minplayer.players, (function(file) {
+    return function(name, player) {
+      var priority = player.getPriority();
+      if (player.canPlay(file) && (priority > bestpriority)) {
+        bestplayer = name;
+        bestpriority = priority;
+      }
+    };
+  })(this));
   return bestplayer;
 };
 
@@ -3056,6 +3054,9 @@ minplayer.playLoader = function(context, options) {
   // Define the flags that control the big play button.
   this.bigPlay = new minplayer.flags();
 
+  // Define the flags the control the preview.
+  this.previewFlag = new minplayer.flags();
+
   /** The preview image. */
   this.preview = null;
 
@@ -3115,9 +3116,7 @@ minplayer.playLoader.prototype.construct = function() {
         return function(event) {
           playLoader.busy.setFlag('media', true);
           playLoader.bigPlay.setFlag('media', true);
-          if (playLoader.preview) {
-            playLoader.elements.preview.show();
-          }
+          playLoader.previewFlag.setFlag('media', true);
           playLoader.checkVisibility();
         };
       })(this));
@@ -3137,8 +3136,8 @@ minplayer.playLoader.prototype.construct = function() {
         return function(event) {
           playLoader.busy.setFlag('media', false);
           playLoader.bigPlay.setFlag('media', false);
-          if (playLoader.preview) {
-            playLoader.elements.preview.hide();
+          if (media.mediaFile.type !== 'audio') {
+            playLoader.previewFlag.setFlag('media', false);
           }
           playLoader.checkVisibility();
         };
@@ -3156,6 +3155,7 @@ minplayer.playLoader.prototype.construct = function() {
       this.enabled = false;
       this.hide(this.elements.busy);
       this.hide(this.elements.bigPlay);
+      this.hide(this.elements.preview);
       this.hide();
     }
   });
@@ -3224,13 +3224,20 @@ minplayer.playLoader.prototype.checkVisibility = function() {
     this.elements.bigPlay.hide();
   }
 
+  if (this.previewFlag.flag) {
+    this.elements.preview.show();
+  }
+  else {
+    this.elements.preview.hide();
+  }
+
   // Show the control either flag is set.
-  if (this.bigPlay.flag || this.busy.flag) {
+  if (this.bigPlay.flag || this.busy.flag || this.previewFlag.flag) {
     this.display.show();
   }
 
   // Hide the whole control if both flags are 0.
-  if (!this.bigPlay.flag && !this.busy.flag) {
+  if (!this.bigPlay.flag && !this.busy.flag && !this.previewFlag.flag) {
     this.display.hide();
   }
 };
@@ -3592,6 +3599,10 @@ minplayer.players.base.prototype.onPaused = function() {
  * Should be called when the media is complete.
  */
 minplayer.players.base.prototype.onComplete = function() {
+  if (this.playing) {
+    this.onPaused();
+  }
+
   // Stop the intervals.
   this.playing = false;
   this.loading = false;
