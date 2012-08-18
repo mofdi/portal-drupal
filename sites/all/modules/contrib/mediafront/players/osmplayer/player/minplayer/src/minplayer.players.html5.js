@@ -69,6 +69,9 @@ minplayer.players.html5.prototype.construct = function() {
   // Call base constructor.
   minplayer.players.base.prototype.construct.call(this);
 
+  // Set the plugin name within the options.
+  this.options.pluginName = 'html5';
+
   // Add the player events.
   this.addPlayerEvents();
 };
@@ -141,9 +144,15 @@ minplayer.players.html5.prototype.addPlayerEvents = function() {
     this.addPlayerEvent('playing', function() {
       this.onPlaying();
     });
+
+    var errorSent = false;
     this.addPlayerEvent('error', function() {
-      this.trigger('error', 'An error occured - ' + this.player.error.code);
+      if (!errorSent) {
+        errorSent = true;
+        this.trigger('error', 'An error occured - ' + this.player.error.code);
+      }
     });
+
     this.addPlayerEvent('waiting', function() {
       this.onWaiting();
     });

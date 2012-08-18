@@ -29,6 +29,19 @@ minplayer.players.youtube.prototype = new minplayer.players.base();
 minplayer.players.youtube.prototype.constructor = minplayer.players.youtube;
 
 /**
+ * @see minplayer.plugin.construct
+ * @this minplayer.players.youtube
+ */
+minplayer.players.youtube.prototype.construct = function() {
+
+  // Call the players.flash constructor.
+  minplayer.players.base.prototype.construct.call(this);
+
+  // Set the plugin name within the options.
+  this.options.pluginName = 'youtube';
+};
+
+/**
  * @see minplayer.players.base#getPriority
  * @return {number} The priority of this media player.
  */
@@ -123,7 +136,8 @@ minplayer.players.youtube.prototype.onReady = function(event) {
  * @return {bool} TRUE - Player is found, FALSE - otherwise.
  */
 minplayer.players.youtube.prototype.playerFound = function() {
-  var iframe = this.display.find('iframe#' + this.options.id + '-player');
+  var id = 'iframe#' + this.options.id + '-player.youtube-player';
+  var iframe = this.display.find(id);
   return (iframe.length > 0);
 };
 
@@ -187,6 +201,7 @@ minplayer.players.youtube.prototype.create = function() {
       ready = ready && (typeof YT.Player == 'function');
       if (ready) {
         // Determine the origin of this script.
+        jQuery('#' + player.playerId).addClass('youtube-player');
         var origin = location.protocol;
         origin += '//' + location.hostname;
         origin += (location.port && ':' + location.port);

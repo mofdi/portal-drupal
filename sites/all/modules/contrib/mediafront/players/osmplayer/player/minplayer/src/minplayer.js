@@ -96,6 +96,9 @@ minplayer.prototype.construct = function() {
   // Call the minplayer display constructor.
   minplayer.display.prototype.construct.call(this);
 
+  // Set the plugin name within the options.
+  this.options.pluginName = 'player';
+
   /** The controller for this player. */
   this.controller = this.create('controller');
 
@@ -133,6 +136,9 @@ minplayer.prototype.construct = function() {
   // Add key events to the window.
   this.addKeyEvents();
 
+  // Called to add events.
+  this.addEvents();
+
   // Now load these files.
   this.load(this.getFiles());
 
@@ -141,31 +147,39 @@ minplayer.prototype.construct = function() {
 };
 
 /**
+ * Called when an error occurs.
+ *
+ * @param {object} plugin The plugin you wish to bind to.
+ */
+minplayer.prototype.bindTo = function(plugin) {
+  plugin.bind('error', (function(player) {
+    return function(event, data) {
+      if (player.currentPlayer == 'html5') {
+        minplayer.player = 'minplayer';
+        player.options.file.player = 'minplayer';
+        player.loadPlayer();
+      }
+      else {
+        player.showError(data);
+      }
+    };
+  })(this));
+
+  // Bind to the fullscreen event.
+  plugin.bind('fullscreen', (function(player) {
+    return function(event, data) {
+      player.resize();
+    };
+  })(this));
+};
+
+/**
  * We need to bind to events we are interested in.
  */
 minplayer.prototype.addEvents = function() {
   minplayer.get.call(this, this.options.id, null, (function(player) {
     return function(plugin) {
-
-      // Bind to the error event.
-      plugin.bind('error', function(event, data) {
-
-        // If an error occurs within the html5 media player, then try
-        // to fall back to the flash player.
-        if (player.currentPlayer == 'html5') {
-          minplayer.player = 'minplayer';
-          player.options.file.player = 'minplayer';
-          player.loadPlayer();
-        }
-        else {
-          player.showError(data);
-        }
-      });
-
-      // Bind to the fullscreen event.
-      plugin.bind('fullscreen', function(event, data) {
-        player.resize();
-      });
+      player.bindTo(plugin);
     };
   })(this));
 };
@@ -176,24 +190,26 @@ minplayer.prototype.addEvents = function() {
  * @param {string} error The error to display on the player.
  */
 minplayer.prototype.showError = function(error) {
-  error = error || '';
-  if (this.elements.error) {
+  if (typeof error !== 'object') {
+    error = error || '';
+    if (this.elements.error) {
 
-    // Set the error text.
-    this.elements.error.text(error);
-    if (error) {
-      // Show the error message.
-      this.elements.error.show();
+      // Set the error text.
+      this.elements.error.text(error);
+      if (error) {
+        // Show the error message.
+        this.elements.error.show();
 
-      // Only show this error for a time interval.
-      setTimeout((function(player) {
-        return function() {
-          player.elements.error.hide('slow');
-        };
-      })(this), 5000);
-    }
-    else {
-      this.elements.error.hide();
+        // Only show this error for a time interval.
+        setTimeout((function(player) {
+          return function() {
+            player.elements.error.hide('slow');
+          };
+        })(this), 5000);
+      }
+      else {
+        this.elements.error.hide();
+      }
     }
   }
 };
@@ -288,17 +304,19 @@ minplayer.getMediaFile = function(files) {
 
 /**
  * Loads a media player based on the current file.
+ *
+ * @return {boolean} If a new player was loaded.
  */
 minplayer.prototype.loadPlayer = function() {
 
   // Do nothing if there isn't a file or anywhere to put it.
   if (!this.options.file || (this.elements.display.length == 0)) {
-    return;
+    return false;
   }
 
+  // If no player is set, then also return false.
   if (!this.options.file.player) {
-    this.showError('Cannot play media: ' + this.options.file.mimetype);
-    return;
+    return false;
   }
 
   // Reset the error.
@@ -339,15 +357,22 @@ minplayer.prototype.loadPlayer = function() {
 
         // Load the media.
         media.load(player.options.file);
+        player.display.addClass('minplayer-player-' + media.mediaFile.player);
       };
     })(this));
+
+    // Return that a new player is loaded.
+    return true;
   }
   // If the media object already exists...
   else if (this.media) {
 
     // Now load the different media file.
     this.media.options = this.options;
+    this.display.removeClass('minplayer-player-' + this.media.mediaFile.player);
     this.media.load(this.options.file);
+    this.display.addClass('minplayer-player-' + this.media.mediaFile.player);
+    return false;
   }
 };
 
@@ -366,10 +391,16 @@ minplayer.prototype.load = function(files) {
   this.options.file = minplayer.getMediaFile(this.options.files);
 
   // Now load the player.
-  this.loadPlayer();
+  if (this.loadPlayer()) {
 
-  // Add the player events.
-  this.addEvents();
+    // Add the events since we now have a player.
+    this.bindTo(this.media);
+
+    // If the player isn't valid, then show an error.
+    if (this.options.file.mimetype && !this.options.file.player) {
+      this.showError('Cannot play media: ' + this.options.file.mimetype);
+    }
+  }
 };
 
 /**

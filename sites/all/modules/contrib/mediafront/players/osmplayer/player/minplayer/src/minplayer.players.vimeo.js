@@ -26,6 +26,19 @@ minplayer.players.vimeo.prototype = new minplayer.players.base();
 minplayer.players.vimeo.prototype.constructor = minplayer.players.vimeo;
 
 /**
+ * @see minplayer.plugin.construct
+ * @this minplayer.players.vimeo
+ */
+minplayer.players.vimeo.prototype.construct = function() {
+
+  // Call the players.flash constructor.
+  minplayer.players.base.prototype.construct.call(this);
+
+  // Set the plugin name within the options.
+  this.options.pluginName = 'vimeo';
+};
+
+/**
  * @see minplayer.players.base#getPriority
  * @return {number} The priority of this media player.
  */
@@ -111,6 +124,7 @@ minplayer.players.vimeo.prototype.create = function() {
   iframe.setAttribute('width', '100%');
   iframe.setAttribute('height', '100%');
   iframe.setAttribute('frameborder', '0');
+  jQuery(iframe).addClass('vimeo-player');
 
   // Get the source.
   var src = 'http://player.vimeo.com/video/';
@@ -202,12 +216,25 @@ minplayer.players.vimeo.prototype.onReady = function(player_id) {
 };
 
 /**
- * Checks to see if this player can be found.
- * @return {bool} TRUE - Player is found, FALSE - otherwise.
+ * Clears the media player.
  */
-minplayer.players.vimeo.prototype.playerFound = function() {
-  var iframe = this.display.find('iframe#' + this.options.id + '-player');
-  return (iframe.length > 0);
+minplayer.players.vimeo.prototype.clear = function() {
+  if (this.player) {
+    this.player.api('unload');
+  }
+  minplayer.players.base.prototype.clear.call(this);
+};
+
+/**
+ * @see minplayer.players.base#load
+ * @return {boolean} If this action was performed.
+ */
+minplayer.players.vimeo.prototype.load = function(file) {
+  if (minplayer.players.base.prototype.load.call(this, file)) {
+    this.construct();
+    return true;
+  }
+  return false;
 };
 
 /**
