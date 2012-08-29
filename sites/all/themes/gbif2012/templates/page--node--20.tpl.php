@@ -81,6 +81,7 @@
 										$block = module_invoke('views','block_view','events-block');
 										print render($block);
 										?>
+										<a href="/drupal/viewallevents">... see all events</a>
 							</div>
 						</div>
 					</div>
