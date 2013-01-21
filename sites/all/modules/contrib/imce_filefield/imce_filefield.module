@@ -60,7 +60,13 @@ function imce_filefield_field_widget_info_alter(&$info) {
  * Returns supported file widgets.
  */
 function imce_filefield_supported_widgets() {
-  return array('file_generic', 'image_image');
+  static $widgets;
+  if (!isset($widgets)) {
+    $widgets = array('file_generic', 'image_image');
+    drupal_alter('imce_filefield_supported_widgets', $widgets);
+    $widgets = array_unique($widgets);
+  }
+  return $widgets;
 }
 
 /**

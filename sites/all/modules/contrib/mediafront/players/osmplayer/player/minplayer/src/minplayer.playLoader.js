@@ -50,10 +50,22 @@ minplayer.playLoader.prototype.construct = function() {
   this.options.pluginName = 'playLoader';
 
   // Get the media plugin.
+  this.initialize();
+
+  // We are now ready.
+  this.ready();
+};
+
+/**
+ * Initialize the playLoader.
+ */
+minplayer.playLoader.prototype.initialize = function() {
+
+  // Get the media plugin.
   this.get('media', function(media) {
 
     // Only bind if this player does not have its own play loader.
-    if (!media.hasPlayLoader()) {
+    if (!media.hasPlayLoader(this.options.preview)) {
 
       // Enable the playLoader.
       this.enabled = true;
@@ -127,13 +139,12 @@ minplayer.playLoader.prototype.construct = function() {
       this.hide();
     }
   });
-
-  // We are now ready.
-  this.ready();
 };
 
 /**
  * Loads the preview image.
+ *
+ * @return {boolean} Returns true if an image was loaded, false otherwise.
  */
 minplayer.playLoader.prototype.loadPreview = function() {
 
@@ -156,6 +167,7 @@ minplayer.playLoader.prototype.loadPreview = function() {
 
       // Create the image.
       this.preview.load(this.options.preview);
+      return true;
     }
     else {
 
@@ -163,6 +175,8 @@ minplayer.playLoader.prototype.loadPreview = function() {
       this.elements.preview.hide();
     }
   }
+
+  return false;
 };
 
 /**

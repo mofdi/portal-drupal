@@ -40,9 +40,10 @@ minplayer.players.base.prototype.getElements = function() {
 /**
  * Get the priority of this media player.
  *
+ * @param {object} file A {@link minplayer.file} object.
  * @return {number} The priority of this media player.
  */
-minplayer.players.base.getPriority = function() {
+minplayer.players.base.getPriority = function(file) {
   return 0;
 };
 
@@ -80,6 +81,9 @@ minplayer.players.base.prototype.construct = function() {
 
   /** The currently loaded media file. */
   this.mediaFile = this.options.file;
+
+  // Make sure we always autoplay on streams.
+  this.options.autoplay = this.options.autoplay || this.mediaFile.stream;
 
   // Clear the media player.
   this.clear();
@@ -413,9 +417,10 @@ minplayer.players.base.prototype.isReady = function() {
 /**
  * Determines if the player should show the playloader.
  *
+ * @param {string} preview The preview image.
  * @return {bool} If this player implements its own playLoader.
  */
-minplayer.players.base.prototype.hasPlayLoader = function() {
+minplayer.players.base.prototype.hasPlayLoader = function(preview) {
   return false;
 };
 

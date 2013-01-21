@@ -502,7 +502,8 @@ minplayer.plugin.prototype.checkQueue = function(plugin) {
           q.event,
           this.options.id,
           plugin.name,
-          q.callback
+          q.callback,
+          true
         );
       }
 
@@ -698,10 +699,11 @@ minplayer.addQueue = function(context, event, id, plugin, callback) {
  * @param {string} id The player ID.
  * @param {string} plugin The name of the plugin.
  * @param {function} callback Called when the event occurs.
+ * @param {boolean} fromCheck If this is from a checkqueue.
  * @return {boolean} If the bind was successful.
  * @this The object in context who called this method.
  */
-minplayer.bind = function(event, id, plugin, callback) {
+minplayer.bind = function(event, id, plugin, callback, fromCheck) {
 
   // If no callback exists, then just return false.
   if (!callback) {
@@ -763,7 +765,9 @@ minplayer.bind = function(event, id, plugin, callback) {
   }
 
   // Add it to the queue for post bindings...
-  minplayer.addQueue(this, event, id, plugin, callback);
+  if ((selected.length == 0) && !fromCheck) {
+    minplayer.addQueue(this, event, id, plugin, callback);
+  }
 
   // Return that this wasn't handled.
   return (selected.length > 0);
@@ -1895,7 +1899,7 @@ minplayer.file.prototype.getBestPlayer = function() {
   var bestplayer = null, bestpriority = 0;
   jQuery.each(minplayer.players, (function(file) {
     return function(name, player) {
-      var priority = player.getPriority();
+      var priority = player.getPriority(file);
       if (player.canPlay(file) && (priority > bestpriority)) {
         bestplayer = name;
         bestpriority = priority;
@@ -1914,7 +1918,7 @@ minplayer.file.prototype.getBestPlayer = function() {
 minplayer.file.prototype.getPriority = function() {
   var priority = 1;
   if (this.player) {
-    priority = minplayer.players[this.player].getPriority();
+    priority = minplayer.players[this.player].getPriority(this);
   }
   switch (this.mimetype) {
     case 'video/x-webm':
@@ -2061,10 +2065,22 @@ minplayer.playLoader.prototype.construct = function() {
   this.options.pluginName = 'playLoader';
 
   // Get the media plugin.
+  this.initialize();
+
+  // We are now ready.
+  this.ready();
+};
+
+/**
+ * Initialize the playLoader.
+ */
+minplayer.playLoader.prototype.initialize = function() {
+
+  // Get the media plugin.
   this.get('media', function(media) {
 
     // Only bind if this player does not have its own play loader.
-    if (!media.hasPlayLoader()) {
+    if (!media.hasPlayLoader(this.options.preview)) {
 
       // Enable the playLoader.
       this.enabled = true;
@@ -2138,13 +2154,12 @@ minplayer.playLoader.prototype.construct = function() {
       this.hide();
     }
   });
-
-  // We are now ready.
-  this.ready();
 };
 
 /**
  * Loads the preview image.
+ *
+ * @return {boolean} Returns true if an image was loaded, false otherwise.
  */
 minplayer.playLoader.prototype.loadPreview = function() {
 
@@ -2167,6 +2182,7 @@ minplayer.playLoader.prototype.loadPreview = function() {
 
       // Create the image.
       this.preview.load(this.options.preview);
+      return true;
     }
     else {
 
@@ -2174,6 +2190,8 @@ minplayer.playLoader.prototype.loadPreview = function() {
       this.elements.preview.hide();
     }
   }
+
+  return false;
 };
 
 /**
@@ -2262,9 +2280,10 @@ minplayer.players.base.prototype.getElements = function() {
 /**
  * Get the priority of this media player.
  *
+ * @param {object} file A {@link minplayer.file} object.
  * @return {number} The priority of this media player.
  */
-minplayer.players.base.getPriority = function() {
+minplayer.players.base.getPriority = function(file) {
   return 0;
 };
 
@@ -2302,6 +2321,9 @@ minplayer.players.base.prototype.construct = function() {
 
   /** The currently loaded media file. */
   this.mediaFile = this.options.file;
+
+  // Make sure we always autoplay on streams.
+  this.options.autoplay = this.options.autoplay || this.mediaFile.stream;
 
   // Clear the media player.
   this.clear();
@@ -2635,9 +2657,10 @@ minplayer.players.base.prototype.isReady = function() {
 /**
  * Determines if the player should show the playloader.
  *
+ * @param {string} preview The preview image.
  * @return {bool} If this player implements its own playLoader.
  */
-minplayer.players.base.prototype.hasPlayLoader = function() {
+minplayer.players.base.prototype.hasPlayLoader = function(preview) {
   return false;
 };
 
@@ -2901,9 +2924,10 @@ minplayer.players.html5.prototype.constructor = minplayer.players.html5;
 
 /**
  * @see minplayer.players.base#getPriority
+ * @param {object} file A {@link minplayer.file} object.
  * @return {number} The priority of this media player.
  */
-minplayer.players.html5.getPriority = function() {
+minplayer.players.html5.getPriority = function(file) {
   return 10;
 };
 
@@ -3335,9 +3359,10 @@ minplayer.players.flash.prototype.construct = function() {
 
 /**
  * @see minplayer.players.base#getPriority
+ * @param {object} file A {@link minplayer.file} object.
  * @return {number} The priority of this media player.
  */
-minplayer.players.flash.getPriority = function() {
+minplayer.players.flash.getPriority = function(file) {
   return 0;
 };
 
@@ -3497,10 +3522,12 @@ window.onFlashPlayerDebug = function(debug) {
 
 /**
  * @see minplayer.players.base#getPriority
+ * @param {object} file A {@link minplayer.file} object.
  * @return {number} The priority of this media player.
  */
-minplayer.players.minplayer.getPriority = function() {
-  return 1;
+minplayer.players.minplayer.getPriority = function(file) {
+  // Force this player if the stream is set.
+  return file.stream ? 100 : 1;
 };
 
 /**
@@ -3508,7 +3535,14 @@ minplayer.players.minplayer.getPriority = function() {
  * @return {boolean} If this player can play this media type.
  */
 minplayer.players.minplayer.canPlay = function(file) {
-  var isWEBM = jQuery.inArray(file.mimetype, ['video/x-webm',
+
+  // If this has a stream, then the minplayer must play it.
+  if (file.stream) {
+    return true;
+  }
+
+  var isWEBM = jQuery.inArray(file.mimetype, [
+    'video/x-webm',
     'video/webm',
     'application/octet-stream'
   ]) >= 0;
@@ -3534,6 +3568,7 @@ minplayer.players.minplayer.prototype.create = function() {
     'debug': this.options.debug,
     'config': 'nocontrols',
     'file': this.mediaFile.path,
+    'stream': this.mediaFile.stream,
     'autostart': this.options.autoplay,
     'autoload': this.options.autoload
   };
@@ -3767,9 +3802,10 @@ minplayer.players.youtube.prototype.construct = function() {
 
 /**
  * @see minplayer.players.base#getPriority
+ * @param {object} file A {@link minplayer.file} object.
  * @return {number} The priority of this media player.
  */
-minplayer.players.youtube.getPriority = function() {
+minplayer.players.youtube.getPriority = function(file) {
   return 10;
 };
 
@@ -3809,11 +3845,11 @@ minplayer.players.youtube.getMediaId = function(file) {
  *
  * @param {object} file A {@link minplayer.file} object.
  * @param {string} type The type of image.
- * @return {string} The full path to the preview image.
+ * @param {function} callback Called when the image is retrieved.
  */
-minplayer.players.youtube.getImage = function(file, type) {
+minplayer.players.youtube.getImage = function(file, type, callback) {
   type = (type == 'thumbnail') ? '1' : '0';
-  return 'http://img.youtube.com/vi/' + file.id + '/' + type + '.jpg';
+  callback('http://img.youtube.com/vi/' + file.id + '/' + type + '.jpg');
 };
 
 /**
@@ -3886,10 +3922,11 @@ minplayer.players.youtube.prototype.onQualityChange = function(newQuality) {
 /**
  * Determines if the player should show the playloader.
  *
+ * @param {string} preview The preview image.
  * @return {bool} If this player implements its own playLoader.
  */
-minplayer.players.youtube.prototype.hasPlayLoader = function() {
-  return true;
+minplayer.players.youtube.prototype.hasPlayLoader = function(preview) {
+  return minplayer.hasTouch || !preview;
 };
 
 /**
@@ -3995,6 +4032,7 @@ minplayer.players.youtube.prototype.load = function(file) {
  */
 minplayer.players.youtube.prototype.play = function() {
   if (minplayer.players.base.prototype.play.call(this)) {
+    this.onWaiting();
     this.player.playVideo();
     return true;
   }
@@ -4034,6 +4072,7 @@ minplayer.players.youtube.prototype.stop = function() {
  */
 minplayer.players.youtube.prototype.seek = function(pos) {
   if (minplayer.players.base.prototype.seek.call(this, pos)) {
+    this.onWaiting();
     this.player.seekTo(pos, true);
     return true;
   }
@@ -4137,9 +4176,10 @@ minplayer.players.vimeo.prototype.construct = function() {
 
 /**
  * @see minplayer.players.base#getPriority
+ * @param {object} file A {@link minplayer.file} object.
  * @return {number} The priority of this media player.
  */
-minplayer.players.vimeo.getPriority = function() {
+minplayer.players.vimeo.getPriority = function(file) {
   return 10;
 };
 
@@ -4161,10 +4201,11 @@ minplayer.players.vimeo.canPlay = function(file) {
 /**
  * Determines if the player should show the playloader.
  *
+ * @param {string} preview The preview image.
  * @return {bool} If this player implements its own playLoader.
  */
-minplayer.players.vimeo.prototype.hasPlayLoader = function() {
-  return minplayer.hasTouch;
+minplayer.players.vimeo.prototype.hasPlayLoader = function(preview) {
+  return minplayer.hasTouch || !preview;
 };
 
 /**
@@ -4190,6 +4231,23 @@ minplayer.players.vimeo.getMediaId = function(file) {
   else {
     return file.path;
   }
+};
+
+/**
+ * Returns a preview image for this media player.
+ *
+ * @param {object} file A {@link minplayer.file} object.
+ * @param {string} type The type of image.
+ * @param {function} callback Called when the image is retrieved.
+ */
+minplayer.players.vimeo.getImage = function(file, type, callback) {
+  jQuery.ajax({
+    url: 'http://vimeo.com/api/v2/video/' + file.id + '.json',
+    dataType: 'jsonp',
+    success: function(data) {
+      callback(data[0].thumbnail_large);
+    }
+  });
 };
 
 /**
