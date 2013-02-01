@@ -1,0 +1,48 @@
+body.mapfull #content{padding:0;}
+body.mapfull #content div#map{position:relative;width:100%;height:475px;margin:0;z-index:1;}
+body.mapfull #content a.zoom_in{position:absolute;top:110px;left:8px;height:28px;width:28px;background:url("../img/icons/zoom.png") no-repeat 0 0;z-index:10;text-indent:-999px;line-height:0;font-size:0;display:none;}
+body.mapfull #content a.zoom_in:hover{background-position:0 -32px;}
+body.mapfull #content a.zoom_out{position:absolute;top:139px;left:8px;height:28px;width:28px;background:url("../img/icons/zoom.png") no-repeat -28px 0;z-index:10;text-indent:-999px;line-height:0;font-size:0;display:none;}
+body.mapfull #content a.zoom_out:hover{background-position:-28px -32px;}
+body.mapfull #content article.dataset{position:absolute !important;top:183px;left:50%;margin:0 0 0 -356px;z-index:10;display:block;}
+body.mapfull #content article.dataset.countries{top:205px;}
+body.mapfull #content article.dataset div.content{padding:50px 0 20px;}
+body.mapfull #content article.dataset p.explore{float:left;width:100%;padding:40px 0 0 0;text-align:center;}
+body.mapfull #content div#infowindow_{position:absolute;width:261px;}
+body.mapfull #content div#infowindow_ a.close{position:absolute;top:14px;right:14px;width:13px;height:12px;background:url("../img/close_infowindow.png") no-repeat 0 0;z-index:10;}
+body.mapfull #content div#infowindow_ a.close:hover{background-position:0 -12px;}
+body.mapfull #content div#infowindow_ img{display:none;}
+body.mapfull #content div#infowindow_ div.top{display:inline-block;width:209px;height:auto;padding:26px 26px 0px 26px;margin:0;background:url("../img/infowindow_top.png") no-repeat 0 0;}
+body.mapfull #content div#infowindow_ div.top h2{height:auto;margin:0;padding:0 0 10px;text-align:left !important;}
+body.mapfull #content div#infowindow_ div.top h2 a{font:bold 19px "Arial","Helvetica",Sans-Serif;color:#0099CC;text-decoration:none;}
+body.mapfull #content div#infowindow_ div.top h2 a:hover{text-decoration:underline;}
+body.mapfull #content div#infowindow_ div.bottom{display:inline-block;width:209px;height:73px;padding:5px 26px 10px 26px;background:url("../img/infowindow_bottom.png") no-repeat 0 bottom;}
+body.mapfull #content div#infowindow_ div.bottom span{float:left;height:41px;margin:0;}
+body.mapfull #content div#infowindow_ div.bottom span p{text-align:left;font:normal 21px "DINOT-Medium",Sans-Serif;color:#0099CC;}
+body.mapfull #content div#infowindow_ div.bottom span label{text-align:left;font:normal 13px "Arial","Helvetica",Sans-Serif;color:#9f9f9f;}
+body.mapfull #content div#infowindow_ div.bottom span.datasets{width:55px;}
+body.mapfull #content div#infowindow_ div.bottom span.occurrences{margin:0 0 0 15px;width:76px;}
+body.mapfull #content div#infowindow_ div.bottom span.species{margin:0 0 0 14px;width:47px;}
+body.typesmap div#map{position:absolute;top:-19px;height:423px;left:2px;width:603px;z-index:10 !important;}
+body.typesmap a.zoom_in{position:absolute;top:-13px;left:8px;height:28px;width:28px;background:url("../img/icons/zoom.png") no-repeat 0 0;z-index:10;text-indent:-999px;line-height:0;font-size:0;}
+body.typesmap a.zoom_in:hover{background-position:0 -32px;}
+body.typesmap a.zoom_out{position:absolute;top:15px;left:8px;height:28px;width:28px;background:url("../img/icons/zoom.png") no-repeat -28px 0;z-index:10;text-indent:-999px;line-height:0;font-size:0;}
+body.typesmap a.zoom_out:hover{background-position:-28px -32px;}
+body.typesmap div.projection{position:absolute;top:-12px;right:303px;width:28px;height:28px;z-index:10;}
+body.typesmap div.projection a.projection{float:left;height:28px;width:28px;background:url("../img/projection_button.png") no-repeat 0 0;text-indent:-9999px;font-size:0;line-height:0;z-index:1;}
+body.typesmap div.projection a.projection:hover{background-position:0 -28px;}
+body.typesmap div.projection span{display:none;position:absolute;top:0;right:0;width:93px;height:62px;padding:8px 13px;background:url("../img/projection_bkg.png") no-repeat 0 0;z-index:10;}
+body.typesmap div.projection span p{font:normal 13px "DINOT-Medium";color:#333333;}
+body.typesmap div.projection span ul{display:block;padding:8px 0 0 0;}
+body.typesmap div.projection span ul li{padding:0 0 5px 0;display:block;}
+body.typesmap div.projection span ul li.disabled a{color:#CCCCCC;}
+body.typesmap div.projection span ul li.disabled a:hover{cursor:default;}
+body.typesmap div.projection span ul li a.selected{color:#333333 !important;}
+body.typesmap div.projection span ul li a.selected:hover{color:#333333;cursor:default;text-decoration:none;}
+body.typesmap p.maptype a.selected{color:#666666;text-decoration:none;}
+body.typesmap p.maptype a.selected:hover{color:#666666 !important;text-decoration:none;cursor:default;}
+body.singlemap div#map{position:absolute;top:-19px;height:423px;left:2px;width:603px;z-index:10 !important;}
+body.singlemap a.zoom_in{position:absolute;top:-13px;left:8px;height:28px;width:28px;background:url("../img/icons/zoom.png") no-repeat 0 0;z-index:10;text-indent:-999px;line-height:0;font-size:0;}
+body.singlemap a.zoom_in:hover{background-position:0 -32px;}
+body.singlemap a.zoom_out{position:absolute;top:15px;left:8px;height:28px;width:28px;background:url("../img/icons/zoom.png") no-repeat -28px 0;z-index:10;text-indent:-999px;line-height:0;font-size:0;}
+body.singlemap a.zoom_out:hover{background-position:-28px -32px;}
