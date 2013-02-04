@@ -133,6 +133,7 @@
 	global $user;
 	global $base_url ;
 	global $base_path ;
+	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
 
  ?>
 	<header>
@@ -168,9 +169,9 @@
         <div class="data">
           <a href="#"></a>
           <ul>
-            <li><a href="http://uat.gbif.org/portal/occurrence">Occurrences</a></li>
-            <li><a href="http://uat.gbif.org/portal/dataset">Datasets</a></li>
-            <li><a href="http://uat.gbif.org/portal/species">Species</a></li>
+            <li><a href="<?php print $dataportal_base_url ;?>/occurrence">Occurrences</a></li>
+            <li><a href="<?php print $dataportal_base_url ;?>/dataset">Datasets</a></li>
+            <li><a href="<?php print $dataportal_base_url ;?>/species">Species</a></li>
             <li class="divider"></li>
             <li><a class="placeholder_temp" href="#">Themes</a></li>
             <li><a class="placeholder_temp" href="#">Statistics</a></li>
