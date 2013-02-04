@@ -109,7 +109,9 @@
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title property="dc:title">News Detail</title>
+<?php $taxon = get_title_data() ; ?>
+
+  <title property="dc:title"><?php print $taxon->name?>&nbsp;&dash;&nbsp;<?php print $taxon->description ?></title>
   <meta name="description" content="">
   <meta name="author" content="GBIF">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -166,9 +168,9 @@
         <div class="data">
           <a href="#"></a>
           <ul>
-            <li><a href="http://data.gbif.org">Occurrences</a></li>
-            <li><a href="http://data.gbif.org/dataset">Datasets</a></li>
-            <li><a href="http://data.gbif.org/species">Species</a></li>
+            <li><a href="http://uat.gbif.org/portal/occurrence">Occurrences</a></li>
+            <li><a href="http://uat.gbif.org/portal/dataset">Datasets</a></li>
+            <li><a href="http://uat.gbif.org/portal/species">Species</a></li>
             <li class="divider"></li>
             <li><a class="placeholder_temp" href="#">Themes</a></li>
             <li><a class="placeholder_temp" href="#">Statistics</a></li>

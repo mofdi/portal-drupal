@@ -87,7 +87,7 @@
 
 	// $view = views_get_view();
 
-	dpm($page);
+// 	dpm($page);
 
 ?>
 
