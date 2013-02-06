@@ -83,7 +83,7 @@ minplayer.players.base.prototype.construct = function() {
   this.mediaFile = this.options.file;
 
   // Make sure we always autoplay on streams.
-  this.options.autoplay = this.options.autoplay || this.mediaFile.stream;
+  this.options.autoplay = this.options.autoplay || !!this.mediaFile.stream;
 
   // Clear the media player.
   this.clear();
@@ -101,7 +101,6 @@ minplayer.players.base.prototype.construct = function() {
   // Toggle playing if they click.
   minplayer.click(this.display, (function(player) {
     return function() {
-      minplayer.showAll();
       if (player.playing) {
         player.pause();
       }
@@ -144,6 +143,11 @@ minplayer.players.base.prototype.construct = function() {
       }
     };
   })(this));
+
+  // Make sure that we trigger onReady if autoload is false.
+  if (!this.options.autoload) {
+    this.onReady();
+  }
 };
 
 /**
@@ -219,10 +223,10 @@ minplayer.players.base.prototype.reset = function() {
   this.loading = false;
 
   // Tell everyone else we reset.
-  this.trigger('pause');
-  this.trigger('waiting');
-  this.trigger('progress', {loaded: 0, total: 0, start: 0});
-  this.trigger('timeupdate', {currentTime: 0, duration: 0});
+  this.trigger('pause', null, true);
+  this.trigger('waiting', null, true);
+  this.trigger('progress', {loaded: 0, total: 0, start: 0}, true);
+  this.trigger('timeupdate', {currentTime: 0, duration: 0}, true);
 };
 
 /**
@@ -245,7 +249,7 @@ minplayer.players.base.prototype.onReady = function() {
   this.loading = true;
 
   // Create a poll to get the progress.
-  this.poll((function(player) {
+  this.poll('progress', (function(player) {
     return function() {
 
       // Only do this if the play interval is set.
@@ -295,6 +299,44 @@ minplayer.players.base.prototype.onReady = function() {
 };
 
 /**
+ * Returns the amount of seconds you would like to seek.
+ *
+ * @return {number} The number of seconds we should seek.
+ */
+minplayer.players.base.prototype.getSeek = function() {
+  var seconds = 0, minutes = 0, hours = 0;
+
+  // See if they would like to seek.
+  if (minplayer.urlVars && minplayer.urlVars.seek) {
+
+    // Get the seconds.
+    seconds = minplayer.urlVars.seek.match(/([0-9])s/i);
+    if (seconds) {
+      seconds = parseInt(seconds[1], 10);
+    }
+
+    // Get the minutes.
+    minutes = minplayer.urlVars.seek.match(/([0-9])m/i);
+    if (minutes) {
+      seconds += (parseInt(minutes[1], 10) * 60);
+    }
+
+    // Get the hours.
+    hours = minplayer.urlVars.seek.match(/([0-9])h/i);
+    if (hours) {
+      seconds += (parseInt(hours[1], 10) * 3600);
+    }
+
+    // If no seconds were found, then just use the raw value.
+    if (!seconds) {
+      seconds = minplayer.urlVars.seek;
+    }
+  }
+
+  return seconds;
+};
+
+/**
  * Should be called when the media is playing.
  */
 minplayer.players.base.prototype.onPlaying = function() {
@@ -309,7 +351,7 @@ minplayer.players.base.prototype.onPlaying = function() {
   this.playing = true;
 
   // Create a poll to get the timeupate.
-  this.poll((function(player) {
+  this.poll('timeupdate', (function(player) {
     return function() {
 
       // Only do this if the play interval is set.
@@ -341,7 +383,7 @@ minplayer.players.base.prototype.onPlaying = function() {
       // Keep polling as long as it is playing.
       return player.playing;
     };
-  })(this), 1000);
+  })(this), 500);
 };
 
 /**
@@ -385,6 +427,19 @@ minplayer.players.base.prototype.onLoaded = function() {
   }
 
   this.trigger('loadeddata');
+
+  // See if they would like to seek.
+  var seek = this.getSeek();
+  if (seek) {
+    this.getDuration((function(player) {
+      return function(duration) {
+        if (seek < duration) {
+          player.seek(seek);
+          player.play();
+        }
+      };
+    })(this));
+  }
 };
 
 /**
@@ -486,6 +541,8 @@ minplayer.players.base.prototype.load = function(file) {
  * @return {boolean} If this action was performed.
  */
 minplayer.players.base.prototype.play = function() {
+  this.options.autoload = true;
+  this.options.autoplay = true;
   return this.isReady();
 };
 
@@ -623,7 +680,12 @@ minplayer.players.base.prototype.getCurrentTime = function(callback) {
  * @return {number} The duration of the loaded media.
  */
 minplayer.players.base.prototype.getDuration = function(callback) {
-  return this.duration.get(callback);
+  if (this.options.duration) {
+    callback(this.options.duration);
+  }
+  else {
+    return this.duration.get(callback);
+  }
 };
 
 /**

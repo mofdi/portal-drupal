@@ -8,7 +8,7 @@ function mediafront_field_formatter_info() {
     'mediafront_player' => array(
       'label' => t('MediaFront Player'),
       'description' => t('Play this file using a MediaFront Preset.'),
-      'field types' => array('file', 'text'),
+      'field types' => array('file', 'text', 'youtube'),
       'settings' => array(
         'preset' => ''
       )
@@ -85,9 +85,37 @@ function mediafront_field_formatter_view($entity_type, $entity, $field, $instanc
       // Get the fields.
       $media_found = false;
       $entity_fields = field_info_instances($instance['entity_type'], $instance['bundle']);
+
+      // See if there is a views field defined for this display.
+      $view = null;
+      if (!empty($display['views_field'])) {
+        $view = $display['views_field']->view;
+      }
+
       foreach ($entity_fields as $name => $entity_field) {
-        $options = !empty($entity_field['settings']['mediafront']) ? $entity_field['settings']['mediafront'] : array();
-        if (!empty($options['field_type'])) {
+
+        // Reset the options.
+        $options = array();
+        $include = TRUE;
+
+        // If a views field is defined, use the options from it instead.
+        if (!empty($view)) {
+          $include = FALSE;
+          foreach ($view->field as $view_field) {
+            if ($view_field->field == $name) {
+              $include = TRUE;
+              $options = $view_field->options['mediafront'];
+              break;
+            }
+          }
+        }
+
+        // If there aren't any options defined at this point, then use the field settings.
+        if (!$options) {
+          $options = !empty($entity_field['settings']['mediafront']) ? $entity_field['settings']['mediafront'] : array();
+        }
+
+        if ($include && !empty($options['field_type'])) {
           $media_found |= ($options['field_type'] == 'media');
           $player_fields[$entity_field['field_name']] = array(
             'type' => $options['field_type'],

@@ -97,28 +97,46 @@
 
 	</header>
 
-  <div id="content">
+  <div id="content">
 
-    <article class="detail">
-      <header></header>
-      <div class="content">
-        <div class="header">
-          <div class="left">
-            <h1> How data accessed through GBIF are being used </h1>
-          </div>
-        </div>
-        <div class="usesMap">
-          <img src="<?php print $base_url ; ?>/sites/default/files/mapdummy.jpg"></img>
-        </div>
-      </div>
-    </article>
-    <article class="data-use-news">
-      <header></header>
+
+    <article class="detail">
+
+      <header></header>
+
+      <div class="content">
+
+        <div class="header">
+
+          <div class="left">
+
+            <h1> How data accessed through GBIF are being used </h1>
+
+          </div>
+
+        </div>
+
+        <div class="usesMap">
+
+          <img src="<?php print $base_url ; ?>/sites/default/files/mapdummy.jpg"></img>
+
+        </div>
+
+      </div>
+
+    </article>
+
+    <article class="data-use-news">
+
+      <header></header>
+
 
 <?php // print $messages ?>
 
-      <div class="content">
-        <div class="inner clean">
+      <div class="content">
+
+        <div class="inner clean">
+
 			<?php  
 			$results = array() ;
 			$view = views_get_view_result('usesofdatafeaturedarticles');
@@ -135,43 +153,51 @@
 
          <ul>
 			<?php for ( $td = 0 ; $td < 3 ; $td++ ) : ?>
+			<li class="<?php  if ( (($td + 1) % 3 ) == 0 ) echo 'last' ; ?>">
+				<img class='detect' src="<?php print file_create_url( $results[$td]->field_featured['und'][0]['uri']); ?>"></img>
+				<a class="title" href="<?php print $base_url.'/node/'.($results[$td]->nid) ?>"><?php print ($results[$td]->title)?></a>
+				<p><?php print ( $results[$td]->body['und'][0]['summary'] ) ; ?></p>
+				<div class="ocurrences">
+				<?php print ( $results[$td]->field_numofresused['und'][0]['safe_value'] ) ; ?>
+				</div>
+			</li>
+			<?php endfor ?>
+          </ul>
 
-            <li class="<?php  if ( (($td + 1) % 3 ) == 0 ) echo 'last' ; ?>">
-              <img class='detect' src="<?php print file_create_url( $results[$td]->field_featured['und'][0]['uri']); ?>"></img>
-              <a class="title" href="<?php print $base_url.'/node/'.($results[$td]->nid) ?>"><?php print ($results[$td]->title)?></a>
-				<?php print ( $results[$td]->body['und'][0]['summary'] ) ; ?>
-              <div class="ocurrences">
-                <?php print ( $results[$td]->field_numofresused['und'][0]['safe_value'] ) ; ?>
-              </div>
-            </li>
-
-			<? endfor ?>
-          </ul>
 
          <ul>
 			<?php for ( $td = 3 ; $td < 6 ; $td++ ) : ?>
+			<li class="<?php  if ( (($td + 1) % 3 ) == 0 ) echo 'last' ; ?>">
+				<img class='detect' src="<?php print file_create_url( $results[$td]->field_featured['und'][0]['uri']); ?>"></img>
+				<a class="title" href="<?php print $base_url.'/node/'.($results[$td]->nid) ?>"><?php print ($results[$td]->title)?></a>
+				<p><?php print ( $results[$td]->body['und'][0]['summary'] ) ; ?></p>
+				<div class="ocurrences">
+				<?php print ( $results[$td]->field_numofresused['und'][0]['safe_value'] ) ; ?>
+				</div>
+			</li>
+			<?php endfor ?>
+          </ul>
 
-            <li class="<?php  if ( (($td + 1) % 3 ) == 0 ) echo 'last' ; ?>">
-              <img class='detect' src="<?php print file_create_url( $results[$td]->field_featured['und'][0]['uri']); ?>"></img>
-              <a class="title" href="<?php print $base_url.'/node/'.($results[$td]->nid) ?>"><?php print ($results[$td]->title)?></a>
-				<?php print ( $results[$td]->body['und'][0]['summary'] ) ; ?>
-              <div class="ocurrences">
-                <?php print ( $results[$td]->field_numofresused['und'][0]['safe_value'] ) ; ?>
-              </div>
-            </li>
 
-			<? endfor ?>
-          </ul>
+          <div class="buttonContainer">
 
-          <div class="buttonContainer">
-            <a class="candy_white_button more_news next lft" href="/newsroom/news">
-              <span>More data use news</span>
-            </a>
-          </div>
-        </div>
-      </div>
+            <a class="candy_white_button more_news next lft" href="/newsroom/news">
+
+              <span>More data use news</span>
+
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
 	<footer></footer>
-    </article>
-
-
-  </div>
+    </article>
+
+
+
+
+
+  </div>

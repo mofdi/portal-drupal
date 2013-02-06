@@ -191,7 +191,7 @@
 				// $tags defined at the top of the page
 				$my_fields = preg_grep ( "/^field.*/", array_keys( $tags ) ) ; 
 				foreach ( $my_fields as $fieldname ) { 
-					if ( $fieldname != 'field_taxanavigation' AND $fieldname != 'field_citationinformation' AND $fieldname != 'field_relatedgbifresources' AND $fieldname != 'field_image' AND $fieldname != 'field_featured') { print( render ( $tags[ $fieldname ] ) ) ; } }  ?>
+					if ( $fieldname != 'field_taxanavigation' AND $fieldname != 'field_citationinformation' AND $fieldname != 'field_relatedgbifresources' AND $fieldname != 'field_image' AND $fieldname != 'field_featured' AND $fieldname != 'field_numofresused') { print( render ( $tags[ $fieldname ] ) ) ; } }  ?>
 			</ul>
           </li>
         </ul>

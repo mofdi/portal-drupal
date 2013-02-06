@@ -1,0 +1,8 @@
+name = Timeline Indicator
+description = Adds a timeline indicator to the media player.
+; Information added by drupal.org packaging script on 2013-02-02
+version = "7.x-2.0-rc6"
+core = "7.x"
+project = "mediafront"
+datestamp = "1359849071"
+

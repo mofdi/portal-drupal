@@ -87,14 +87,29 @@ minplayer.prototype.construct = function() {
     file: '',
     preview: '',
     attributes: {},
+    plugins: {},
     logo: '',
     link: '',
-    width: '100%',
-    height: '100%'
+    duration: 0
   }, this.options);
 
   // Call the minplayer display constructor.
   minplayer.display.prototype.construct.call(this);
+
+  // Initialize all plugins.
+  var plugin = null;
+  for (var pluginName in this.options.plugins) {
+    plugin = this.options.plugins[pluginName];
+    if (minplayer[plugin]) {
+      plugin = minplayer[plugin];
+      if (plugin[this.options.template] && plugin[this.options.template].init) {
+        plugin[this.options.template].init(this);
+      }
+      else if (plugin.init) {
+        plugin.init(this);
+      }
+    }
+  }
 
   // Set the plugin name within the options.
   this.options.pluginName = 'player';
@@ -104,17 +119,6 @@ minplayer.prototype.construct = function() {
 
   /** The play loader for this player. */
   this.playLoader = this.create('playLoader');
-
-  // Set the focus of the element based on if they click in or outside of it.
-  minplayer.click(document, (function(player) {
-    return function(event) {
-      var target = jQuery(event.target);
-      var focus = !(target.closest('#' + player.options.id).length == 0);
-      minplayer.get.call(this, player.options.id, null, function(plugin) {
-        plugin.onFocus(focus);
-      });
-    };
-  })(this));
 
   /** Add the logo for the player. */
   if (this.options.logo && this.elements.logo) {
@@ -147,12 +151,28 @@ minplayer.prototype.construct = function() {
 };
 
 /**
+ * Set the focus for this player.
+ *
+ * @param {boolean} focus If the player is in focus or not.
+ */
+minplayer.prototype.setFocus = function(focus) {
+
+  // Tell all plugins about this.
+  minplayer.get.call(this, this.options.id, null, function(plugin) {
+    plugin.onFocus(focus);
+  });
+
+  // Trigger an event that a focus event has occured.
+  this.trigger('playerFocus', focus);
+};
+
+/**
  * Called when an error occurs.
  *
  * @param {object} plugin The plugin you wish to bind to.
  */
 minplayer.prototype.bindTo = function(plugin) {
-  plugin.bind('error', (function(player) {
+  plugin.ubind(this.uuid + ':error', (function(player) {
     return function(event, data) {
       if (player.currentPlayer == 'html5') {
         minplayer.player = 'minplayer';
@@ -166,7 +186,7 @@ minplayer.prototype.bindTo = function(plugin) {
   })(this));
 
   // Bind to the fullscreen event.
-  plugin.bind('fullscreen', (function(player) {
+  plugin.ubind(this.uuid + ':fullscreen', (function(player) {
     return function(event, data) {
       player.resize();
     };
@@ -177,6 +197,40 @@ minplayer.prototype.bindTo = function(plugin) {
  * We need to bind to events we are interested in.
  */
 minplayer.prototype.addEvents = function() {
+
+  // Keep track if we are inside the player or not.
+  var inside = false;
+
+  // Set the focus when they enter the player.
+  this.display.bind('mouseenter', (function(player) {
+    return function() {
+      inside = true;
+      player.setFocus(true);
+    };
+  })(this));
+
+
+  this.display.bind('mouseleave', (function(player) {
+    return function() {
+      inside = false;
+      player.setFocus(false);
+    };
+  })(this));
+
+  var moveThrottle = false;
+  this.display.bind('mousemove', (function(player) {
+    return function() {
+      if (!moveThrottle) {
+        moveThrottle = setTimeout(function() {
+          moveThrottle = false;
+          if (inside) {
+            player.setFocus(true);
+          }
+        }, 300);
+      }
+    };
+  })(this));
+
   minplayer.get.call(this, this.options.id, null, (function(player) {
     return function(plugin) {
       player.bindTo(plugin);
@@ -293,6 +347,7 @@ minplayer.getMediaFile = function(files) {
     if (files.hasOwnProperty(i)) {
       file = new minplayer.file(files[i]);
       if (file.player && (file.priority > bestPriority)) {
+        bestPriority = file.priority;
         mFile = file;
       }
     }

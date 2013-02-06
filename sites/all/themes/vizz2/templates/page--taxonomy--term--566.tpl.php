@@ -97,81 +97,72 @@
 
 	</header>
 
-  <div id="content">
+  <div id="content">
+  <article class="news">
+  <header></header>
 
-    <article class="detail">
-      <header></header>
-      <div class="content">
-        <div class="header">
-          <div class="left">
-            <h1> How data accessed through GBIF are being used </h1>
-          </div>
-        </div>
-        <div class="usesMap">
-          <img src="<?php print $base_url ; ?>/sites/default/files/mapdummy.jpg"></img>
-        </div>
-      </div>
-    </article>
-    <article class="data-use-news">
-      <header></header>
+<?php print $messages ?>
 
-<?php // print $messages ?>
 
-      <div class="content">
-        <div class="inner clean">
-			<?php  
-			$results = array() ;
-			$view = views_get_view_result('usesofdatafeaturedarticles');
-			foreach ($view as $key => $vnode) {
-				$nid = $vnode->nid  ;
-				$anode = node_load( $nid ) ;
-				$results[$key] = $anode ;
+  <div class="content">
 
-				// $results[$nid]['fields'] = field_attach_view('node', $anode,'full' ) ; 
-				// print render ( $result[$nid]->field_featured  ) ; 
-			}
+<?php  
+	$results = array() ;
+	$view = views_get_view_result('newsarticles');
 
-		?>
+	foreach ($view as $key => $vnode) {
+		$nid = $vnode->nid  ;
+		$anode = node_load( $nid ) ;
+		$results[$key] = $anode ;
+		// $results[$nid]['fields'] = field_attach_view('node', $anode,'full' ) ; 
+		// print render ( $result[$nid]->field_featured  ) ; 
+	}
 
-         <ul>
-			<?php for ( $td = 0 ; $td < 3 ; $td++ ) : ?>
+?>
 
-            <li class="<?php  if ( (($td + 1) % 3 ) == 0 ) echo 'last' ; ?>">
-              <img class='detect' src="<?php print file_create_url( $results[$td]->field_featured['und'][0]['uri']); ?>"></img>
-              <a class="title" href="<?php print $base_url.'/node/'.($results[$td]->nid) ?>"><?php print ($results[$td]->title)?></a>
-				<?php print ( $results[$td]->body['und'][0]['summary'] ) ; ?>
-              <div class="ocurrences">
-                <?php print ( $results[$td]->field_numofresused['und'][0]['safe_value'] ) ; ?>
-              </div>
-            </li>
-
-			<? endfor ?>
-          </ul>
-
-         <ul>
-			<?php for ( $td = 3 ; $td < 6 ; $td++ ) : ?>
-
-            <li class="<?php  if ( (($td + 1) % 3 ) == 0 ) echo 'last' ; ?>">
-              <img class='detect' src="<?php print file_create_url( $results[$td]->field_featured['und'][0]['uri']); ?>"></img>
-              <a class="title" href="<?php print $base_url.'/node/'.($results[$td]->nid) ?>"><?php print ($results[$td]->title)?></a>
-				<?php print ( $results[$td]->body['und'][0]['summary'] ) ; ?>
-              <div class="ocurrences">
-                <?php print ( $results[$td]->field_numofresused['und'][0]['safe_value'] ) ; ?>
-              </div>
-            </li>
-
-			<? endfor ?>
-          </ul>
-
-          <div class="buttonContainer">
-            <a class="candy_white_button more_news next lft" href="/newsroom/news">
-              <span>More data use news</span>
-            </a>
-          </div>
-        </div>
+    <div class="content">
+      <div class="left">
+        <ul>
+		<?php for ( $td = 0 ; $td < 6 ; $td++ ) : ?>
+			<li>
+				<h4 class="date"><?php { print( format_date($results[$td]->created, 'custom', 'F jS, Y')) ; } ?></h4>
+				<a href="<?php print $base_url.'/node/'.$results[$td]->nid ?>" class="title"><?php print $results[$td]->title ?></a>
+				<p><?php print $results[$td]->body['und'][0]['summary'] ?></p>
+				<a href="<?php print $base_url.'/node/'.$results[$td]->nid ?>" class="read_more">Read more</a>			
+			</li>
+		<?php endfor ?>
+
+        </ul>
+
+        <a href="/vizz/newsroom/news" class="candy_white_button more_news next lft"><span>More GBIF news</span></a>
       </div>
 
-    </article>
+      <div class="right">
+
+        <div class="filters">
+          <h3>Filter news by region</h3>
+  
+          <ul>
+            <li class="selected"><a href="#">All news</a></li>
+            <li><a href="#">Global</a></li>
+            <li><a href="#">Africa</a></li>
+            <li><a href="#">Asia</a></li>
+            <li><a href="#">Europe</a></li>
+            <li><a href="#">Latin America</a></li>
+            <li><a href="#">North America</a></li>
+            <li><a href="#">Oceania</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
 
 
   </div>
+  <footer></footer>
+  </article>
+
+
+
+
+  </div>

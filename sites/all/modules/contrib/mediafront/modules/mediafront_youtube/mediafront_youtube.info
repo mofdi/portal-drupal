@@ -36,6 +36,7 @@ features[field][] = node-youtube_media-field_youtube_url
 features[mediafront][] = youtube_landing
 features[mediafront][] = youtube_nodeplayer
 features[mediafront][] = youtube_player
+features[mediafront_views][] = youtube_media
 features[node][] = youtube_channel
 features[node][] = youtube_media
 features[taxonomy][] = youtube_category
@@ -67,9 +68,9 @@ features[variable][] = node_submitted_youtube_channel
 features[variable][] = node_submitted_youtube_media
 features[views_view][] = youtube_media
 
-; Information added by drupal.org packaging script on 2012-10-05
-version = "7.x-2.0-rc3"
+; Information added by drupal.org packaging script on 2013-02-02
+version = "7.x-2.0-rc6"
 core = "7.x"
 project = "mediafront"
-datestamp = "1349411813"
+datestamp = "1359849071"
 

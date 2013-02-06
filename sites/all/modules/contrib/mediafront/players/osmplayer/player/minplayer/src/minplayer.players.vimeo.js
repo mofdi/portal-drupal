@@ -165,7 +165,7 @@ minplayer.players.vimeo.prototype.create = function() {
   iframe.setAttribute('src', src);
 
   // Now register this player when the froogaloop code is loaded.
-  this.poll((function(player) {
+  this.poll('vimeo', (function(player) {
     return function() {
       if (window.Froogaloop) {
         player.player = window.Froogaloop(iframe);
@@ -336,7 +336,10 @@ minplayer.players.vimeo.prototype.getVolume = function(callback) {
  */
 minplayer.players.vimeo.prototype.getDuration = function(callback) {
   if (this.isReady()) {
-    if (this.duration.value) {
+    if (this.options.duration) {
+      callback(this.options.duration);
+    }
+    else if (this.duration.value) {
       callback(this.duration.value);
     }
     else {

@@ -68,7 +68,13 @@
  * @see zen_preprocess_html()
  * @see template_process()
  */
-?><!doctype html>
+?><?php // fetch some page variables
+	global $user;
+	global $base_url ;
+	global $base_path ;
+	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
+
+ ?><!doctype html>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
 <!--[if lt IE 7 ]> <html class="no-js ie6" lang="en"> <![endif]-->
 <!--[if IE 7 ]>    <html class="no-js ie7" lang="en"> <![endif]-->
@@ -92,8 +98,8 @@
         var cfg = new Object();
     cfg.context="/drupal/sites/all/themes/vizz2/";
     cfg.currentUrl="http://staging.gbif.org:8080/drupal/sites/all/themes/vizz2/newsroom/uses/1";
-    cfg.serverName= "http://api.gbif.org/portal-web-dynamic";
-    cfg.baseUrl = "http://api.gbif.org/drupal/sites/all/themes/vizz2/portal-web-dynamic";
+    cfg.serverName= "http://duronel.gbif.org";
+    cfg.baseUrl = "/drupal";
     cfg.wsClb="http://staging.gbif.org:8080/checklistbank-ws/";
     cfg.wsClbSearch="http://staging.gbif.org:8080/checklistbank-search-ws/";
     cfg.wsClbSuggest="http://staging.gbif.org:8080/checklistbank-search-ws/suggest";
@@ -115,27 +121,20 @@
   <meta name="description" content="">
   <meta name="author" content="GBIF">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="/drupal/sites/all/themes/vizz2/favicon.ico">
-  <link rel="apple-touch-icon" href="/drupal/sites/all/themes/vizz2/apple-touch-icon.png">
-  <link rel="stylesheet" href="/drupal/sites/all/themes/vizz2/css/style.css?v=2"/>
+  <link rel="shortcut icon" href="<?php print ($base_url); ?>/sites/all/themes/vizz2/favicon.ico">
+  <link rel="apple-touch-icon" href="<?php print ($base_url); ?>/sites/all/themes/vizz2/apple-touch-icon.png">
+  <link rel="stylesheet" href="<?php print ($base_url); ?>/sites/all/themes/vizz2/css/style.css?v=2"/>
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css" type="text/css" media="all"/>
 
   <?php print $scripts; ?>
 
-  <script src="/drupal/sites/all/themes/vizz2/js/vendor/modernizr-1.7.min.js"></script>
-  <script type="text/javascript" src="/drupal/sites/all/themes/vizz2/js/vendor/jquery-1.7.1.min.js"></script>
-  <script type="text/javascript" src="/drupal/sites/all/themes/vizz2/js/vendor/jquery-ui-1.8.17.min.js"></script>
-  <script type="text/javascript" src="/drupal/sites/all/themes/vizz2/js/vendor/jscrollpane.min.js"></script>
-  <script type="text/javascript" src="/drupal/sites/all/themes/vizz2/js/menu.js"></script>
+  <script src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/modernizr-1.7.min.js"></script>
+  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/jquery-ui-1.8.17.min.js"></script>
+  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/jscrollpane.min.js"></script>
+  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/menu.js"></script>
 </head>
 <body class="newsroom">
-<?php // fetch some page variables
-	global $user;
-	global $base_url ;
-	global $base_path ;
-	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
-
- ?>
 	<header>
   <!-- top -->
   <div id="top">
@@ -308,19 +307,19 @@
 
   <!-- JavaScript at the bottom for fast page loading -->
   <!-- scripts concatenated and minified via ant build script  -->
-  <script type="text/javascript" src="/portal-web-dynamic/js/vendor/autocomplete.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/vendor/jquery.uniform.min.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/vendor/mousewheel.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/vendor/jscrollpane.min.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/vendor/jquery-scrollTo-1.4.2-min.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/vendor/bootstrap.min.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/vendor/underscore-min.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/helpers.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/widgets.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/graphs.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/app.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/vendor/raphael-min.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/vendor/resourcebundle.js"></script>
+  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/autocomplete.js"></script>
+  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/jquery.uniform.min.js"></script>
+  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/mousewheel.js"></script>
+  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/jscrollpane.min.js"></script>
+  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/jquery-scrollTo-1.4.2-min.js"></script>
+  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/bootstrap.min.js"></script>
+  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/underscore-min.js"></script>
+  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/helpers.js"></script>
+  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/widgets.js"></script>
+  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/graphs.js"></script>
+  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/app.js"></script>
+  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/raphael-min.js"></script>
+  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/resourcebundle.js"></script>
   <!-- end scripts-->
 
   <!--[if lt IE 7 ]>

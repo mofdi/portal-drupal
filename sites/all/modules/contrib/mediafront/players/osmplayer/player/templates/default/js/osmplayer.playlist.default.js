@@ -22,6 +22,7 @@
    */
   osmplayer.playlist[template].prototype.construct = function() {
 
+    // Set some defaults.
     this.options = jQuery.extend({
       showPlaylist: true
     }, this.options);
@@ -29,7 +30,7 @@
     osmplayer.playlist.prototype.construct.call(this);
 
     // Show then hide the element.
-    minplayer.showThenHide(this.elements.hideShow);
+    this.showThenHide(this.elements.hideShow);
 
     // Make the main minplayer have the same width as the playlist.
     this.get('player', function(player) {
@@ -69,7 +70,7 @@
       };
 
       // Bind when the playlist loads.
-      this.bind('playlistLoad', (function(playlist) {
+      this.ubind(this.uuid + ':playlistLoad', (function(playlist) {
         return function(event, data) {
           if (data.nodes.length === 1) {
             playlist.hideShow(false, true);

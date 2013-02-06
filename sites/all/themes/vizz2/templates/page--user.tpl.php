@@ -4,10 +4,10 @@
 
 // dpm($page);
 
-global $base_url;
-global $user ;
-
-
+	global $user;
+	global $base_url ;
+	global $base_path ;
+	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
 
 ?>
 
@@ -34,7 +34,12 @@ global $user ;
     <li>
       <a href="<?php print($base_url.'/user/'.$user->uid.'/edit') ?>" title="Summary" title="News"><span>Edit profile</span></a>
     </li>
-
+    <li>
+      <a href="<?php print($dataportal_base_url.'/user/downloads') ?>" title="Summary" title="News"><span>Downloads</span></a>
+    </li>
+    <li>
+      <a href="<?php print($dataportal_base_url.'/user/namelists') ?>" title="Summary" title="News"><span>Name lists</span></a>
+    </li>
   </ul>
 
     </div>

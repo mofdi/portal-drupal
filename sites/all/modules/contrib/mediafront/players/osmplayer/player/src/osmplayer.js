@@ -2,6 +2,19 @@
 if (!jQuery.fn.osmplayer) {
 
   /**
+   * A special jQuery event to handle the player being removed from DOM.
+   *
+   * @this The element that is being triggered with.
+   **/
+  jQuery.event.special.playerdestroyed = {
+    remove: function(o) {
+      if (o.handler) {
+        o.handler(this);
+      }
+    }
+  };
+
+  /**
    * @constructor
    *
    * Define a jQuery osmplayer prototype.
@@ -86,16 +99,35 @@ osmplayer.prototype.construct = function() {
   // Call the minplayer display constructor.
   minplayer.prototype.construct.call(this);
 
+  // We need to cleanup the player when it has been destroyed.
+  jQuery(this.display).bind('playerdestroyed', (function(player) {
+    return function(element) {
+      if (element === player.display.eq(0)[0]) {
+        for (var plugin in minplayer.plugins[player.options.id]) {
+          for (var index in minplayer.plugins[player.options.id][plugin]) {
+            minplayer.plugins[player.options.id][plugin][index].destroy();
+            delete minplayer.plugins[player.options.id][plugin][index];
+          }
+          minplayer.plugins[player.options.id][plugin].length = 0;
+        }
+        delete minplayer.plugins[player.options.id];
+        minplayer.plugins[player.options.id] = null;
+      }
+    };
+  })(this));
+
   /** The play queue and index. */
   this.playQueue = [];
   this.playIndex = 0;
+  this.hasPlaylist = false;
 
   /** The playlist for this media player. */
   this.create('playlist', 'osmplayer');
 
   /** Get the playlist or any other playlist that connects. */
   this.get('playlist', function(playlist) {
-    playlist.bind('nodeLoad', (function(player) {
+    this.hasPlaylist = true;
+    playlist.ubind(this.uuid + ':nodeLoad', (function(player) {
       return function(event, data) {
         player.loadNode(data);
       };
@@ -105,7 +137,7 @@ osmplayer.prototype.construct = function() {
   // Play each media sequentially...
   this.get('media', (function(player) {
     return function(media) {
-      media.bind('ended', function() {
+      media.ubind(player.uuid + ':ended', function() {
         player.options.autoplay = true;
         player.playNext();
       });
@@ -161,13 +193,19 @@ osmplayer.prototype.loadNode = function(node) {
         };
       })(this));
     }
+    else {
+
+      // Add a class to the display to let themes handle this.
+      this.display.addClass('nomedia');
+    }
 
     // Load the preview image.
     osmplayer.getImage(node.mediafiles, 'preview', (function(player) {
       return function(image) {
         player.options.preview = image.path;
         if (player.playLoader) {
-          player.playLoader.initialize();
+          player.playLoader.enabled = true;
+          player.playLoader.loadPreview();
         }
       };
     })(this));
@@ -203,11 +241,18 @@ osmplayer.prototype.playNext = function() {
     this.playNext();
   }
   else if (this.playQueue.length > 0) {
-    // If there is no playlist, and no repeat, we will
-    // just seek to the beginning and pause.
-    this.options.autoplay = false;
-    this.playIndex = 0;
-    this.playNext();
+
+    // If we have a playlist, let them handle what to do next.
+    if (this.hasPlaylist && this.options.autoNext) {
+      this.trigger('player_ended');
+    }
+    else {
+      // If there is no playlist, and no repeat, we will
+      // just seek to the beginning and pause.
+      this.options.autoplay = false;
+      this.playIndex = 0;
+      this.playNext();
+    }
   }
   else if (this.media) {
     // Stop the player and unload.

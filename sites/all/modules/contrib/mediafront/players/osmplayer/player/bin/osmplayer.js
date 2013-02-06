@@ -1,60 +1,88 @@
 /*!
- * iScroll v4.1.9 ~ Copyright (c) 2011 Matteo Spinelli, http://cubiq.org
+ * iScroll v4.2.4 ~ Copyright (c) 2012 Matteo Spinelli, http://cubiq.org
  * Released under MIT license, http://cubiq.org/license
  */
-(function(){
+(function(window, doc){
 var m = Math,
-	mround = function (r) { return r >> 0; },
-	vendor = (/webkit/i).test(navigator.appVersion) ? 'webkit' :
-		(/firefox/i).test(navigator.userAgent) ? 'Moz' :
-		(/trident/i).test(navigator.userAgent) ? 'ms' :
-		'opera' in window ? 'O' : '',
+	dummyStyle = doc.createElement('div').style,
+	vendor = (function () {
+		var vendors = 't,webkitT,MozT,msT,OT'.split(','),
+			t,
+			i = 0,
+			l = vendors.length;
+
+		for ( ; i < l; i++ ) {
+			t = vendors[i] + 'ransform';
+			if ( t in dummyStyle ) {
+				return vendors[i].substr(0, vendors[i].length - 1);
+			}
+		}
+
+		return false;
+	})(),
+	cssVendor = vendor ? '-' + vendor.toLowerCase() + '-' : '',
+
+	// Style properties
+	transform = prefixStyle('transform'),
+	transitionProperty = prefixStyle('transitionProperty'),
+	transitionDuration = prefixStyle('transitionDuration'),
+	transformOrigin = prefixStyle('transformOrigin'),
+	transitionTimingFunction = prefixStyle('transitionTimingFunction'),
+	transitionDelay = prefixStyle('transitionDelay'),
 
     // Browser capabilities
-    isAndroid = (/android/gi).test(navigator.appVersion),
-    isIDevice = (/iphone|ipad/gi).test(navigator.appVersion),
-    isPlaybook = (/playbook/gi).test(navigator.appVersion),
-    isTouchPad = (/hp-tablet/gi).test(navigator.appVersion),
+	isAndroid = (/android/gi).test(navigator.appVersion),
+	isIDevice = (/iphone|ipad/gi).test(navigator.appVersion),
+	isTouchPad = (/hp-tablet/gi).test(navigator.appVersion),
 
-    has3d = 'WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix(),
+    has3d = prefixStyle('perspective') in dummyStyle,
     hasTouch = 'ontouchstart' in window && !isTouchPad,
-    hasTransform = vendor + 'Transform' in document.documentElement.style,
-    hasTransitionEnd = isIDevice || isPlaybook,
+    hasTransform = vendor !== false,
+    hasTransitionEnd = prefixStyle('transition') in dummyStyle,
 
-	nextFrame = (function() {
-	    return window.requestAnimationFrame
-			|| window.webkitRequestAnimationFrame
-			|| window.mozRequestAnimationFrame
-			|| window.oRequestAnimationFrame
-			|| window.msRequestAnimationFrame
-			|| function(callback) { return setTimeout(callback, 1); }
-	})(),
-	cancelFrame = (function () {
-	    return window.cancelRequestAnimationFrame
-			|| window.webkitCancelAnimationFrame
-			|| window.webkitCancelRequestAnimationFrame
-			|| window.mozCancelRequestAnimationFrame
-			|| window.oCancelRequestAnimationFrame
-			|| window.msCancelRequestAnimationFrame
-			|| clearTimeout
-	})(),
-
-	// Events
 	RESIZE_EV = 'onorientationchange' in window ? 'orientationchange' : 'resize',
 	START_EV = hasTouch ? 'touchstart' : 'mousedown',
 	MOVE_EV = hasTouch ? 'touchmove' : 'mousemove',
 	END_EV = hasTouch ? 'touchend' : 'mouseup',
 	CANCEL_EV = hasTouch ? 'touchcancel' : 'mouseup',
-	WHEEL_EV = vendor == 'Moz' ? 'DOMMouseScroll' : 'mousewheel',
+	TRNEND_EV = (function () {
+		if ( vendor === false ) return false;
+
+		var transitionEnd = {
+				''			: 'transitionend',
+				'webkit'	: 'webkitTransitionEnd',
+				'Moz'		: 'transitionend',
+				'O'			: 'otransitionend',
+				'ms'		: 'MSTransitionEnd'
+			};
+
+		return transitionEnd[vendor];
+	})(),
+
+	nextFrame = (function() {
+		return window.requestAnimationFrame ||
+			window.webkitRequestAnimationFrame ||
+			window.mozRequestAnimationFrame ||
+			window.oRequestAnimationFrame ||
+			window.msRequestAnimationFrame ||
+			function(callback) { return setTimeout(callback, 1); };
+	})(),
+	cancelFrame = (function () {
+		return window.cancelRequestAnimationFrame ||
+			window.webkitCancelAnimationFrame ||
+			window.webkitCancelRequestAnimationFrame ||
+			window.mozCancelRequestAnimationFrame ||
+			window.oCancelRequestAnimationFrame ||
+			window.msCancelRequestAnimationFrame ||
+			clearTimeout;
+	})(),
 
 	// Helpers
-	trnOpen = 'translate' + (has3d ? '3d(' : '('),
-	trnClose = has3d ? ',0)' : ')',
+	translateZ = has3d ? ' translateZ(0)' : '',
 
 	// Constructor
 	iScroll = function (el, options) {
 		var that = this,
-			doc = document,
 			i;
 
 		that.wrapper = typeof el == 'object' ? el : doc.getElementById(el);
@@ -75,6 +103,7 @@ var m = Math,
 			useTransition: false,
 			topOffset: 0,
 			checkDOMChanges: false,		// Experimental
+			handleClick: true,
 
 			// Scrollbar
 			hScrollbar: true,
@@ -118,27 +147,26 @@ var m = Math,
 		that.y = that.options.y;
 
 		// Normalize options
-		that.options.useTransform = hasTransform ? that.options.useTransform : false;
+		that.options.useTransform = hasTransform && that.options.useTransform;
 		that.options.hScrollbar = that.options.hScroll && that.options.hScrollbar;
 		that.options.vScrollbar = that.options.vScroll && that.options.vScrollbar;
 		that.options.zoom = that.options.useTransform && that.options.zoom;
 		that.options.useTransition = hasTransitionEnd && that.options.useTransition;
 
 		// Helpers FIX ANDROID BUG!
-		// translate3d and scale doesn't work together! 
+		// translate3d and scale doesn't work together!
 		// Ignoring 3d ONLY WHEN YOU SET that.options.zoom
 		if ( that.options.zoom && isAndroid ){
-			trnOpen = 'translate(';
-			trnClose = ')';
+			translateZ = '';
 		}
 		
 		// Set some default styles
-		that.scroller.style[vendor + 'TransitionProperty'] = that.options.useTransform ? '-' + vendor.toLowerCase() + '-transform' : 'top left';
-		that.scroller.style[vendor + 'TransitionDuration'] = '0';
-		that.scroller.style[vendor + 'TransformOrigin'] = '0 0';
-		if (that.options.useTransition) that.scroller.style[vendor + 'TransitionTimingFunction'] = 'cubic-bezier(0.33,0.66,0.66,1)';
+		that.scroller.style[transitionProperty] = that.options.useTransform ? cssVendor + 'transform' : 'top left';
+		that.scroller.style[transitionDuration] = '0';
+		that.scroller.style[transformOrigin] = '0 0';
+		if (that.options.useTransition) that.scroller.style[transitionTimingFunction] = 'cubic-bezier(0.33,0.66,0.66,1)';
 		
-		if (that.options.useTransform) that.scroller.style[vendor + 'Transform'] = trnOpen + that.x + 'px,' + that.y + 'px' + trnClose;
+		if (that.options.useTransform) that.scroller.style[transform] = 'translate(' + that.x + 'px,' + that.y + 'px)' + translateZ;
 		else that.scroller.style.cssText += ';position:absolute;top:' + that.y + 'px;left:' + that.x + 'px';
 
 		if (that.options.useTransition) that.options.fixedScrollbar = true;
@@ -148,9 +176,10 @@ var m = Math,
 		that._bind(RESIZE_EV, window);
 		that._bind(START_EV);
 		if (!hasTouch) {
-			that._bind('mouseout', that.wrapper);
-			if (that.options.wheelAction != 'none')
-				that._bind(WHEEL_EV);
+			if (that.options.wheelAction != 'none') {
+				that._bind('DOMMouseScroll');
+				that._bind('mousewheel');
+			}
 		}
 
 		if (that.options.checkDOMChanges) that.checkDOMTime = setInterval(function () {
@@ -181,9 +210,8 @@ iScroll.prototype = {
 			case END_EV:
 			case CANCEL_EV: that._end(e); break;
 			case RESIZE_EV: that._resize(); break;
-			case WHEEL_EV: that._wheel(e); break;
-			case 'mouseout': that._mouseout(e); break;
-			case 'webkitTransitionEnd': that._transitionEnd(e); break;
+			case 'DOMMouseScroll': case 'mousewheel': that._wheel(e); break;
+			case TRNEND_EV: that._transitionEnd(e); break;
 		}
 	},
 	
@@ -196,12 +224,11 @@ iScroll.prototype = {
 	
 	_scrollbar: function (dir) {
 		var that = this,
-			doc = document,
 			bar;
 
 		if (!that[dir + 'Scrollbar']) {
 			if (that[dir + 'ScrollbarWrapper']) {
-				if (hasTransform) that[dir + 'ScrollbarIndicator'].style[vendor + 'Transform'] = '';
+				if (hasTransform) that[dir + 'ScrollbarIndicator'].style[transform] = '';
 				that[dir + 'ScrollbarWrapper'].parentNode.removeChild(that[dir + 'ScrollbarWrapper']);
 				that[dir + 'ScrollbarWrapper'] = null;
 				that[dir + 'ScrollbarIndicator'] = null;
@@ -217,7 +244,7 @@ iScroll.prototype = {
 			if (that.options.scrollbarClass) bar.className = that.options.scrollbarClass + dir.toUpperCase();
 			else bar.style.cssText = 'position:absolute;z-index:100;' + (dir == 'h' ? 'height:7px;bottom:1px;left:2px;right:' + (that.vScrollbar ? '7' : '2') + 'px' : 'width:7px;bottom:' + (that.hScrollbar ? '7' : '2') + 'px;top:2px;right:1px');
 
-			bar.style.cssText += ';pointer-events:none;-' + vendor + '-transition-property:opacity;-' + vendor + '-transition-duration:' + (that.options.fadeScrollbar ? '350ms' : '0') + ';overflow:hidden;opacity:' + (that.options.hideScrollbar ? '0' : '1');
+			bar.style.cssText += ';pointer-events:none;' + cssVendor + 'transition-property:opacity;' + cssVendor + 'transition-duration:' + (that.options.fadeScrollbar ? '350ms' : '0') + ';overflow:hidden;opacity:' + (that.options.hideScrollbar ? '0' : '1');
 
 			that.wrapper.appendChild(bar);
 			that[dir + 'ScrollbarWrapper'] = bar;
@@ -225,10 +252,10 @@ iScroll.prototype = {
 			// Create the scrollbar indicator
 			bar = doc.createElement('div');
 			if (!that.options.scrollbarClass) {
-				bar.style.cssText = 'position:absolute;z-index:100;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.9);-' + vendor + '-background-clip:padding-box;-' + vendor + '-box-sizing:border-box;' + (dir == 'h' ? 'height:100%' : 'width:100%') + ';-' + vendor + '-border-radius:3px;border-radius:3px';
+				bar.style.cssText = 'position:absolute;z-index:100;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.9);' + cssVendor + 'background-clip:padding-box;' + cssVendor + 'box-sizing:border-box;' + (dir == 'h' ? 'height:100%' : 'width:100%') + ';' + cssVendor + 'border-radius:3px;border-radius:3px';
 			}
-			bar.style.cssText += ';pointer-events:none;-' + vendor + '-transition-property:-' + vendor + '-transform;-' + vendor + '-transition-timing-function:cubic-bezier(0.33,0.66,0.66,1);-' + vendor + '-transition-duration:0;-' + vendor + '-transform:' + trnOpen + '0,0' + trnClose;
-			if (that.options.useTransition) bar.style.cssText += ';-' + vendor + '-transition-timing-function:cubic-bezier(0.33,0.66,0.66,1)';
+			bar.style.cssText += ';pointer-events:none;' + cssVendor + 'transition-property:' + cssVendor + 'transform;' + cssVendor + 'transition-timing-function:cubic-bezier(0.33,0.66,0.66,1);' + cssVendor + 'transition-duration:0;' + cssVendor + 'transform: translate(0,0)' + translateZ;
+			if (that.options.useTransition) bar.style.cssText += ';' + cssVendor + 'transition-timing-function:cubic-bezier(0.33,0.66,0.66,1)';
 
 			that[dir + 'ScrollbarWrapper'].appendChild(bar);
 			that[dir + 'ScrollbarIndicator'] = bar;
@@ -236,13 +263,13 @@ iScroll.prototype = {
 
 		if (dir == 'h') {
 			that.hScrollbarSize = that.hScrollbarWrapper.clientWidth;
-			that.hScrollbarIndicatorSize = m.max(mround(that.hScrollbarSize * that.hScrollbarSize / that.scrollerW), 8);
+			that.hScrollbarIndicatorSize = m.max(m.round(that.hScrollbarSize * that.hScrollbarSize / that.scrollerW), 8);
 			that.hScrollbarIndicator.style.width = that.hScrollbarIndicatorSize + 'px';
 			that.hScrollbarMaxScroll = that.hScrollbarSize - that.hScrollbarIndicatorSize;
 			that.hScrollbarProp = that.hScrollbarMaxScroll / that.maxScrollX;
 		} else {
 			that.vScrollbarSize = that.vScrollbarWrapper.clientHeight;
-			that.vScrollbarIndicatorSize = m.max(mround(that.vScrollbarSize * that.vScrollbarSize / that.scrollerH), 8);
+			that.vScrollbarIndicatorSize = m.max(m.round(that.vScrollbarSize * that.vScrollbarSize / that.scrollerH), 8);
 			that.vScrollbarIndicator.style.height = that.vScrollbarIndicatorSize + 'px';
 			that.vScrollbarMaxScroll = that.vScrollbarSize - that.vScrollbarIndicatorSize;
 			that.vScrollbarProp = that.vScrollbarMaxScroll / that.maxScrollY;
@@ -258,14 +285,16 @@ iScroll.prototype = {
 	},
 	
 	_pos: function (x, y) {
+		if (this.zoomed) return;
+
 		x = this.hScroll ? x : 0;
 		y = this.vScroll ? y : 0;
 
 		if (this.options.useTransform) {
-			this.scroller.style[vendor + 'Transform'] = trnOpen + x + 'px,' + y + 'px' + trnClose + ' scale(' + this.scale + ')';
+			this.scroller.style[transform] = 'translate(' + x + 'px,' + y + 'px) scale(' + this.scale + ')' + translateZ;
 		} else {
-			x = mround(x);
-			y = mround(y);
+			x = m.round(x);
+			y = m.round(y);
 			this.scroller.style.left = x + 'px';
 			this.scroller.style.top = y + 'px';
 		}
@@ -288,14 +317,14 @@ iScroll.prototype = {
 
 		if (pos < 0) {
 			if (!that.options.fixedScrollbar) {
-				size = that[dir + 'ScrollbarIndicatorSize'] + mround(pos * 3);
+				size = that[dir + 'ScrollbarIndicatorSize'] + m.round(pos * 3);
 				if (size < 8) size = 8;
 				that[dir + 'ScrollbarIndicator'].style[dir == 'h' ? 'width' : 'height'] = size + 'px';
 			}
 			pos = 0;
 		} else if (pos > that[dir + 'ScrollbarMaxScroll']) {
 			if (!that.options.fixedScrollbar) {
-				size = that[dir + 'ScrollbarIndicatorSize'] - mround((pos - that[dir + 'ScrollbarMaxScroll']) * 3);
+				size = that[dir + 'ScrollbarIndicatorSize'] - m.round((pos - that[dir + 'ScrollbarMaxScroll']) * 3);
 				if (size < 8) size = 8;
 				that[dir + 'ScrollbarIndicator'].style[dir == 'h' ? 'width' : 'height'] = size + 'px';
 				pos = that[dir + 'ScrollbarMaxScroll'] + (that[dir + 'ScrollbarIndicatorSize'] - size);
@@ -304,9 +333,9 @@ iScroll.prototype = {
 			}
 		}
 
-		that[dir + 'ScrollbarWrapper'].style[vendor + 'TransitionDelay'] = '0';
+		that[dir + 'ScrollbarWrapper'].style[transitionDelay] = '0';
 		that[dir + 'ScrollbarWrapper'].style.opacity = hidden && that.options.hideScrollbar ? '0' : '1';
-		that[dir + 'ScrollbarIndicator'].style[vendor + 'Transform'] = trnOpen + (dir == 'h' ? pos + 'px,0' : '0,' + pos + 'px') + trnClose;
+		that[dir + 'ScrollbarIndicator'].style[transform] = 'translate(' + (dir == 'h' ? pos + 'px,0)' : '0,' + pos + 'px)') + translateZ;
 	},
 	
 	_start: function (e) {
@@ -346,19 +375,20 @@ iScroll.prototype = {
 		if (that.options.momentum) {
 			if (that.options.useTransform) {
 				// Very lame general purpose alternative to CSSMatrix
-				matrix = getComputedStyle(that.scroller, null)[vendor + 'Transform'].replace(/[^0-9-.,]/g, '').split(',');
-				x = matrix[4] * 1;
-				y = matrix[5] * 1;
+				matrix = getComputedStyle(that.scroller, null)[transform].replace(/[^0-9\-.,]/g, '').split(',');
+				x = +matrix[4];
+				y = +matrix[5];
 			} else {
-				x = getComputedStyle(that.scroller, null).left.replace(/[^0-9-]/g, '') * 1;
-				y = getComputedStyle(that.scroller, null).top.replace(/[^0-9-]/g, '') * 1;
+				x = +getComputedStyle(that.scroller, null).left.replace(/[^0-9-]/g, '');
+				y = +getComputedStyle(that.scroller, null).top.replace(/[^0-9-]/g, '');
 			}
 			
 			if (x != that.x || y != that.y) {
-				if (that.options.useTransition) that._unbind('webkitTransitionEnd');
+				if (that.options.useTransition) that._unbind(TRNEND_EV);
 				else cancelFrame(that.aniTime);
 				that.steps = [];
 				that._pos(x, y);
+				if (that.options.onScrollEnd) that.options.onScrollEnd.call(that);
 			}
 		}
 
@@ -374,9 +404,9 @@ iScroll.prototype = {
 
 		if (that.options.onScrollStart) that.options.onScrollStart.call(that, e);
 
-		that._bind(MOVE_EV);
-		that._bind(END_EV);
-		that._bind(CANCEL_EV);
+		that._bind(MOVE_EV, window);
+		that._bind(END_EV, window);
+		that._bind(CANCEL_EV, window);
 	},
 	
 	_move: function (e) {
@@ -409,7 +439,7 @@ iScroll.prototype = {
 			newX = this.originX - this.originX * that.lastScale + this.x,
 			newY = this.originY - this.originY * that.lastScale + this.y;
 
-			this.scroller.style[vendor + 'Transform'] = trnOpen + newX + 'px,' + newY + 'px' + trnClose + ' scale(' + scale + ')';
+			this.scroller.style[transform] = 'translate(' + newX + 'px,' + newY + 'px) scale(' + scale + ')' + translateZ;
 
 			if (that.options.onZoom) that.options.onZoom.call(that, e);
 			return;
@@ -422,7 +452,7 @@ iScroll.prototype = {
 		if (newX > 0 || newX < that.maxScrollX) {
 			newX = that.options.bounce ? that.x + (deltaX / 2) : newX >= 0 || that.maxScrollX >= 0 ? 0 : that.maxScrollX;
 		}
-		if (newY > that.minScrollY || newY < that.maxScrollY) { 
+		if (newY > that.minScrollY || newY < that.maxScrollY) {
 			newY = that.options.bounce ? that.y + (deltaY / 2) : newY >= that.minScrollY || that.maxScrollY >= 0 ? that.minScrollY : that.maxScrollY;
 		}
 
@@ -461,7 +491,7 @@ iScroll.prototype = {
 	},
 	
 	_end: function (e) {
-		if (hasTouch && e.touches.length != 0) return;
+		if (hasTouch && e.touches.length !== 0) return;
 
 		var that = this,
 			point = hasTouch ? e.changedTouches[0] : e,
@@ -476,9 +506,9 @@ iScroll.prototype = {
 			snap,
 			scale;
 
-		that._unbind(MOVE_EV);
-		that._unbind(END_EV);
-		that._unbind(CANCEL_EV);
+		that._unbind(MOVE_EV, window);
+		that._unbind(END_EV, window);
+		that._unbind(CANCEL_EV, window);
 
 		if (that.options.onBeforeScrollEnd) that.options.onBeforeScrollEnd.call(that, e);
 
@@ -492,8 +522,8 @@ iScroll.prototype = {
 			that.x = that.originX - that.originX * that.lastScale + that.x;
 			that.y = that.originY - that.originY * that.lastScale + that.y;
 			
-			that.scroller.style[vendor + 'TransitionDuration'] = '200ms';
-			that.scroller.style[vendor + 'Transform'] = trnOpen + that.x + 'px,' + that.y + 'px' + trnClose + ' scale(' + that.scale + ')';
+			that.scroller.style[transitionDuration] = '200ms';
+			that.scroller.style[transform] = 'translate(' + that.x + 'px,' + that.y + 'px) scale(' + that.scale + ')' + translateZ;
 			
 			that.zoomed = false;
 			that.refresh();
@@ -515,7 +545,7 @@ iScroll.prototype = {
 							that.options.onZoomEnd.call(that, e);
 						}, 200); // 200 is default zoom duration
 					}
-				} else {
+				} else if (this.options.handleClick) {
 					that.doubleTapTimer = setTimeout(function () {
 						that.doubleTapTimer = null;
 
@@ -524,7 +554,7 @@ iScroll.prototype = {
 						while (target.nodeType != 1) target = target.parentNode;
 
 						if (target.tagName != 'SELECT' && target.tagName != 'INPUT' && target.tagName != 'TEXTAREA') {
-							ev = document.createEvent('MouseEvents');
+							ev = doc.createEvent('MouseEvents');
 							ev.initMouseEvent('click', true, true, e.view, 1,
 								point.screenX, point.screenY, point.clientX, point.clientY,
 								e.ctrlKey, e.altKey, e.shiftKey, e.metaKey,
@@ -536,7 +566,7 @@ iScroll.prototype = {
 				}
 			}
 
-			that._resetPos(200);
+			that._resetPos(400);
 
 			if (that.options.onTouchEnd) that.options.onTouchEnd.call(that, e);
 			return;
@@ -549,8 +579,8 @@ iScroll.prototype = {
 			newPosX = that.x + momentumX.dist;
 			newPosY = that.y + momentumY.dist;
 
- 			if ((that.x > 0 && newPosX > 0) || (that.x < that.maxScrollX && newPosX < that.maxScrollX)) momentumX = { dist:0, time:0 };
- 			if ((that.y > that.minScrollY && newPosY > that.minScrollY) || (that.y < that.maxScrollY && newPosY < that.maxScrollY)) momentumY = { dist:0, time:0 };
+			if ((that.x > 0 && newPosX > 0) || (that.x < that.maxScrollX && newPosX < that.maxScrollX)) momentumX = { dist:0, time:0 };
+			if ((that.y > that.minScrollY && newPosY > that.minScrollY) || (that.y < that.maxScrollY && newPosY < that.maxScrollY)) momentumY = { dist:0, time:0 };
 		}
 
 		if (momentumX.dist || momentumY.dist) {
@@ -569,7 +599,7 @@ iScroll.prototype = {
 				}
 			}
 
-			that.scrollTo(mround(newPosX), mround(newPosY), newDuration);
+			that.scrollTo(m.round(newPosX), m.round(newPosY), newDuration);
 
 			if (that.options.onTouchEnd) that.options.onTouchEnd.call(that, e);
 			return;
@@ -605,11 +635,11 @@ iScroll.prototype = {
 			}
 
 			if (that.hScrollbar && that.options.hideScrollbar) {
-				if (vendor == 'webkit') that.hScrollbarWrapper.style[vendor + 'TransitionDelay'] = '300ms';
+				if (vendor == 'webkit') that.hScrollbarWrapper.style[transitionDelay] = '300ms';
 				that.hScrollbarWrapper.style.opacity = '0';
 			}
 			if (that.vScrollbar && that.options.hideScrollbar) {
-				if (vendor == 'webkit') that.vScrollbarWrapper.style[vendor + 'TransitionDelay'] = '300ms';
+				if (vendor == 'webkit') that.vScrollbarWrapper.style[transitionDelay] = '300ms';
 				that.vScrollbarWrapper.style.opacity = '0';
 			}
 
@@ -664,39 +694,28 @@ iScroll.prototype = {
 
 		if (deltaY > that.minScrollY) deltaY = that.minScrollY;
 		else if (deltaY < that.maxScrollY) deltaY = that.maxScrollY;
-
-		that.scrollTo(deltaX, deltaY, 0);
+    
+		if (that.maxScrollY < 0) {
+			that.scrollTo(deltaX, deltaY, 0);
+		}
 	},
 	
-	_mouseout: function (e) {
-		var t = e.relatedTarget;
-
-		if (!t) {
-			this._end(e);
-			return;
-		}
-
-		while (t = t.parentNode) if (t == this.wrapper) return;
-		
-		this._end(e);
-	},
-
 	_transitionEnd: function (e) {
 		var that = this;
 
 		if (e.target != that.scroller) return;
 
-		that._unbind('webkitTransitionEnd');
+		that._unbind(TRNEND_EV);
 		
 		that._startAni();
 	},
 
 
 	/**
-	 *
-	 * Utilities
-	 *
-	 */
+	*
+	* Utilities
+	*
+	*/
 	_startAni: function () {
 		var that = this,
 			startX = that.x, startY = that.y,
@@ -722,7 +741,7 @@ iScroll.prototype = {
 			that._transitionTime(step.time);
 			that._pos(step.x, step.y);
 			that.animating = false;
-			if (step.time) that._bind('webkitTransitionEnd');
+			if (step.time) that._bind(TRNEND_EV);
 			else that._resetPos(0);
 			return;
 		}
@@ -752,9 +771,9 @@ iScroll.prototype = {
 
 	_transitionTime: function (time) {
 		time += 'ms';
-		this.scroller.style[vendor + 'TransitionDuration'] = time;
-		if (this.hScrollbar) this.hScrollbarIndicator.style[vendor + 'TransitionDuration'] = time;
-		if (this.vScrollbar) this.vScrollbarIndicator.style[vendor + 'TransitionDuration'] = time;
+		this.scroller.style[transitionDuration] = time;
+		if (this.hScrollbar) this.hScrollbarIndicator.style[transitionDuration] = time;
+		if (this.vScrollbar) this.vScrollbarIndicator.style[transitionDuration] = time;
 	},
 
 	_momentum: function (dist, time, maxDistUpper, maxDistLower, size) {
@@ -763,7 +782,7 @@ iScroll.prototype = {
 			newDist = (speed * speed) / (2 * deceleration),
 			newTime = 0, outsideDist = 0;
 
-		// Proportinally reduce speed if we are outside of the boundaries 
+		// Proportinally reduce speed if we are outside of the boundaries
 		if (dist > 0 && newDist > maxDistUpper) {
 			outsideDist = size / (6 / (newDist / speed * deceleration));
 			maxDistUpper = maxDistUpper + outsideDist;
@@ -779,7 +798,7 @@ iScroll.prototype = {
 		newDist = newDist * (dist < 0 ? -1 : 1);
 		newTime = speed / deceleration;
 
-		return { dist: newDist, time: mround(newTime) };
+		return { dist: newDist, time: m.round(newTime) };
 	},
 
 	_offset: function (el) {
@@ -834,7 +853,7 @@ iScroll.prototype = {
 		that.currPageY = page;
 
 		// Snap with constant speed (proportional duration)
-		time = mround(m.max(sizeX, sizeY)) || 200;
+		time = m.round(m.max(sizeX, sizeY)) || 200;
 
 		return { x: x, y: y, time: time };
 	},
@@ -849,14 +868,14 @@ iScroll.prototype = {
 
 
 	/**
-	 *
-	 * Public methods
-	 *
-	 */
+	*
+	* Public methods
+	*
+	*/
 	destroy: function () {
 		var that = this;
 
-		that.scroller.style[vendor + 'Transform'] = '';
+		that.scroller.style[transform] = '';
 
 		// Remove the scrollbars
 		that.hScrollbar = false;
@@ -867,16 +886,16 @@ iScroll.prototype = {
 		// Remove the event listeners
 		that._unbind(RESIZE_EV, window);
 		that._unbind(START_EV);
-		that._unbind(MOVE_EV);
-		that._unbind(END_EV);
-		that._unbind(CANCEL_EV);
+		that._unbind(MOVE_EV, window);
+		that._unbind(END_EV, window);
+		that._unbind(CANCEL_EV, window);
 		
 		if (!that.options.hasTouch) {
-			that._unbind('mouseout', that.wrapper);
-			that._unbind(WHEEL_EV);
+			that._unbind('DOMMouseScroll');
+			that._unbind('mousewheel');
 		}
 		
-		if (that.options.useTransition) that._unbind('webkitTransitionEnd');
+		if (that.options.useTransition) that._unbind(TRNEND_EV);
 		
 		if (that.options.checkDOMChanges) clearInterval(that.checkDOMTime);
 		
@@ -896,8 +915,8 @@ iScroll.prototype = {
 		that.wrapperH = that.wrapper.clientHeight || 1;
 
 		that.minScrollY = -that.options.topOffset || 0;
-		that.scrollerW = mround(that.scroller.offsetWidth * that.scale);
-		that.scrollerH = mround((that.scroller.offsetHeight + that.minScrollY) * that.scale);
+		that.scrollerW = m.round(that.scroller.offsetWidth * that.scale);
+		that.scrollerH = m.round((that.scroller.offsetHeight + that.minScrollY) * that.scale);
 		that.maxScrollX = that.wrapperW - that.scrollerW;
 		that.maxScrollY = that.wrapperH - that.scrollerH + that.minScrollY;
 		that.dirX = 0;
@@ -952,8 +971,8 @@ iScroll.prototype = {
 		that._scrollbar('v');
 
 		if (!that.zoomed) {
-			that.scroller.style[vendor + 'TransitionDuration'] = '0';
-			that._resetPos(200);
+			that.scroller.style[transitionDuration] = '0';
+			that._resetPos(400);
 		}
 	},
 
@@ -1024,9 +1043,9 @@ iScroll.prototype = {
 		this.enabled = false;
 
 		// If disabled after touchstart we make sure that there are no left over events
-		this._unbind(MOVE_EV);
-		this._unbind(END_EV);
-		this._unbind(CANCEL_EV);
+		this._unbind(MOVE_EV, window);
+		this._unbind(END_EV, window);
+		this._unbind(CANCEL_EV, window);
 	},
 	
 	enable: function () {
@@ -1034,7 +1053,7 @@ iScroll.prototype = {
 	},
 	
 	stop: function () {
-		if (this.options.useTransition) this._unbind('webkitTransitionEnd');
+		if (this.options.useTransition) this._unbind(TRNEND_EV);
 		else cancelFrame(this.aniTime);
 		this.steps = [];
 		this.moved = false;
@@ -1060,8 +1079,8 @@ iScroll.prototype = {
 		that.x = that.x > 0 ? 0 : that.x < that.maxScrollX ? that.maxScrollX : that.x;
 		that.y = that.y > that.minScrollY ? that.minScrollY : that.y < that.maxScrollY ? that.maxScrollY : that.y;
 
-		that.scroller.style[vendor + 'TransitionDuration'] = time + 'ms';
-		that.scroller.style[vendor + 'Transform'] = trnOpen + that.x + 'px,' + that.y + 'px' + trnClose + ' scale(' + scale + ')';
+		that.scroller.style[transitionDuration] = time + 'ms';
+		that.scroller.style[transform] = 'translate(' + that.x + 'px,' + that.y + 'px) scale(' + scale + ')' + translateZ;
 		that.zoomed = false;
 	},
 	
@@ -1070,10 +1089,19 @@ iScroll.prototype = {
 	}
 };
 
+function prefixStyle (style) {
+	if ( vendor === '' ) return style;
+
+	style = style.charAt(0).toUpperCase() + style.substr(1);
+	return vendor + style;
+}
+
+dummyStyle = null;	// for the sake of it
+
 if (typeof exports !== 'undefined') exports.iScroll = iScroll;
 else window.iScroll = iScroll;
 
-})();
+})(window, document);
 /** The minplayer namespace. */
 var minplayer = minplayer || {};
 
@@ -1189,6 +1217,19 @@ if (!minplayer.playTypes) {
 
   /** Determine if we have a touchscreen. */
   minplayer.hasTouch = 'ontouchstart' in window && !minplayer.isTouchPad;
+}
+
+// Get the URL variables.
+if (!minplayer.urlVars) {
+
+  /** The URL variables for the minplayer. */
+  minplayer.urlVars = {};
+
+  // Get the URL variables.
+  var regEx = /[?&]+([^=&]+)=([^&]*)/gi;
+  window.location.href.replace(regEx, function(m, key, value) {
+    minplayer.urlVars[key] = value;
+  });
 }
 /** The minplayer namespace. */
 var minplayer = minplayer || {};
@@ -1363,6 +1404,9 @@ minplayer.plugin = function(name, context, options, queue) {
   /** Create a queue lock. */
   this.lock = false;
 
+  /** The universally unique ID for this plugin. */
+  this.uuid = 0;
+
   // Only call the constructor if we have a context.
   if (context) {
 
@@ -1501,27 +1545,39 @@ minplayer.plugin.prototype.addPlugin = function(name, plugin) {
     }
 
     // Add this plugin.
-    minplayer.plugins[this.options.id][name].push(plugin);
+    var instance = minplayer.plugins[this.options.id][name].push(plugin);
+
+    // Set the uuid.
+    this.uuid = this.options.id + '__' + name + '__' + instance;
 
     // Now check the queue for this plugin.
     this.checkQueue(plugin);
   }
 };
 
+/** Create timers for the polling. */
+minplayer.timers = {};
+
 /**
  * Create a polling timer.
  *
+ * @param {string} name The name of the timer.
  * @param {function} callback The function to call when you poll.
  * @param {integer} interval The interval you would like to poll.
+ * @return {string} The setTimeout ID.
  */
-minplayer.plugin.prototype.poll = function(callback, interval) {
-  setTimeout((function(context) {
+minplayer.plugin.prototype.poll = function(name, callback, interval) {
+  if (minplayer.timers.hasOwnProperty(name)) {
+    clearTimeout(minplayer.timers[name]);
+  }
+  minplayer.timers[name] = setTimeout((function(context) {
     return function callLater() {
       if (callback.call(context)) {
-        setTimeout(callLater, interval);
+        minplayer.timers[name] = setTimeout(callLater, interval);
       }
     };
   })(this), interval);
+  return minplayer.timers[name];
 };
 
 /**
@@ -1600,42 +1656,93 @@ minplayer.plugin.prototype.checkQueue = function(plugin) {
 };
 
 /**
+ * All minplayer event types.
+ */
+minplayer.eventTypes = {};
+
+/**
+ * Determine if an event is of a certain type.
+ *
+ * @param {string} name The full name of the event.
+ * @param {string} type The type of the event.
+ * @return {boolean} If this named event is of type.
+ */
+minplayer.plugin.prototype.isEvent = function(name, type) {
+  // Static cache for performance.
+  var cacheName = name + '__' + type;
+  if (typeof minplayer.eventTypes[cacheName] !== 'undefined') {
+    return minplayer.eventTypes[cacheName];
+  }
+  else {
+    var regex = new RegExp('^(.*\:)?' + type + '$', 'gi');
+    minplayer.eventTypes[cacheName] = (name.match(type) !== null);
+    return minplayer.eventTypes[cacheName];
+  }
+};
+
+/**
  * Trigger a media event.
  *
  * @param {string} type The event type.
  * @param {object} data The event data object.
+ * @param {boolean} noqueue If this trigger should not be queued.
  * @return {object} The plugin object.
  */
-minplayer.plugin.prototype.trigger = function(type, data) {
+minplayer.plugin.prototype.trigger = function(type, data, noqueue) {
 
   // Don't trigger if this plugin is inactive.
   if (!this.active) {
     return this;
   }
 
-  // Add this to our triggered array.
-  this.triggered[type] = data;
+  // Only queue if they wish it to be so...
+  if (!noqueue) {
 
-  // Check to make sure the queue for this type exists.
-  if (this.queue.hasOwnProperty(type)) {
+    // Add this to our triggered array.
+    this.triggered[type] = data;
+  }
 
-    var i = 0, queue = {}, queuetype = this.queue[type];
+  // Iterate through the queue.
+  var i = 0, queue = {}, queuetype = null;
 
-    // Iterate through all the callbacks in this queue.
-    for (i in queuetype) {
+  // Iterate through all the queue items.
+  for (var name in this.queue) {
 
-      // Check to make sure the queue index exists.
-      if (queuetype.hasOwnProperty(i)) {
+    // See if this is an event we care about.
+    if (this.isEvent(name, type)) {
 
-        // Setup the event object, and call the callback.
-        queue = queuetype[i];
-        queue.callback({target: this, data: queue.data}, data);
+      // Set the queuetype.
+      queuetype = this.queue[name];
+
+      // Iterate through all the callbacks in this queue.
+      for (i in queuetype) {
+
+        // Check to make sure the queue index exists.
+        if (queuetype.hasOwnProperty(i)) {
+
+          // Setup the event object, and call the callback.
+          queue = queuetype[i];
+          queue.callback({target: this, data: queue.data}, data);
+        }
       }
     }
   }
 
   // Return the plugin object.
   return this;
+};
+
+/**
+ * Unbind then Bind
+ *
+ * @param {string} type The event type.
+ * @param {object} data The data to bind with the event.
+ * @param {function} fn The callback function.
+ * @return {object} The plugin object.
+ */
+minplayer.plugin.prototype.ubind = function(type, data, fn) {
+  this.unbind(type);
+  return this.bind(type, data, fn);
 };
 
 /**
@@ -1667,9 +1774,6 @@ minplayer.plugin.prototype.bind = function(type, data, fn) {
   // Initialize the queue for this type.
   this.queue[type] = this.queue[type] || [];
 
-  // Unbind any existing equivalent events.
-  this.unbind(type, fn);
-
   // Now add this event to the queue.
   this.queue[type].push({
     callback: fn,
@@ -1677,10 +1781,12 @@ minplayer.plugin.prototype.bind = function(type, data, fn) {
   });
 
   // Now see if this event has already been triggered.
-  if (this.triggered.hasOwnProperty(type)) {
-
-    // Go ahead and trigger the event.
-    fn({target: this, data: data}, this.triggered[type]);
+  for (var name in this.triggered) {
+    if (this.triggered.hasOwnProperty(name)) {
+      if (this.isEvent(type, name)) {
+        fn({target: this, data: data}, this.triggered[name]);
+      }
+    }
   }
 
   // Return the plugin.
@@ -1691,16 +1797,15 @@ minplayer.plugin.prototype.bind = function(type, data, fn) {
  * Unbind a media event.
  *
  * @param {string} type The event type.
- * @param {function} fn The callback function.
  * @return {object} The plugin object.
  **/
-minplayer.plugin.prototype.unbind = function(type, fn) {
+minplayer.plugin.prototype.unbind = function(type) {
 
   // If this is locked then try again after 10ms.
   if (this.lock) {
     setTimeout((function(plugin) {
       return function() {
-        plugin.unbind(type, fn);
+        plugin.unbind(type);
       };
     })(this), 10);
   }
@@ -1708,26 +1813,11 @@ minplayer.plugin.prototype.unbind = function(type, fn) {
   // Set the lock.
   this.lock = true;
 
-  // Get the queue type.
-  var queuetype = this.queue.hasOwnProperty(type) ? this.queue[type] : null;
-
   if (!type) {
     this.queue = {};
   }
-  else if (!fn) {
-    this.queue[type] = [];
-  }
-  else if (queuetype) {
-    // Iterate through all the callbacks and search for equal callbacks.
-    var i = 0, queue = {};
-    for (i in queuetype) {
-      if (queuetype.hasOwnProperty(i)) {
-        if (queuetype[i].callback === fn) {
-          queue = this.queue[type].splice(i, 1);
-          delete queue;
-        }
-      }
-    }
+  else if (this.queue.hasOwnProperty(type) && (this.queue[type].length > 0)) {
+    this.queue[type].length = 0;
   }
 
   // Reset the lock.
@@ -1841,7 +1931,7 @@ minplayer.bind = function(event, id, plugin, callback, fromCheck) {
   }
 
   // Add it to the queue for post bindings...
-  if ((selected.length == 0) && !fromCheck) {
+  if (!fromCheck) {
     minplayer.addQueue(this, event, id, plugin, callback);
   }
 
@@ -1907,16 +1997,24 @@ minplayer.bind = function(event, id, plugin, callback, fromCheck) {
  */
 minplayer.get = function(id, plugin, callback) {
 
+  // Get the parameter types.
+  var idType = typeof id;
+  var pluginType = typeof plugin;
+  var callbackType = typeof callback;
+
   // Normalize the arguments for a better interface.
-  if (typeof id === 'function') {
+  if (idType === 'function') {
     callback = id;
     plugin = id = null;
   }
-
-  if (typeof plugin === 'function') {
+  else if (pluginType === 'function') {
     callback = plugin;
     plugin = id;
     id = null;
+  }
+  else if ((pluginType === 'undefined') && (callbackType === 'undefined')) {
+    plugin = id;
+    callback = id = null;
   }
 
   // Make sure the callback is a callback.
@@ -2010,6 +2108,9 @@ minplayer.display.prototype.construct = function() {
   // Get the display elements.
   this.elements = this.getElements();
 
+  // Set if this display is in autohide.
+  this.autoHide = false;
+
   // Only do this if they allow resize for this display.
   if (this.onResize) {
 
@@ -2084,103 +2185,111 @@ minplayer.click = function(element, fn) {
  */
 minplayer.display.prototype.onFocus = function(focus) {
   this.hasFocus = this.focus = focus;
-};
 
-/** Keep track of all the show hide elements. */
-minplayer.showHideElements = [];
-
-/**
- * Show all the show hide elements.
- */
-minplayer.showAll = function() {
-  var i = minplayer.showHideElements.length;
-  var obj = null;
-  while (i--) {
-    obj = minplayer.showHideElements[i];
-    minplayer.showThenHide(obj.element, obj.timeout, obj.callback);
+  // If they have autoHide enabled, then show then hide this element.
+  if (this.autoHide) {
+    this.showThenHide(
+      this.autoHide.element,
+      this.autoHide.timeout,
+      this.autoHide.cb
+    );
   }
 };
 
 /**
- * Stops the whole show then hide from happening.
- *
- * @param {object} element The element you want the showThenHide to stop.
- */
-minplayer.stopShowThenHide = function(element) {
-  element = jQuery(element);
-  if (element.showTimer) {
-    clearTimeout(element.showTimer);
-  }
-  element.stopShowThenHide = true;
-  element.shown = true;
-  element.show();
-};
-
-/**
- * Called if you would like for your display item to show then hide.
+ * Called if you would like for your plugin to show then hide.
  *
  * @param {object} element The element you would like to hide or show.
  * @param {number} timeout The timeout to hide and show.
- * @param {function} callback Called when something happens.
+ * @param {function} cb Called when something happens.
  */
-minplayer.showThenHide = function(element, timeout, callback) {
+minplayer.display.prototype.showThenHide = function(element, timeout, cb) {
 
-  // If no element exists, then just return.
+  // Get the element type.
+  var elementType = (typeof element);
+
+  // Set some interface defaults.
+  if (elementType === 'undefined') {
+    cb = null;
+    element = this.display;
+  }
+  else if (elementType === 'number') {
+    cb = timeout;
+    timeout = element;
+    element = this.display;
+  }
+  else if (elementType === 'function') {
+    cb = element;
+    element = this.display;
+  }
+
   if (!element) {
     return;
   }
 
-  // Ensure we have a timeout.
+  // Make sure we have a timeout.
   timeout = timeout || 5000;
 
-  // If this has not yet been configured.
-  if (!element.showTimer) {
-    element.shown = true;
-    element.stopShowThenHide = false;
+  // Set the autohide variable.
+  this.autoHide = {
+    element: element,
+    timeout: timeout,
+    cb: cb
+  };
 
-    // Add this to our showHideElements.
-    minplayer.showHideElements.push({
-      element: element,
-      timeout: timeout,
-      callback: callback
-    });
-
-    // Bind to a click event.
-    minplayer.click(document, function() {
-      if (!element.stopShowThenHide) {
-        minplayer.showThenHide(element, timeout, callback);
+  // Show the element.
+  if (!element.forceHide) {
+    if (typeof element.showMe !== 'undefined') {
+      if (element.showMe) {
+        element.showMe(cb);
       }
-    });
-
-    // Bind to the mousemove event.
-    jQuery(document).bind('mousemove', function() {
-      if (!element.stopShowThenHide) {
-        minplayer.showThenHide(element, timeout, callback);
+    }
+    else {
+      element.show();
+      if (cb) {
+        cb(true);
       }
-    });
-  }
-
-  // Clear the timeout, and then setup the show then hide functionality.
-  clearTimeout(element.showTimer);
-
-  // Show the display.
-  if (!element.shown && !element.forceHide) {
-    element.shown = true;
-    element.show();
-    if (callback) {
-      callback(true);
     }
   }
 
-  // Set a timer to hide it after the timeout.
-  element.showTimer = setTimeout(function() {
-    element.hide('slow', function() {
-      element.shown = false;
-      if (callback) {
-        callback(false);
-      }
+  // Define the hover state for this element.
+  if (!element.hoverState) {
+    jQuery(element).bind('mouseenter', function() {
+      element.hoverState = true;
     });
-  }, timeout);
+    jQuery(element).bind('mouseleave', function() {
+      element.hoverState = false;
+    });
+  }
+
+  // Clear the timeout and start it over again.
+  clearTimeout(this.showTimer);
+  this.showTimer = setTimeout((function(self) {
+    return function tryAgain() {
+
+      // Check the hover state.
+      if (!element.hoverState) {
+        if (typeof element.hideMe !== 'undefined') {
+          if (element.hideMe) {
+            element.hideMe(cb);
+          }
+        }
+        else {
+          // Hide the element.
+          element.hide('slow', function() {
+            if (cb) {
+              cb(false);
+            }
+          });
+        }
+      }
+      else {
+
+        // Try again in the timeout time.
+        self.showTimer = setTimeout(tryAgain, timeout);
+      }
+    };
+  })(this), timeout);
 };
 
 /**
@@ -2438,14 +2547,29 @@ minplayer.prototype.construct = function() {
     file: '',
     preview: '',
     attributes: {},
+    plugins: {},
     logo: '',
     link: '',
-    width: '100%',
-    height: '100%'
+    duration: 0
   }, this.options);
 
   // Call the minplayer display constructor.
   minplayer.display.prototype.construct.call(this);
+
+  // Initialize all plugins.
+  var plugin = null;
+  for (var pluginName in this.options.plugins) {
+    plugin = this.options.plugins[pluginName];
+    if (minplayer[plugin]) {
+      plugin = minplayer[plugin];
+      if (plugin[this.options.template] && plugin[this.options.template].init) {
+        plugin[this.options.template].init(this);
+      }
+      else if (plugin.init) {
+        plugin.init(this);
+      }
+    }
+  }
 
   // Set the plugin name within the options.
   this.options.pluginName = 'player';
@@ -2455,17 +2579,6 @@ minplayer.prototype.construct = function() {
 
   /** The play loader for this player. */
   this.playLoader = this.create('playLoader');
-
-  // Set the focus of the element based on if they click in or outside of it.
-  minplayer.click(document, (function(player) {
-    return function(event) {
-      var target = jQuery(event.target);
-      var focus = !(target.closest('#' + player.options.id).length == 0);
-      minplayer.get.call(this, player.options.id, null, function(plugin) {
-        plugin.onFocus(focus);
-      });
-    };
-  })(this));
 
   /** Add the logo for the player. */
   if (this.options.logo && this.elements.logo) {
@@ -2498,12 +2611,28 @@ minplayer.prototype.construct = function() {
 };
 
 /**
+ * Set the focus for this player.
+ *
+ * @param {boolean} focus If the player is in focus or not.
+ */
+minplayer.prototype.setFocus = function(focus) {
+
+  // Tell all plugins about this.
+  minplayer.get.call(this, this.options.id, null, function(plugin) {
+    plugin.onFocus(focus);
+  });
+
+  // Trigger an event that a focus event has occured.
+  this.trigger('playerFocus', focus);
+};
+
+/**
  * Called when an error occurs.
  *
  * @param {object} plugin The plugin you wish to bind to.
  */
 minplayer.prototype.bindTo = function(plugin) {
-  plugin.bind('error', (function(player) {
+  plugin.ubind(this.uuid + ':error', (function(player) {
     return function(event, data) {
       if (player.currentPlayer == 'html5') {
         minplayer.player = 'minplayer';
@@ -2517,7 +2646,7 @@ minplayer.prototype.bindTo = function(plugin) {
   })(this));
 
   // Bind to the fullscreen event.
-  plugin.bind('fullscreen', (function(player) {
+  plugin.ubind(this.uuid + ':fullscreen', (function(player) {
     return function(event, data) {
       player.resize();
     };
@@ -2528,6 +2657,40 @@ minplayer.prototype.bindTo = function(plugin) {
  * We need to bind to events we are interested in.
  */
 minplayer.prototype.addEvents = function() {
+
+  // Keep track if we are inside the player or not.
+  var inside = false;
+
+  // Set the focus when they enter the player.
+  this.display.bind('mouseenter', (function(player) {
+    return function() {
+      inside = true;
+      player.setFocus(true);
+    };
+  })(this));
+
+
+  this.display.bind('mouseleave', (function(player) {
+    return function() {
+      inside = false;
+      player.setFocus(false);
+    };
+  })(this));
+
+  var moveThrottle = false;
+  this.display.bind('mousemove', (function(player) {
+    return function() {
+      if (!moveThrottle) {
+        moveThrottle = setTimeout(function() {
+          moveThrottle = false;
+          if (inside) {
+            player.setFocus(true);
+          }
+        }, 300);
+      }
+    };
+  })(this));
+
   minplayer.get.call(this, this.options.id, null, (function(player) {
     return function(plugin) {
       player.bindTo(plugin);
@@ -2644,6 +2807,7 @@ minplayer.getMediaFile = function(files) {
     if (files.hasOwnProperty(i)) {
       file = new minplayer.file(files[i]);
       if (file.player && (file.priority > bestPriority)) {
+        bestPriority = file.priority;
         mFile = file;
       }
     }
@@ -3166,24 +3330,32 @@ minplayer.playLoader.prototype.initialize = function() {
         this.options.preview = media.elements.media.attr('poster');
       }
 
-      // Reset the media's poster image.
-      media.elements.media.attr('poster', '');
+      // Determine if we should load the image.
+      var shouldLoad = true;
+      if (this.preview && this.preview.loader) {
+        shouldLoad = (this.preview.loader.src !== this.options.preview);
+      }
 
-      // Load the preview image.
-      this.loadPreview();
+      // Only load the image if it is different.
+      if (shouldLoad) {
+        // Reset the media's poster image.
+        media.elements.media.attr('poster', '');
+
+        // Load the preview image.
+        this.loadPreview();
+      }
 
       // Trigger a play event when someone clicks on the controller.
       if (this.elements.bigPlay) {
         minplayer.click(this.elements.bigPlay.unbind(), function(event) {
           event.preventDefault();
-          minplayer.showAll();
           jQuery(this).hide();
           media.play();
         });
       }
 
       // Bind to the player events to control the play loader.
-      media.unbind('loadstart').bind('loadstart', (function(playLoader) {
+      media.ubind(this.uuid + ':loadstart', (function(playLoader) {
         return function(event) {
           playLoader.busy.setFlag('media', true);
           playLoader.bigPlay.setFlag('media', true);
@@ -3191,19 +3363,19 @@ minplayer.playLoader.prototype.initialize = function() {
           playLoader.checkVisibility();
         };
       })(this));
-      media.bind('waiting', (function(playLoader) {
+      media.ubind(this.uuid + ':waiting', (function(playLoader) {
         return function(event) {
           playLoader.busy.setFlag('media', true);
           playLoader.checkVisibility();
         };
       })(this));
-      media.bind('loadeddata', (function(playLoader) {
+      media.ubind(this.uuid + ':loadeddata', (function(playLoader) {
         return function(event) {
           playLoader.busy.setFlag('media', false);
           playLoader.checkVisibility();
         };
       })(this));
-      media.bind('playing', (function(playLoader) {
+      media.ubind(this.uuid + ':playing', (function(playLoader) {
         return function(event) {
           playLoader.busy.setFlag('media', false);
           playLoader.bigPlay.setFlag('media', false);
@@ -3213,7 +3385,7 @@ minplayer.playLoader.prototype.initialize = function() {
           playLoader.checkVisibility();
         };
       })(this));
-      media.bind('pause', (function(playLoader) {
+      media.ubind(this.uuid + ':pause', (function(playLoader) {
         return function(event) {
           playLoader.bigPlay.setFlag('media', true);
           playLoader.checkVisibility();
@@ -3399,7 +3571,7 @@ minplayer.players.base.prototype.construct = function() {
   this.mediaFile = this.options.file;
 
   // Make sure we always autoplay on streams.
-  this.options.autoplay = this.options.autoplay || this.mediaFile.stream;
+  this.options.autoplay = this.options.autoplay || !!this.mediaFile.stream;
 
   // Clear the media player.
   this.clear();
@@ -3417,7 +3589,6 @@ minplayer.players.base.prototype.construct = function() {
   // Toggle playing if they click.
   minplayer.click(this.display, (function(player) {
     return function() {
-      minplayer.showAll();
       if (player.playing) {
         player.pause();
       }
@@ -3460,6 +3631,11 @@ minplayer.players.base.prototype.construct = function() {
       }
     };
   })(this));
+
+  // Make sure that we trigger onReady if autoload is false.
+  if (!this.options.autoload) {
+    this.onReady();
+  }
 };
 
 /**
@@ -3535,10 +3711,10 @@ minplayer.players.base.prototype.reset = function() {
   this.loading = false;
 
   // Tell everyone else we reset.
-  this.trigger('pause');
-  this.trigger('waiting');
-  this.trigger('progress', {loaded: 0, total: 0, start: 0});
-  this.trigger('timeupdate', {currentTime: 0, duration: 0});
+  this.trigger('pause', null, true);
+  this.trigger('waiting', null, true);
+  this.trigger('progress', {loaded: 0, total: 0, start: 0}, true);
+  this.trigger('timeupdate', {currentTime: 0, duration: 0}, true);
 };
 
 /**
@@ -3561,7 +3737,7 @@ minplayer.players.base.prototype.onReady = function() {
   this.loading = true;
 
   // Create a poll to get the progress.
-  this.poll((function(player) {
+  this.poll('progress', (function(player) {
     return function() {
 
       // Only do this if the play interval is set.
@@ -3611,6 +3787,44 @@ minplayer.players.base.prototype.onReady = function() {
 };
 
 /**
+ * Returns the amount of seconds you would like to seek.
+ *
+ * @return {number} The number of seconds we should seek.
+ */
+minplayer.players.base.prototype.getSeek = function() {
+  var seconds = 0, minutes = 0, hours = 0;
+
+  // See if they would like to seek.
+  if (minplayer.urlVars && minplayer.urlVars.seek) {
+
+    // Get the seconds.
+    seconds = minplayer.urlVars.seek.match(/([0-9])s/i);
+    if (seconds) {
+      seconds = parseInt(seconds[1], 10);
+    }
+
+    // Get the minutes.
+    minutes = minplayer.urlVars.seek.match(/([0-9])m/i);
+    if (minutes) {
+      seconds += (parseInt(minutes[1], 10) * 60);
+    }
+
+    // Get the hours.
+    hours = minplayer.urlVars.seek.match(/([0-9])h/i);
+    if (hours) {
+      seconds += (parseInt(hours[1], 10) * 3600);
+    }
+
+    // If no seconds were found, then just use the raw value.
+    if (!seconds) {
+      seconds = minplayer.urlVars.seek;
+    }
+  }
+
+  return seconds;
+};
+
+/**
  * Should be called when the media is playing.
  */
 minplayer.players.base.prototype.onPlaying = function() {
@@ -3625,7 +3839,7 @@ minplayer.players.base.prototype.onPlaying = function() {
   this.playing = true;
 
   // Create a poll to get the timeupate.
-  this.poll((function(player) {
+  this.poll('timeupdate', (function(player) {
     return function() {
 
       // Only do this if the play interval is set.
@@ -3657,7 +3871,7 @@ minplayer.players.base.prototype.onPlaying = function() {
       // Keep polling as long as it is playing.
       return player.playing;
     };
-  })(this), 1000);
+  })(this), 500);
 };
 
 /**
@@ -3701,6 +3915,19 @@ minplayer.players.base.prototype.onLoaded = function() {
   }
 
   this.trigger('loadeddata');
+
+  // See if they would like to seek.
+  var seek = this.getSeek();
+  if (seek) {
+    this.getDuration((function(player) {
+      return function(duration) {
+        if (seek < duration) {
+          player.seek(seek);
+          player.play();
+        }
+      };
+    })(this));
+  }
 };
 
 /**
@@ -3802,6 +4029,8 @@ minplayer.players.base.prototype.load = function(file) {
  * @return {boolean} If this action was performed.
  */
 minplayer.players.base.prototype.play = function() {
+  this.options.autoload = true;
+  this.options.autoplay = true;
   return this.isReady();
 };
 
@@ -3939,7 +4168,12 @@ minplayer.players.base.prototype.getCurrentTime = function(callback) {
  * @return {number} The duration of the loaded media.
  */
 minplayer.players.base.prototype.getDuration = function(callback) {
-  return this.duration.get(callback);
+  if (this.options.duration) {
+    callback(this.options.duration);
+  }
+  else {
+    return this.duration.get(callback);
+  }
 };
 
 /**
@@ -4096,6 +4330,9 @@ minplayer.players.html5.prototype.addPlayerEvents = function() {
     });
     this.addPlayerEvent('loadstart', function() {
       this.onReady();
+      if (!this.options.autoload) {
+        this.onLoaded();
+      }
     });
     this.addPlayerEvent('loadeddata', function() {
       this.onLoaded();
@@ -4157,7 +4394,6 @@ minplayer.players.html5.prototype.onReady = function() {
 
   // iOS devices are strange in that they don't autoload.
   if (minplayer.isIDevice) {
-    this.play();
     setTimeout((function(player) {
       return function() {
         player.pause();
@@ -4192,10 +4428,15 @@ minplayer.players.html5.prototype.create = function() {
   // Fix the fluid width and height.
   element.eq(0)[0].setAttribute('width', '100%');
   element.eq(0)[0].setAttribute('height', '100%');
-  element.eq(0)[0].setAttribute('autobuffer', true);
-  var option = this.options.autoload ? 'auto' : 'metadata';
+  var option = this.options.autoload ? 'metadata' : 'none';
   option = minplayer.isIDevice ? 'metadata' : option;
   element.eq(0)[0].setAttribute('preload', option);
+
+  // Make sure that we trigger onReady if autoload is false.
+  if (!this.options.autoload) {
+    element.eq(0)[0].setAttribute('autobuffer', false);
+  }
+
   return element;
 };
 
@@ -4324,7 +4565,15 @@ minplayer.players.html5.prototype.getVolume = function(callback) {
  */
 minplayer.players.html5.prototype.getDuration = function(callback) {
   if (this.isReady()) {
-    callback(this.player.duration);
+    if (this.options.duration) {
+      callback(this.options.duration);
+    }
+    else {
+      this.duration.get(callback);
+      if (this.player.duration) {
+        this.duration.set(this.player.duration);
+      }
+    }
   }
 };
 
@@ -4644,10 +4893,14 @@ minplayer.players.minplayer.prototype.create = function() {
     'debug': this.options.debug,
     'config': 'nocontrols',
     'file': this.mediaFile.path,
-    'stream': this.mediaFile.stream,
     'autostart': this.options.autoplay,
     'autoload': this.options.autoload
   };
+
+  // Add a stream if one is provided.
+  if (this.mediaFile.stream) {
+    flashVars.stream = this.mediaFile.stream;
+  }
 
   // Return a flash media player object.
   return this.getFlash({
@@ -4670,6 +4923,9 @@ minplayer.players.minplayer.prototype.onMediaUpdate = function(eventType) {
     case 'mediaMeta':
       this.onLoaded();
       break;
+    case 'mediaConnected':
+      this.onLoaded();
+      break;
     case 'mediaPlaying':
       if (this.minplayerloaded) {
         this.onPlaying();
@@ -4690,7 +4946,7 @@ minplayer.players.minplayer.prototype.onMediaUpdate = function(eventType) {
  */
 minplayer.players.minplayer.prototype.clear = function() {
   minplayer.players.flash.prototype.clear.call(this);
-  this.minplayerloaded = this.options.autoplay;
+  this.minplayerloaded = this.options.autoplay || !this.options.autoload;
 };
 
 /**
@@ -4785,24 +5041,28 @@ minplayer.players.minplayer.prototype.getVolume = function(callback) {
  */
 minplayer.players.minplayer.prototype.getDuration = function(callback) {
   if (this.isReady()) {
-
-    // Check to see if it is immediately available.
-    var duration = this.player.getDuration();
-    if (duration) {
-      callback(duration);
+    if (this.options.duration) {
+      callback(this.options.duration);
     }
     else {
+      // Check to see if it is immediately available.
+      var duration = this.player.getDuration();
+      if (duration) {
+        callback(duration);
+      }
+      else {
 
-      // If not, then poll every second for the duration.
-      this.poll((function(player) {
-        return function() {
-          duration = player.player.getDuration();
-          if (duration) {
-            callback(duration);
-          }
-          return !duration;
-        };
-      })(this), 1000);
+        // If not, then poll every second for the duration.
+        this.poll('duration', (function(player) {
+          return function() {
+            duration = player.player.getDuration();
+            if (duration) {
+              callback(duration);
+            }
+            return !duration;
+          };
+        })(this), 1000);
+      }
     }
   }
 };
@@ -5031,7 +5291,7 @@ minplayer.players.youtube.prototype.create = function() {
   this.playerId = this.options.id + '-player';
 
   // Poll until the YouTube API is ready.
-  this.poll((function(player) {
+  this.poll('youtube', (function(player) {
     return function() {
       var ready = jQuery('#' + player.playerId).length > 0;
       ready = ready && ('YT' in window);
@@ -5180,7 +5440,12 @@ minplayer.players.youtube.prototype.getVolume = function(callback) {
  * @see minplayer.players.base#getDuration.
  */
 minplayer.players.youtube.prototype.getDuration = function(callback) {
-  this.getValue('getDuration', callback);
+  if (this.options.duration) {
+    callback(this.options.duration);
+  }
+  else {
+    this.getValue('getDuration', callback);
+  }
 };
 
 /**
@@ -5377,7 +5642,7 @@ minplayer.players.vimeo.prototype.create = function() {
   iframe.setAttribute('src', src);
 
   // Now register this player when the froogaloop code is loaded.
-  this.poll((function(player) {
+  this.poll('vimeo', (function(player) {
     return function() {
       if (window.Froogaloop) {
         player.player = window.Froogaloop(iframe);
@@ -5548,7 +5813,10 @@ minplayer.players.vimeo.prototype.getVolume = function(callback) {
  */
 minplayer.players.vimeo.prototype.getDuration = function(callback) {
   if (this.isReady()) {
-    if (this.duration.value) {
+    if (this.options.duration) {
+      callback(this.options.duration);
+    }
+    else if (this.duration.value) {
       callback(this.duration.value);
     }
     else {
@@ -5632,6 +5900,11 @@ minplayer.controller.prototype.getElements = function() {
  */
 minplayer.controller.prototype.construct = function() {
 
+  // Make sure we provide default options...
+  this.options = jQuery.extend({
+    disptime: 0
+  }, this.options);
+
   // Call the minplayer plugin constructor.
   minplayer.display.prototype.construct.call(this);
 
@@ -5661,6 +5934,7 @@ minplayer.controller.prototype.construct = function() {
 
     // Create the volume bar slider control.
     this.volumeBar = this.elements.volume.slider({
+      animate: true,
       range: 'min',
       orientation: 'vertical'
     });
@@ -5697,7 +5971,7 @@ minplayer.controller.prototype.construct = function() {
         })(this));
 
         // Bind to the pause event of the media.
-        media.bind('pause', (function(controller) {
+        media.ubind(this.uuid + ':pause', (function(controller) {
           return function(event) {
             controller.setPlayPause(true);
           };
@@ -5716,7 +5990,7 @@ minplayer.controller.prototype.construct = function() {
         })(this));
 
         // Bind to the play event of the media.
-        media.bind('playing', (function(controller) {
+        media.ubind(this.uuid + ':playing', (function(controller) {
           return function(event) {
             controller.setPlayPause(false);
           };
@@ -5727,15 +6001,17 @@ minplayer.controller.prototype.construct = function() {
       if (this.elements.duration) {
 
         // Bind to the duration change event.
-        media.bind('durationchange', (function(controller) {
+        media.ubind(this.uuid + ':durationchange', (function(controller) {
           return function(event, data) {
-            controller.setTimeString('duration', data.duration);
+            var duration = controller.options.disptime || data.duration;
+            controller.setTimeString('duration', duration);
           };
         })(this));
 
         // Set the timestring to the duration.
         media.getDuration((function(controller) {
           return function(duration) {
+            duration = controller.options.disptime || duration;
             controller.setTimeString('duration', duration);
           };
         })(this));
@@ -5745,7 +6021,7 @@ minplayer.controller.prototype.construct = function() {
       if (this.elements.progress) {
 
         // Bind to the progress event.
-        media.bind('progress', (function(controller) {
+        media.ubind(this.uuid + ':progress', (function(controller) {
           return function(event, data) {
             var percent = data.total ? (data.loaded / data.total) * 100 : 0;
             controller.elements.progress.width(percent + '%');
@@ -5757,7 +6033,7 @@ minplayer.controller.prototype.construct = function() {
       if (this.seekBar || this.elements.timer) {
 
         // Bind to the time update event.
-        media.bind('timeupdate', (function(controller) {
+        media.ubind(this.uuid + ':timeupdate', (function(controller) {
           return function(event, data) {
             if (!controller.dragging) {
               var value = 0;
@@ -5837,7 +6113,7 @@ minplayer.controller.prototype.construct = function() {
           }
         });
 
-        media.bind('volumeupdate', (function(controller) {
+        media.ubind(this.uuid + ':volumeupdate', (function(controller) {
           return function(event, vol) {
             controller.volumeBar.slider('option', 'value', (vol * 100));
           };
@@ -5907,6 +6183,19 @@ minplayer.controller.prototype.setTimeString = function(element, time) {
 };
 // Add a way to instanciate using jQuery prototype.
 if (!jQuery.fn.osmplayer) {
+
+  /**
+   * A special jQuery event to handle the player being removed from DOM.
+   *
+   * @this The element that is being triggered with.
+   **/
+  jQuery.event.special.playerdestroyed = {
+    remove: function(o) {
+      if (o.handler) {
+        o.handler(this);
+      }
+    }
+  };
 
   /**
    * @constructor
@@ -5993,16 +6282,35 @@ osmplayer.prototype.construct = function() {
   // Call the minplayer display constructor.
   minplayer.prototype.construct.call(this);
 
+  // We need to cleanup the player when it has been destroyed.
+  jQuery(this.display).bind('playerdestroyed', (function(player) {
+    return function(element) {
+      if (element === player.display.eq(0)[0]) {
+        for (var plugin in minplayer.plugins[player.options.id]) {
+          for (var index in minplayer.plugins[player.options.id][plugin]) {
+            minplayer.plugins[player.options.id][plugin][index].destroy();
+            delete minplayer.plugins[player.options.id][plugin][index];
+          }
+          minplayer.plugins[player.options.id][plugin].length = 0;
+        }
+        delete minplayer.plugins[player.options.id];
+        minplayer.plugins[player.options.id] = null;
+      }
+    };
+  })(this));
+
   /** The play queue and index. */
   this.playQueue = [];
   this.playIndex = 0;
+  this.hasPlaylist = false;
 
   /** The playlist for this media player. */
   this.create('playlist', 'osmplayer');
 
   /** Get the playlist or any other playlist that connects. */
   this.get('playlist', function(playlist) {
-    playlist.bind('nodeLoad', (function(player) {
+    this.hasPlaylist = true;
+    playlist.ubind(this.uuid + ':nodeLoad', (function(player) {
       return function(event, data) {
         player.loadNode(data);
       };
@@ -6012,7 +6320,7 @@ osmplayer.prototype.construct = function() {
   // Play each media sequentially...
   this.get('media', (function(player) {
     return function(media) {
-      media.bind('ended', function() {
+      media.ubind(player.uuid + ':ended', function() {
         player.options.autoplay = true;
         player.playNext();
       });
@@ -6068,13 +6376,19 @@ osmplayer.prototype.loadNode = function(node) {
         };
       })(this));
     }
+    else {
+
+      // Add a class to the display to let themes handle this.
+      this.display.addClass('nomedia');
+    }
 
     // Load the preview image.
     osmplayer.getImage(node.mediafiles, 'preview', (function(player) {
       return function(image) {
         player.options.preview = image.path;
         if (player.playLoader) {
-          player.playLoader.initialize();
+          player.playLoader.enabled = true;
+          player.playLoader.loadPreview();
         }
       };
     })(this));
@@ -6110,11 +6424,18 @@ osmplayer.prototype.playNext = function() {
     this.playNext();
   }
   else if (this.playQueue.length > 0) {
-    // If there is no playlist, and no repeat, we will
-    // just seek to the beginning and pause.
-    this.options.autoplay = false;
-    this.playIndex = 0;
-    this.playNext();
+
+    // If we have a playlist, let them handle what to do next.
+    if (this.hasPlaylist && this.options.autoNext) {
+      this.trigger('player_ended');
+    }
+    else {
+      // If there is no playlist, and no repeat, we will
+      // just seek to the beginning and pause.
+      this.options.autoplay = false;
+      this.playIndex = 0;
+      this.playNext();
+    }
   }
   else if (this.media) {
     // Stop the player and unload.
@@ -6256,25 +6577,27 @@ osmplayer.parser.youtube = {
     };
 
     // Iterate through the items and parse it.
+    var item = null, node = null;
     for (var index in data.items) {
       if (data.items.hasOwnProperty(index)) {
-        var item = data.items[index];
+        item = data.items[index];
+        node = (typeof item.video !== 'undefined') ? item.video : item;
         playlist.nodes.push({
-          title: item.title,
-          description: item.description,
+          title: node.title,
+          description: node.description,
           mediafiles: {
             image: {
               'thumbnail': {
-                path: item.thumbnail.sqDefault
+                path: node.thumbnail.sqDefault
               },
               'image': {
-                path: item.thumbnail.hqDefault
+                path: node.thumbnail.hqDefault
               }
             },
             media: {
               'media': {
                 player: 'youtube',
-                id: item.id
+                id: node.id
               }
             }
           }
@@ -6519,12 +6842,12 @@ osmplayer.playlist.prototype.construct = function() {
 
   // Create the pager.
   this.pager = this.create('pager', 'osmplayer');
-  this.pager.bind('nextPage', (function(playlist) {
+  this.pager.ubind(this.uuid + ':nextPage', (function(playlist) {
     return function(event) {
       playlist.nextPage();
     };
   })(this));
-  this.pager.bind('prevPage', (function(playlist) {
+  this.pager.ubind(this.uuid + ':prevPage', (function(playlist) {
     return function(event) {
       playlist.prevPage();
     };
@@ -6535,10 +6858,10 @@ osmplayer.playlist.prototype.construct = function() {
 
     // Get the media.
     if (this.options.autoNext) {
-      this.get('media', function(media) {
-        media.bind('ended', (function(playlist) {
+      this.get('player', function(player) {
+        player.ubind(this.uuid + ':player_ended', (function(playlist) {
           return function(event) {
-            media.options.autoplay = true;
+            player.options.autoplay = true;
             playlist.next();
           };
         })(this));
@@ -6588,9 +6911,28 @@ osmplayer.playlist.prototype.refreshScroll = function() {
   var list = this.elements.list;
   var scroll = this.elements.scroll;
 
+  // Destroy the scroll bar first.
+  if (this.scroll) {
+    this.scroll.scrollTo(0, 0);
+    this.scroll.destroy();
+    this.scroll = null;
+    this.elements.list
+        .unbind('mousemove')
+        .unbind('mouseenter')
+        .unbind('mouseleave');
+  }
+
+  // Need to force the width of the list.
+  if (!this.options.vertical) {
+    var listSize = 0;
+    jQuery.each(this.elements.list.children(), function() {
+      listSize += jQuery(this).outerWidth();
+    });
+    this.elements.list.width(listSize);
+  }
+
   // Check to see if we should add a scroll bar functionality.
-  if ((!this.scroll) &&
-      (list.length > 0) &&
+  if ((list.length > 0) &&
       (scroll.length > 0) &&
       (list[this.orient.size]() > scroll[this.orient.size]())) {
 
@@ -6600,7 +6942,7 @@ osmplayer.playlist.prototype.refreshScroll = function() {
       hScrollbar: !this.options.vertical,
       vScroll: this.options.vertical,
       vScrollbar: this.options.vertical,
-      hideScrollbar: true
+      hideScrollbar: (this.options.scrollMode !== 'none')
     });
 
     // Use autoScroll for non-touch devices.
@@ -6656,26 +6998,8 @@ osmplayer.playlist.prototype.refreshScroll = function() {
       })(this));
     }
 
-    // Need to force the width of the list.
-    if (!this.options.vertical) {
-      var listSize = 0;
-      jQuery.each(this.elements.list.children(), function() {
-        listSize += jQuery(this).outerWidth();
-      });
-      this.elements.list.width(listSize);
-    }
-
     this.scroll.refresh();
     this.scroll.scrollTo(0, 0, 200);
-  }
-  else if (this.scroll) {
-
-    // Disable the scroll bar.
-    this.scroll.disable();
-    this.elements.list
-      .unbind('mousemove')
-      .unbind('mouseenter')
-      .unbind('mouseleave');
   }
 };
 
@@ -6725,7 +7049,7 @@ osmplayer.playlist.prototype.set = function(playlist, loadIndex) {
       // Create the teaser object.
       teaser = this.create('teaser', 'osmplayer', this.elements.list);
       teaser.setNode(playlist.nodes[index]);
-      teaser.bind('nodeLoad', (function(playlist, index) {
+      teaser.ubind(this.uuid + ':nodeLoad', (function(playlist, index) {
         return function(event, data) {
           playlist.loadItem(index);
         };

@@ -124,10 +124,14 @@ minplayer.players.minplayer.prototype.create = function() {
     'debug': this.options.debug,
     'config': 'nocontrols',
     'file': this.mediaFile.path,
-    'stream': this.mediaFile.stream,
     'autostart': this.options.autoplay,
     'autoload': this.options.autoload
   };
+
+  // Add a stream if one is provided.
+  if (this.mediaFile.stream) {
+    flashVars.stream = this.mediaFile.stream;
+  }
 
   // Return a flash media player object.
   return this.getFlash({
@@ -150,6 +154,9 @@ minplayer.players.minplayer.prototype.onMediaUpdate = function(eventType) {
     case 'mediaMeta':
       this.onLoaded();
       break;
+    case 'mediaConnected':
+      this.onLoaded();
+      break;
     case 'mediaPlaying':
       if (this.minplayerloaded) {
         this.onPlaying();
@@ -170,7 +177,7 @@ minplayer.players.minplayer.prototype.onMediaUpdate = function(eventType) {
  */
 minplayer.players.minplayer.prototype.clear = function() {
   minplayer.players.flash.prototype.clear.call(this);
-  this.minplayerloaded = this.options.autoplay;
+  this.minplayerloaded = this.options.autoplay || !this.options.autoload;
 };
 
 /**
@@ -265,24 +272,28 @@ minplayer.players.minplayer.prototype.getVolume = function(callback) {
  */
 minplayer.players.minplayer.prototype.getDuration = function(callback) {
   if (this.isReady()) {
-
-    // Check to see if it is immediately available.
-    var duration = this.player.getDuration();
-    if (duration) {
-      callback(duration);
+    if (this.options.duration) {
+      callback(this.options.duration);
     }
     else {
+      // Check to see if it is immediately available.
+      var duration = this.player.getDuration();
+      if (duration) {
+        callback(duration);
+      }
+      else {
 
-      // If not, then poll every second for the duration.
-      this.poll((function(player) {
-        return function() {
-          duration = player.player.getDuration();
-          if (duration) {
-            callback(duration);
-          }
-          return !duration;
-        };
-      })(this), 1000);
+        // If not, then poll every second for the duration.
+        this.poll('duration', (function(player) {
+          return function() {
+            duration = player.player.getDuration();
+            if (duration) {
+              callback(duration);
+            }
+            return !duration;
+          };
+        })(this), 1000);
+      }
     }
   }
 };

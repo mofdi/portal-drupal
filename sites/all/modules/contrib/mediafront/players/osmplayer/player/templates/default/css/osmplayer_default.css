@@ -72,6 +72,10 @@
   display:none !important;
 }
 
+.player-ui.nomedia .minplayer-default-controls, .player-ui.nomedia .minplayer-default-big-play, .player-ui.nomedia .minplayer-default-loader {
+  display:none;
+}
+
 .player-ui .minplayer-default-loader {
   width:42px;
   height:10px;
@@ -148,6 +152,7 @@
   left:0px;
   right:0px;
   height:30px;
+  line-height: 18px;
 }
 
 .player-ui.controller-only {
@@ -296,6 +301,7 @@
   height: 22px;
   float:left;
   padding-right:6px;
+  margin-top: 4px;
   font-size: 16px;
   font-weight: bold;
   border-right:1px solid #888;
@@ -367,11 +373,18 @@
   opacity: 0;
 }
 
+.player-ui.controller-only .minplayer-controls-volume-horizontal .minplayer-default-volume-slider {
+  height: 7px;
+  width: 105px;
+  top: 8px;
+  left: 32px !important;
+}
+
 .player-ui .minplayer-controls-volume-horizontal .minplayer-default-volume-slider {
   height: 7px;
   width: 78px;
   top: 8px;
-  left: 34px;
+  left: 32px;
 }
 
 .player-ui .minplayer-default-volume-slider .ui-slider-handle {
@@ -422,6 +435,10 @@
 
 .player-ui .minplayer-default-volume-unmute {
   display: none;
+}
+
+.player-ui.controller-only .minplayer-default-fullscreen {
+  display:none !important;
 }
 
 /* Fullscreen button */
@@ -492,7 +509,10 @@
   bottom: 34px;
 }
 
-.player-ui .ui-slider-horizontal .ui-slider-handle { top: -.3em; margin-left: -.6em; }
+.player-ui .ui-slider-horizontal .ui-slider-handle {
+  top: -5px;
+  margin-left: -5px;
+}
 
 
 /** OSM Player Styles **/

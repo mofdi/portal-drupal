@@ -184,17 +184,24 @@ function mediafront_preset_form($form, &$form_state, $preset) {
       '#value' => $preset['player'],
    );
 
-   $form['settings']['player_settings'] = array(
+   $form['settings']['player_settings_wrapper'] = array(
       '#type' => 'fieldset',
       '#title' => t('Player Settings'),
       '#weight' => -8,
       '#collapsible' => true,
       '#collapsed' => true,
+   );
+
+   $form['settings']['player_settings_wrapper']['player_settings'] = array(
+      '#type' => 'vertical_tabs',
       '#tree' => TRUE,
    );
 
+   // Get the player settings.
+   $player_settings = &$form['settings']['player_settings_wrapper']['player_settings'];
+
    // Now add the player settings form to this fieldset.
-   $form['settings']['player_settings'] = array_merge(mediafront_player_settings_form($preset), $form['settings']['player_settings']);
+   $player_settings = array_merge(mediafront_player_settings_form($preset), $player_settings);
 
    // Add the player to player settings.
    $form['settings']['connect'] = array(
@@ -266,7 +273,7 @@ function mediafront_preset_validate($form, &$form_state) {
  */
 function mediafront_preset_array_flatten($array,$return=array()) {
   foreach( $array as $key => $value ) {
-    if( is_array($value) ) {
+    if (is_array($value) && ($key != 'plugins')) {
       $return = mediafront_preset_array_flatten($value, $return);
     }
     else {
@@ -598,6 +605,9 @@ function mediafront_get_preset($preset_name, $reset = FALSE) {
   // Get the preset from cache.
   $cache = cache_get('mediafront_preset_' . $preset_name);
   if (!$reset && $cache) {
+    if (!empty($cache->data['settings']['id'])) {
+      unset($cache->data['settings']['id']);
+    }
     return $cache->data;
   }
   else {

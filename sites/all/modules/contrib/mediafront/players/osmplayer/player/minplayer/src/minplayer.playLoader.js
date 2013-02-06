@@ -75,24 +75,32 @@ minplayer.playLoader.prototype.initialize = function() {
         this.options.preview = media.elements.media.attr('poster');
       }
 
-      // Reset the media's poster image.
-      media.elements.media.attr('poster', '');
+      // Determine if we should load the image.
+      var shouldLoad = true;
+      if (this.preview && this.preview.loader) {
+        shouldLoad = (this.preview.loader.src !== this.options.preview);
+      }
 
-      // Load the preview image.
-      this.loadPreview();
+      // Only load the image if it is different.
+      if (shouldLoad) {
+        // Reset the media's poster image.
+        media.elements.media.attr('poster', '');
+
+        // Load the preview image.
+        this.loadPreview();
+      }
 
       // Trigger a play event when someone clicks on the controller.
       if (this.elements.bigPlay) {
         minplayer.click(this.elements.bigPlay.unbind(), function(event) {
           event.preventDefault();
-          minplayer.showAll();
           jQuery(this).hide();
           media.play();
         });
       }
 
       // Bind to the player events to control the play loader.
-      media.unbind('loadstart').bind('loadstart', (function(playLoader) {
+      media.ubind(this.uuid + ':loadstart', (function(playLoader) {
         return function(event) {
           playLoader.busy.setFlag('media', true);
           playLoader.bigPlay.setFlag('media', true);
@@ -100,19 +108,19 @@ minplayer.playLoader.prototype.initialize = function() {
           playLoader.checkVisibility();
         };
       })(this));
-      media.bind('waiting', (function(playLoader) {
+      media.ubind(this.uuid + ':waiting', (function(playLoader) {
         return function(event) {
           playLoader.busy.setFlag('media', true);
           playLoader.checkVisibility();
         };
       })(this));
-      media.bind('loadeddata', (function(playLoader) {
+      media.ubind(this.uuid + ':loadeddata', (function(playLoader) {
         return function(event) {
           playLoader.busy.setFlag('media', false);
           playLoader.checkVisibility();
         };
       })(this));
-      media.bind('playing', (function(playLoader) {
+      media.ubind(this.uuid + ':playing', (function(playLoader) {
         return function(event) {
           playLoader.busy.setFlag('media', false);
           playLoader.bigPlay.setFlag('media', false);
@@ -122,7 +130,7 @@ minplayer.playLoader.prototype.initialize = function() {
           playLoader.checkVisibility();
         };
       })(this));
-      media.bind('pause', (function(playLoader) {
+      media.ubind(this.uuid + ':pause', (function(playLoader) {
         return function(event) {
           playLoader.bigPlay.setFlag('media', true);
           playLoader.checkVisibility();

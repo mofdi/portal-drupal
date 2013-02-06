@@ -79,12 +79,12 @@ osmplayer.playlist.prototype.construct = function() {
 
   // Create the pager.
   this.pager = this.create('pager', 'osmplayer');
-  this.pager.bind('nextPage', (function(playlist) {
+  this.pager.ubind(this.uuid + ':nextPage', (function(playlist) {
     return function(event) {
       playlist.nextPage();
     };
   })(this));
-  this.pager.bind('prevPage', (function(playlist) {
+  this.pager.ubind(this.uuid + ':prevPage', (function(playlist) {
     return function(event) {
       playlist.prevPage();
     };
@@ -95,10 +95,10 @@ osmplayer.playlist.prototype.construct = function() {
 
     // Get the media.
     if (this.options.autoNext) {
-      this.get('media', function(media) {
-        media.bind('ended', (function(playlist) {
+      this.get('player', function(player) {
+        player.ubind(this.uuid + ':player_ended', (function(playlist) {
           return function(event) {
-            media.options.autoplay = true;
+            player.options.autoplay = true;
             playlist.next();
           };
         })(this));
@@ -148,9 +148,28 @@ osmplayer.playlist.prototype.refreshScroll = function() {
   var list = this.elements.list;
   var scroll = this.elements.scroll;
 
+  // Destroy the scroll bar first.
+  if (this.scroll) {
+    this.scroll.scrollTo(0, 0);
+    this.scroll.destroy();
+    this.scroll = null;
+    this.elements.list
+        .unbind('mousemove')
+        .unbind('mouseenter')
+        .unbind('mouseleave');
+  }
+
+  // Need to force the width of the list.
+  if (!this.options.vertical) {
+    var listSize = 0;
+    jQuery.each(this.elements.list.children(), function() {
+      listSize += jQuery(this).outerWidth();
+    });
+    this.elements.list.width(listSize);
+  }
+
   // Check to see if we should add a scroll bar functionality.
-  if ((!this.scroll) &&
-      (list.length > 0) &&
+  if ((list.length > 0) &&
       (scroll.length > 0) &&
       (list[this.orient.size]() > scroll[this.orient.size]())) {
 
@@ -160,7 +179,7 @@ osmplayer.playlist.prototype.refreshScroll = function() {
       hScrollbar: !this.options.vertical,
       vScroll: this.options.vertical,
       vScrollbar: this.options.vertical,
-      hideScrollbar: true
+      hideScrollbar: (this.options.scrollMode !== 'none')
     });
 
     // Use autoScroll for non-touch devices.
@@ -216,26 +235,8 @@ osmplayer.playlist.prototype.refreshScroll = function() {
       })(this));
     }
 
-    // Need to force the width of the list.
-    if (!this.options.vertical) {
-      var listSize = 0;
-      jQuery.each(this.elements.list.children(), function() {
-        listSize += jQuery(this).outerWidth();
-      });
-      this.elements.list.width(listSize);
-    }
-
     this.scroll.refresh();
     this.scroll.scrollTo(0, 0, 200);
-  }
-  else if (this.scroll) {
-
-    // Disable the scroll bar.
-    this.scroll.disable();
-    this.elements.list
-      .unbind('mousemove')
-      .unbind('mouseenter')
-      .unbind('mouseleave');
   }
 };
 
@@ -285,7 +286,7 @@ osmplayer.playlist.prototype.set = function(playlist, loadIndex) {
       // Create the teaser object.
       teaser = this.create('teaser', 'osmplayer', this.elements.list);
       teaser.setNode(playlist.nodes[index]);
-      teaser.bind('nodeLoad', (function(playlist, index) {
+      teaser.ubind(this.uuid + ':nodeLoad', (function(playlist, index) {
         return function(event, data) {
           playlist.loadItem(index);
         };
