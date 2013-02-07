@@ -98,13 +98,16 @@
 	</header>
 
   <div id="content">
-  <article class="news">
-  <header></header>
+  <article class="news">
+
+  <header></header>
+
 
 <?php print $messages ?>
 
 
-  <div class="content">
+  <div class="content">
+
 
 <?php  
 	$results = array() ;
@@ -120,47 +123,83 @@
 
 ?>
 
-    <div class="content">
-      <div class="left">
+    <div class="content">
+
+      <div class="left">
+
         <ul>
 		<?php for ( $td = 0 ; $td < 6 ; $td++ ) : ?>
 			<li>
-				<h4 class="date"><?php { print( format_date($results[$td]->created, 'custom', 'F jS, Y')) ; } ?></h4>
-				<a href="<?php print $base_url.'/node/'.$results[$td]->nid ?>" class="title"><?php print $results[$td]->title ?></a>
-				<p><?php print $results[$td]->body['und'][0]['summary'] ?></p>
-				<a href="<?php print $base_url.'/node/'.$results[$td]->nid ?>" class="read_more">Read more</a>			
+				<h4 class="date"><?php { print( format_date($results[$td]->created, 'custom', 'F jS, Y')) ; } ?></h4>
+
+				<a href="<?php print $base_url.'/content/'.$results[$td]->nid ?>" class="title"><?php print $results[$td]->title ?></a>
+
+				<p><?php print $results[$td]->body['und'][0]['summary'] ?></p>
+
+				<a href="<?php print $base_url.'/content/'.$results[$td]->nid ?>" class="read_more">Read more</a>
+			
 			</li>
 		<?php endfor ?>
-
-        </ul>
-
-        <a href="/vizz/newsroom/news" class="candy_white_button more_news next lft"><span>More GBIF news</span></a>
-      </div>
-
-      <div class="right">
-
-        <div class="filters">
-          <h3>Filter news by region</h3>
-  
-          <ul>
-            <li class="selected"><a href="#">All news</a></li>
-            <li><a href="#">Global</a></li>
-            <li><a href="#">Africa</a></li>
-            <li><a href="#">Asia</a></li>
-            <li><a href="#">Europe</a></li>
-            <li><a href="#">Latin America</a></li>
-            <li><a href="#">North America</a></li>
-            <li><a href="#">Oceania</a></li>
-          </ul>
-        </div>
-
-      </div>
-    </div>
-
-
-  </div>
-  <footer></footer>
-  </article>
+
+
+        </ul>
+
+
+
+        <a href="/vizz/newsroom/news" class="candy_white_button more_news next lft"><span>More GBIF news</span></a>
+
+      </div>
+
+
+
+      <div class="right">
+
+
+
+        <div class="filters">
+
+          <h3>Filter news by region</h3>
+
+  
+
+          <ul>
+
+            <li class="selected"><a href="#">All news</a></li>
+
+            <li><a href="#">Global</a></li>
+
+            <li><a href="#">Africa</a></li>
+
+            <li><a href="#">Asia</a></li>
+
+            <li><a href="#">Europe</a></li>
+
+            <li><a href="#">Latin America</a></li>
+
+            <li><a href="#">North America</a></li>
+
+            <li><a href="#">Oceania</a></li>
+
+          </ul>
+
+        </div>
+
+
+
+      </div>
+
+    </div>
+
+
+
+
+
+  </div>
+
+  <footer></footer>
+
+  </article>
+
 
 
 

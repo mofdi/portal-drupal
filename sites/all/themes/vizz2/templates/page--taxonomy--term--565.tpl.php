@@ -148,7 +148,7 @@ foreach ($view as $key => $vnode) {
 		<?php for ( $td = 0 ; $td < 3 ; $td++ ) : ?>
 			<li class="<?php  if ( (($td + 1) % 3 ) == 0 ) echo 'last' ; ?>">
 				<img class='detect' src="<?php print file_create_url( $results[$td]->field_featured['und'][0]['uri']); ?>"></img>
-				<a class="title" href="<?php print $base_url.'/node/'.($results[$td]->nid) ?>"><?php print ($results[$td]->title)?></a>
+				<a class="title" href="<?php print $base_url.'/content/'.($results[$td]->nid) ?>"><?php print ($results[$td]->title)?></a>
 				<p><?php print ( $results[$td]->body['und'][0]['summary'] ) ; ?></p>
 				<div class="ocurrences">
 				<?php print ( $results[$td]->field_numofresused['und'][0]['safe_value'] ) ; ?>
@@ -196,10 +196,14 @@ foreach ($view as $key => $vnode) {
           <ul>
 		<?php for ( $td = 0 ; $td < 3 ; $td++ ) : ?>
 			<li>
-				<h4 class="date"><?php { print( format_date($results[$td]->created, 'custom', 'F jS, Y')) ; } ?></h4>
-				<a href="<?php print $base_url.'/node/'.$results[$td]->nid ?>" class="title"><?php print $results[$td]->title ?></a>
-				<p><?php print $results[$td]->body['und'][0]['summary'] ?></p>
-				<a href="<?php print $base_url.'/node/'.$results[$td]->nid ?>" class="read_more">Read more</a>			
+				<h4 class="date"><?php { print( format_date($results[$td]->created, 'custom', 'F jS, Y')) ; } ?></h4>
+
+				<a href="<?php print $base_url.'/content/'.$results[$td]->nid ?>" class="title"><?php print $results[$td]->title ?></a>
+
+				<p><?php print $results[$td]->body['und'][0]['summary'] ?></p>
+
+				<a href="<?php print $base_url.'/content/'.$results[$td]->nid ?>" class="read_more">Read more</a>
+			
 			</li>
 		<?php endfor ?>
           </ul>
@@ -253,7 +257,7 @@ foreach ($view as $key => $vnode) {
 			title: "<?php print ($results[$slide]->title)?>",
 			description: "<?php print ( $results[$slide]->body['und'][0]['summary'] ) ; ?>",
 			src: "<?php print file_create_url( $results[$slide]->field_featured['und'][0]['uri']);?>",
-			url: "<?php print $base_url.'/node/'.($results[$slide]->nid) ?>"
+			url: "<?php print $base_url.'/content/'.($results[$slide]->nid) ?>"
 		},
 		<?php endfor ?>
         ];
