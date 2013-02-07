@@ -132,11 +132,11 @@
 			<li>
 				<h4 class="date"><?php { print( format_date($results[$td]->created, 'custom', 'F jS, Y')) ; } ?></h4>
 
-				<a href="<?php print $base_url.'/content/'.$results[$td]->nid ?>" class="title"><?php print $results[$td]->title ?></a>
+				<a href="<?php print $base_url.'/page/'.$results[$td]->nid ?>" class="title"><?php print $results[$td]->title ?></a>
 
 				<p><?php print $results[$td]->body['und'][0]['summary'] ?></p>
 
-				<a href="<?php print $base_url.'/content/'.$results[$td]->nid ?>" class="read_more">Read more</a>
+				<a href="<?php print $base_url.'/page/'.$results[$td]->nid ?>" class="read_more">Read more</a>
 			
 			</li>
 		<?php endfor ?>
