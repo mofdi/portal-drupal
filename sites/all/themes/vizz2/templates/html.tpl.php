@@ -142,12 +142,12 @@
 
       <div class="account">
 		<?php if (!$logged_in) { ?>
-        <a href="<?php print $base_url?>/cas?destination=newsroom/datause" title='Login'>Login</a> or
+        <a href="<?php print $base_url?>/user/login" title='Login'>Login</a> or
         <a href="<?php print $base_url;?>/user/register" title='Create a new account'>Create a new account</a>
 		<?php } else { ?>
 			<?php if ($user->uid) { ?>
 			<a href="<?php print $base_url;?>/user/<?php print ($user->uid) ?>/edit">Hello <?php print ( $user->name);?></a>
-			<a href="<?php print $base_url;?>/caslogout">&nbsp;&nbsp;&nbsp;&nbsp;Logout</a>
+			<a href="<?php print $base_url;?>/user/logout">&nbsp;&nbsp;&nbsp;&nbsp;Logout</a>
 			<?php } ?>
 		<?php } ?>
 

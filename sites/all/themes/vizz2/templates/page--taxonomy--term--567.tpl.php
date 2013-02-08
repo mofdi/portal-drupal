@@ -131,7 +131,7 @@
       <header></header>
 
 
-<?php // print $messages ?>
+<?php print $messages ?>
 
       <div class="content">
 
@@ -140,13 +140,12 @@
 			<?php  
 			$results = array() ;
 			$view = views_get_view_result('usesofdatafeaturedarticles');
+
 			foreach ($view as $key => $vnode) {
 				$nid = $vnode->nid  ;
 				$anode = node_load( $nid ) ;
 				$results[$key] = $anode ;
 
-				// $results[$nid]['fields'] = field_attach_view('node', $anode,'full' ) ; 
-				// print render ( $result[$nid]->field_featured  ) ; 
 			}
 
 		?>
@@ -154,7 +153,8 @@
          <ul>
 			<?php for ( $td = 0 ; $td < 3 ; $td++ ) : ?>
 			<li class="<?php  if ( (($td + 1) % 3 ) == 0 ) echo 'last' ; ?>">
-				<img class='detect' src="<?php print file_create_url( $results[$td]->field_featured['und'][0]['uri']); ?>"></img>
+				<?php print( render( field_view_field('node', $results[$td], 'field_featured', array('settings' => array('image_style' => 'featured'))) ) ); ?>
+				<!-- img class='detect' src="<?php print file_create_url( $results[$td]->field_featured['und'][0]['uri']); ?>"></img -->
 				<a class="title" href="<?php print $base_url.'/page/'.($results[$td]->nid) ?>"><?php print ($results[$td]->title)?></a>
 				<p><?php print ( $results[$td]->body['und'][0]['summary'] ) ; ?></p>
 				<div class="ocurrences">
@@ -168,7 +168,7 @@
          <ul>
 			<?php for ( $td = 3 ; $td < 6 ; $td++ ) : ?>
 			<li class="<?php  if ( (($td + 1) % 3 ) == 0 ) echo 'last' ; ?>">
-				<img class='detect' src="<?php print file_create_url( $results[$td]->field_featured['und'][0]['uri']); ?>"></img>
+				<?php print( render( field_view_field('node', $results[$td], 'field_featured', array('settings' => array('image_style' => 'featured'))) ) ); ?>
 				<a class="title" href="<?php print $base_url.'/page/'.($results[$td]->nid) ?>"><?php print ($results[$td]->title)?></a>
 				<p><?php print ( $results[$td]->body['und'][0]['summary'] ) ; ?></p>
 				<div class="ocurrences">
