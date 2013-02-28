@@ -4,7 +4,7 @@ $.fn.bindArticleSlideshow = function(slides) {
 
   var
   currentPhoto     = 0,
-  duration         = 5000,
+  duration         = 10000,
   transitionSpeed  = 500,
   easingMethod     = "easeOutQuart",
 

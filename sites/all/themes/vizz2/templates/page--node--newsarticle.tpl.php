@@ -123,7 +123,7 @@
       </div>
 			
 	<div class="left">
-		<h4 class="subheader"><?php print render( $node->body[$node->language][0]['safe_summary'] ) ; ?></h4>
+
 
 	<?php  $tags['field_image'][0]['#item']['attributes']['css'] = 'mainImage' ; print render ( $tags['field_image']  ) ; ?>
 
