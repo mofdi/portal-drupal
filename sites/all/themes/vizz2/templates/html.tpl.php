@@ -117,7 +117,8 @@
 
 <?php $taxon = get_title_data() ; ?>
 
-  <title property="dc:title"><?php print $taxon->name?>&nbsp;&dash;&nbsp;<?php print $taxon->description ?></title>
+  <title property="dc:title">
+  <?php print $taxon->name?>&nbsp;&dash;&nbsp;<?php if ($taxon->description != '') print $taxon->description ; else print $head_title;  ?></title>
   <meta name="description" content="">
   <meta name="author" content="GBIF">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -236,6 +237,8 @@
   </div>
   <!-- /top -->
   <?php print $page_top; ?>
+  
+<?php print $messages ?>
   <?php print $page; ?>
   <?php print $page_bottom; ?>
 
