@@ -342,24 +342,26 @@
 
       <div class="latest">
         <h3>Latest news</h3>
-        <ul>
-          <li>
-          <div class="date">15 August 2012</div>
-          <a href="#">Conference targets priorities for biodiversity ‘intelligence’</a>
-          </li>
-          <li>
-          <div class="date">15 August 2012</div>
-          <a href="#">Conference targets priorities for biodiversity ‘intelligence’</a>
-          </li>
-          <li>
-          <div class="date">15 August 2012</div>
-          <a href="#">Conference targets priorities for biodiversity ‘intelligence’</a>
-          </li>
-          <li>
-          <div class="date">15 August 2012</div>
-          <a href="#">Conference targets priorities for biodiversity ‘intelligence’</a>
-          </li>
-        </ul>
+
+<?php  
+	$results = array() ;
+	$view = views_get_view_result('newsarticles');
+
+	foreach ($view as $key => $vnode) {
+		$nid = $vnode->nid  ;
+		$anode = node_load( $nid ) ;
+		$results[$key] = $anode ;
+	}
+?>
+			<ul>
+		<?php for ( $td = 0 ; $td < 5 ; $td++ ) : ?>
+			<li>
+			<div class="date"><?php { print( format_date($results[$td]->created, 'custom', 'F jS, Y')) ; } ?></div>
+			<a href="<?php print $base_url.'/page/'.$results[$td]->nid ?>" class="title"><?php print $results[$td]->title ?></a>
+			</li>
+		<?php endfor ?>        
+			</ul>
+
         <a href="#" class="read-more">More</a>
       </div>
 
