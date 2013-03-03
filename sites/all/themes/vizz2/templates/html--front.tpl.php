@@ -125,7 +125,7 @@
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css" type="text/css" media="all"/>
 
   
-  <?php // print $scripts; ?>
+  <?php print $scripts; ?>
 
   <script src="<?php print ($dataportal_base_url); ?>/js/vendor/modernizr-1.7.min.js"></script>
   <script type="text/javascript" src="<?php print ($dataportal_base_url); ?>/js/vendor/jquery-1.7.1.min.js"></script>
@@ -342,7 +342,7 @@
 ?>
       <div class="featured">
         <h3>Featured story</h3>
-		<a href="<?php print $base_url.'/page/'.($results[0]->nid) ?>"><?php print ($results[0]->title)?></a>
+		<a class="title" href="<?php print $base_url.'/page/'.($results[0]->nid) ?>"><?php print ($results[0]->title)?></a>
 		<?php print( render( field_view_field('node', $results[0], 'field_featured', array('settings' => array('image_style' => 'featured'))) ) ); ?>
 		<p><?php print ( $results[0]->body['und'][0]['summary'] ) ; ?></p>
         <a href="<?php print $base_url.'/page/'.($results[0]->nid) ?>">Read more</a>
