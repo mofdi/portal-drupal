@@ -17,7 +17,7 @@
 
 		<?php $taxon = get_title_data() ; ?>
       
-		<h1><?php print $user->name ?></h1>
+		<h1><?php if ($user->name) print $user->name ; else  print 'User account management'?></h1>
 
 		</div>
 	</div>
