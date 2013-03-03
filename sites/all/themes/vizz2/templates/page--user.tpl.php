@@ -1,6 +1,6 @@
 <?php
 
-//  dpm($user);
+// dpm($user);
 
 // dpm($page);
 
@@ -17,8 +17,7 @@
 
 		<?php $taxon = get_title_data() ; ?>
       
-		<h1><?php print $taxon->name ?></h1>
-		<h3><?php print 'page--user' ?></h3>
+		<h1><?php print $user->name ?></h1>
 
 		</div>
 	</div>
@@ -29,10 +28,7 @@
       
   <ul>
     <li class='selected'>
-      <a href="<?php print($base_url.'/user/'.$user->uid) ?>" title="Summary"><span>Summary</span></a>
-    </li>
-    <li>
-      <a href="<?php print($base_url.'/user/'.$user->uid.'/edit') ?>" title="Summary" title="News"><span>Edit profile</span></a>
+      <a href="<?php print($base_url.'/user/'.$user->uid) ?>" title="Summary"><span>Account</span></a>
     </li>
     <li>
       <a href="<?php print($dataportal_base_url.'/user/downloads') ?>" title="Summary" title="News"><span>Downloads</span></a>
@@ -67,7 +63,7 @@
 		<?php print render($page['content']); ?>
 
 	</div>
-    
+
 	</div>
 
     <footer></footer>

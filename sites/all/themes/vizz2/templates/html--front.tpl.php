@@ -146,8 +146,16 @@
   <div id="top">
     <div class="content">
       <div class="account">
-        <a href="http://staging.gbif.org/drupal/user/login?destination=http://staging.gbif.org:8080/portal/" title='Login'>Login</a> or
-        <a href="http://staging.gbif.org/drupal/user/register" title='Create a new account'>Create a new account</a>
+		<?php if (!$logged_in) { ?>
+        <a href="<?php print $base_url?>/user/login" title='Login'>Login</a> or
+        <a href="<?php print $base_url;?>/user/register" title='Create a new account'>Create a new account</a>
+		<?php } else { ?>
+			<?php if ($user->uid) { ?>
+			<a href="<?php print $base_url;?>/user/<?php print ($user->uid) ?>/edit">Hello <?php print ( $user->name);?></a>
+			<a href="<?php print $base_url;?>/user/logout">&nbsp;&nbsp;&nbsp;&nbsp;Logout</a>
+			<?php } ?>
+		<?php } ?>
+
       </div>
 
       
