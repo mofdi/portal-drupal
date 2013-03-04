@@ -12,7 +12,7 @@ $dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) 
 <?php if ($user->name) { ?>
 
 
-<a href="<?php print $base_url;?>/user/<?php print ($user->uid) ?>/edit">... edit your profile</a>
+<a href="<?php print $base_url;?>/users/<?php print ($user->name) ?>/edit">... edit your GBIF account</a>
 
 <?php } ?>
 
