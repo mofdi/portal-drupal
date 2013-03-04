@@ -148,7 +148,7 @@
         <a href="<?php print $base_url;?>/user/register" title='Create a new account'>Create a new account</a>
 		<?php } else { ?>
 			<?php if ($user->uid) { ?>
-			<a href="<?php print $base_url;?>/user/<?php print ($user->name) ?>/edit">Hello <?php print ( $user->name);?></a>
+			<a href="<?php print $base_url;?>/users/<?php print ($user->name) ?>/edit">Hello <?php print ( $user->name);?></a>
 			<a href="<?php print $base_url;?>/user/logout">&nbsp;&nbsp;&nbsp;&nbsp;Logout</a>
 			<?php } ?>
 		<?php } ?>
