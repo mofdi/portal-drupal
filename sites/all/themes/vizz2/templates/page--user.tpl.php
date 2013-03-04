@@ -22,39 +22,38 @@
 		</div>
 	</div>
 
-
-  <div id="tabs">
-    <div class="content">
-      
-  <ul>
-    <li class='selected'>
-      <a href="<?php print($base_url.'/user/'.$user->uid) ?>" title="Summary"><span>Account</span></a>
-    </li>
-    <li>
-      <a href="<?php print($dataportal_base_url.'/user/downloads') ?>" title="Summary" title="News"><span>Downloads</span></a>
-    </li>
-    <li>
-      <a href="<?php print($dataportal_base_url.'/user/namelists') ?>" title="Summary" title="News"><span>Name lists</span></a>
-    </li>
-  </ul>
-
-    </div>
-  </div>
-
-
-
-
+	<div id="tabs">
+		<div class="content">
+			<ul>
+				<li class='selected'>
+				<a href="<?php print($base_url.'/user/'.$user->uid) ?>" title="Summary"><span>Account</span></a>
+				</li>
+				<li>
+				<a href="<?php print($dataportal_base_url.'/user/downloads') ?>" title="Summary" title="News"><span>Downloads</span></a>
+				</li>
+				<li>
+				<a href="<?php print($dataportal_base_url.'/user/namelists') ?>" title="Summary" title="News"><span>Name lists</span></a>
+				</li>
+			</ul>
+		</div>
+	</div>
 </header>
 
+	<div id="content">
+		<article class="results">
+			<header></header>
 
-  <div id="content">
+      <article class="detail">
 
-    <article class="detail">
-    <header>
-    </header>
 
     <div class="content">
 
+		<div class="header">
+			<div class="left">
+				<h2>Your GBIF Account</h2>
+			</div>
+		</div>    
+    
 <?php print $messages ?>
      
 			

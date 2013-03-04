@@ -85,9 +85,7 @@
 	// via custom function in template.php
 	$taxon = get_title_data() ;
 
-	// $view = views_get_view();
 
-// 	dpm($page);
 
 ?>
 
@@ -117,8 +115,13 @@
     </header>
 
     <div class="content">
+<?php 
+    
+//    dpm($rows) ;
 
-<?php print $messages ?>
+
+
+?>
       <div class="header">
         <div class="left">
 			<h3>GBIF News</h3>
@@ -132,6 +135,8 @@
 
 		<?php print render($page['content']); ?>
 
+<?php // print $messages ; ?>
+		
 	</div>
     
 	</div>
