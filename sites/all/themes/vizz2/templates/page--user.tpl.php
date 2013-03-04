@@ -47,13 +47,14 @@
 
 
     <div class="content">
-
+<?php if ($logged_in) { ?>
 		<div class="header">
 			<div class="left">
 				<h2>Your GBIF Account</h2>
 			</div>
 		</div>    
-    
+<?php } ?>
+		
 <?php print $messages ?>
      
 			
