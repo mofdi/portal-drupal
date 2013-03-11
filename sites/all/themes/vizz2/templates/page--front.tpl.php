@@ -89,7 +89,7 @@
         <div class="about">
           <a href="#"></a>
           <ul>
-            <li><a href="http://staging.gbif.org/drupal/newsroom/summary">News</a></li>
+            <li><a href="<?php print $base_url?>/newsroom/summary">News</a></li>
             <li class="divider"></li>
             <li><a class="placeholder_temp" href="#">Key partners</a></li>
             <li><a class="placeholder_temp" href="#">Mission</a></li>
@@ -452,7 +452,7 @@ foreach ($view as $key => $vnode) {
           "GBIF Network":"/portal/member",
           "Themes":"/portal/theme",
           "Statistics":"/portal/stats",
-          "About":"http://staging.gbif.org/drupal/about"
+          "About":"<?php print $base_url?>/drupal/about"
         }
       });
     });
