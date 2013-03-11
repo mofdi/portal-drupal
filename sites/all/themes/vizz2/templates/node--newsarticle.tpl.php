@@ -108,52 +108,20 @@
 				<?php // print $messages ; ?>
 		</div>
 		<div class="right">
-			<ul>
-				<li>
-					<h5>PUBLICATION</h5>
-					<span class="publisher"> Oikos </span>
-				</li>
-				<li>
-					<h5>PROJECT LOCATION</h5>
-					<div class="minimap">
-					<div id="map-container">
-					<div id="map">
-					<?php print render ( $tags['field_projectlocation']  ) ?>
-					</div>	
-					</div>
-					</div>
-					<span class="description">
-						<p>Instituto. de Ecología, Veracruz, México</p>
-						<p>Depto de Zoología, Inst. de Biología, Univ. Nacional Autónoma de México</p>
-					</span>
-				</li>
-				<li>
-					<h4>DATE OF PUBLICATION</h4>
-					<span class="date"><?php { print( render( format_date($node->created, 'custom', 'F jS, Y'))) ; } ?></span>
-				</li>
-				<li>
-					<h4>LAST UPDATED</h4>
-					<span class="date"><?php { print( render( format_date($node->changed, 'custom', 'F jS, Y'))) ; } ?></span>
-				</li>
-				<li>
-					<h4>AUTHOR</h4>
-					<?php	$node_author = user_load($node->uid); ?>
-					<address>
-					<strong><?php print( render( $node_author->field_firstname['und'][0]['value']))?>&nbsp;<?php print( render( $node_author->field_lastname['und'][0]['value'])) ; ?></strong><br />
-					<a href="mailto:<?php print( render( $node_author->mail))?>"><?php print( render( $node_author->mail))?></a>
-					</address>
-				</li>
-				<li>
-					<h4>TAGS</h4>
-					<ul class="tags">
-						<?php  
-						// $tags defined at the top of the page
-						$my_fields = preg_grep ( "/^field.*/", array_keys( $tags ) ) ; 
-						foreach ( $my_fields as $fieldname ) { 
-							if ( $fieldname != 'field_taxanavigation' AND $fieldname != 'field_citationinformation' AND $fieldname != 'field_relatedgbifresources' AND $fieldname != 'field_image' AND $fieldname != 'field_featured' AND $fieldname != 'field_numofresused' AND $fieldname != 'field_projectlocation') { print( render ( $tags[ $fieldname ] ) ) ; } }  ?>
-					</ul>
-				</li>
-			</ul>
+			<h3>Publication Date</h3>
+			<p><?php { print( render( format_date($node->created, 'custom', 'F jS, Y '))) ; } ?></p>
+			<h3>Last Updated</h3>
+			<p><?php { print( render( format_date($node->changed, 'custom', 'F jS, Y'))) ; } ?></p>
+			<div class="contact">
+				<div class="contactType">
+					Author
+				</div>
+				<?php	$node_author = user_load($node->uid); ?>
+				<div class="contactName">
+					<?php print( render( $node_author->field_firstname['und'][0]['value']))?>&nbsp;<?php print( render( $node_author->field_lastname['und'][0]['value'])) ; ?>	
+					<br /><a href="mailto:<?php print( render( $node_author->mail))?>"><?php print( render( $node_author->mail))?></a><br />
+				</div>
+			</div>
 		</div>
 	</div>
 
