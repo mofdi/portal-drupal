@@ -178,6 +178,20 @@ function vizz2_menu_link(array $variables) {
 
 }
 
+/*
+ * Fill in the missing values for the "Contact" form. 
+ *
+ */
+
+function vizz2_form_alter( &$form, &$form_state, $form_id ) {
+	if($form_id == 'contact_site_form') {
+		$form['name']['#value'] = 'A guest' ;
+		$form['subject']['#value'] = '*Newsletter subscription from web*' ;
+		$form['cid']['#value'] = '2' ;
+		$form['message']['#value'] = $form['mail']['#value'].'would like to subscribe' ;
+		$form['submit']['#value'] = 'Send message';
+	}
+}
 
 
 /* function vizz2_menu_link(array $variables) {
@@ -519,7 +533,6 @@ function smart_trim( $text, $length = 100, $ending = '...', $exact = false, $con
 			$truncate .= '</' . $tag . '>';
 		}
 	}
-	error_log('Bau!!');
 	return $truncate;
 }
 

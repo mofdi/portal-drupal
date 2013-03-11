@@ -107,7 +107,7 @@
         </li>
 
         <li class="search">
-        <form href="/drupal/sites/all/themes/vizz2/dataset/search" method="GET">
+        <form href="" method="GET">
           <span class="input_text">
             <input type="text" name="q"/>
           </span>
@@ -176,7 +176,7 @@
 
 
 
-        <a href="<?php print $base_url?>/archive/allnewsarticles" class="candy_white_button more_news next lft"><span>More GBIF news</span></a>
+        <a href="<?php print $base_url?>/newsroom/archive/allnewsarticles" class="candy_white_button more_news next lft"><span>More GBIF news</span></a>
 
       </div>
 
@@ -191,12 +191,12 @@
 			<h3>Filter news by region</h3>
 				<ul>
 				<li><!--  class="selected" --><a href="<?php print $base_url ?>/allnewsarticles">All news</a></li>
-				<li><a href="<?php print $base_url ?>/archive/allnewsarticles/africa">Africa</a></li>
-				<li><a href="<?php print $base_url ?>/archive/allnewsarticles/asia">Asia</a></li>
-				<li><a href="<?php print $base_url ?>/archive/allnewsarticles/europe">Europe</a></li>
-				<li><a href="<?php print $base_url ?>/archive/allnewsarticles/latinamerica">Latin America</a></li>
-				<li><a href="<?php print $base_url ?>/archive/allnewsarticles/northamerica">North America</a></li>
-				<li><a href="<?php print $base_url ?>/archive/allnewsarticles/oceania">Oceania</a></li>
+				<li><a href="<?php print $base_url ?>/newsroom/archive/allnewsarticles/africa">Africa</a></li>
+				<li><a href="<?php print $base_url ?>/newsroom/archive/allnewsarticles/asia">Asia</a></li>
+				<li><a href="<?php print $base_url ?>/newsroom/archive/allnewsarticles/europe">Europe</a></li>
+				<li><a href="<?php print $base_url ?>/newsroom/archive/allnewsarticles/latinamerica">Latin America</a></li>
+				<li><a href="<?php print $base_url ?>/newsroom/archive/allnewsarticles/northamerica">North America</a></li>
+				<li><a href="<?php print $base_url ?>/newsroom/archive/allnewsarticles/oceania">Oceania</a></li>
 				</ul>
         </div>
 

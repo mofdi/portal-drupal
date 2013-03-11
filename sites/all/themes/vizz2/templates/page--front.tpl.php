@@ -300,7 +300,8 @@
         </div>
       </div>
       <div class="inner">
-        <ul>
+
+		<ul>
 <?php
 $results = array() ;
 $view = views_get_view_result('usesofdatafeaturedarticles');

@@ -87,8 +87,10 @@
 	global $base_path ;
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
 	$tags = field_attach_view('node', $node,'full' ) ; 
+
 	
 ?>
+<?php // dpm( $elements) ; ?>
 <article class="detail">
 	<header></header>
 	<div class="content">

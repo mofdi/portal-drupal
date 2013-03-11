@@ -1,26 +1,17 @@
 <?php 
 	
-	// $rgr = field_get_items('node',$node,'field_relatedgbifresources') ; dpm($rgr)
-
-	// we ASSUME there is a $node since we are in a template named page--node--something.tpl.php
-	// get an array with all the fields for this node
-	
-	if ($node) {
-		$tags = field_attach_view('node', $node,'full' ) ; 
-	}
-
-	// Fetch some data from the navigation taxonomy in order to use it for the page title
-	// via custom function in template.php
 	$taxon = get_title_data() ;
 
 	global $user;
 	global $base_url ;
 	global $base_path ;
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
-// dpm($page) ;  
+
+	$form = drupal_get_form("contact_site_form"); 
 	
 ?>
-    <article data-options="autoplay" class="slideshow">
+<?php // dpm($form); print $messages ?>
+	<article data-options="autoplay" class="slideshow">
     <header></header>
     <div class="content">
       <div class="header">
@@ -30,7 +21,7 @@
         </div>
       </div>
 
-      <div class="left data"></div>
+	<div class="left data"></div>
 
       <div class="right"> 
         <ul class="photos">
@@ -133,13 +124,16 @@ foreach ($view as $key => $vnode) {
             <h3>GBITS NEWSLETTER</h3>
             <p>Keep up to date with the latest GBIF news by signing up to GBits</p>
 
-            <form action="">
+            <form action="<?php print $base_url ?>/newsroom/contact" method='post'>
               <div class="input_text">
-                <input type="text" name="q" placeholder="Enter your email" />
+				<?php print ( render($form['form_build_id']) ) ; print ( render($form['form_id'])) ;  ?>
+				<input type="text" id="edit-mail" name="mail" value="" placeholder="Enter your email" maxlength="68" />
+				<!-- input type="text" name="q" placeholder="Enter your email" / -->
               </div>
-            </form>
+				<a href="" class="candy_blue_button"><span><input type="submit" id="edit-submit" name="op" value="Subscribe" class="form-submit" /></span></a>
+              </form>
 
-            <a href="" class="candy_blue_button"><span>Sign up</span></a>
+            
 
           </div>
 
@@ -162,7 +156,6 @@ foreach ($view as $key => $vnode) {
 	}
 
 ?>
-
     <script type="text/javascript">
       $(function() {
 

@@ -216,7 +216,7 @@
 
 
           <div class="buttonContainer">
-            <a href="<?php print $base_url?>/archive/alldatausearticles" class="candy_white_button more_news next lft" href="/newsroom/news">
+            <a href="<?php print $base_url?>/newsroom/archive/alldatausearticles" class="candy_white_button more_news next lft" href="/newsroom/news">
               <span>More data use news</span>
             </a>
 
