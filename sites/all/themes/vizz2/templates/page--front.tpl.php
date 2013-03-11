@@ -316,7 +316,7 @@ foreach ($view as $key => $vnode) {
 			<a href="<?php print $base_url.'/page/'.($results[$td]->nid) ?>">
 			<?php print( render( field_view_field('node', $results[$td], 'field_featured', array('settings' => array('image_style' => 'featured'))) ) ); ?>
 			</a>
-			<a class="title" href="<?php print $base_url.'/page/'.($results[$td]->nid) ?>"><?php print( smart_trim( $results[$td]->title, 50))?></a>
+			<a class="title" title="<?php print ($results[$td]->title) ?>" href="<?php print $base_url.'/page/'.($results[$td]->nid) ?>"><?php print( smart_trim( $results[$td]->title, 50))?></a>
 			<p><?php print ( $results[$td]->body['und'][0]['summary'] ) ; ?></p>
 		</li>
 	<?php endfor ?>
