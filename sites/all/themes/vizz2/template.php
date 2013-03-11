@@ -106,8 +106,16 @@ function vizz2_preprocess_page( &$vars, $hook ) {
 
 	if (!empty($vars['node'])) {
 		$vars['theme_hook_suggestions'][] = 'page__node__' . $vars['node']->type;
+//		$vars['theme_hook_suggestions'][] = 'taxonomy_term__' . $term->vocabulary_machine_name;
+//		$vars['theme_hook_suggestions'][] = 'taxonomy_term__' . $term->tid;
+//	dpm($vars) ;
+
 	}
 
+	if(isset($vars['page']['content']['system_main']['no_content'])) {
+		unset($vars['page']['content']['system_main']['no_content']);
+	}
+	
 }
 
 
@@ -115,11 +123,8 @@ function vizz2_preprocess_page( &$vars, $hook ) {
 
 function get_title_data() {
 	$navigation_vocab = 'taxanavigation' ;
-
 	$trail = menu_get_active_trail() ; 
-
 	$taxon = taxonomy_get_term_by_name($trail[2]['title'], $navigation_vocab ) ;
-	
 	reset ( $taxon ) ;
 
 	return current( $taxon ) ;
@@ -229,7 +234,6 @@ function vizz2_menu_link(array $variables) {
 		echo $element['#localized_options']['attributes']['title'].'<br>';
 
 */
-
 
 
 /**
@@ -354,3 +358,386 @@ function STARTERKIT_preprocess_block(&$variables, $hook) {
   //}
 }
 // */
+
+
+/**
+ * 
+ * This function is needed so that we can use the Prev/Next module functionality
+ *
+ *
+ *
+ */
+
+function pn_node($node, $mode = 'n') {
+	if (!function_exists('prev_next_nid')) {
+		return NULL;
+	}
+
+	switch($mode) {
+		case 'p':
+			$n_nid = prev_next_nid($node->nid, 'prev');
+			break;
+
+		case 'n':
+			$n_nid = prev_next_nid($node->nid, 'next');
+			break;
+
+		default:
+			return NULL;
+	}
+
+	if ($n_nid) {
+		$n_node = node_load($n_nid);
+
+		$options = array(
+			'attributes' => array('class' => 'thumbnail'),
+			'html'	=> TRUE,
+		);
+		switch($n_node->type) {
+			// For image nodes only
+			case 'image':
+				// This is an image node, get the thumbnail
+				$html = l(image_display($n_node, 'thumbnail'), "node/$n_nid", $options);
+				$html .= l($link_text, "node/$n_nid", array('html' => TRUE));
+				return $html;
+
+			// For video nodes only
+			case 'video':
+				foreach ($n_node->files as $fid => $file) {
+					$html	= '<img src="' . base_path() . $file->filepath;
+					$html .= '" alt="' . $n_node->title;
+					$html .= '" title="' . $n_node->title;
+					$html .= '" class="image image-thumbnail" />';
+					$img_html = l($html, "node/$n_nid", $options);
+					$text_html = l($link_text, "node/$n_nid", array('html' => TRUE));
+					return $img_html . $text_html;
+				}
+			default:
+				// ... theme? What theme?! :-)
+				$link_text = '<h1>'.$n_node->title.'</h1>' ;
+				$html = l($link_text, "page/$n_nid", array('html' => TRUE));
+				return $html;
+		}
+	}
+}
+
+/**
+ * Trim text accounting for HTML boundaries; from CakePHP project 
+ * http://cakephp.org/
+ *
+ * @param string $text String to truncate.
+ * @param integer $length Length of returned string, including ellipsis.
+ * @param string $ending Ending to be appended to the trimmed string.
+ * @param boolean $exact If false, $text will not be cut mid-word
+ * @param boolean $considerHtml If true, HTML tags would be handled correctly
+ * @return string Trimmed string.
+*/
+function smart_trim( $text, $length = 100, $ending = '...', $exact = false, $considerHtml = true) {
+	if ($considerHtml) {
+		// if the plain text is shorter than the maximum length, return the whole text
+		if (strlen(preg_replace('/<.*?>/', '', $text)) <= $length) {
+			return $text;
+		}
+		// splits all html-tags to scanable lines
+		preg_match_all('/(<.+?>)?([^<>]*)/s', $text, $lines, PREG_SET_ORDER);
+		$total_length = strlen($ending);
+		$open_tags = array();
+		$truncate = '';
+		foreach ($lines as $line_matchings) {
+			// if there is any html-tag in this line, handle it and add it (uncounted) to the output
+			if (!empty($line_matchings[1])) {
+				// if it's an "empty element" with or without xhtml-conform closing slash
+				if (preg_match('/^<(\s*.+?\/\s*|\s*(img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param)(\s.+?)?)>$/is', $line_matchings[1])) {
+					// do nothing
+				// if tag is a closing tag
+				} else if (preg_match('/^<\s*\/([^\s]+?)\s*>$/s', $line_matchings[1], $tag_matchings)) {
+					// delete tag from $open_tags list
+					$pos = array_search($tag_matchings[1], $open_tags);
+					if ($pos !== false) {
+					unset($open_tags[$pos]);
+					}
+				// if tag is an opening tag
+				} else if (preg_match('/^<\s*([^\s>!]+).*?>$/s', $line_matchings[1], $tag_matchings)) {
+					// add tag to the beginning of $open_tags list
+					array_unshift($open_tags, strtolower($tag_matchings[1]));
+				}
+				// add html-tag to $truncate'd text
+				$truncate .= $line_matchings[1];
+			}
+			// calculate the length of the plain text part of the line; handle entities as one character
+			$content_length = strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
+			if ($total_length+$content_length> $length) {
+				// the number of characters which are left
+				$left = $length - $total_length;
+				$entities_length = 0;
+				// search for html entities
+				if (preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, PREG_OFFSET_CAPTURE)) {
+					// calculate the real length of all entities in the legal range
+					foreach ($entities[0] as $entity) {
+						if ($entity[1]+1-$entities_length <= $left) {
+							$left--;
+							$entities_length += strlen($entity[0]);
+						} else {
+							// no more characters left
+							break;
+						}
+					}
+				}
+				$truncate .= substr($line_matchings[2], 0, $left+$entities_length);
+				// maximum lenght is reached, so get off the loop
+				break;
+			} else {
+				$truncate .= $line_matchings[2];
+				$total_length += $content_length;
+			}
+			// if the maximum length is reached, get off the loop
+			if($total_length>= $length) {
+				break;
+			}
+		}
+	} else {
+		if (strlen($text) <= $length) {
+			return $text;
+		} else {
+			$truncate = substr($text, 0, $length - strlen($ending));
+		}
+	}
+	// if the words shouldn't be cut in the middle...
+	if (!$exact) {
+		// ...search the last occurance of a space...
+		$spacepos = strrpos($truncate, ' ');
+		if (isset($spacepos)) {
+			// ...and cut the text in this position
+			$truncate = substr($truncate, 0, $spacepos);
+		}
+	}
+	// add the defined ending to the text
+	$truncate .= $ending;
+	if($considerHtml) {
+		// close all unclosed html-tags
+		foreach ($open_tags as $tag) {
+			$truncate .= '</' . $tag . '>';
+		}
+	}
+	error_log('Bau!!');
+	return $truncate;
+}
+
+/**
+ * 
+ * Attempt to override the default views pager. 
+ *
+ * "Because theming is *SO* easy when you deviate from Zen"(TM)
+ *
+ * 
+ * If you're reading this because the pager's not working you're 
+ * probably in the right place; Only way so far to customize the 
+ * pager is to override the code from includes/pager.inc
+ * So what happens if that code changes significantly? Well... >:->
+ *
+ *
+ */
+
+
+function vizz2_views_mini_pager($variables) {
+
+	$tags = $variables['tags'];
+	$element = $variables['element'];
+	$parameters = $variables['parameters'];
+	$quantity = $variables['quantity'];
+	global $pager_page_array, $pager_total;
+
+	// Calculate various markers within this pager piece:
+	// Middle is used to "center" pages around the current page.
+	$pager_middle = ceil($quantity / 2);
+	// current is the page we are currently paged to
+	$pager_current = $pager_page_array[$element] + 1;
+	// first is the first page listed by this pager piece (re quantity)
+	$pager_first = $pager_current - $pager_middle + 1;
+	// last is the last page listed by this pager piece (re quantity)
+	$pager_last = $pager_current + $quantity - $pager_middle;
+	// max is the maximum page number
+	$pager_max = $pager_total[$element];
+	// End of marker calculations.
+
+	// Prepare for generation loop.
+	$i = $pager_first;
+	if ($pager_last > $pager_max) {
+		// Adjust "center" if at end of query.
+		$i = $i + ($pager_max - $pager_last);
+		$pager_last = $pager_max;
+	}
+	if ($i <= 0) {
+		// Adjust "center" if at start of query.
+		$pager_last = $pager_last + (1 - $i);
+		$i = 1;
+	}
+	// End of generation loop preparation.
+
+	$li_first = theme('pager_first', array('text' => (isset($tags[0]) ? $tags[0] : t('First')), 'element' => $element, 'parameters' => $parameters));
+	$li_previous = theme('pager_previous', array('text' => (isset($tags[1]) ? $tags[1] : t('previous')), 'element' => $element, 'interval' => 1, 'parameters' => $parameters));
+	$li_next = theme('pager_next', array('text' => (isset($tags[3]) ? $tags[3] : t('next')), 'element' => $element, 'interval' => 1, 'parameters' => $parameters));
+	$li_last = theme('pager_last', array('text' => (isset($tags[4]) ? $tags[4] : t('Last')), 'element' => $element, 'parameters' => $parameters));
+
+	if ($pager_total[$element] > 1) {
+		if ($li_first) {
+			$items[] = array(
+				'class' => array(''),
+				'data' => $li_first,
+			);
+		} else { 
+			// Drupal's paging is slightly different; e.g. theming engine will not return by default a "First" 
+			// for a pager if you are already on the first page. Rather than override yet another function just 
+			// brute force a dummy "First" for the moment. Of course we need to redo the calculation later because
+			// dataportal counts pages differently. 
+			$items[] = array(
+				'class' => array(''),
+				'data' => '<a href="#">First</a>',
+			);
+		}
+/*		if ($li_previous) {
+			$items[] = array(
+				'class' => array(''),
+				'data' => $li_previous,
+			);
+		}
+*/
+		// When there is more than one page, create the pager list.
+		if ($i != $pager_max) {
+			if ($i > 1) {
+				$items[] = array(
+					'class' => array('pager-ellipsis'),
+					'data' => '...',
+				);
+			}
+			// Now generate the actual pager piece.
+			for (; $i <= $pager_last && $i <= $pager_max; $i++) {
+				if ($i < $pager_current) {
+					$items[] = array(
+						'class' => array(''),
+						'data' => theme('pager_previous', array('text' => $i, 'element' => $element, 'interval' => ($pager_current - $i), 'parameters' => $parameters)),
+					);
+				}
+				if ($i == $pager_current) { // everybody in this univers (UFO pilots included) will class the <li> as "current". Not the vizz chaps, nope! They will style the <a>... Why? Because the can! 
+					$items[] = array(
+						'class' => array('current'),
+						'data' => '<a href="#" class="current">'.$i.'</a>',
+					);
+				}
+				if ($i > $pager_current) {
+					$items[] = array(
+						'class' => array(''),
+						'data' => theme('pager_next', array('text' => $i, 'element' => $element, 'interval' => ($i - $pager_current), 'parameters' => $parameters)),
+					);
+				}
+			}
+			if ($i < $pager_max) {
+				$items[] = array(
+					'class' => array(''),
+					'data' => '...',
+				);
+			}
+		}
+		// End generation.
+/*		if ($li_next) {
+			$items[] = array(
+				'class' => array(''),
+				'data' => $li_next,
+			);
+		}
+*/
+		if ($li_last) {
+			$items[] = array(
+				'class' => array(''),
+				'data' => $li_last,
+			);
+		}
+		return theme('item_list', array(
+			'items' => $items,
+			'attributes' => array('class' => array('numbered-pagination')),
+		));
+	}
+}
+
+/**
+ * 
+ * As usual, Drupal is way too verbose for this theme;
+ * This time we need to remove the extra <div> which is added
+ * around lists... 
+ *
+ * This is the code from /includes/theme.inc/ 
+ *
+ *
+ * "Because theming is *SO* easy when you deviate from Zen"(TM)
+ *
+ *
+ */
+
+function vizz2_item_list($variables) {
+	$items = $variables['items'];
+	$title = $variables['title'];
+	$type = $variables['type'];
+	$attributes = $variables['attributes'];
+
+	// Only output the list container and title, if there are any list items.
+	// Check to see whether the block title exists before adding a header.
+	// Empty headers are not semantic and present accessibility challenges.
+
+	
+//	$output = '<div class="item-list">'; <-- give me a f. option 
+//	to turn this off! How about a "silent" option??! :-@
+	$output = '' ;
+
+	if (isset($title) && $title !== '') {
+		$output .= '<h3>' . $title . '</h3>';
+	}
+
+	if (!empty($items)) {
+		$output .= "<$type" . drupal_attributes($attributes) . '>';
+		$num_items = count($items);
+		$i = 0;
+		foreach ($items as $item) {
+			$attributes = array();
+			$children = array();
+			$data = '';
+			$i++;
+			if (is_array($item)) {
+				foreach ($item as $key => $value) {
+					if ($key == 'data') {
+						$data = $value;
+					}
+					elseif ($key == 'children') {
+						$children = $value;
+					}
+					else {
+						$attributes[$key] = $value;
+					}
+				}
+			}
+			else {
+				$data = $item;
+			}
+			if (count($children) > 0) {
+				// Render nested list.
+				$data .= theme_item_list(array('items' => $children, 'title' => NULL, 'type' => $type, 'attributes' => $attributes));
+			}
+			if ($i == 1) {
+				$attributes['class'][] = 'first';
+			}
+			if ($i == $num_items) {
+				$attributes['class'][] = 'last';
+			}
+			$output .= '<li' . drupal_attributes($attributes) . '>' . $data . "</li>\n";
+		}
+		$output .= "</$type>";
+	}
+	// $output .= '</div>'; ... like I said. 
+	return $output;
+}
+
+
+
+
+
+
+

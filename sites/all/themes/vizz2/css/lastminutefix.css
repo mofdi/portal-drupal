@@ -1,0 +1,72 @@
+body.home #content article.latest-news .latest ul li {
+	list-style: none ;
+	height: 70px;
+	
+}
+
+
+body.home #content article.latest-news .upcoming ul li {
+	list-style: none ;
+}
+
+body.home #content article .content > .header {
+	-o-transform-origin: 437px 22px;
+	-webkit-transform-origin: 437px 22px;
+	border-bottom: 1px solid #D8DCE1;
+	height: 23px;
+	margin: 0px 0px 20px;
+	order: 0;
+	overflow: hidden;
+	padding: 0px 0px 20px;
+}
+
+body.home #content article .content > .header .left {
+	height: 23px;
+	justify-content: flex-start;
+	margin: 0px 41px 0px 0px;
+}
+
+
+
+body.home #content article .content > .header .left h1 {
+	font: normal normal 400 23px/23px Arial;
+	height: 23px;
+	
+}
+
+
+body.home #content article .content > .header .right {
+	top: 5px ;
+	text-align: right;	
+	font: normal normal 400 15px/15px Arial;
+	height: 23px;
+	display: block;
+	float: none;
+	margin: 0px;
+	order: 0;
+	padding: 0px;
+	position: absolute;
+	resize: none;
+	right: 27px;
+	text-align: right;
+	vertical-align: baseline;
+	width: 230px;
+}
+
+body.newsroom #content article.news > .content ul li {
+		list-style: none ;
+}
+
+body.newsroom #content article.data-use-news > .content .inner ul li .ocurrences {
+	height: 18px ;
+	
+}
+
+body.newsroom #content article.slideshow > .content > .right ul li.selected, 
+body.newsroom #content article.slideshow > .content > .right ul li {
+	list-style: none ;
+}
+
+#content article.register {
+		padding-right: 222px ;
+}

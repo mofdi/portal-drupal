@@ -82,13 +82,27 @@
  * @see zen_preprocess_node()
  * @see template_process()
  */
-?>
-
+	global $user;
+	global $base_url ;
+	global $base_path ;
+	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
+	$tags = field_attach_view('node', $node,'full' ) ; 
 	
-		<?php
-			// We hide the comments and links now so that we can render them later.
-
-			print render($content['body']);
-
-		?>
+?>
+<div id="content">
+	<article class="detail">
+		<header></header>
+		<div class="content">
+			<div class="left">
+				<?php
+					// We hide the comments and links now so that we can render them later.
+					print render($content['body']);
+					print $messages ; 
+				?>
+			</div>
+		</div>
+		<footer></footer>
+	</article>
+</div>
+	
 

@@ -27,43 +27,63 @@
  * @ingroup views_templates
  */
 ?>
+<?php 
+	
+	// $rgr = field_get_items('node',$node,'field_relatedgbifresources') ; dpm($rgr)
 
-<?php print render($title_prefix); ?>
-<?php if ($title): ?>
-	<?php print $title; ?>
-<?php endif; ?>
-<?php print render($title_suffix); ?>
-<?php if ($header): ?>
-	<div class="view-header">
-		<?php print $header; ?>
-	</div>
-<?php endif; ?>
+	// we ASSUME there is a $node since we are in a template named page--node--something.tpl.php
+	// get an array with all the fields for this node
+	
+	if ($node) {
+		$tags = field_attach_view('node', $node,'full' ) ; 
+	}
 
-<?php if ($exposed): ?>
-	<div class="view-filters">
-		<?php print $exposed; ?>
+	// Fetch some data from the navigation taxonomy in order to use it for the page title
+	// via custom function in template.php
+	global $user;
+	global $base_url ;
+	global $base_path ;
+	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
+	$taxon = get_title_data() ;
+// dpm($variables) ;
+?>
+<article class="news">
+	<header></header>
+	<div class="content">
+		<div class="content">				
+			<div class="left">
+				<h2><?php $title = $view->get_title() ; if (!empty($title)) {print $title; } ?></h2>
+			</div>
+			<div class="left">
+			<?php if ($rows): ?>
+				<ul>
+					<?php print $rows; ?>
+				</ul>
+			<?php endif; ?>
+			</div>
+			<div class="right">
+				<div class="filters">
+					<h3>Filter news by region</h3>
+					<ul>
+					<li><!-- class="selected" --><a href="<?php print $base_url ?>/archive/allnewsarticles">All news</a></li>
+					<li><a href="<?php print $base_url ?>/archive/allnewsarticles/africa">Africa</a></li>
+					<li><a href="<?php print $base_url ?>/archive/allnewsarticles/asia">Asia</a></li>
+					<li><a href="<?php print $base_url ?>/archive/allnewsarticles/europe">Europe</a></li>
+					<li><a href="<?php print $base_url ?>/archive/allnewsarticles/latinamerica">Latin America</a></li>
+					<li><a href="<?php print $base_url ?>/archive/allnewsarticles/northamerica">North America</a></li>
+					<li><a href="<?php print $base_url ?>/archive/allnewsarticles/oceania">Oceania</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="footer">
+		<?php if ($pager): ?>
+			<?php print $pager; ?>
+		<?php endif; ?>
+		</div>
 	</div>
-<?php endif; ?>
-
-<?php if ($attachment_before): ?>
-	<div class="attachment attachment-before">
-		<?php print $attachment_before; ?>
-	</div>
-<?php endif; ?>
-
-<?php if ($rows): ?>
-	<div class="view-content">
-		<?php print $rows; ?>
-	</div>
-<?php elseif ($empty): ?>
-	<div class="view-empty">
-		<?php print $empty; ?>
-	</div>
-<?php endif; ?>
-
-<?php if ($pager): ?>
-	<?php print $pager; ?>
-<?php endif; ?>
+	<footer></footer>
+</article>
 
 
 
