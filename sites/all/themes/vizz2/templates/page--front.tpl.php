@@ -24,7 +24,7 @@
 
       
     <div id="logo">
-      <a href="/portal/" class="logo"></a>
+      <a href="<?php print $base_url;?>" class="logo"></a>
     </div>
 
     <div class="info">
