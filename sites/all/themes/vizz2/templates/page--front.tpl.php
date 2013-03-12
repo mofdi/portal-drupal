@@ -48,9 +48,9 @@
         <div class="data">
           <a href="#"></a>
           <ul>
-            <li><a href="/portal/occurrence">Occurrences</a></li>
-            <li><a href="/portal/dataset">Datasets</a></li>
-            <li><a href="/species">Species</a></li>
+            <li><a href="<?php echo $dataportal_base_url?>/occurrence">Occurrences</a></li>
+            <li><a href="<?php echo $dataportal_base_url?>/dataset">Datasets</a></li>
+            <li><a href="<?php echo $dataportal_base_url?>/species">Species</a></li>
             <li class="divider"></li>
             <li><a class="placeholder_temp" href="#">Themes</a></li>
             <li><a class="placeholder_temp" href="#">Statistics</a></li>
