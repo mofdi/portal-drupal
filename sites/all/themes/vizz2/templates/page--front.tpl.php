@@ -97,7 +97,7 @@
             <li><a class="placeholder_temp" href="#">Work programs</a></li>
             <li><a class="placeholder_temp" href="#">Key facts</a></li>
             <li class="divider"></li>
-            <li><a href="/developer">Developer API</a></li>
+            <li><a href="<?php echo $dataportal_base_url?>/developer">Developer API</a></li>
           </ul>
         </div>
 

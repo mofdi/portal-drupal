@@ -100,7 +100,7 @@
             <li><a class="placeholder_temp" href="#">Work programs</a></li>
             <li><a class="placeholder_temp" href="<?php echo $base_url?>/kf1_tab1">Key facts</a></li>
             <li class="divider"></li>
-            <li><a href="/portal-web-dynamic/developer">Developer API</a></li>
+            <li><a href="<?php echo $dataportal_base_url?>/developer">Developer API</a></li>
           </ul>
         </div>
 

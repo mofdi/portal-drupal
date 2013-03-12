@@ -107,7 +107,7 @@
         </li>
 
         <li class="search">
-        <form href="/drupal/sites/all/themes/vizz2/dataset/search" method="GET">
+        <form href="#" method="GET">
           <span class="input_text">
             <input type="text" name="q"/>
           </span>
