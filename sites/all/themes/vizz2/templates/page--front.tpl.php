@@ -32,9 +32,9 @@
       <h2>Free and open access to biodiversity data</h2>
 
       <ul class="counters">
-        <li><strong id="numOcc">377,177,914</strong> Occurrences</li>
-        <li><strong id="numSpecies">1,022,246</strong> Species</li>
-        <li><strong>10,028</strong> Datasets</li>
+        <li><a href="<?php echo $dataportal_base_url?>/occurrence"><strong id="numOcc">3000000</strong> Occurrences</a></li>
+        <li><a href="<?php echo $dataportal_base_url?>/species"><strong id="numSpecies">2000000</strong> Species</a></li>
+        <li><a href="<?php echo $dataportal_base_url?>/dataset"><strong>10,028</strong> Datasets</a></li>
         <li><strong>419</strong> Data publishers</li>
       </ul>
     </div>

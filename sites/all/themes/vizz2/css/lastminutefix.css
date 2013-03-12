@@ -70,3 +70,18 @@ body.newsroom #content article.slideshow > .content > .right ul li {
 #content article.register {
 		padding-right: 222px ;
 }
+
+body.home header .info .counters li a:link,
+body.home header .info .counters li a:visited,
+body.home header .info .counters li a:hover, 
+body.home header .info .counters li a:active { 
+	color: #373737;
+}
+
+body.home header .info .counters li a:link strong,
+body.home header .info .counters li a:visited strong,
+body.home header .info .counters li a:hover strong, 
+body.home header .info .counters li a:active strong { 
+	color: #FFF;
+}
+

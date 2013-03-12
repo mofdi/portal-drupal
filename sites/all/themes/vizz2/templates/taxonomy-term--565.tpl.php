@@ -60,7 +60,7 @@ foreach ($view as $key => $vnode) {
 		<?php for ( $td = 0 ; $td < 3 ; $td++ ) : ?>
 			<li class="<?php  if ( (($td + 1) % 3 ) == 0 ) echo 'last' ; ?>">
 				<?php print( render( field_view_field('node', $results[$td], 'field_featured', array('settings' => array('image_style' => 'featured'))) ) ); ?>
-				<a class="title" title="<?php print ($results[$td]->title) ?>" href="<?php print $base_url.'/page/'.($results[$td]->nid) ?>"><?php print ( smart_trim( $results[$td]->title, 50) ) ?></a>
+				<a class="title" title="<?php print ($results[$td]->title) ?>" href="<?php print $base_url.'/page/'.($results[$td]->nid) ?>"><?php print ( smart_trim( $results[$td]->title, 60) ) ?></a>
 				<p><?php print ( $results[$td]->body['und'][0]['summary'] ) ; ?></p>
 				<div class="ocurrences">
 				<?php print ( $results[$td]->field_numofresused['und'][0]['safe_value'] ) ; ?>
