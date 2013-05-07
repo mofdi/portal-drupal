@@ -488,7 +488,7 @@ function drupal_http_build_query(array $query, $parent = '') {
 
   foreach ($query as $key => $value) {
     $key = ($parent ? $parent . '[' . rawurlencode($key) . ']' : rawurlencode($key));
-
+	//$key = rawurlencode($key) ;
     // Recurse into children.
     if (is_array($value)) {
       $params[] = drupal_http_build_query($value, $key);
@@ -503,7 +503,11 @@ function drupal_http_build_query(array $query, $parent = '') {
     }
   }
 
-  return implode('&', $params);
+  $t = implode('&', $params);
+	// attempt to bypass the PHP-esque way of constructing URLs with same
+	// name param. 
+  $t = preg_replace( '/%5B\d%5D/', '', $t);
+  return $t ;
 }
 
 /**

@@ -580,6 +580,47 @@ function _link_sanitize(&$item, $delta, &$field, $instance, &$entity) {
 }
 
 /**
+ * Because parse_str doesn't work with the same arg diff values.
+ *
+ * @param string $str
+ *   QUERY_STRING to parse.
+ *
+ * @param string $result
+ *   Array to send the result back
+ *
+ * @return Array
+ *   Array of url pieces.
+ */
+
+function _proper_parse_str($str, &$result) {
+
+// 	$result = array();
+
+	# split on delimiter
+	$params = explode('&', $str);
+
+	foreach ($params as $i) {
+		# split to param/value
+		list ( $param , $value) = explode('=', $i, 2);
+
+		# if param is already set
+		if( isset( $result[$param] ) ) {
+			# create and set values into an array
+			if( is_array ( $result[$param] ) ) {
+				$result[$param][] = $value;
+			} else {
+				$result[$param] = array($result[$param], $value);
+			}
+		} else { // else put it into a scalar
+			$result[$param] = $value;
+		}
+	}
+
+	return $result;
+}
+
+
+/**
  * Because parse_url doesn't work with relative urls.
  *
  * @param string $url
@@ -598,7 +639,8 @@ function _link_parse_url($url) {
   // Separate out the query string, if any.
   if (strpos($url, '?') !== FALSE) {
     $query = substr($url, strpos($url, '?') + 1);
-    parse_str($query, $query_array);
+    // parse_str($query, $query_array);
+    $query_array = _proper_parse_str ($query) ;
     // See http://drupal.org/node/1710578
     foreach ($query_array as $key=> &$value) {
       if ($value === '' && FALSE === strpos($query, $key . '=')) {
@@ -1037,7 +1079,7 @@ function link_views_api() {
 
 /**
  * Forms a valid URL if possible from an entered address.
- * 
+ *
  * Trims whitespace and automatically adds an http:// to addresses without a
  * protocol specified
  *
@@ -1067,12 +1109,12 @@ function link_cleanup_url($url, $protocol = 'http') {
 
 /**
  * Validates a URL.
- * 
+ *
  * Accepts all URLs following RFC 1738 standard for URL formation and all e-mail
  * addresses following the RFC 2368 standard for mailto address formation.
  *
  * @param string $text
- * 
+ *
  * @return mixed
  *   Returns boolean FALSE if the URL is not valid. On success, returns one of
  *   the LINK_(linktype) constants.
@@ -1250,7 +1292,7 @@ function link_field_settings_form() {
 
 /**
  * Additional callback to adapt the property info of link fields.
- * 
+ *
  * @see entity_metadata_field_entity_property_info().
  */
 function link_field_property_info_callback(&$info, $entity_type, $field, $instance, $field_type) {
