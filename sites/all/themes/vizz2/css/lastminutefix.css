@@ -1,3 +1,6 @@
+
+
+
 body.home #content article.latest-news .latest ul li {
 	list-style: none ;
 	height: 70px;
@@ -53,8 +56,14 @@ body.home #content article .content > .header .right {
 	width: 230px;
 }
 
-body.newsroom #content article.news > .content ul li {
+
+body.newsroom #content article.detail > .content .right ul li {
 		list-style: none ;
+		margin: 0 ;
+}
+
+body.newsroom #content article.detail > .content .right ul.tags li {
+		display: inline-block ;
 }
 
 body.newsroom #content article.data-use-news > .content .inner ul li .ocurrences {

@@ -2,9 +2,6 @@
 	
 	// $rgr = field_get_items('node',$node,'field_relatedgbifresources') ; dpm($rgr)
 
-	// we ASSUME there is a $node since we are in a template named page--node--something.tpl.php
-	// get an array with all the fields for this node
-	
 	if ($node) {
 		$tags = field_attach_view('node', $node,'full' ) ; 
 	}
@@ -161,13 +158,9 @@
 		<?php for ( $td = 0 ; $td < 5 ; $td++ ) : ?>
 			<li>
 				<h4 class="date"><?php { print( format_date($results[$td]->created, 'custom', 'F jS, Y')) ; } ?></h4>
-
 				<a href="<?php print $base_url.'/page/'.$results[$td]->nid ?>" class="title"><?php print $results[$td]->title ?></a>
-
 				<p><?php print $results[$td]->body['und'][0]['summary'] ?></p>
-
 				<a href="<?php print $base_url.'/page/'.$results[$td]->nid ?>" class="read_more">Read more</a>
-			
 			</li>
 		<?php endfor ?>
 

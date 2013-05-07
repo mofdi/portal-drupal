@@ -1,10 +1,6 @@
 <?php 
 	
-	// $rgr = field_get_items('node',$node,'field_relatedgbifresources') ; dpm($rgr)
 
-	// we ASSUME there is a $node since we are in a template named page--node--something.tpl.php
-	// get an array with all the fields for this node
-	
 	if ($node) {
 		$tags = field_attach_view('node', $node,'full' ) ; 
 	}
@@ -146,7 +142,7 @@
 
           <div class="left">
 
-            <h1> How data accessed through GBIF are being used </h1>
+            <h1>Featured uses of data accessed through GBIF</h1>
 
           </div>
 
@@ -170,9 +166,7 @@
 <?php print $messages ?>
 
       <div class="content">
-
         <div class="inner clean">
-
 			<?php  
 			$results = array() ;
 			$view = views_get_view_result('usesofdatafeaturedarticles');
@@ -181,9 +175,7 @@
 				$nid = $vnode->nid  ;
 				$anode = node_load( $nid ) ;
 				$results[$key] = $anode ;
-
 			}
-
 		?>
 
          <ul>
@@ -217,7 +209,7 @@
 
           <div class="buttonContainer">
             <a href="<?php print $base_url?>/newsroom/archive/alldatausearticles" class="candy_white_button more_news next lft" href="/newsroom/news">
-              <span>More data use news</span>
+              <span>More featured data uses</span>
             </a>
 
           </div>

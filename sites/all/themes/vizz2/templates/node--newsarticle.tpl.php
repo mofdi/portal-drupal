@@ -86,11 +86,10 @@
 	global $base_url ;
 	global $base_path ;
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
-	$tags = field_attach_view('node', $node,'full' ) ; 
 
 	
 ?>
-<?php // dpm( $elements) ; ?>
+<?php // dpm( $node) ; ?>
 <article class="detail">
 	<header></header>
 	<div class="content">
@@ -104,26 +103,52 @@
 		</div>
 		<div class="left">
 			<?php
-				// We hide the comments and links now so that we can render them later.
+			if ( ! empty ( $node->field_image ) ) {
+				print( render( field_view_field('node', $node, 'field_image', array('settings' => array('image_style' => 'mainimage'))) ) );
+			}
 				print render($content['body']);
 			?>
-				<?php // print $messages ; ?>
+				<?php print $messages ; ?>
 		</div>
 		<div class="right">
 			<h3>Publication Date</h3>
-			<p><?php { print( render( format_date($node->created, 'custom', 'F jS, Y '))) ; } ?></p>
+			<p><?php print( render( format_date($node->created, 'custom', 'F jS, Y '))) ; ?></p>
 			<h3>Last Updated</h3>
-			<p><?php { print( render( format_date($node->changed, 'custom', 'F jS, Y'))) ; } ?></p>
-			<div class="contact">
+			<p><?php print( render( format_date($node->changed, 'custom', 'F jS, Y'))) ; ?></p>
+			<?php
+			if ( ! empty ( $node->field_rhimage ) ) {
+				echo '<div class="minimap"> ' ;
+				print( render( field_view_field('node', $node, 'field_rhimage', array('settings' => array('image_style' => 'rhimage'))) ) );
+				echo '</div> ' ;
+				echo '<br />' ;
+			
+			}
+			?>
+
+			
+<!--			<div class="contact">
 				<div class="contactType">
 					Author
 				</div>
-				<?php	$node_author = user_load($node->uid); ?>
+				<?php	// $node_author = user_load($node->uid); ?>
 				<div class="contactName">
-					<?php print( render( $node_author->field_firstname['und'][0]['value']))?>&nbsp;<?php print( render( $node_author->field_lastname['und'][0]['value'])) ; ?>	
-					<br /><a href="mailto:<?php print( render( $node_author->mail))?>"><?php print( render( $node_author->mail))?></a><br />
-				</div>
-			</div>
+					<?php // print( render( $node_author->field_firstname['und'][0]['value']))?>&nbsp;<?php // print( render( $node_author->field_lastname['und'][0]['value'])) ; ?>	
+					<br /><a href="mailto:<?php // print( render( $node_author->mail))?>"><?php // print( render( $node_author->mail))?></a><br />
+				</div> 
+			</div> -->
+			<h3>TAGS</h3>
+			<ul class="tags">
+			<?php foreach ( array('field_capacity','field_country','field_informatics','field_organizations','field_regions') as $field ) { 
+				foreach ( $node->$field as $fieldData ) {
+					foreach ( $fieldData as $key=>$termData ) {
+						print ( '<li>'.$fieldData[$key]['taxonomy_term']->name.'&nbsp;</li>' );
+					}
+				} 
+
+			} ?>
+			</ul>
+			
+
 		</div>
 	</div>
 

@@ -81,70 +81,79 @@
 	$taxon = get_title_data() ;
 
 ?>	
+<?php // dpm( ); ?>
     <article class="detail">
     <header>
     </header>
 
     <div class="content">
 
-	<?php // print $messages ;  ?>
+	<?php print $messages ;  ?>
 
-      <div class="header">
-        <div class="left">
-			<h3>Data Use News</h3>
-			<?php if ($title): ?>
-				<h1><?php print $title; ?></h1>
-			<?php endif; ?>
-        </div>
-      </div>
-			
-	<div class="left">
-		<h4 class="subheader"><?php print render( $node->body[$node->language][0]['safe_summary'] ) ; ?></h4>
-		<?php  $tags['field_image'][0]['#item']['attributes']['css'] = 'mainImage' ; print render ( $tags['field_image']  ) ; ?>
-		<?php print render($content['body']); ?>
-	</div>
-		<div class="right">
-			<h3>Publication Date</h3>
-			<p><?php { print( render( format_date($node->created, 'custom', 'F jS, Y '))) ; } ?></p>
-			<h3>Last Updated</h3>
-			<p><?php { print( render( format_date($node->changed, 'custom', 'F jS, Y'))) ; } ?></p>
-			<div class="contact">
-				<div class="contactType">
-					Author
-				</div>
-				<?php	$node_author = user_load($node->uid); ?>
-				<div class="contactName">
-					<?php print( render( $node_author->field_firstname['und'][0]['value']))?>&nbsp;<?php print( render( $node_author->field_lastname['und'][0]['value'])) ; ?>	
-					<br /><a href="mailto:<?php print( render( $node_author->mail))?>"><?php print( render( $node_author->mail))?></a><br />
-				</div>
+		<div class="header">
+			<div class="left">
+				<h3>Featured Data Use</h3>
+				<?php if ($title): ?>
+					<h1><?php print $title; ?></h1>
+				<?php endif; ?>
 			</div>
 		</div>
+			
+		<div class="left">
+			<h4 class="subheader"><?php print render( $node->body[$node->language][0]['safe_summary'] ) ; ?></h4>
+			<?php  $tags['field_image'][0]['#item']['attributes']['css'] = 'mainImage' ; print render ( $tags['field_image']  ) ; ?>
+			<?php print render($content['body']); ?>
+		</div>
+		<div class="right">
+			<?php if ( !empty ( $node->field_publication ) ) {
+				echo '<h3>Publication</h3>' ;
+				print ( '<p>'.render ( field_view_field ('node', $node, 'field_publication') ).'</p>' ) ; 
+			}
+			if ( !empty ( $node->field_rhimage ) ) {
+				echo '<div class="minimap"> ' ;
+				print( render( field_view_field('node', $node, 'field_rhimage', array('settings' => array('image_style' => 'rhimage'))) ) );
+				echo '</div> ' ;
+				echo '<br />' ;
+			}
+			if ( !empty ( $node->field_researcherslocation ) ) {
+				echo '<h3>Location Of Researchers</h3>' ;
+				print ( render ( field_view_field ('node', $node, 'field_researcherslocation') ) ) ; 
+			}
+			if ( !empty ( $node->field_studyarea ) ) {
+				echo '<h3>Study Area</h3>' ;
+				print ( '<p>'.render ( field_view_field ('node', $node, 'field_studyarea') ).'</p>' ) ; 
+			}
+			if ( !empty ( $node->field_datasources ) ) {
+				echo '<h3>Data Resources</h3>' ;
+				print ( '<p>'.render ( field_view_field ('node', $node, 'field_datasources') ).'</p>' ) ; 
+			}						
+			if ( !empty ( $node->field_linkstoresearch ) ) {
+				echo '<h3>Links To Research</h3>' ;
+				print ( render ( field_view_field ('node', $node, 'field_linkstoresearch') ) ) ; 
+			}						
+			?>
+		</div>
+		<?php if ( !empty ( $node->field_citationinformation ) ) : ?>
 		<div class="left citation">
 			<h3>CITATION INFORMATION</h3>
-			<?php print ( render ( $tags['field_citationinformation'] ) ) ?>
+			<?php print ( render ( field_view_field ('node', $node, 'field_citationinformation') ) )  ?>
 		</div>
-<?php if ( $tags['field_relatedgbifresources'] ) : ?>
+		<?php endif ?>
+		<?php if ( !empty ( $node->field_relatedgbifresources ) ) : ?>
 		<div class="related footer">
-		<h3>RELATED GBIF RESOURCES</h3>
-		<ul>
-		<?php // yes: ['url'] only gives the base URL witout the args. And each of the params is in a numbered array not in a named one... take the keys from #items. :-s
-			$relatedgbifresources = $tags['field_relatedgbifresources']['#items'];
-			foreach ($relatedgbifresources as $key=>$value ) {
-				echo '<li>'.$tags['field_relatedgbifresources'][$key]['#markup'].'</li>' ;
-			}
-		?>
-		</ul>
+			<h3>RELATED GBIF RESOURCES</h3>
+			<?php print ( render ( field_view_field ('node', $node, 'field_relatedgbifresources') ) ) ;	?>
 		</div>
-<?php endif ?>
+		<?php endif ?>
     </div>
-<?php if ( !$tags['field_relatedgbifresources'] ) : ?>
+<?php if ( empty ( $node->field_relatedgbifresources ) ) : ?>
 		<footer></footer>
 <?php endif ?>
 	</article>
 	<article class="next_news">
 		<header></header>
 		<div class="content">
-			<h3>NEXT DATA USE STORY</h3>
+			<h3>NEXT FEATURED DATA USE</h3>
 			<?php print pn_node($node, 'p'); ?>
 		</div>
 		<footer></footer>

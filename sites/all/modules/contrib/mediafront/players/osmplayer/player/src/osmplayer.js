@@ -83,18 +83,22 @@ osmplayer.prototype.create = function(name, base, context) {
 };
 
 /**
+ * Get the default options for this plugin.
+ *
+ * @param {object} options The default options for this plugin.
+ */
+osmplayer.prototype.defaultOptions = function(options) {
+  options.playlist = '';
+  options.node = {};
+  options.link = 'http://www.mediafront.org';
+  options.logo = 'http://mediafront.org/assets/osmplayer/logo.png';
+  minplayer.prototype.defaultOptions.call(this, options);
+};
+
+/**
  * @see minplayer.plugin.construct
  */
 osmplayer.prototype.construct = function() {
-
-  // Make sure we provide default options...
-  this.options = jQuery.extend({
-    playlist: '',
-    node: {},
-    swfplayer: 'minplayer/flash/minplayer.swf',
-    logo: 'logo.png',
-    link: 'http://www.mediafront.org'
-  }, this.options);
 
   // Call the minplayer display constructor.
   minplayer.prototype.construct.call(this);
@@ -135,14 +139,14 @@ osmplayer.prototype.construct = function() {
   });
 
   // Play each media sequentially...
-  this.get('media', (function(player) {
-    return function(media) {
-      media.ubind(player.uuid + ':ended', function() {
+  this.get('media', function(media) {
+    media.ubind(this.uuid + ':ended', (function(player) {
+      return function() {
         player.options.autoplay = true;
         player.playNext();
-      });
-    };
-  })(this));
+      };
+    })(this));
+  });
 
   // Load the node if one is provided.
   if (this.options.node) {
@@ -160,59 +164,102 @@ osmplayer.prototype.fullScreenElement = function() {
 };
 
 /**
+ * Reset the osmplayer.
+ *
+ * @param {function} callback Called when it is done resetting.
+ */
+osmplayer.prototype.reset = function(callback) {
+
+  // Empty the playqueue.
+  this.playQueue.length = 0;
+  this.playQueue = [];
+  this.playIndex = 0;
+
+  // Clear the playloader.
+  if (this.playLoader && this.options.preview) {
+    this.options.preview = '';
+    this.playLoader.clear((function(player) {
+      return function() {
+        callback.call(player);
+      };
+    })(this));
+  }
+  else if (callback) {
+    callback.call(this);
+  }
+};
+
+/**
  * The load node function.
  *
  * @param {object} node A media node object.
+ * @return {boolean} If the node was loaded.
  */
 osmplayer.prototype.loadNode = function(node) {
-  if (node && node.mediafiles) {
 
-    // Load the media files.
-    var media = node.mediafiles.media;
-    if (media) {
-      this.playQueue.length = 0;
-      this.playQueue = [];
-      this.playIndex = 0;
-      var file = null;
-      var types = [];
+  // Make sure this is a valid node.
+  if (!node || (node.hasOwnProperty('length') && (node.length == 0))) {
+    return false;
+  }
 
-      // For mobile devices, we should only show the main media.
-      if (minplayer.isAndroid || minplayer.isIDevice) {
-        types = ['media'];
+  // Reset the player.
+  this.reset(function() {
+
+    // Set the hasMedia flag.
+    this.hasMedia = node && node.mediafiles && node.mediafiles.media;
+
+    // If this node is set and has files.
+    if (node && node.mediafiles) {
+
+      // Load the media files.
+      var media = node.mediafiles.media;
+      if (media) {
+        var file = null;
+        var types = [];
+
+        // For mobile devices, we should only show the main media.
+        if (minplayer.isAndroid || minplayer.isIDevice) {
+          types = ['media'];
+        }
+        else {
+          types = ['intro', 'commercial', 'prereel', 'media', 'postreel'];
+        }
+
+        // Iterate through the types.
+        jQuery.each(types, (function(player) {
+          return function(key, type) {
+            if (file = player.addToQueue(media[type])) {
+              file.queueType = type;
+            }
+          };
+        })(this));
       }
       else {
-        types = ['intro', 'commercial', 'prereel', 'media', 'postreel'];
+
+        // Add a class to the display to let themes handle this.
+        this.display.addClass('nomedia');
       }
 
-      // Iterate through the types.
-      jQuery.each(types, (function(player) {
-        return function(key, type) {
-          if (file = player.addToQueue(media[type])) {
-            file.queueType = type;
+      // Play the next media
+      this.playNext();
+
+      // Load the preview image.
+      osmplayer.getImage(node.mediafiles, 'preview', (function(player) {
+        return function(image) {
+          if (player.playLoader && (player.playLoader.display.length > 0)) {
+            player.playLoader.enabled = true;
+            player.playLoader.loadPreview(image.path);
+            player.playLoader.previewFlag.setFlag('media', true);
+            if (!player.hasMedia) {
+              player.playLoader.busy.setFlag('media', false);
+              player.playLoader.bigPlay.setFlag('media', false);
+            }
+            player.playLoader.checkVisibility();
           }
         };
       })(this));
     }
-    else {
-
-      // Add a class to the display to let themes handle this.
-      this.display.addClass('nomedia');
-    }
-
-    // Load the preview image.
-    osmplayer.getImage(node.mediafiles, 'preview', (function(player) {
-      return function(image) {
-        player.options.preview = image.path;
-        if (player.playLoader) {
-          player.playLoader.enabled = true;
-          player.playLoader.loadPreview();
-        }
-      };
-    })(this));
-
-    // Play the next media
-    this.playNext();
-  }
+  });
 };
 
 /**
@@ -255,8 +302,32 @@ osmplayer.prototype.playNext = function() {
     }
   }
   else if (this.media) {
-    // Stop the player and unload.
     this.media.stop();
+
+    // If there is no media found, then clear the player.
+    if (!this.hasMedia) {
+      this.media.clear();
+    }
+  }
+};
+
+/**
+ * Returns a node.
+ *
+ * @param {object} node The node to get.
+ * @param {function} callback Called when the node is retrieved.
+ */
+osmplayer.getNode = function(node, callback) {
+  if (node && node.mediafiles && node.mediafiles.media) {
+    var mediaFile = minplayer.getMediaFile(node.mediafiles.media.media);
+    if (mediaFile) {
+      var player = minplayer.players[mediaFile.player];
+      if (player && (typeof player.getNode === 'function')) {
+        player.getNode(mediaFile, function(node) {
+          callback(node);
+        });
+      }
+    }
   }
 };
 

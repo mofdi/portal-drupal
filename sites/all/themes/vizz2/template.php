@@ -100,8 +100,8 @@
  *   please visit the Theme Developer's Guide on Drupal.org:
  *   http://drupal.org/node/223440 and http://drupal.org/node/1089656
  */
-
-	
+ 
+ 
 function vizz2_preprocess_page( &$vars, $hook ) {
 
 	if (!empty($vars['node'])) {
@@ -123,7 +123,7 @@ function vizz2_preprocess_page( &$vars, $hook ) {
 
 function get_title_data() {
 	$navigation_vocab = 'taxanavigation' ;
-	$trail = menu_get_active_trail() ; 
+	$trail = menu_get_active_trail() ;
 	$taxon = taxonomy_get_term_by_name($trail[2]['title'], $navigation_vocab ) ;
 	reset ( $taxon ) ;
 
@@ -139,7 +139,7 @@ function vizz2_menu_tree($variables){
  *
  * @param $variables
  *   An array of variables to pass to the theme template.
- * 
+ *
  */
 
 
@@ -147,7 +147,7 @@ function vizz2_menu_link(array $variables) {
 
 /* Clear the "theme" attributes as they're not needed
  * Change the class from "active" to "selected" but only for level
- * 2 (and active) menu entries; for the rest clear the class 
+ * 2 (and active) menu entries; for the rest clear the class
  */
 
 
@@ -160,15 +160,15 @@ function vizz2_menu_link(array $variables) {
 
 		if( $element['#bid']['delta'] === '1' ) {
 
-			$element['#title'] = '<span>'.$element['#title'].'</span>' ; 
+			$element['#title'] = '<span>'.$element['#title'].'</span>' ;
 
-			if (	in_array( 'active', $element['#attributes']['class'] ) 
+			if (	in_array( 'active', $element['#attributes']['class'] )
 				OR	in_array( 'active-trail', $element['#attributes']['class'] ) ) {
 				$element['#attributes']['class'] = array('selected') ;
 			} else {
 				$element['#attributes']['class'] = array('') ;
 			}
-		} 
+		}
 
 	}
 
@@ -179,7 +179,7 @@ function vizz2_menu_link(array $variables) {
 }
 
 /*
- * Fill in the missing values for the "Contact" form. 
+ * Fill in the missing values for the "Contact" form.
  *
  */
 
@@ -198,9 +198,9 @@ function vizz2_form_alter( &$form, &$form_state, $form_id ) {
 
 /* Clear the "theme" attributes as they're not needed
  * Change the class from "active" to "selected" but only for level
- * 2 (and active) menu entries; for the rest clear the class 
+ * 2 (and active) menu entries; for the rest clear the class
  */
-/* 
+/*
 	$element = $variables['element'] ;
 
 	if ( $element['#bid']['module'] === 'menu_block' ) {
@@ -208,7 +208,7 @@ function vizz2_form_alter( &$form, &$form_state, $form_id ) {
 
 		if( $element['#bid']['delta'] === '2' ) {
 
-			$element['#title'] = '<span>'.$element['#title'].'</span>' ; 
+			$element['#title'] = '<span>'.$element['#title'].'</span>' ;
 
 			if ( in_array( 'active', $element['#attributes']['class'] ) ) {
 				$element['#attributes']['class'] = array('selected') ;
@@ -375,7 +375,7 @@ function STARTERKIT_preprocess_block(&$variables, $hook) {
 
 
 /**
- * 
+ *
  * This function is needed so that we can use the Prev/Next module functionality
  *
  *
@@ -436,7 +436,7 @@ function pn_node($node, $mode = 'n') {
 }
 
 /**
- * Trim text accounting for HTML boundaries; from CakePHP project 
+ * Trim text accounting for HTML boundaries; from CakePHP project
  * http://cakephp.org/
  *
  * @param string $text String to truncate.
@@ -537,22 +537,22 @@ function smart_trim( $text, $length = 100, $ending = '...', $exact = false, $con
 }
 
 /**
- * 
- * Attempt to override the default views pager. 
+ *
+ * Attempt to override the default views pager.
  *
  * "Because theming is *SO* easy when you deviate from Zen"(TM)
  *
- * 
- * If you're reading this because the pager's not working you're 
- * probably in the right place; Only way so far to customize the 
+ *
+ * If you're reading this because the pager's not working you're
+ * probably in the right place; Only way so far to customize the
  * pager is to override the code from includes/pager.inc
  * So what happens if that code changes significantly? Well... >:->
  *
  *
  */
 
-
-function vizz2_views_mini_pager($variables) {
+ 
+function vizz2_pager($variables) {
 
 	$tags = $variables['tags'];
 	$element = $variables['element'];
@@ -598,11 +598,11 @@ function vizz2_views_mini_pager($variables) {
 				'class' => array(''),
 				'data' => $li_first,
 			);
-		} else { 
-			// Drupal's paging is slightly different; e.g. theming engine will not return by default a "First" 
-			// for a pager if you are already on the first page. Rather than override yet another function just 
+		} else {
+			// Drupal's paging is slightly different; e.g. theming engine will not return by default a "First"
+			// for a pager if you are already on the first page. Rather than override yet another function just
 			// brute force a dummy "First" for the moment. Of course we need to redo the calculation later because
-			// dataportal counts pages differently. 
+			// dataportal counts pages differently.
 			$items[] = array(
 				'class' => array(''),
 				'data' => '<a href="#">First</a>',
@@ -615,7 +615,7 @@ function vizz2_views_mini_pager($variables) {
 			);
 		}
 */
-		// When there is more than one page, create the pager list.
+	// When there is more than one page, create the pager list.
 		if ($i != $pager_max) {
 			if ($i > 1) {
 				$items[] = array(
@@ -631,7 +631,7 @@ function vizz2_views_mini_pager($variables) {
 						'data' => theme('pager_previous', array('text' => $i, 'element' => $element, 'interval' => ($pager_current - $i), 'parameters' => $parameters)),
 					);
 				}
-				if ($i == $pager_current) { // everybody in this univers (UFO pilots included) will class the <li> as "current". Not the vizz chaps, nope! They will style the <a>... Why? Because the can! 
+				if ($i == $pager_current) { // everybody in this univers (UFO pilots included) will class the <li> as "current". Not the vizz chaps, nope! They will style the <a>... Why? Because they can!
 					$items[] = array(
 						'class' => array('current'),
 						'data' => '<a href="#" class="current">'.$i.'</a>',
@@ -672,13 +672,14 @@ function vizz2_views_mini_pager($variables) {
 	}
 }
 
+
 /**
- * 
+ *
  * As usual, Drupal is way too verbose for this theme;
  * This time we need to remove the extra <div> which is added
- * around lists... 
+ * around lists...
  *
- * This is the code from /includes/theme.inc/ 
+ * This is the code from /includes/theme.inc/
  *
  *
  * "Because theming is *SO* easy when you deviate from Zen"(TM)
@@ -697,7 +698,7 @@ function vizz2_item_list($variables) {
 	// Empty headers are not semantic and present accessibility challenges.
 
 	
-//	$output = '<div class="item-list">'; <-- give me a f. option 
+//	$output = '<div class="item-list">'; <-- give me a f. option
 //	to turn this off! How about a "silent" option??! :-@
 	$output = '' ;
 
@@ -744,13 +745,9 @@ function vizz2_item_list($variables) {
 		}
 		$output .= "</$type>";
 	}
-	// $output .= '</div>'; ... like I said. 
+	// $output .= '</div>'; ... like I said.
 	return $output;
 }
-
-
-
-
 
 
 

@@ -233,9 +233,6 @@ function drupal_cache_system_paths() {
  *   found.
  */
 function drupal_get_path_alias($path = NULL, $path_language = NULL) {
-	if (module_exists('path_alias_xt')) {
-         return path_alias_xt_get_path_alias($path, $path_language);
-       }
   // If no path is specified, use the current page's path.
   if ($path == NULL) {
     $path = $_GET['q'];
@@ -389,7 +386,7 @@ function drupal_path_alias_whitelist_rebuild($source = NULL) {
 }
 
 /**
- * Fetch a specific URL alias from the database.
+ * Fetches a specific URL alias from the database.
  *
  * @param $conditions
  *   A string representing the source, a number representing the pid, or an
@@ -478,11 +475,11 @@ function path_delete($criteria) {
 }
 
 /**
- * Determine whether a path is in the administrative section of the site.
+ * Determines whether a path is in the administrative section of the site.
  *
- * By default, paths are considered to be non-administrative. If a path does not
- * match any of the patterns in path_get_admin_paths(), or if it matches both
- * administrative and non-administrative patterns, it is considered
+ * By default, paths are considered to be non-administrative. If a path does
+ * not match any of the patterns in path_get_admin_paths(), or if it matches
+ * both administrative and non-administrative patterns, it is considered
  * non-administrative.
  *
  * @param $path
@@ -506,7 +503,7 @@ function path_is_admin($path) {
 }
 
 /**
- * Get a list of administrative and non-administrative paths.
+ * Gets a list of administrative and non-administrative paths.
  *
  * @return array
  *   An associative array containing the following keys:

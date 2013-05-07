@@ -10,7 +10,7 @@
 	$form = drupal_get_form("contact_site_form"); 
 	
 ?>
-<?php // dpm($form); print $messages ?>
+<?php // print $messages ?>
 	<article data-options="autoplay" class="slideshow">
     <header></header>
     <div class="content">
@@ -39,8 +39,8 @@
 
       <div class="header">
         <div class="left">
-          <h2>Data use news</h2>
-          <p>How data accessed via GBIF are being used in science and policy. </p>
+          <h2>Featured data use</h2>
+          <p>How data accessed through GBIF are being used in science and policy.</p>
         </div>
       </div>
 

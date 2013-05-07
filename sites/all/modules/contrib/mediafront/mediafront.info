@@ -15,9 +15,9 @@ files[] = views/mediafront_plugin_style_player.inc
 files[] = views/mediafront_handler_area_player.inc
 required = FALSE
 configure = admin/structure/mediafront
-; Information added by drupal.org packaging script on 2013-02-02
-version = "7.x-2.0-rc6"
+; Information added by drupal.org packaging script on 2013-03-01
+version = "7.x-2.0-rc8"
 core = "7.x"
 project = "mediafront"
-datestamp = "1359849071"
+datestamp = "1362102355"
 
