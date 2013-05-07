@@ -124,13 +124,17 @@
 				print ( '<p>'.render ( field_view_field ('node', $node, 'field_studyarea') ).'</p>' ) ; 
 			}
 			if ( !empty ( $node->field_datasources ) ) {
-				echo '<h3>Data Resources</h3>' ;
+				echo '<h3>Data Sources</h3>' ;
 				print ( '<p>'.render ( field_view_field ('node', $node, 'field_datasources') ).'</p>' ) ; 
 			}						
 			if ( !empty ( $node->field_linkstoresearch ) ) {
 				echo '<h3>Links To Research</h3>' ;
 				print ( render ( field_view_field ('node', $node, 'field_linkstoresearch') ) ) ; 
-			}						
+			}
+			if ( !empty ( $node->field_datausecategories ) ) {
+				echo '<h3>Data Sources</h3>' ;
+				print ( render ( field_view_field ('node', $node, 'field_datausecategories') ) ) ; 
+			}									
 			?>
 		</div>
 		<?php if ( !empty ( $node->field_citationinformation ) ) : ?>
