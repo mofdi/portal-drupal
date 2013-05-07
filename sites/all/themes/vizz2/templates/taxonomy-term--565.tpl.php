@@ -122,7 +122,7 @@ foreach ($view as $key => $vnode) {
         <div class="right">
           <div class="subscribe">
             <h3>GBITS NEWSLETTER</h3>
-            <p>Keep up to date with the latest GBIF news by signing up to GBits</p>
+            <p>Download the latest issue of our bimonthly newsletter <a href="http://www.gbif.org/communications/resources/newsletters/">here</a> or keep up to date with the latest GBIF news by signing up to GBits</p>
 
             <form action="<?php print $base_url ?>/newsroom/contact" method='post'>
               <div class="input_text">
