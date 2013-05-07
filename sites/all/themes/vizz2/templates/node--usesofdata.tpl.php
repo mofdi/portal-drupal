@@ -132,7 +132,7 @@
 				print ( render ( field_view_field ('node', $node, 'field_linkstoresearch') ) ) ; 
 			}
 			if ( !empty ( $node->field_datausecategories ) ) {
-				echo '<h3>Data Sources</h3>' ;
+				echo '<h3>Data Use Categories</h3>' ;
 				print ( render ( field_view_field ('node', $node, 'field_datausecategories') ) ) ; 
 			}									
 			?>
