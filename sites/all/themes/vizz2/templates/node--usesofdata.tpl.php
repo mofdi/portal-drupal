@@ -136,6 +136,14 @@
 				print ( render ( field_view_field ('node', $node, 'field_datausecategories') ) ) ; 
 			}									
 			?>
+			<h3>Tags</h3>
+			<ul class='tags'>
+			<?php 
+			foreach ( array('field_country','field_regions','field_organizations') as $field ) { 
+				print ( '<li>'.render ( field_view_field ('node', $node, $field) ).'</li>' ) ; 
+				
+			} ?>
+			</ul>
 		</div>
 		<?php if ( !empty ( $node->field_citationinformation ) ) : ?>
 		<div class="left citation">

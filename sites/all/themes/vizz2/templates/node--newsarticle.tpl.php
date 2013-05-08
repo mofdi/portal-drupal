@@ -137,17 +137,13 @@
 				</div> 
 			</div> -->
 			<h3>TAGS</h3>
-			<ul class="tags">
-			<?php foreach ( array('field_capacity','field_country','field_informatics','field_organizations','field_regions') as $field ) { 
-				foreach ( $node->$field as $fieldData ) {
-					foreach ( $fieldData as $key=>$termData ) {
-						print ( '<li>'.$fieldData[$key]['taxonomy_term']->name.'&nbsp;</li>' );
-					}
-				} 
-
+			<ul class='tags'>
+			<?php 
+			foreach ( array('field_capacity','field_country','field_informatics','field_organizations','field_regions') as $field ) { 
+				print ( '<li>'.render ( field_view_field ('node', $node, $field) ).'</li>' ) ; 
+				
 			} ?>
-			</ul>
-			
+			</ul>			
 
 		</div>
 	</div>

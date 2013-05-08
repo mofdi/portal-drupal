@@ -17,7 +17,7 @@ if ( $element['#field_name'] == 'field_linkstoresearch' ) {
 	}
 	echo '</ul>';
 } elseif ( $element['#field_name'] == 'field_relatedgbifresources' ) {
-	echo '<ul>' ;
+	echo '<ul class="tags">' ;
 	foreach ($items as $delta => $item) {
 		echo '<li>' ;
 		print ( render($item) );
@@ -25,7 +25,7 @@ if ( $element['#field_name'] == 'field_linkstoresearch' ) {
 	}
 	echo '</ul>';
 } elseif ( $element['#field_name'] == 'field_datausecategories' ) {
-	echo '<ul>' ;
+	echo '<ul class="tags">' ;
 	foreach ($items as $delta => $item) {
 		echo '<li>' ;
 		print ( render($item) );
@@ -34,7 +34,7 @@ if ( $element['#field_name'] == 'field_linkstoresearch' ) {
 	echo '</ul>';
 }	else {
 	foreach ($items as $delta => $item) {
-		print ( render($item) );
+		print ( render($item).' ' );
 	}
 }
 ?>
