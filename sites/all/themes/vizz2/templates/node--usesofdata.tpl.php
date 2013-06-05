@@ -115,9 +115,9 @@
 				echo '</div> ' ;
 				echo '<br />' ;
 			}
-			if ( !empty ( $node->field_researcherslocation ) ) {
+			if ( !empty ( $node->field_reasearcherslocation ) ) {
 				echo '<h3>Location Of Researchers</h3>' ;
-				print ( render ( field_view_field ('node', $node, 'field_researcherslocation') ) ) ; 
+				print ( render ( field_view_field ('node', $node, 'field_raesearcherslocation') ) ) ; 
 			}
 			if ( !empty ( $node->field_studyarea ) ) {
 				echo '<h3>Study Area</h3>' ;

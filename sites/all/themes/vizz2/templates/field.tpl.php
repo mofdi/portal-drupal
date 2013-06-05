@@ -8,7 +8,7 @@ if ( $element['#field_name'] == 'field_linkstoresearch' ) {
 		echo '</li>' ;
 	}
 	echo '</ul>';
-} elseif ( $element['#field_name'] == 'field_researcherslocation' ) {
+} elseif ( $element['#field_name'] == 'field_reasearcherslocation' ) {
 	echo '<ul class="tags">' ;
 	foreach ($items as $delta => $item) {
 		echo '<li>' ;
