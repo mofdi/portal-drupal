@@ -783,12 +783,12 @@ echo '          </ul>
         </li>
 
         <li>' ;
-echo "        <a href='#' title='About GBIF'>About GBIF</a> " ;
+echo "        <a class='placeholder_temp' href='#' title='About GBIF'>About GBIF</a> " ;
 
 echo '        <div class="about">
           <a href="#"></a>
           <ul> ' ;
-echo "            <li><a href='$base_url/newsroom/summary'>What is GBIF?</a></li> " ;
+echo "            <li><a class='placeholder_temp' href='#'>What is GBIF?</a></li> " ;
 echo "            <li><a class='placeholder_temp' href='#'>Key information</a></li> " ;
 echo "            <li><a class='placeholder_temp' href='#'>Governance</a></li> " ;
 echo "            <li><a class='placeholder_temp' href='#'>Who we work with </a></li> " ;
