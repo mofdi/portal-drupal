@@ -776,9 +776,6 @@ echo "            <li class='divider'></li>" ;
 echo "            <li><a class='placeholder_temp' href='#'>Publishing data</a></li> " ;
 echo "            <li><a class='placeholder_temp' href='#'>Using data</a></li> " ;
 echo "            <li><a class='placeholder_temp' href='#'>Infrastructure</a></li> " ;
-echo '            <li class="divider"></li> ' ;
-echo "            <li><a class='placeholder_temp' href='#'>Publish your data</a></li> " ;
-echo "            <li><a class='placeholder_temp' href='#'>Publishing workflow</a></li> " ;
 echo '          </ul>
         </div>
 

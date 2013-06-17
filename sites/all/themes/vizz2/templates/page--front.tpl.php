@@ -64,29 +64,29 @@
 
       <ul>
         <li>
-        <h3>Enables biodiversity data sharing and re-use</h3>
+			<h3">Sharing biodiversity data for re-use</h3>
         <ul>
           <li><a href="#">Why publish your data?</a></li>
           <li><a href="#">How to publish your data</a></li>
-          <li><a href="#">Data from citizen scientists</a></li>
+          <li><a href="#">Data papers</a></li>
         </ul>
         </li>
 
         <li>
-        <h3>Supports biodiversity research</h3>
+        <h3>Providing evidence for research and decisions</h3>
         <ul>
-          <li><a href="#">Why publish your data?</a></li>
-          <li><a href="#">How to publish your data</a></li>
-          <li><a href="#">Data from citizen scientists</a></li>
+          <li><a href="#">How to use data from GBIF </a></li>
+          <li><a href="#">Who’s using data from GBIF?</a></li>
+          <li><a href="#">GBIF and biodiversity targets</a></li>
         </ul>
         </li>
 
         <li>
-        <h3>Collaborates as a global community</h3>
+        <h3>Collaborating as a global community</h3>
         <ul>
-          <li><a href="#">Why publish your data?</a></li>
-          <li><a href="#">How to publish your data</a></li>
-          <li><a href="#">Data from citizen scientists</a></li>
+          <li><a href="#">Who funds GBIF?</a></li>
+          <li><a href="#">Why join GBIF?</a></li>
+          <li><a href="#">Regional collaboration</a></li>
         </ul>
         </li>
 
