@@ -854,6 +854,9 @@ echo '          </ul>
 
 
 function get_footer( $base_url ) {
+
+$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
+
 echo '  <footer>
   <div class="inner">
     <ul> ' ;
@@ -879,13 +882,12 @@ echo "      <li><a href='#'>Annual Report</a></li> " ;
 echo "      <li><a href='#'>GBIF Strategic Plan</a></li> " ;
 echo "      <li><a href='#'>GBIF Work Programme</a></li> " ;
 echo '    </ul>
-
     <ul class="last"> ' ;
     
 echo "      <li><h3>FOR DEVELOPERS</h3></li> " ;
-echo "      <li><a href='#'>Portal API</a></li> " ;
-echo "      <li><a href='#'>Developer blog</a></li> " ;
-echo "      <li><a href='#'>Tools</a></li> " ;
+echo "      <li><a href='$dataportal_base_url/developer'>Portal API</a></li> " ;
+echo "      <li><a href='http://gbif.blogspot.com'>Developer blog</a></li> " ;
+echo "      <li><a href='http://tools.gbif.org'>Tools</a></li> " ;
 echo "      <li><a href='#'>Standards</a></li> " ;
 echo '    </ul>
 
@@ -925,15 +927,14 @@ echo '        </p>
 		<div class="social">
           <ul> ' ;
 echo "      <li><h3>SOCIAL MEDIA</h3></li> " ;
-echo "      <li class='s_icons twitter'><a href='#'><strong>Follow</strong> GBIF on Twitter</a></li> " ;
-echo "      <li class='s_icons facebook'><a href='#'><strong>Like</strong> GBIF on Facebook</a></li> " ;
-echo "      <li class='s_icons linkedin'><a href='#'><strong>Join</strong> GBIF on Linkedin</a></li> " ;
-echo "      <li class='s_icons vimeo'><a href='#'><strong>View</strong> GBIF on Vimeo</a></li> " ;
+echo "      <li class='s_icons twitter'><a href='https://twitter.com/GBIF'><strong>Follow</strong> GBIF on Twitter</a></li> " ;
+echo "      <li class='s_icons facebook'><a href='https://www.facebook.com/gbifnews'><strong>Like</strong> GBIF on Facebook</a></li> " ;
+echo "      <li class='s_icons linkedin'><a href='http://www.linkedin.com/groups/GBIF-55171'><strong>Join</strong> GBIF on Linkedin</a></li> " ;
+echo "      <li class='s_icons vimeo'><a href='http://vimeo.com/gbif'><strong>View</strong> GBIF on Vimeo</a></li> " ;
 
 echo '    </ul> 
 		</div>
 ' ; 
-
 
 
 echo'    </div>
