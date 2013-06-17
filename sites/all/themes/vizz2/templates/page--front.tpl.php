@@ -64,7 +64,7 @@
 
       <ul>
         <li>
-			<h3">Sharing biodiversity data for re-use</h3>
+			<h3>Sharing biodiversity data for re-use</h3>
         <ul>
           <li><a href="#">Why publish your data?</a></li>
           <li><a href="#">How to publish your data</a></li>
