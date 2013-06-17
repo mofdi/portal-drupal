@@ -39,80 +39,8 @@
       </ul>
     </div>
   
+	<?php get_nav($base_url) ?>
 
-      <nav>
-      <ul>
-        <li>
-        <a href="#" title="Data">Data</a>
-
-        <div class="data">
-          <a href="#"></a>
-          <ul>
-            <li><a href="<?php echo $dataportal_base_url?>/occurrence">Occurrences</a></li>
-            <li><a href="<?php echo $dataportal_base_url?>/dataset">Datasets</a></li>
-            <li><a href="<?php echo $dataportal_base_url?>/species">Species</a></li>
-            <li class="divider"></li>
-            <li><a class="placeholder_temp" href="#">Themes</a></li>
-            <li><a class="placeholder_temp" href="#">Statistics</a></li>
-            <li><a class="placeholder_temp" href="#">GBIF Data usage</a></li>
-            <li class="divider"></li>
-            <li><a class="placeholder_temp" href="#">Publish your data</a></li>
-            <li><a class="placeholder_temp" href="#">Publishing workflow</a></li>
-          </ul>
-        </div>
-
-        </li>
-
-        <li>
-        <a class="placeholder_temp" href="#" title="Community">Community</a>
-
-        <div class="community">
-          <a href="#"></a>
-          <ul>
-            <li><a class="placeholder_temp" href="#">Regions</a></li>
-            <li><a class="placeholder_temp" href="#">Countries</a></li>
-            <li><a class="placeholder_temp" href="#">Participant organizations</a></li>
-            <li><a class="placeholder_temp" href="#">Data publishers</a></li>
-            <li class="divider"></li>
-            <li><a class="placeholder_temp" href="#">Capacity bulding</a></li>
-            <li><a class="placeholder_temp" href="#">Training</a></li>
-            <li><a class="placeholder_temp" href="#">BIF building</a></li>
-            <li><a class="placeholder_temp" href="#">Whitepages</a></li>
-          </ul>
-        </div>
-
-        </li>
-
-        <li>
-        <a href="#" title="About GBIF">About GBIF</a>
-
-        <div class="about">
-          <a href="#"></a>
-          <ul>
-            <li><a href="<?php print $base_url?>/newsroom/summary">News</a></li>
-            <li class="divider"></li>
-            <li><a class="placeholder_temp" href="#">Key partners</a></li>
-            <li><a class="placeholder_temp" href="#">Mission</a></li>
-            <li><a class="placeholder_temp" href="#">Governance details</a></li>
-            <li><a class="placeholder_temp" href="#">Work programs</a></li>
-            <li><a class="placeholder_temp" href="#">Key facts</a></li>
-            <li class="divider"></li>
-            <li><a href="<?php echo $dataportal_base_url?>/developer">Developer API</a></li>
-          </ul>
-        </div>
-
-        </li>
-
-        <li class="search">
-        <form href="#" method="GET">
-          <span class="input_text">
-              <!-- Global search disabled until implemented later. See issue: http://dev.gbif.org/issues/browse/POR-387 -->
-            <input type="text" name="q" disabled="true"/>
-          </span>
-        </form>
-        </li>
-      </ul>
-      </nav>
     </div>
   </div>
   <!-- /top -->
@@ -352,71 +280,7 @@ foreach ($view as $key => $vnode) {
 
   </div>
 
-  <footer>
-  <div class="inner">
-    <ul>
-      <li><h3>EXPLORE THE DATA</h3></li>
-      <li><a href="#">Occurrences</a></li>
-      <li><a href="#">Datasets</a></li>
-      <li><a href="#">Species</a></li>
-      <li><a href="#">Countries</a></li>
-      <li><a href="#">GBIF Network</a></li>
-      <li><a href="#">Themes</a></li>
-    </ul>
-
-    <ul>
-      <li><h3>VIEW THE STATISTICS</h3></li>
-      <li><a href="#">Global numbers</a></li>
-      <li><a href="#">Taxonomic coverage</a></li>
-      <li><a href="#">Providers</a></li>
-      <li><a href="#">Countries</a></li>
-    </ul>
-
-    <ul class="last">
-      <li><h3>JOIN THE COMMUNITY</h3></li>
-      <li><a href="#">Create a new account</a></li>
-      <li><a href="#">Share your data</a></li>
-      <li><a href="#">Terms and Conditions</a></li>
-      <li><a href="#">About</a></li>
-    </ul>
-
-  </div>
-  </footer>
-
-  <div class="contact_footer">
-    <div class="inner">
-      <!--<p>2012 &copy; GBIF. Data publishers retain all rights to data.</p>-->
-      <div class="copyright">
-        <div class="logo"></div>
-        <p>2011 © GBIF</p>
-      </div>
-
-      <div class="address">
-        <h3>GBIF Secretariat</h3>
-
-        <address>
-          Universitetsparken 15<br />
-          DK-2100 Copenhagen Ø<br />
-          DENMARK
-        </address>
-      </div>
-
-      <div class="contact">
-        <h3>Contact</h3>
-        <ul>
-          <li><strong>Email</strong> info@gbif.org</li>
-          <li><strong>Tel</strong> +45 35 32 14 70</li>
-          <li><strong>Fax</strong> +45 35 32 14 80</li>
-        </ul>
-        <p>
-        You can also check the <a href="#">GBIF Directory</a>
-        </p>
-
-      </div>
-
-
-    </div>
-  </div>
+<?php get_footer($base_url) ?>
 
   <!-- JavaScript at the bottom for fast page loading -->
   <!-- scripts concatenated and minified via ant build script  -->

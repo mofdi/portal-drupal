@@ -1,5 +1,8 @@
 
-
+/* account for the new menu item */
+header #top nav > ul > li div.news > a {
+    width: 105px;
+}
 
 body.home #content article.latest-news .latest ul li {
 	list-style: none ;
@@ -94,3 +97,61 @@ body.home header .info .counters li a:active strong {
 	color: #FFF;
 }
 
+
+body > footer > .inner {
+	width: 892px ; 
+	padding: 24px 0 54px 8px;
+	
+}
+
+body > footer .inner ul {
+		width: 204px ;
+		margin: 0 24px 36px 0;
+}
+
+
+
+body > .contact_footer {
+	padding: 30px 0 30px 6px ; 
+	
+}
+
+body > .contact_footer > .inner {
+	width: 892px ; 
+	
+}
+
+body > .contact_footer .inner ul .s_icons {
+
+    background-repeat: no-repeat;
+    background-size: 25px 25px;
+    background-position: 0px 0px;
+    padding: 2px 0 0 28px;
+    height: 28px;
+}
+	
+body > .contact_footer .inner ul .twitter {
+	background-image: url(../img/twitter.png) ;
+}
+body > .contact_footer .inner ul .facebook {
+	background-image: url(../img/facebook.png) ;
+}
+body > .contact_footer .inner ul .linkedin {
+	background-image: url(../img/linkedin.png) ;
+}
+body > .contact_footer .inner ul .vimeo {
+	background-image: url(../img/vimeo.png) ;
+}
+
+
+body > .contact_footer .copyright, .contact_footer .address, .contact_footer .contact , .contact_footer .social{
+	float: left;
+	line-height: 17px;
+	margin: 0 24px 0 0;
+	width: 204px;
+}
+
+
+.contact_footer .social {
+	margin: 0;
+}

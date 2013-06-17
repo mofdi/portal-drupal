@@ -101,7 +101,6 @@
  *   http://drupal.org/node/223440 and http://drupal.org/node/1089656
  */
  
- 
 function vizz2_preprocess_page( &$vars, $hook ) {
 
 	if (!empty($vars['node'])) {
@@ -749,5 +748,198 @@ function vizz2_item_list($variables) {
 	return $output;
 }
 
+/**
+ *
+ * Quick and dirty way to draw the menu. DEFINITELY has to be redone
+ *
+ *
+ *
+ */
 
 
+function get_nav ($base_url) {
+$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
+
+echo '
+      <nav>
+      <ul>
+        <li>
+        <a href="#" title="Data">Data</a>
+
+        <div class="data">
+          <a href="#"></a>
+          <ul> ' ;
+echo "            <li><a href='$dataportal_base_url/occurrence'>Explore occurrences</a></li> " ;
+echo "            <li><a href='$dataportal_base_url/dataset'>Explore datasets</a></li> " ;
+echo "            <li><a href='$dataportal_base_url/species'>Explore by country</a></li> " ;
+echo "            <li class='divider'></li>" ;
+echo "            <li><a class='placeholder_temp' href='#'>Publishing data</a></li> " ;
+echo "            <li><a class='placeholder_temp' href='#'>Using data</a></li> " ;
+echo "            <li><a class='placeholder_temp' href='#'>Infrastructure</a></li> " ;
+echo '            <li class="divider"></li> ' ;
+echo "            <li><a class='placeholder_temp' href='#'>Publish your data</a></li> " ;
+echo "            <li><a class='placeholder_temp' href='#'>Publishing workflow</a></li> " ;
+echo '          </ul>
+        </div>
+
+        </li>
+
+        <li>' ;
+echo "        <a href='#' title='About GBIF'>About GBIF</a> " ;
+
+echo '        <div class="about">
+          <a href="#"></a>
+          <ul> ' ;
+echo "            <li><a href='$base_url/newsroom/summary'>What is GBIF?</a></li> " ;
+echo "            <li><a class='placeholder_temp' href='#'>Key information</a></li> " ;
+echo "            <li><a class='placeholder_temp' href='#'>Governance</a></li> " ;
+echo "            <li><a class='placeholder_temp' href='#'>Who we work with </a></li> " ;
+echo "            <li><a class='placeholder_temp' href='#'>Contact us</a></li> " ;
+echo "          </ul>
+        </div>
+
+        </li>
+        
+        <li> " ;
+echo "        <a class='placeholder_temp' href='#' title='Community'>Community</a> " ;
+
+echo '        <div class="community"> 
+          <a href="#"></a>
+          <ul> ' ;
+echo "            <li><a class='placeholder_temp' href='#'>Participation</a></li> " ; 
+echo "            <li><a class='placeholder_temp' href='#'>Training/Capacity</a></li> " ;
+echo "            <li><a class='placeholder_temp' href='#'>Networking</a></li> " ;
+echo "            <li><a class='placeholder_temp' href='#'>Resources</a></li> " ;
+echo '          </ul>
+        </div>
+
+        </li>
+
+
+        <li>
+        <a href="#" title="Newsroom">Newsroom</a>
+
+        <div class="news">
+          <a href="#"></a>
+          <ul> ' ;
+echo "            <li><a href='$base_url/newsroom/summary'>GBIF news</a></li> " ;
+echo "            <li><a class='placeholder_temp' href='#'>Featured data use</a></li> " ;
+echo "            <li><a class='placeholder_temp' href='#'>Opportunities</a></li> " ;
+echo "            <li><a class='placeholder_temp' href='#'>Events</a></li> " ;
+echo "            <li><a class='placeholder_temp' href='#'>GBIF in the news</a></li> " ;
+echo '          </ul>
+        </div>
+
+        </li>
+
+        <li class="search">
+        <form href="#" method="GET">
+          <span class="input_text">
+              <!-- Global search disabled until implemented later. See issue: http://dev.gbif.org/issues/browse/POR-387 -->
+            <input type="text" name="q" disabled="true"/>
+          </span>
+        </form>
+        </li>
+      </ul>
+      </nav>
+' ;
+
+}
+
+/**
+ *
+ * Quick and dirty way to draw the footer. DEFINITELY to be redone
+ *
+ *
+ *
+ */
+
+
+function get_footer( $base_url ) {
+echo '  <footer>
+  <div class="inner">
+    <ul> ' ;
+echo "      <li><h3>JOIN THE COMMUNITY</h3></li> " ;
+echo "      <li class='s_icons '><a href='#'>Join GBIF Community Site</a></li> " ;
+echo "      <li class='s_icons '><a href='#'>Sign up to GBits newsletter</a></li> " ;
+echo "      <li class='s_icons '><a href='#'>GBIF Online Resource Centre</a></li> " ;
+echo '    </ul>
+
+    <ul> ' ;
+echo "      <li><h3>WHO’S PARTICIPATING</h3></li> " ; 
+echo "      <li><a href='#'>Countries</a></li> " ;
+echo "      <li><a href='#'>Organizations</a></li> " ;
+echo "      <li><a href='#'>Data publishers</a></li> " ;
+echo '    </ul>
+
+    <ul>' ;
+echo "      <li><h3>KEY DOCUMENTS</h3></li> " ;
+echo "      <li><a href='#'>Data use agreement</a></li> " ;
+echo "      <li><a href='#'>Data sharing agreement</a></li> " ;
+echo "      <li><a href='#'>Memorandum of Understanding</a></li> " ;
+echo "      <li><a href='#'>Annual Report</a></li> " ;
+echo "      <li><a href='#'>GBIF Strategic Plan</a></li> " ;
+echo "      <li><a href='#'>GBIF Work Programme</a></li> " ;
+echo '    </ul>
+
+    <ul class="last"> ' ;
+    
+echo "      <li><h3>FOR DEVELOPERS</h3></li> " ;
+echo "      <li><a href='#'>Portal API</a></li> " ;
+echo "      <li><a href='#'>Developer blog</a></li> " ;
+echo "      <li><a href='#'>Tools</a></li> " ;
+echo "      <li><a href='#'>Standards</a></li> " ;
+echo '    </ul>
+
+  </div>
+  </footer>
+
+  <div class="contact_footer">
+    <div class="inner">
+      <!--<p>2012 &copy; GBIF. Data publishers retain all rights to data.</p>-->
+      <div class="copyright">
+        <div class="logo"></div>
+        <p>2011 © GBIF</p>
+      </div>
+
+      <div class="address">
+        <h3>GBIF Secretariat</h3>
+
+        <address>
+          Universitetsparken 15<br />
+          DK-2100 Copenhagen Ø<br />
+          DENMARK
+        </address>
+      </div>
+
+      <div class="contact">
+        <h3>Contact</h3>
+        <ul>
+          <li><strong>Email</strong> info@gbif.org</li>
+          <li><strong>Tel</strong> +45 35 32 14 70</li>
+          <li><strong>Fax</strong> +45 35 32 14 80</li>
+        </ul>
+        <p> ' ;
+echo "        You can also check the <a href='#'>GBIF Directory</a> " ;
+echo '        </p>
+
+      </div> 
+		<div class="social">
+          <ul> ' ;
+echo "      <li><h3>SOCIAL MEDIA</h3></li> " ;
+echo "      <li class='s_icons twitter'><a href='#'><strong>Follow</strong> GBIF on Twitter</a></li> " ;
+echo "      <li class='s_icons facebook'><a href='#'><strong>Like</strong> GBIF on Facebook</a></li> " ;
+echo "      <li class='s_icons linkedin'><a href='#'><strong>Join</strong> GBIF on Linkedin</a></li> " ;
+echo "      <li class='s_icons vimeo'><a href='#'><strong>View</strong> GBIF on Vimeo</a></li> " ;
+
+echo '    </ul> 
+		</div>
+' ; 
+
+
+
+echo'    </div>
+  </div>
+' ;
+
+}
