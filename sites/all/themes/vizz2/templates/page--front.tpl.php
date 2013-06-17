@@ -253,27 +253,16 @@ foreach ($view as $key => $vnode) {
   </div>
 
   <div class="footer">
-    <a href="#">Birds</a> &middot;
-    <a href="#">Butterflies</a> &middot;
-    <a href="#">Lizards</a> &middot;
-    <a href="#">Reptiles</a> &middot;
-    <a href="#">Fishes</a> &middot;
-    <a href="#">Mammals</a> &middot;
-    <a href="#">Insects</a>
+    <a href="#">Animals</a> &middot;
+    <a href="#">Plants</a> &middot;
+    <a href="#">Fungi</a> &middot;
+    <a href="#">Bacteria</a> &middot;
+    <a href="#">Archaea</a> &middot;
   </div>
 
   <footer></footer>
   </article>
 
-
-  <article class="next_news">
-  <header></header>
-  <div class="content">
-    <h3>Contribute to gbif</h3>
-    <a href=""><h1>Learn how to publish your organization data in GBIF</h1></a>
-  </div>
-  <footer></footer>
-  </article>
 </div>
 
 
