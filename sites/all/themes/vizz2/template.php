@@ -770,8 +770,9 @@ echo '
           <a href="#"></a>
           <ul> ' ;
 echo "            <li><a href='$dataportal_base_url/occurrence'>Explore occurrences</a></li> " ;
+echo "            <li><a href='$dataportal_base_url/species'>Explore by species</a></li> " ;
 echo "            <li><a href='$dataportal_base_url/dataset'>Explore datasets</a></li> " ;
-echo "            <li><a href='$dataportal_base_url/species'>Explore by country</a></li> " ;
+echo "            <li><a href='$dataportal_base_url/countries'>Explore by country</a></li> " ;
 echo "            <li class='divider'></li>" ;
 echo "            <li><a class='placeholder_temp' href='#'>Publishing data</a></li> " ;
 echo "            <li><a class='placeholder_temp' href='#'>Using data</a></li> " ;

@@ -4,9 +4,6 @@ header #top nav > ul > li div.news > a {
     width: 105px;
 }
 
-body.home #content article.search .content >ul li h3 {
-	text-transform:uppercase; 
-}
 
 body.home #content article.latest-news .latest ul li {
 	list-style: none ;
