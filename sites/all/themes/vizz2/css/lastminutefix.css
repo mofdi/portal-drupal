@@ -4,6 +4,12 @@ header #top nav > ul > li div.news > a {
     width: 105px;
 }
 
+header #beta {
+	position: relative ;
+	left: 200px;
+	top: 10px;
+	z-index: 1000;
+}
 
 
 body.home #content article.latest-news .latest ul li {
