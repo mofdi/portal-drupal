@@ -5,10 +5,15 @@ header #top nav > ul > li div.news > a {
 }
 
 header #beta {
-	position: relative ;
+	left: 800px;
+	position: relative;
+	top: 20px;
+	z-index: 1000;
+}
+
+body.home #beta {
 	left: 200px;
 	top: 10px;
-	z-index: 1000;
 }
 
 
