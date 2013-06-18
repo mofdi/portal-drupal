@@ -34,7 +34,7 @@ if ( $element['#field_name'] == 'field_linkstoresearch' ) {
 	echo '</ul>';
 }	else {
 	foreach ($items as $delta => $item) {
-		print ( render($item).' ' );
+		print ( render($item).'&nbsp' );
 	}
 }
 ?>
