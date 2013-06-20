@@ -122,6 +122,12 @@ function vizz2_theme($existing, $type, $theme, $path){
 		'render element' => 'form',
 		'template' => 'templates/user-login',
     );
+    
+    $hooks['user_pass'] = array(
+	'render element' => 'form',
+	'template' => 'templates/user-password',
+    );
+        
 return $hooks;
 }
 
@@ -141,7 +147,7 @@ function vizz2_preprocess_page( &$vars, $hook ) {
 		unset($vars['page']['content']['system_main']['no_content']);
 	}
 
-//    echo '<pre>'; var_dump($vars['theme_hook_suggestions']); echo '</pre>';
+    echo '<pre>'; var_dump($vars['theme_hook_suggestions']); echo '</pre>';
 
 		
 }
