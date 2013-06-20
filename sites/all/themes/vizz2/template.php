@@ -934,7 +934,7 @@ echo '    </ul>
       <!--<p>2012 &copy; GBIF. Data publishers retain all rights to data.</p>-->
       <div class="copyright">
         <div class="logo"></div>
-        <p>2011 © GBIF</p>
+        <p>2013 © GBIF</p>
       </div>
 
       <div class="address">

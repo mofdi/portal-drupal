@@ -286,3 +286,9 @@ body > .contact_footer .copyright, .contact_footer .address, .contact_footer .co
 .contact_footer .social {
 	margin: 0;
 }
+
+.contact_footer .copyright .logo {
+	background: url("../img/icons/logo_black.png") no-repeat;
+	width: 80px;
+	height: 95px;
+}
