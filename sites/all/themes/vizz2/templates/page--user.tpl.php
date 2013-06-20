@@ -77,20 +77,20 @@
 <?php get_footer($base_url) ?>
 
   <!-- JavaScript at the bottom for fast page loading -->
-  <!-- scripts concatenated and minified via ant build script  -->
-  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/autocomplete.js"></script>
-  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/jquery.uniform.min.js"></script>
-  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/mousewheel.js"></script>
-  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/jscrollpane.min.js"></script>
-  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/jquery-scrollTo-1.4.2-min.js"></script>
-  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/bootstrap.min.js"></script>
-  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/underscore-min.js"></script>
-  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/helpers.js"></script>
-  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/widgets.js"></script>
-  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/graphs.js"></script>
-  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/app.js"></script>
-  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/raphael-min.js"></script>
-  <script type="text/javascript" src="<?php print ($base_url); ?>/sites/all/themes/vizz2/js/vendor/resourcebundle.js"></script>
+	<script type="text/javascript" src="<?php echo $dataportal_base_url?>/js/vendor/jquery-ui-1.8.17.min.js"></script>
+	<script type="text/javascript" src="<?php echo $dataportal_base_url?>/js/vendor/jquery.dropkick-1.0.0.js"></script>
+	<script type="text/javascript" src="<?php echo $dataportal_base_url?>/js/vendor/jquery.uniform.min.js"></script>
+	<script type="text/javascript" src="<?php echo $dataportal_base_url?>/js/vendor/mousewheel.js"></script>
+	<script type="text/javascript" src="<?php echo $dataportal_base_url?>/js/vendor/jscrollpane.min.js"></script>
+	<script type="text/javascript" src="<?php echo $dataportal_base_url?>/js/vendor/jquery-scrollTo-1.4.2-min.js"></script>
+	<script type="text/javascript" src="<?php echo $dataportal_base_url?>/js/vendor/bootstrap.min.js"></script>
+	<script type="text/javascript" src="<?php echo $dataportal_base_url?>/js/vendor/underscore-min.js"></script>
+	<script type="text/javascript" src="<?php echo $dataportal_base_url?>/js/helpers.js"></script>
+	<script type="text/javascript" src="<?php echo $dataportal_base_url?>/js/widgets.js"></script>
+	<script type="text/javascript" src="<?php echo $dataportal_base_url?>/js/graphs.js"></script>
+	<script type="text/javascript" src="<?php echo $dataportal_base_url?>/js/app.js"></script>
+	<script type="text/javascript" src="<?php echo $dataportal_base_url?>/js/vendor/raphael-min.js"></script>
+	<script type="text/javascript" src="<?php echo $dataportal_base_url?>/js/vendor/resourcebundle.js"></script> 
   <!-- end scripts-->
 
   <!--[if lt IE 7 ]>
