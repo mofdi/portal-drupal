@@ -5,7 +5,6 @@ global $base_path ;
 $dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
 ?>
 
-
 	<div id="content">
 		<article class="results">
 			<header></header>

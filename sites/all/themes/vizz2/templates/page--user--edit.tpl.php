@@ -7,7 +7,6 @@
 	global $base_path ;
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
 	$more_user = user_load($user->uid) ;
-	
 ?>
 
 <header>
@@ -42,12 +41,8 @@
 
 	<div id="infoband">
 		<div class="content">
-		<?php if ($user->name) { ?> 
-		<h1><?php print ( $more_user->field_firstname['und'][0]['value']); print '&nbsp;' ; print ( $more_user->field_lastname['und'][0]['value']); ?></h1>
-		<h3>User account and personal settings</h3>
-		<?php  } else { ?>
-		<h1>SIGN IN TO GBIF</h1>
-		<?php } ?>
+			<h1><?php print ( $more_user->field_firstname['und'][0]['value']); print '&nbsp;' ; print ( $more_user->field_lastname['und'][0]['value']); ?></h1>
+			<h3>User account and personal settings</h3>
 		</div>
 	</div>
 
@@ -67,6 +62,7 @@
 			<header></header>
 			<div class="content">
 				<div class="content">
+					<?php // echo "<pre>" ; var_dump($page['content']) ; echo "</pre>" ; ?>
 					<?php print $messages ; ?>
 					<?php print render($page['content']); ?>
 				</div>

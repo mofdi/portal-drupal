@@ -100,21 +100,50 @@
  *   please visit the Theme Developer's Guide on Drupal.org:
  *   http://drupal.org/node/223440 and http://drupal.org/node/1089656
  */
+
  
+/**
+ *Add our own preprocessing functions for login and registration
+ 
+ */
+ 
+function vizz2_theme($existing, $type, $theme, $path){
+	$hooks['user_register_form'] = array(
+		'render element'=>'form',
+		'template' =>'templates/user-register',
+	);
+  
+	$hooks['user_profile_form'] = array(
+		'render element' => 'form',
+		'template' => 'templates/user-profile-edit',
+    );
+
+    $hooks['user_login'] = array(
+		'render element' => 'form',
+		'template' => 'templates/user-login',
+    );
+return $hooks;
+}
+
+ 
+  
 function vizz2_preprocess_page( &$vars, $hook ) {
 
 	if (!empty($vars['node'])) {
 		$vars['theme_hook_suggestions'][] = 'page__node__' . $vars['node']->type;
 //		$vars['theme_hook_suggestions'][] = 'taxonomy_term__' . $term->vocabulary_machine_name;
 //		$vars['theme_hook_suggestions'][] = 'taxonomy_term__' . $term->tid;
-//	dpm($vars) ;
+
 
 	}
 
 	if(isset($vars['page']['content']['system_main']['no_content'])) {
 		unset($vars['page']['content']['system_main']['no_content']);
 	}
-	
+
+//    echo '<pre>'; var_dump($vars['theme_hook_suggestions']); echo '</pre>';
+
+		
 }
 
 
@@ -940,5 +969,17 @@ echo '    </ul>
 echo'    </div>
   </div>
 ' ;
+
+}
+
+
+function vizz2_preprocess_user_register(&$vars) {
+	$vars['form'] = drupal_build_form('user_register_form', user_register_form(array()));
+
+}
+
+
+function vizz2_user_pass ( &$vars ) {
+
 
 }
