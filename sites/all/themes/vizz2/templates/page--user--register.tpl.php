@@ -64,8 +64,8 @@
 			<div class="content">
 				<div class="content">
 				<h3>Disclaimer</h3>
-				<p>This site is currently not live, accounts created here might be deleted in the future</p>
-				<p> By creating an account you agree to the <a href="http://data.gbif.org/tutorial/datauseagreement">GBIF data usage agreement</a> </p>
+				<p>Any user accounts created may be deleted; users might need to recreate their accounts in the future</p>
+				<p>By registering with GBIF you agree to abide by the terms of usage set out <a href=http://data.gbif.org/tutorial/datauseagreement)>here</a></p>
 										
 				</div>
 			</div>
