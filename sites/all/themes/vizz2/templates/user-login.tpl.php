@@ -22,6 +22,10 @@ $dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) 
 
 			<div class="tl"></div> <div class="tr"></div> <div class="bl"></div> <div class="br"></div>
 		</div>
-	    <button type="submit" class="candy_white_button next"><span>Login</span></button>
+		<button type="submit" class="candy_white_button next"><span>Login</span></button>
+    </div>
+    <div class="recover_password">
+    <a class="signup_now" href="<?php echo $base_url; ?>/user/password" class="recover_password" title="Recover your password">Forgot your password?</a>
+    <p> Do you need to sign up? <a href="<?php echo $base_url ; ?>/user/register" class="signup_now" title="Signup now">Create your account</a></p>
     </div>
 </form>

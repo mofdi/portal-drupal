@@ -147,7 +147,7 @@ function vizz2_preprocess_page( &$vars, $hook ) {
 		unset($vars['page']['content']['system_main']['no_content']);
 	}
 
-    echo '<pre>'; var_dump($vars['theme_hook_suggestions']); echo '</pre>';
+//    echo '<pre>'; var_dump($vars['theme_hook_suggestions']); echo '</pre>';
 
 		
 }
