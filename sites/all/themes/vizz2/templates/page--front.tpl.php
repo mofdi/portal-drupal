@@ -39,10 +39,9 @@
       </ul>
     </div>
 
-	<a href="/portal/disclaimer">
+		<a id="disclaimerToggle" href="/portal/disclaimer">
 		<img id="beta" src="http://ecat-dev.gbif.org/img/beta.gif">
-	</a>
-  
+		</a>
 	<?php get_nav($base_url) ?>
 
     </div>
