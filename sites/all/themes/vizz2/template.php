@@ -997,7 +997,9 @@ function get_bottom_js ($base_url) {
 	echo "<script type='text/javascript' src='$dataportal_base_url/js/graphs.js'></script> " ;
 	echo "<script type='text/javascript' src='$dataportal_base_url/js/app.js'></script> " ;
 	echo "<script type='text/javascript' src='$dataportal_base_url/js/vendor/raphael-min.js'></script> " ;
-	echo "<script type='text/javascript' src='$dataportal_base_url/js/vendor/resourcebundle.js'></script>  " ; 
+	echo "<script type='text/javascript' src='$dataportal_base_url/js/vendor/resourcebundle.js'></script>  " ;
+	echo "<script type='text/javascript' src='$dataportal_base_url/js/cfg/'></script>  " ;  
+	echo "<script type='text/javascript' src='$dataportal_base_url/cfg/'></script>  " ;  
 	
 	echo '<!-- JIRA feedback buttons -->' ;
 	echo '<script type="text/javascript" src="http://dev.gbif.org/issues/s/en_UK-h3luf8-418945332/812/5/1.2.7/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=d0843c23"></script>' ;
