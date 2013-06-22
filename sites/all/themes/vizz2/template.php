@@ -891,90 +891,76 @@ echo '          </ul>
 function get_footer( $base_url ) {
 
 $dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
+echo "<footer>
+	<div class='footer'>
+		<ul>" ;
+echo "		<li><h3>JOIN THE COMMUNITY</h3></li> " ;
+echo "		<li><a class='placeholder_temp' href='#'>Join GBIF Community Site</a></li> " ; 
+echo "		<li><a class='placeholder_temp' href='#'>Sign up to GBits newsletter</a></li> " ; 
+echo "		<li><a class='placeholder_temp' href='#'>GBIF Online Resource Centre</a></li> " ; 
+echo "	</ul> " ;
 
-echo '  <footer>
-  <div class="inner">
-    <ul> ' ;
-echo "      <li><h3>JOIN THE COMMUNITY</h3></li> " ;
-echo "      <li class='s_icons '><a href='#'>Join GBIF Community Site</a></li> " ;
-echo "      <li class='s_icons '><a href='#'>Sign up to GBits newsletter</a></li> " ;
-echo "      <li class='s_icons '><a href='#'>GBIF Online Resource Centre</a></li> " ;
-echo '    </ul>
+echo "	<ul> " ;
+echo "		<li><h3>WHO’S PARTICIPATING</h3></li> " ; 
+echo "		<li><a class='placeholder_temp' href='#'>Countries</a></li> " ; 
+echo "		<li><a class='placeholder_temp' href='#'>Organizations</a></li> " ; 
+echo "		<li><a class='placeholder_temp' href='#'>Data publishers</a></li> " ; 
+echo "	</ul> " ;
 
-    <ul> ' ;
-echo "      <li><h3>WHO’S PARTICIPATING</h3></li> " ; 
-echo "      <li><a href='#'>Countries</a></li> " ;
-echo "      <li><a href='#'>Organizations</a></li> " ;
-echo "      <li><a href='#'>Data publishers</a></li> " ;
-echo '    </ul>
+echo "	<ul> " ;
+echo "		<li><h3>KEY DOCUMENTS</h3></li> " ; 
+echo "		<li><a class='placeholder_temp' href='#'>Data use agreement</a></li> " ; 
+echo "		<li><a class='placeholder_temp' href='#'>Data sharing agreement</a></li> " ; 
+echo "		<li><a class='placeholder_temp' href='#'>Memorandum of Understanding</a></li> " ; 
+echo "		<li><a class='placeholder_temp' href='#'>Annual Report</a></li> " ; 
+echo "		<li><a class='placeholder_temp' href='#'>GBIF Strategic Plan</a></li> " ; 
+echo "		<li><a class='placeholder_temp' href='#'>GBIF Work Programme</a></li> " ; 
+echo "	</ul> " ;
 
-    <ul>' ;
-echo "      <li><h3>KEY DOCUMENTS</h3></li> " ;
-echo "      <li><a href='#'>Data use agreement</a></li> " ;
-echo "      <li><a href='#'>Data sharing agreement</a></li> " ;
-echo "      <li><a href='#'>Memorandum of Understanding</a></li> " ;
-echo "      <li><a href='#'>Annual Report</a></li> " ;
-echo "      <li><a href='#'>GBIF Strategic Plan</a></li> " ;
-echo "      <li><a href='#'>GBIF Work Programme</a></li> " ;
-echo '    </ul>
-    <ul class="last"> ' ;
-    
-echo "      <li><h3>FOR DEVELOPERS</h3></li> " ;
-echo "      <li><a href='$dataportal_base_url/developer'>Portal API</a></li> " ;
-echo "      <li><a href='http://gbif.blogspot.com'>Developer blog</a></li> " ;
-echo "      <li><a href='http://tools.gbif.org'>Tools</a></li> " ;
-echo "      <li><a href='#'>Standards</a></li> " ;
-echo '    </ul>
+echo "	<ul class='last'> " ;
+echo "		<li><h3>FOR DEVELOPERS</h3></li> " ; 
+echo "		<li><a href='/portal/developer'>Portal API</a></li> " ; 
+echo "		<li><a href='http://gbif.blogspot.com'>Developer blog</a></li> " ; 
+echo "		<li><a href='http://tools.gbif.org'>Tools</a></li> " ; 
+echo "		<li><a class='placeholder_temp' href='#'>Standards</a></li> " ; 
+echo "	</ul> " ;
 
-  </div>
-  </footer>
+echo "  </div> " ;
+echo "  </footer> " ;
 
-  <div class="contact_footer">
-    <div class="inner">
-      <!--<p>2012 &copy; GBIF. Data publishers retain all rights to data.</p>-->
-      <div class="copyright">
-        <div class="logo"></div>
-        <p>2013 © GBIF</p>
-      </div>
+echo "  <div id='contact_footer'> " ;
+echo "	<div class='footer'> " ;
+echo "  <ul> " ;
+echo "	  <li><h3>2013 &copy; GBIF</h3></li> " ; 
+echo "	  <li><div class='logo'></div></li> " ; 
+echo "  </ul> " ;
 
-      <div class="address">
-        <h3>GBIF Secretariat</h3>
+echo "  <ul> " ;
+echo "	  <li><h3>GBIF Secretariat</h3></li> " ; 
+echo "	  <li>Universitetsparken 15</li> " ; 
+echo "	  <li>DK-2100 Copenhagen Ø</li> " ; 
+echo "	  <li>DENMARK</li> " ; 
+echo "  </ul> " ;
 
-        <address>
-          Universitetsparken 15<br />
-          DK-2100 Copenhagen Ø<br />
-          DENMARK
-        </address>
-      </div>
+echo "  <ul> " ;
+echo "	<li><h3>Contact</h3></li> " ; 
+echo "	<li><strong>Email</strong> info@gbif.org</li> " ; 
+echo "	<li><strong>Tel</strong> +45 35 32 14 70</li> " ; 
+echo "	<li><strong>Fax</strong> +45 35 32 14 80</li> " ; 
+echo "	<li>You can also check the <a class='placeholder_temp' href='#'>GBIF Directory</a></li> " ; 
+echo "  </ul> " ;
 
-      <div class="contact">
-        <h3>Contact</h3>
-        <ul>
-          <li><strong>Email</strong> info@gbif.org</li>
-          <li><strong>Tel</strong> +45 35 32 14 70</li>
-          <li><strong>Fax</strong> +45 35 32 14 80</li>
-        </ul>
-        <p> ' ;
-echo "        You can also check the <a href='#'>GBIF Directory</a> " ;
-echo '        </p>
+echo "  <ul class='last'> " ;
+echo "	  <li><h3>SOCIAL MEDIA</h3></li> " ; 
+echo "	  <li class='twitter'><a href='https://twitter.com/GBIF'>Follow GBIF on Twitter</a></li> " ; 
+echo "	  <li class='facebook'><a href='https://www.facebook.com/gbifnews'>Like GBIF on Facebook</a></li> " ; 
+echo "	  <li class='linkedin'><a href='http://www.linkedin.com/groups/GBIF-55171'>Join GBIF on Linkedin</a></li> " ; 
+echo "	  <li class='vimeo'><a href='http://vimeo.com/gbif'>View GBIF on Vimeo</a></li> " ; 
+echo "  </ul> " ;
 
-      </div> 
-		<div class="social">
-          <ul> ' ;
-echo "      <li><h3>SOCIAL MEDIA</h3></li> " ;
-echo "      <li class='s_icons twitter'><a href='https://twitter.com/GBIF'><strong>Follow</strong> GBIF on Twitter</a></li> " ;
-echo "      <li class='s_icons facebook'><a href='https://www.facebook.com/gbifnews'><strong>Like</strong> GBIF on Facebook</a></li> " ;
-echo "      <li class='s_icons linkedin'><a href='http://www.linkedin.com/groups/GBIF-55171'><strong>Join</strong> GBIF on Linkedin</a></li> " ;
-echo "      <li class='s_icons vimeo'><a href='http://vimeo.com/gbif'><strong>View</strong> GBIF on Vimeo</a></li> " ;
+echo "	</div> " ;
+echo "	</div> " ;
 
-echo '    </ul> 
-		</div>
-' ; 
-
-
-echo'    </div>
-  </div>
-' ;
 
 }
 
@@ -998,9 +984,6 @@ function get_bottom_js ($base_url) {
 	echo "<script type='text/javascript' src='$dataportal_base_url/js/app.js'></script> " ;
 	echo "<script type='text/javascript' src='$dataportal_base_url/js/vendor/raphael-min.js'></script> " ;
 	echo "<script type='text/javascript' src='$dataportal_base_url/js/vendor/resourcebundle.js'></script>  " ;
-	echo "<script type='text/javascript' src='$dataportal_base_url/js/cfg'></script>  " ;  
-	echo "<script type='text/javascript' src='$dataportal_base_url/cfg'></script>  " ;  
-	
 	echo '<!-- JIRA feedback buttons -->' ;
 	echo '<script type="text/javascript" src="http://dev.gbif.org/issues/s/en_UK-h3luf8-418945332/812/5/1.2.7/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=d0843c23"></script>' ;
 	echo '<script type="text/javascript" src="http://dev.gbif.org/issues/s/en_UK-h3luf8-418945332/812/5/1.2.7/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=a2e9eca4"></script>' ;
