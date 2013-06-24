@@ -32,10 +32,10 @@
       <h2>Free and open access to biodiversity data</h2>
 
       <ul class="counters">
-        <li><a href="<?php echo $dataportal_base_url?>/occurrence"><strong id="numOcc">?</strong> Occurrences</a></li>
-        <li><a href="<?php echo $dataportal_base_url?>/species"><strong id="numSpecies">?</strong> Species</a></li>
-        <li><a href="<?php echo $dataportal_base_url?>/dataset"><strong>?</strong> Datasets</a></li>
-        <li><strong>?</strong> Data publishers</li>
+        <li><a href="<?php echo $dataportal_base_url?>/occurrence"><strong id="countOccurrences">?</strong> Occurrences</a></li>
+        <li><a href="<?php echo $dataportal_base_url?>/species"><strong id="countSpecies">?</strong> Species</a></li>
+        <li><a href="<?php echo $dataportal_base_url?>/dataset"><strong id="countDatasets">?</strong> Datasets</a></li>
+        <li><strong id="countPublishers">?</strong> Data publishers</li>
       </ul>
     </div>
 
