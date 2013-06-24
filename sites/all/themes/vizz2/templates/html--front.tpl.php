@@ -107,22 +107,29 @@
 
   
   <?php print $scripts; ?>
-
+  <script src="<?php print ($dataportal_base_url); ?>/portal/cfg"></script>
   <script src="<?php print ($dataportal_base_url); ?>/js/vendor/modernizr-1.7.min.js"></script>
   <script type="text/javascript" src="<?php print ($dataportal_base_url); ?>/js/vendor/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="<?php print ($dataportal_base_url); ?>/portal/js/vendor/jquery.cookie.js"></script>
   <script type="text/javascript" src="<?php print ($dataportal_base_url); ?>/js/menu.js"></script>  
-  <!-- we have issues with firefox, not only IE: http://dev.gbif.org/issues/browse/POR-412 -->
+  <!-- we have issues with firefox, not only IE: http://dev.gbif.org/issues/browse/POR-412 -->  
   <script type="text/javascript" src="<?php print ($dataportal_base_url); ?>/js/vendor/css_browser_selector.js"></script>
-	<script>
-	$(document).ready(function() {
-		var wsUrl = "<?php print ($dataportal_base_url); ?>/metrics-ws/occurrence/count";  // construct the url using an ws api base url setting from theme
-		$.getJSON(wsUrl, function(data) {
-			$("#numOcc").text(data);
+
+	<script type="text/javascript">
+		$(function() {
+			$.getJSON(cfg.wsMetrics + 'occurrence/count?callback=?', function (data) {
+			$("#countOccurrences").html(data);
 		});
-		$.getJSON("<?php print ($dataportal_base_url); ?>/checklistbank-search-ws/search?dataset_key=d7dddbf4-2cf0-4f39-9b2a-bb099caae36c&limit=1&rank=species&status=accepted", function(data) {
-			$("#numSpecies").text(data.count);
+			$.getJSON(cfg.wsClbSearch + '?dataset_key=d7dddbf4-2cf0-4f39-9b2a-bb099caae36c&limit=1&rank=species&status=accepted&callback=?', function (data) {
+			$("#countSpecies").html(data.count);
 		});
-	});
+			$.getJSON(cfg.wsRegSearch + '?limit=1&callback=?', function (data) {
+			$("#countDatasets").html(data.count);
+		});
+			$.getJSON(cfg.wsReg + 'organization?limit=1&callback=?', function (data) {
+			$("#countPublishers").html(data.count);
+		});
+		});
 	</script>
 	<link rel="stylesheet" href="<?php print ($base_url); ?>/sites/all/themes/vizz2/css/lastminutefix.css">
 </head>
