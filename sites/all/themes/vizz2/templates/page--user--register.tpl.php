@@ -46,7 +46,7 @@
 	<div id="infoband">
 		<div class="content">
 			<h1>Register New GBIF Account</h1>
-			<p>Please, register to the GBIF data portal for downloading data, or login if you already have an account </p>
+			<h3>Please, register to the GBIF data portal for downloading data, or login if you already have an account </h3>
 		</div>
 	</div>
 
