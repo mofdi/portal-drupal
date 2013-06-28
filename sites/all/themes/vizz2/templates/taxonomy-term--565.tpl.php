@@ -124,7 +124,7 @@ foreach ($view as $key => $vnode) {
             <h3>GBITS NEWSLETTER</h3>
             <p>Download the latest issue of our bimonthly newsletter <a href="http://www.gbif.org/communications/resources/newsletters/">here</a> or keep up to date with the latest GBIF news by signing up to GBits</p>
 
-            <form action="<?php print $base_url ?>/newsroom/contact" method='post'>
+            <form action="<?php // print $base_url ?>" method='post'>
               <div class="input_text">
 				<?php print ( render($form['form_build_id']) ) ; print ( render($form['form_id'])) ;  ?>
 				<input type="text" id="edit-mail" name="mail" value="" placeholder="Enter your email" maxlength="68" />
