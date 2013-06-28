@@ -118,6 +118,16 @@ writing-mode: lr-tb;
 
 }
 
+a.candy_blue_button span input {
+
+border: none;
+background: none;
+font-size: 15px;
+color: white;
+text-shadow: 0px -1px rgb(0, 121,162);
+font-weight: bold;
+
+}
 
 #content  .error {
 	border: 0 !important ;
