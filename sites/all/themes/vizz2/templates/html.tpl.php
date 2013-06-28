@@ -108,7 +108,7 @@
 
   
   <?php print $scripts; ?>
-  <script src="<?php print ($dataportal_base_url); ?>/portal/cfg"></script>
+  <script src="<?php print ($dataportal_base_url); ?>/cfg"></script>
   <script src="<?php print ($dataportal_base_url); ?>/js/vendor/modernizr-1.7.min.js"></script>
   <script type="text/javascript" src="<?php print ($dataportal_base_url); ?>/js/vendor/jquery-1.7.1.min.js"></script>
   <script type="text/javascript" src="<?php print ($dataportal_base_url); ?>/js/vendor/jquery.cookie.js"></script>
