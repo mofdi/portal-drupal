@@ -818,12 +818,12 @@ echo '          </ul>
         </li>
 
         <li>' ;
-echo "        <a class='placeholder_temp' href='#' title='About GBIF'>About GBIF</a> " ;
+echo "        <a class='' href='#' title='About GBIF'>About GBIF</a> " ;
 
 echo '        <div class="about">
           <a href="#"></a>
           <ul> ' ;
-echo "            <li><a class='placeholder_temp' href='#'>What is GBIF?</a></li> " ;
+echo "            <li><a  href='http://uat.gbif.org/about'>What is GBIF?</a></li> " ;
 echo "            <li><a class='placeholder_temp' href='#'>Key information</a></li> " ;
 echo "            <li><a class='placeholder_temp' href='#'>Governance</a></li> " ;
 echo "            <li><a class='placeholder_temp' href='#'>Who we work with </a></li> " ;
@@ -834,7 +834,7 @@ echo "          </ul>
         </li>
         
         <li> " ;
-echo "        <a class='placeholder_temp' href='#' title='Community'>Community</a> " ;
+echo "        <a href='#' title='Community'>Community</a> " ;
 
 echo '        <div class="community"> 
           <a href="#"></a>
@@ -856,9 +856,9 @@ echo '          </ul>
           <a href="#"></a>
           <ul> ' ;
 echo "            <li><a href='$base_url/newsroom/summary'>GBIF news</a></li> " ;
-echo "            <li><a class='placeholder_temp' href='#'>Featured data use</a></li> " ;
-echo "            <li><a class='placeholder_temp' href='#'>Opportunities</a></li> " ;
-echo "            <li><a class='placeholder_temp' href='#'>Events</a></li> " ;
+echo "            <li><a  href='$base_url/newsroom/uses'>Featured data use</a></li> " ;
+echo "            <li><a href='$base_url/newsroom/opportunities'>Opportunities</a></li> " ;
+echo "            <li><a href='$base_url/newsroom/events'>Events</a></li> " ;
 echo "            <li><a class='placeholder_temp' href='#'>GBIF in the news</a></li> " ;
 echo '          </ul>
         </div>
