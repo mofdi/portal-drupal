@@ -807,7 +807,7 @@ echo '
 echo "            <li><a href='$dataportal_base_url/occurrence'>Explore occurrences</a></li> " ;
 echo "            <li><a href='$dataportal_base_url/dataset'>Explore datasets</a></li> " ;
 echo "            <li><a href='$dataportal_base_url/species'>Explore species</a></li> " ;
-echo "            <li><a href='$dataportal_base_url/countries'>Explore by country</a></li> " ;
+echo "            <li><a href='$dataportal_base_url/country'>Explore by country</a></li> " ;
 echo "            <li class='divider'></li>" ;
 echo "            <li><a class='placeholder_temp' href='#'>Publishing data</a></li> " ;
 echo "            <li><a class='placeholder_temp' href='#'>Using data</a></li> " ;
@@ -823,7 +823,7 @@ echo "        <a class='' href='#' title='About GBIF'>About GBIF</a> " ;
 echo '        <div class="about">
           <a href="#"></a>
           <ul> ' ;
-echo "            <li><a  href='http://uat.gbif.org/about'>What is GBIF?</a></li> " ;
+echo "            <li><a class='placeholder_temp' href='#'>What is GBIF?</a></li> " ;
 echo "            <li><a class='placeholder_temp' href='#'>Key information</a></li> " ;
 echo "            <li><a class='placeholder_temp' href='#'>Governance</a></li> " ;
 echo "            <li><a class='placeholder_temp' href='#'>Who we work with </a></li> " ;
@@ -856,7 +856,7 @@ echo '          </ul>
           <a href="#"></a>
           <ul> ' ;
 echo "            <li><a href='$base_url/newsroom/summary'>GBIF news</a></li> " ;
-echo "            <li><a  href='$base_url/newsroom/uses'>Featured data use</a></li> " ;
+echo "            <li><a href='$base_url/newsroom/uses'>Featured data use</a></li> " ;
 echo "            <li><a href='$base_url/newsroom/opportunities'>Opportunities</a></li> " ;
 echo "            <li><a href='$base_url/newsroom/events'>Events</a></li> " ;
 echo "            <li><a class='placeholder_temp' href='#'>GBIF in the news</a></li> " ;
