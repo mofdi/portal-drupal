@@ -988,10 +988,10 @@ function get_bottom_js ($base_url) {
 	echo '<script type="text/javascript" src="http://dev.gbif.org/issues/s/en_UK-h3luf8-418945332/812/5/1.2.7/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=d0843c23"></script>' ;
 	echo '<script type="text/javascript" src="http://dev.gbif.org/issues/s/en_UK-h3luf8-418945332/812/5/1.2.7/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=a2e9eca4"></script>' ;
 	echo '<!-- end JIRA feedback buttons -->' ;
-	echo '<!-- Google analytics -->';
+	echo '<!-- Google analytics. Use UA-42057855-1 for UAT instead of UA-myAnalyticsKey below -->';
 	echo "<script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-42057855-1', 'gbif.org');
+    ga('create', 'UA-myAnalyticsKey', 'gbif.org');
     ga('send', 'pageview');
   </script>"
 	echo '  <!-- end scripts-->
