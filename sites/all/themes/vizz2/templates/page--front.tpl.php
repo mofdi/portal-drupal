@@ -96,10 +96,10 @@
       </ul>
     </div>
     <div class="footer">
-
-      <form>
+<p>Note: only searches species currently</p>
+      <form action='/species/search' method='GET'>
         <span class="input_text">
-          <input type="text" name="q" placeholder="Search GBIF for species, datasets or countries" class="focus">
+          <input type="text" name="q" placeholder="Search GBIF for species datasets or countries" class="focus">
         </span>
         <button class="search_button"><span>Search</span></button>
       </form>
@@ -247,7 +247,7 @@ foreach ($view as $key => $vnode) {
 			<a href="<?php print $base_url.'/page/'.($results[$td]->nid) ?>">
 			<?php print( render( field_view_field('node', $results[$td], 'field_featured', array('settings' => array('image_style' => 'featured'))) ) ); ?>
 			</a>
-			<a class="title" title="<?php print ($results[$td]->title) ?>" href="<?php print $base_url.'/page/'.($results[$td]->nid) ?>"><?php print( smart_trim( $results[$td]->title, 50))?></a>
+			<a class="title" title="<?php print ($results[$td]->title) ?>" href="<?php print $base_url.'/page/'.($results[$td]->nid) ?>"><?php print( smart_trim( $results[$td]->title, 60))?></a>
 			<p><?php print ( $results[$td]->body['und'][0]['summary'] ) ; ?></p>
 		</li>
 	<?php endfor ?>
