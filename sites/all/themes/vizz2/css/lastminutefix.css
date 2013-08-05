@@ -174,11 +174,14 @@ body.home #content article .content > .header .left {
 	margin: 0px 41px 0px 0px;
 }
 
-
-
 body.home #content article .content > .header .left h1 {
 	font: normal normal 400 23px/23px Arial;
 	height: 23px;
+	
+}
+
+.full {
+	width: 874px !important;
 	
 }
 
