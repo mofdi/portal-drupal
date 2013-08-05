@@ -60,7 +60,7 @@ minplayer.playLoader.prototype.initializePlayLoader = function() {
 
       // Get the poster image.
       if (!this.options.preview) {
-        this.options.preview = media.elements.media.attr('poster');
+        this.options.preview = media.poster;
       }
 
       // Determine if we should load the image.
@@ -205,7 +205,7 @@ minplayer.playLoader.prototype.loadPreview = function(image) {
   this.options.preview = image;
 
   // Ignore if disabled.
-  if (!this.enabled || (this.display.length == 0)) {
+  if (!this.enabled || (this.display.length === 0)) {
     return;
   }
 

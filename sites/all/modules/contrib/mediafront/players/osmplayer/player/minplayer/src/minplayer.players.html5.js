@@ -36,6 +36,8 @@ minplayer.players.html5.getPriority = function(file) {
 
 /**
  * @see minplayer.players.base#canPlay
+ *
+ * @param {object} file A {@link minplayer.file} object.
  * @return {boolean} If this player can play this media type.
  */
 minplayer.players.html5.canPlay = function(file) {
@@ -47,6 +49,8 @@ minplayer.players.html5.canPlay = function(file) {
     case 'video/m4v':
     case 'video/x-m4v':
       return !!minplayer.playTypes.videoH264;
+    case 'application/vnd.apple.mpegurl':
+      return !!minplayer.playTypes.videoMPEGURL;
     case 'video/x-webm':
     case 'video/webm':
     case 'application/octet-stream':
@@ -245,6 +249,8 @@ minplayer.players.html5.prototype.getPlayer = function() {
 
 /**
  * @see minplayer.players.base#load
+ *
+ * @param {object} file A {@link minplayer.file} object.
  */
 minplayer.players.html5.prototype.load = function(file, callback) {
 
@@ -258,7 +264,7 @@ minplayer.players.html5.prototype.load = function(file, callback) {
     }
 
     // Only swap out if the new file is different from the source.
-    if (src != file.path) {
+    if (src !== file.path) {
 
       // Add a new player.
       this.addPlayer();
@@ -392,9 +398,9 @@ minplayer.players.html5.prototype.getBytesLoaded = function(callback) {
         this.player.duration) {
       loaded = this.player.buffered.end(0);
     }
-    else if (this.player.bytesTotal != undefined &&
+    else if (this.player.bytesTotal !== undefined &&
              this.player.bytesTotal > 0 &&
-             this.player.bufferedBytes != undefined) {
+             this.player.bufferedBytes !== undefined) {
       loaded = this.player.bufferedBytes;
     }
 
@@ -420,9 +426,9 @@ minplayer.players.html5.prototype.getBytesTotal = function(callback) {
         this.player.duration) {
       total = this.player.duration;
     }
-    else if (this.player.bytesTotal != undefined &&
+    else if (this.player.bytesTotal !== undefined &&
              this.player.bytesTotal > 0 &&
-             this.player.bufferedBytes != undefined) {
+             this.player.bufferedBytes !== undefined) {
       total = this.player.bytesTotal;
     }
 

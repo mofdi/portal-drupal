@@ -6,9 +6,9 @@ dependencies[] = html5_media
 core = 7.x
 files[] = minplayer.module
 required = FALSE
-; Information added by drupal.org packaging script on 2013-03-01
-version = "7.x-2.0-rc8"
+; Information added by drupal.org packaging script on 2013-07-05
+version = "7.x-2.0"
 core = "7.x"
 project = "mediafront"
-datestamp = "1362102355"
+datestamp = "1373064953"
 

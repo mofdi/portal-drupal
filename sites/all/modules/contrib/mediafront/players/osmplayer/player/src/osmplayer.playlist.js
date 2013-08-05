@@ -153,7 +153,7 @@ osmplayer.playlist.prototype.refreshScroll = function() {
     setTimeout((function(playlist) {
       return function() {
         playlist.refreshScroll.call(playlist);
-      }
+      };
     })(this), 200);
     return;
   }
@@ -255,6 +255,33 @@ osmplayer.playlist.prototype.refreshScroll = function() {
 };
 
 /**
+ * Adds a new node to the playlist.
+ *
+ * @param {object} node The node that you would like to add to the playlist.
+ */
+osmplayer.playlist.prototype.addNode = function(node) {
+
+  // Get the current index for this node.
+  var index = this.nodes.length;
+
+  // Create the teaser object.
+  var teaser = this.create('teaser', 'osmplayer', this.elements.list);
+
+  // Set the node for this teaser.
+  teaser.setNode(node);
+
+  // Bind to when it loads.
+  teaser.ubind(this.uuid + ':nodeLoad', (function(playlist) {
+    return function(event, data) {
+      playlist.loadItem(index);
+    };
+  })(this));
+
+  // Add this to our nodes array.
+  this.nodes.push(teaser);
+};
+
+/**
  * Sets the playlist.
  *
  * @param {object} playlist The playlist object.
@@ -298,17 +325,8 @@ osmplayer.playlist.prototype.set = function(playlist, loadIndex) {
     // Iterate through all the nodes.
     for (var index = 0; index < numNodes; index++) {
 
-      // Create the teaser object.
-      teaser = this.create('teaser', 'osmplayer', this.elements.list);
-      teaser.setNode(playlist.nodes[index]);
-      teaser.ubind(this.uuid + ':nodeLoad', (function(playlist, index) {
-        return function(event, data) {
-          playlist.loadItem(index);
-        };
-      })(this, index));
-
-      // Add this to our nodes array.
-      this.nodes.push(teaser);
+      // Add this node to the playlist.
+      this.addNode(playlist.nodes[index]);
 
       // If the index is equal to the loadIndex.
       if (loadIndex === index) {
@@ -495,7 +513,7 @@ osmplayer.playlist.prototype.load = function(page, loadIndex) {
   this.page = page;
 
   // Hide or show the page based on if we are on the first page.
-  if (this.page == 0) {
+  if (this.page === 0) {
     this.pager.prevPage.hide();
   }
   else {
@@ -548,13 +566,13 @@ osmplayer.playlist.prototype.load = function(page, loadIndex) {
           playlist.elements.playlist_busy.hide();
         }
         playlist.trigger('error', textStatus);
-      }
+      };
     })(this)
   };
 
   // Set the data if applicable.
-  var dataType = '';
-  if (dataType = parser.getType()) {
+  var dataType = parser.getType();
+  if (dataType) {
     request.dataType = dataType;
   }
 

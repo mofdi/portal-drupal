@@ -168,35 +168,45 @@ function imce_filefield_jscss() {
  * IMCE file field operation.
  */
 function _imce_js_imce_filefield(&$imce) {
-  if (isset($_GET['token']) && drupal_valid_token($_GET['token'], 'imce_filefield')) {
-    if (isset($_GET['filename']) && ($filename = rawurldecode($_GET['filename'])) && isset($imce['files'][$filename])) {
-      $uri = imce_dir_uri($imce) . $filename;
-      $file = file_load_multiple(array(), array('uri' => $uri));
-      $file = reset($file);
-      // File is already in DB.
-      if ($file) {
-        $usage = file_usage_list($file);
-        if (empty($usage)) {
-          imce_file_register($file);
-        }
+  if (!isset($_GET['token']) || !drupal_valid_token($_GET['token'], 'imce_filefield') || empty($_GET['filenames'])) {
+    return;
+  }
+  $ids = array();
+  foreach ($_GET['filenames'] as $encodedname) {
+    $filename = rawurldecode($encodedname);
+    if (!isset($imce['files'][$filename])) {
+      continue;
+    }
+    $uri = imce_dir_uri($imce) . $filename;
+    $file = file_load_multiple(array(), array('uri' => $uri));
+    $file = reset($file);
+    // File is already in DB.
+    if ($file) {
+      $usage = file_usage_list($file);
+      if (empty($usage)) {
+        imce_file_register($file);
       }
-      // Add new entry for the file.
-      else {
-        $file = (object) array(
-          'uid' => $imce['uid'],
-          'filename' => $filename,
-          'uri' => $uri,
-          'filesize' => $imce['files'][$filename]['size'],
-          'timestamp' => $imce['files'][$filename]['date'],
-          'filemime' => file_get_mimetype($uri),
-          'status' => FILE_STATUS_PERMANENT,
-        );
-        file_save($file);
-        if (!empty($file->fid)) {
-          imce_file_register($file);
-        }
+    }
+    // Add new entry for the file.
+    else {
+      $file = (object) array(
+        'uid' => $imce['uid'],
+        'filename' => $filename,
+        'uri' => $uri,
+        'filesize' => $imce['files'][$filename]['size'],
+        'timestamp' => $imce['files'][$filename]['date'],
+        'filemime' => file_get_mimetype($uri),
+        'status' => FILE_STATUS_PERMANENT,
+      );
+      file_save($file);
+      if (!empty($file->fid)) {
+        imce_file_register($file);
       }
-      return array('fid' => empty($file->fid) ? 0 : $file->fid);
+    }
+    // Add the file id to the list
+    if (!empty($file->fid)) {
+      $ids[$encodedname] = $file->fid;
     }
   }
+  return array('ids' => $ids);
 }
