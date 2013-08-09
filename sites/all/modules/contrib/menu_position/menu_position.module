@@ -134,7 +134,7 @@ function menu_position_menu() {
     'file' => 'menu_position.admin.inc',
   );
   if (module_exists('taxonomy')) {
-    $items['menu-position/taxonomy/autocomplete'] = array(
+    $items['menu-position/taxonomy/selectlist'] = array(
       'title' => 'Autocomplete taxonomy',
       'page callback' => 'menu_position_taxonomy_autocomplete',
       'page arguments' => array(3, 4),

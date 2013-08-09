@@ -95,6 +95,7 @@
 
 ?>
 <?php // dpm ( $fields_collection ); ?>
+<?php if (! empty ($content['body']) ) { ?>
 <article class="detail">
 	<header></header>
 	<div class="content">
@@ -116,6 +117,7 @@
 	</div>
 	<footer></footer>
 </article>
+<?php } ?>
 <?php 
 	foreach ($chunks as $key => $cchunk ) { ?>
 	<article class="detail">

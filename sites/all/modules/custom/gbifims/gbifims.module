@@ -1,0 +1,102 @@
+<?php
+
+/**
+* @defgroup gbifims Cron
+* @ingroup GBIF
+*/
+
+
+/**
+* Implements hook_menu().
+*
+*/
+function gbifims_menu() {
+	$items['admin/config/gbifims/settings'] = array(
+			'title' => 'GBIF IMS data settings',
+			'description' => 'Control the import of various IMS data',
+			'page callback' => 'drupal_get_form',
+			'page arguments' => array('gbifims_form'),
+			'access arguments' => array('administer site configuration'),
+			'type' => MENU_NORMAL_ITEM,
+			'file' => 'gbifims.admin.inc',
+			);
+
+	return $items;
+
+}
+
+/**
+* Implements hook_cron().
+*
+* hook_cron() is the traditional (pre-Drupal 7) hook for doing "background"
+* processing. It gets called every time the Drupal cron runs and must decide
+* what it will do.
+*
+*/
+function gbifims_cron() {
+	// Default to an hourly interval. Of course, cron has to be running at least
+	// hourly for this to work.
+	$interval = variable_get('gbifims_interval', 60*60);
+	// We usually don't want to act every time cron runs (which could be every
+	// minute) so keep a time for the next run in a variable.
+//	if (time() >= variable_get('gbifims_next_execution', 0)) {
+		watchdog('gbifims', 'gbifims ran');
+		if (!empty($GLOBALS['gbifims_show_status_message'])) {
+			drupal_set_message(t('gbifims executed at %time', array('%time' => date_iso8601(time(0)))));
+		}
+		// variable_set('gbifims_next_execution', time() + $interval);
+//	}
+}
+
+/**
+* Implements hook_cron_queue_info().
+*
+* All the details of queue use are done by the cron_queue implementation, so
+* one doesn't need to know much about DrupalQueue().
+*
+* @see queue_example.module
+*/
+function gbifims_cron_queue_info() {
+	$queues['gbifims_queue_1'] = array(
+		'worker callback' => 'gbifims_queue_1_worker',
+		'time' => 30, // One second max runtime per cron run.
+		);
+	$queues['gbifims_queue_2'] = array(
+		'worker callback' => 'gbifims_queue_2_worker',
+		'time' => 100,
+		);
+	
+	return $queues;
+}
+
+/**
+* Simple workers for the two queues.
+*
+* @param $item
+* Any object to be worked on.
+*/
+function gbifims_queue_1_worker($item) {
+	$q1var = variable_get('q1var',0);
+	$q1var++ ;
+	variable_set( $q1var );
+	gbifims_queue_report_work(1, $item);
+}
+function gbifims_queue_2_worker($item) {
+	gbifims_queue_report_work(2, $item);
+}
+
+/**
+* Simple reporter for the workers.
+*
+* @param $worker
+* (integer) worker number
+* @param $item
+* (object) the $item which was stored in the cron queue.
+*/
+function gbifims_queue_report_work($worker, $item) {
+	if (!empty($GLOBALS['gbifims_show_status_message'])) {
+		drupal_set_message(t('Queue @worker worker processed item with sequence @sequence created at @time', array('@worker' => $worker, '@sequence' => $item->sequence, '@time' => date_iso8601($item->created))));
+	}
+	
+	watchdog('gbifims', 'Queue @worker worker processed item with sequence @sequence created at @time', array('@worker' => $worker, '@sequence' => $item->sequence, '@time' => date_iso8601($item->created)));
+}
