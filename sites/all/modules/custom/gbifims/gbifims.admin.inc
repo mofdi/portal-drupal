@@ -21,7 +21,7 @@ function gbifims_form($form, &$form_state) {
 		);
 		
 	$form['status']['intro'] = array(
-		'#markup' => '<div>' . t('The cron example demonstrates hook_cron() and hook_cron_queue_info() processing. If you have administrative privileges you can run cron from this page and see the results.') . '</div>',
+		'#markup' => '<div>' . t('Title') . '</div>',
 		);
 		
 	$form['status']['last'] = array(
