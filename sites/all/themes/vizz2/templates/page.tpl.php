@@ -43,7 +43,7 @@
       </div>
 
 		<a id="disclaimerToggle" href="/portal/disclaimer">
-		<img id="beta" src="http://ecat-dev.gbif.org/img/beta.gif">
+		<img id="beta" src="http://uat.gbif.org/img/beta.gif">
 		</a>
 	<?php get_nav() ?>
     </div>
