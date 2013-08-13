@@ -94,7 +94,7 @@
 
 
 ?>
-<?php // dpm ( $fields_collection ); ?>
+<?php // dpm ( $node ); ?>
 <?php if (! empty ($content['body']) ) { ?>
 <article class="detail">
 	<header></header>
@@ -131,7 +131,7 @@
 				</div>
 			</div>
 			<div class="left">
-				<?php print $cchunk->field_sectioncontent['und']['0']['value'] ; ?>
+				<?php print token_replace($cchunk->field_sectioncontent['und']['0']['value']) ; ?>
 			</div>
 			<div class="right">
 			<?php $anchors = field_collection_item_load( $cchunk->field_anchorlinkslist['und'][0]['value']) ; 
