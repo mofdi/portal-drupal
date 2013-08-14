@@ -10,8 +10,8 @@ class db extends FileMaker {
 	public function __construct() {
 		$hostname = "filemaker.gbif.org";
 		$database = "IMS_NG";
-		$username = "Admin";
-		$password = "Woa39Ukz";
+		$username = "web_ims";
+		$password = "GBIFims";
 
 		$this->instance = $this->FileMaker( $database, $hostname, $username, $password ) ;
 		return $this->instance;
