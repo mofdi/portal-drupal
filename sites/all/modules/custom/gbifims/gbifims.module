@@ -1,7 +1,7 @@
 <?php
 
 /**
-* @defgroup gbifims Cron
+* @defgroup  Cron
 * @ingroup GBIF
 */
 
@@ -26,6 +26,111 @@ function gbifims_menu() {
 }
 
 /**
+* Implements hook_entity_info_alter().
+*
+* @todo Remove this when the testbot can properly pick up dependencies
+* for contrib modules.
+*/
+function gbifims_entity_info_alter(&$info) {
+	if (isset($info['taxonomy_term'])) {
+		$info['taxonomy_term']['token type'] = 'term';
+	}
+	if (isset($info['taxonomy_vocabulary'])) {
+		$info['taxonomy_vocabulary']['token type'] = 'vocabulary';
+	}
+} 
+
+/**
+ * Implements hook_token_info().
+ */
+function gbifims_token_info() {
+  $types['gbifims'] = array(
+    'name' => t("GBIF IMS tokens"),
+    'description' => t("Tokens for various GBIF IMS"),
+  );
+  
+  $gbifims['ECList'] = array(
+    'name' => t("ECList"),
+    'description' => t("Tabular listing of the EC"),
+  );
+  $gbifims['BCList'] = array(
+    'name' => t("VPList"),
+    'description' => t("Tabular listing of the BC"),
+  );
+  
+  return array(
+    'types' => $types,
+    'tokens' => array(
+      'gbifims' => $gbifims,
+    ),
+  );
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function gbifims_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  global $user;
+
+	$replacements = array();
+  
+  if ($type == 'gbifims') {
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'BCList':
+          $replacements[$original] = _gbifims_get_CommitteeList('Budget Committee');
+        break;
+        case 'ECList':
+          $replacements[$original] = _gbifims_get_CommitteeList('Executive Committee');
+        break;
+        case 'NCList':
+          $replacements[$original] = _gbifims_get_CommitteeList('Nodes Committee');
+        break;
+        case 'RCList':
+          $replacements[$original] = _gbifims_get_CommitteeList('Rules Committee');
+        break;
+        case 'SCList':
+          $replacements[$original] = _gbifims_get_CommitteeList('Science Committee');
+        break;
+      }
+    }
+  }
+  
+  return $replacements;
+}
+
+
+/**
+* Implements hook_libraries info().
+*
+* This is the proper way to load an external libary
+*
+*
+*/
+function gbifims_libraries_info() {
+	$libraries['filemaker'] = array(
+	    // Only used in administrative UI of Libraries API.
+		'name' => 'filemaker', 
+		'vendor url' => 'http://www.filemaker.com', 
+		// rather than implement yet anothe hook just code version for FileMaker 11
+		'version' => '11', 
+		'files' => array(
+			'php' => array('db.class.php',),
+			),
+		// Optional: Register files to auto-load for your module. All files must be
+		// keyed by module, and follow the syntax of the 'files' property. 
+		'integration files' => array(
+			'' => array(
+				'php' => array('db.class.php'),
+				),
+			),
+
+	);
+	return $libraries ;
+}
+
+
+/**
 * Implements hook_cron().
 *
 * hook_cron() is the traditional (pre-Drupal 7) hook for doing "background"
@@ -36,15 +141,15 @@ function gbifims_menu() {
 function gbifims_cron() {
 	// Default to an hourly interval. Of course, cron has to be running at least
 	// hourly for this to work.
-	$interval = variable_get('gbifims_interval', 60*60);
+	$interval = variable_get('_interval', 60*60);
 	// We usually don't want to act every time cron runs (which could be every
 	// minute) so keep a time for the next run in a variable.
-//	if (time() >= variable_get('gbifims_next_execution', 0)) {
-		watchdog('gbifims', 'gbifims ran');
-		if (!empty($GLOBALS['gbifims_show_status_message'])) {
-			drupal_set_message(t('gbifims executed at %time', array('%time' => date_iso8601(time(0)))));
+//	if (time() >= variable_get('_next_execution', 0)) {
+		watchdog('', ' ran');
+		if (!empty($GLOBALS['_show_status_message'])) {
+			drupal_set_message(t(' executed at %time', array('%time' => date_iso8601(time(0)))));
 		}
-		// variable_set('gbifims_next_execution', time() + $interval);
+		// variable_set('_next_execution', time() + $interval);
 //	}
 }
 
@@ -54,12 +159,12 @@ function gbifims_cron() {
 * All the details of queue use are done by the cron_queue implementation, so
 * one doesn't need to know much about DrupalQueue().
 *
-* @see queue_example.module
+* 
 */
 function gbifims_cron_queue_info() {
 	$queues['gbifims_queue_1'] = array(
 		'worker callback' => 'gbifims_queue_1_worker',
-		'time' => 30, // One second max runtime per cron run.
+		'time' => 120, // Seconds max runtime per cron run.
 		);
 	$queues['gbifims_queue_2'] = array(
 		'worker callback' => 'gbifims_queue_2_worker',
@@ -76,11 +181,476 @@ function gbifims_cron_queue_info() {
 * Any object to be worked on.
 */
 function gbifims_queue_1_worker($item) {
-	$q1var = variable_get('q1var',0);
-	$q1var++ ;
-	variable_set( $q1var );
-	gbifims_queue_report_work(1, $item);
+	if (($library = libraries_load('filemaker')) && !empty($library['loaded'])) {
+		_gbifims_doContact() ;
+		_gbifims_doGroup() ;
+		_gbifims_doGrouprole() ;
+		_gbifims_ContactGrouproleNodeParticipant () ;
+		_gbifims_doCountry() ;
+		_gbifims_doInstitution () ;
+		_gbifims_doNode () ;
+		_gbifims_doParticipant () ;
+	}
+
 }
+
+/**
+*
+* Break apart each of the data migration tasks 
+*
+*/
+function _gbifims_doContact() {
+	
+		db_query('TRUNCATE {gbifims_Contact}');
+	
+		$resultSetError = FALSE;
+
+		$FMAccess = new db ;
+
+		$FMFindCMD = $FMAccess->newFindCommand( '__Contact' );
+		$FMFindCMD->addFindCriterion( '', '');		
+
+		$FMResult = $FMFindCMD->execute();
+
+		if ( FileMaker::isError( $FMResult ) ) {
+			$resultSetError = TRUE ;
+			$resultSetErrorMessage = $FMResult->getMessage() ;
+			$resultSetErrorCode = $FMResult->code ;
+			drupal_set_message('FileMaker Error:'.$resultSetErrorMessage);
+		} else {
+			$resultSet = $FMResult->getRecords();
+			$resultSetNumRecords = count( $resultSet ) ;		
+
+			gbifims_queue_report_work(1,$item,'Contact:'.$resultSetNumRecords.' records');
+			
+			$FMResults = array() ;
+			foreach ( $resultSet as $key => $record ) {
+				$FMResults[] = array ();
+				$tmp = '' ; 
+				$FMResults[$key]['ContactID'] = $record->getField('__kp_ID') ;
+				
+				$tmp = $record->getField('_kf_CountryID_Address') ;
+				$FMResults[$key]['CountryID_Address'] = (empty($tmp)) ? NULL : (int)$tmp ;
+				
+				$tmp = $record->getField('_kf_InstitutionID') ; 
+				$FMResults[$key]['InstitutionID'] = (empty($tmp)) ? NULL : (int)$tmp ; 
+				
+				$FMResults[$key]['Name_First'] = $record->getField('Name_First') ;
+				$FMResults[$key]['Name_Middle'] = $record->getField('Name_Middle') ;
+				$FMResults[$key]['Name_Last'] =  $record->getField('Name_Last') ;
+
+				$tmp = $record->getField('GBIF_Order') ;
+				$FMResults[$key]['GBIF_Order'] = (empty($tmp)) ? NULL : (int)$tmp ;
+
+				$tmp = 	$record->getField('GBIF_Staff') ;
+				$FMResults[$key]['GBIF_Staff'] = (empty($tmp)) ? NULL : (int)$tmp ;
+				
+				$FMResults[$key]['Email'] = $record->getField('Email') ;
+				$FMResults[$key]['zz__PEOP_SuperContainer_IMGURL__lct'] = $record->getField('zz__PEOP_SuperContainer_IMGURL__lct') ;
+			}
+			
+			foreach ($FMResults as $values) 
+				$mytmp = db_insert('gbifims_Contact') 
+							->fields( $values )
+							->execute();
+			
+		}
+}
+
+
+
+/**
+*
+* Break apart each of the data migration tasks 
+*
+*/
+function _gbifims_ContactGrouproleNodeParticipant() {
+	
+		db_query('TRUNCATE {gbifims_ContactGrouproleNodeParticipant}');
+	
+		$resultSetError = FALSE;
+
+		$FMAccess = new db ;
+
+		$FMFindCMD = $FMAccess->newFindCommand( '__ContactGrouproleNodeParticipant' );
+		$FMFindCMD->addFindCriterion( '', '');		
+
+		$FMResult = $FMFindCMD->execute();
+
+		if ( FileMaker::isError( $FMResult ) ) {
+			$resultSetError = TRUE ;
+			$resultSetErrorMessage = $FMResult->getMessage() ;
+			$resultSetErrorCode = $FMResult->code ;
+			gbifims_queue_report_work(1,$item,'FileMaker Error:'.$resultSetErrorMessage);
+		} else {
+			$resultSet = $FMResult->getRecords();
+			$resultSetNumRecords = count( $resultSet ) ;		
+
+			gbifims_queue_report_work(1,$item,'CGNP:'.$resultSetNumRecords.' records');
+			
+			$FMResults = array() ;
+			foreach ( $resultSet as $key => $record ) {
+				$FMResults[] = array ();
+				$tmp = '' ;
+				
+				$FMResults[$key]['ContactGrouproleNodeParticipantID'] = $record->getField('__kp_ID') ;
+				
+				$tmp = $record->getField('_kf_ContactID') ;
+				$FMResults[$key]['ContactID'] = (empty($tmp)) ? NULL : (int)$tmp ;
+				
+				$tmp = $record->getField('_kf_GrouproleID') ; 
+				$FMResults[$key]['GrouproleID'] = (empty($tmp)) ? NULL : (int)$tmp ; 
+
+				$tmp = $record->getField('_kf_NodeID') ;
+				$FMResults[$key]['NodeID'] = (empty($tmp)) ? NULL : (int)$tmp ;
+
+				$tmp = 	$record->getField('_kf_ParticipantID') ;
+				$FMResults[$key]['ParticipantID'] = (empty($tmp)) ? NULL : (int)$tmp ;
+				
+				$FMResults[$key]['Active'] = $record->getField('Active') ;
+
+			}
+			
+			foreach ($FMResults as $values) 
+				$mytmp = db_insert('gbifims_ContactGrouproleNodeParticipant') 
+							->fields( $values )
+							->execute();
+			
+		}
+}
+
+
+function _gbifims_doGroup() {
+	
+		db_query('TRUNCATE {gbifims_Group}');
+	
+		$resultSetError = FALSE;
+
+		$FMAccess = new db ;
+
+		$FMFindCMD = $FMAccess->newFindCommand( '__Group' );
+		$FMFindCMD->addFindCriterion( '', '');		
+
+		$FMResult = $FMFindCMD->execute();
+
+		if ( FileMaker::isError( $FMResult ) ) {
+			$resultSetError = TRUE ;
+			$resultSetErrorMessage = $FMResult->getMessage() ;
+			$resultSetErrorCode = $FMResult->code ;
+			drupal_set_message('FileMaker Error:'.$resultSetErrorMessage);
+		} else {
+			$resultSet = $FMResult->getRecords();
+			$resultSetNumRecords = count( $resultSet ) ;		
+
+			gbifims_queue_report_work(1,$item,'Group:'.$resultSetNumRecords.' records');
+			
+			$FMResults = array() ;
+			foreach ( $resultSet as $key => $record ) {
+				$FMResults[] = array ();
+				$tmp = '' ; 
+				
+				$FMResults[$key]['GroupID'] = $record->getField('__kp_ID') ;
+				
+				$FMResults[$key]['Name'] = $record->getField('Name') ;
+			}
+			
+			foreach ($FMResults as $values) 
+				$mytmp = db_insert('gbifims_Group') 
+							->fields( $values )
+							->execute();
+			
+		}
+}
+
+function _gbifims_doGrouprole() {
+	
+		db_query('TRUNCATE {gbifims_Grouprole}');
+	
+		$resultSetError = FALSE;
+
+		$FMAccess = new db ;
+
+		$FMFindCMD = $FMAccess->newFindCommand( '__Grouprole' );
+		$FMFindCMD->addFindCriterion( '', '');		
+
+		$FMResult = $FMFindCMD->execute();
+
+		if ( FileMaker::isError( $FMResult ) ) {
+			$resultSetError = TRUE ;
+			$resultSetErrorMessage = $FMResult->getMessage() ;
+			$resultSetErrorCode = $FMResult->code ;
+			drupal_set_message('FileMaker Error:'.$resultSetErrorMessage);
+		} else {
+			$resultSet = $FMResult->getRecords();
+			$resultSetNumRecords = count( $resultSet ) ;		
+
+			gbifims_queue_report_work(1,$item,'Grouprole:'.$resultSetNumRecords.' records');
+			
+			$FMResults = array() ;
+			foreach ( $resultSet as $key => $record ) {
+				$FMResults[] = array ();
+				$tmp = '';
+				
+				$FMResults[$key]['GrouproleID'] = $record->getField('__kp_ID') ;
+				
+				$tmp = $record->getField('_kf_GroupID') ;
+				$FMResults[$key]['GroupID'] = (empty($tmp)) ? NULL : (int)$tmp ;
+				
+				$tmp = $record->getField('Sort_Order__lcn') ;
+				$FMResults[$key]['SortOrder'] = (empty($tmp)) ? 0 : (int)$tmp ;
+
+								
+				$FMResults[$key]['Name'] = $record->getField('Name') ;
+			}
+			
+			foreach ($FMResults as $values) 
+				$mytmp = db_insert('gbifims_Grouprole') 
+							->fields( $values )
+							->execute();
+			
+		}
+}
+
+
+function _gbifims_doInstitution() {
+	
+		db_query('TRUNCATE {gbifims_Institution}');
+	
+		$resultSetError = FALSE;
+
+		$FMAccess = new db ;
+
+		$FMFindCMD = $FMAccess->newFindCommand( '__Institution' );
+		$FMFindCMD->addFindCriterion( '', '');		
+
+		$FMResult = $FMFindCMD->execute();
+
+		if ( FileMaker::isError( $FMResult ) ) {
+			$resultSetError = TRUE ;
+			$resultSetErrorMessage = $FMResult->getMessage() ;
+			$resultSetErrorCode = $FMResult->code ;
+			drupal_set_message('FileMaker Error:'.$resultSetErrorMessage);
+		} else {
+			$resultSet = $FMResult->getRecords();
+			$resultSetNumRecords = count( $resultSet ) ;		
+
+			gbifims_queue_report_work(1,$item,'Institution:'.$resultSetNumRecords.' records');
+			
+			$FMResults = array() ;
+			foreach ( $resultSet as $key => $record ) {
+				$FMResults[] = array ();
+				$tmp = '' ;
+				$FMResults[$key]['InstitutionID'] = $record->getField('__kp_ID') ;
+				
+				$tmp = $record->getField('_kf_CountryID') ;
+				$FMResults[$key]['CountryID'] = (empty($tmp)) ? NULL : (int)$tmp ;
+				
+				$FMResults[$key]['Acronym'] = $record->getField('Acronym') ;
+				$FMResults[$key]['Address'] = $record->getField('Address') ;
+				$FMResults[$key]['City'] =  $record->getField('City') ;
+				$FMResults[$key]['Description'] = $record->getField('Description') ;
+				$FMResults[$key]['Name'] = $record->getField('Name') ;
+			}
+			
+			foreach ($FMResults as $values) 
+				$mytmp = db_insert('gbifims_Institution') 
+							->fields( $values )
+							->execute();
+			
+		}
+}
+
+
+
+/**
+*
+* Break apart each of the data migration tasks 
+*
+*/
+function _gbifims_doCountry() {
+	
+		db_query('TRUNCATE {gbifims_Country}');
+	
+		$resultSetError = FALSE;
+		$FMAccess = new db ;
+
+		$FMFindCMD = $FMAccess->newFindCommand( '__Country' );
+		$FMFindCMD->addFindCriterion( '', '');		
+
+		$FMResult = $FMFindCMD->execute();
+
+		if ( FileMaker::isError( $FMResult ) ) {
+			$resultSetError = TRUE ;
+			$resultSetErrorMessage = $FMResult->getMessage() ;
+			$resultSetErrorCode = $FMResult->code ;
+			drupal_set_message('FileMaker Error:'.$resultSetErrorMessage);
+		} else {
+			$resultSet = $FMResult->getRecords();
+			$resultSetNumRecords = count( $resultSet ) ;		
+
+			gbifims_queue_report_work(1,$item,'Country:'.$resultSetNumRecords.' records');
+			
+			$FMResults = array() ;
+			foreach ( $resultSet as $key => $record ) {
+				$FMResults[] = array ();
+				$tmp = '' ; 
+				$FMResults[$key]['CountryID'] = $record->getField('__kp_ID') ;
+				
+				$tmp = $record->getField('_kf_RegionID') ;
+				$FMResults[$key]['RegionID'] = (empty($tmp)) ? NULL : (int)$tmp ;
+			
+				$FMResults[$key]['ISO2'] = $record->getField('ISO2') ;
+				$FMResults[$key]['ISO3'] = $record->getField('ISO3') ;
+				$FMResults[$key]['Name'] =  $record->getField('Name') ;
+			}
+			
+			foreach ($FMResults as $values) 
+				$mytmp = db_insert('gbifims_Country') 
+							->fields( $values )
+							->execute();
+			
+		}
+}
+
+
+/**
+*
+* Break apart each of the data migration tasks 
+*
+*/
+function _gbifims_doNode() {
+	
+		db_query('TRUNCATE {gbifims_Node}');
+	
+		$resultSetError = FALSE;
+
+		$FMAccess = new db ;
+
+		$FMFindCMD = $FMAccess->newFindCommand( '__Contact' );
+		$FMFindCMD->addFindCriterion( '', '');		
+
+		$FMResult = $FMFindCMD->execute();
+
+		if ( FileMaker::isError( $FMResult ) ) {
+			$resultSetError = TRUE ;
+			$resultSetErrorMessage = $FMResult->getMessage() ;
+			$resultSetErrorCode = $FMResult->code ;
+			drupal_set_message('FileMaker Error:'.$resultSetErrorMessage);
+		} else {
+			$resultSet = $FMResult->getRecords();
+			$resultSetNumRecords = count( $resultSet ) ;		
+
+			gbifims_queue_report_work(1,$item,'Node:'.$resultSetNumRecords.' records');
+			
+			$FMResults = array() ;
+			foreach ( $resultSet as $key => $record ) {
+				$FMResults[] = array ();
+				$tmp = '' ; 
+				$FMResults[$key]['NodeID'] = $record->getField('__kp_ID') ;
+				
+				$tmp = $record->getField('_kf_ParticipantID') ;
+				$FMResults[$key]['ParticipantID'] = (empty($tmp)) ? NULL : (int)$tmp ;
+			
+				$FMResults[$key]['Name_Full'] = $record->getField('Name_Full') ;
+				$FMResults[$key]['Name_Acronym'] = $record->getField('Name_Acronym') ;
+				$FMResults[$key]['URL'] =  $record->getField('URL') ;
+			}
+			
+			foreach ($FMResults as $values) 
+				$mytmp = db_insert('gbifims_Node') 
+							->fields( $values )
+							->execute();
+			
+		}
+}
+
+/**
+*
+* Break apart each of the data migration tasks 
+*
+*/
+function _gbifims_doParticipant() {
+	
+		db_query('TRUNCATE {gbifims_Participant}');
+	
+		$resultSetError = FALSE;
+
+		$FMAccess = new db ;
+
+		$FMFindCMD = $FMAccess->newFindCommand( '__Participant' );
+		$FMFindCMD->addFindCriterion( '', '');		
+
+		$FMResult = $FMFindCMD->execute();
+
+		if ( FileMaker::isError( $FMResult ) ) {
+			$resultSetError = TRUE ;
+			$resultSetErrorMessage = $FMResult->getMessage() ;
+			$resultSetErrorCode = $FMResult->code ;
+			drupal_set_message('FileMaker Error:'.$resultSetErrorMessage);
+		} else {
+			$resultSet = $FMResult->getRecords();
+			$resultSetNumRecords = count( $resultSet ) ;		
+
+			gbifims_queue_report_work(1,$item,'Participant:'.$resultSetNumRecords.' records');
+			
+			$FMResults = array() ;
+			foreach ( $resultSet as $key => $record ) {
+				$FMResults[] = array ();
+				$tmp = '' ; 
+				$FMResults[$key]['ParticipantID'] = $record->getField('__kp_ID') ;
+				
+				$tmp = $record->getField('_kf_RegionID') ;
+				$FMResults[$key]['RegionID'] = (empty($tmp)) ? NULL : (int)$tmp ;
+				
+				$tmp = $record->getField('_kf_CountryID') ; 
+				$FMResults[$key]['CountryID'] = (empty($tmp)) ? NULL : (int)$tmp ; 
+				
+				$tmp = $record->getField('_kf_InstitutionID') ; 
+				$FMResults[$key]['InstitutionID'] = (empty($tmp)) ? NULL : (int)$tmp ; 
+				
+				$FMResults[$key]['GBIFmembership'] = $record->getField('GBIFmembership') ;
+				$FMResults[$key]['Name_Full'] = $record->getField('Name_Full') ;
+				$FMResults[$key]['Name_Short'] =  $record->getField('Name_Short') ;
+				$FMResults[$key]['Host_URL'] = $record->getField('Host_URL') ;
+
+			}
+			
+			foreach ($FMResults as $values) 
+				$mytmp = db_insert('gbifims_Participant') 
+							->fields( $values )
+							->execute();
+			
+		}
+}
+
+function _gbifims_get_CommitteeList( $committee ) {
+	$CList = '';
+	
+	$result = db_query('SELECT DISTINCT Name_First, Name_Last, gbifims_Grouprole.Name, gbifims_Grouprole.SortOrder FROM 
+						{gbifims_Contact}, {gbifims_ContactGrouproleNodeParticipant}, {gbifims_Grouprole} 
+						WHERE 	gbifims_Contact.ContactID = gbifims_ContactGrouproleNodeParticipant.ContactID 
+							AND gbifims_Grouprole.GrouproleID = gbifims_ContactGrouproleNodeParticipant.GrouproleID 
+							AND gbifims_ContactGrouproleNodeParticipant.Active = 1  
+							AND gbifims_ContactGrouproleNodeParticipant.GrouproleID IN 
+										(SELECT GrouproleID FROM {gbifims_Grouprole} 
+										WHERE gbifims_Grouprole.GroupID IN (SELECT GroupID FROM {gbifims_Group} WHERE gbifims_Group.Name= :rcom)
+										AND gbifims_Grouprole.Name <> :rSS) ORDER BY gbifims_Grouprole.SortOrder, Name_First, Name_Last', array(':rcom'=>$committee, 'rSS'=>'Secretariat Support')) ;
+
+
+	/* hook_theme? What hook_theme... :-| */	
+	$CList = '<table style="" class="metrics table table-bordered table-stripped"><tbody>';
+	// <thead><tr><th colspan="2" >'.$options[1].'</th><tr></thead>
+	foreach ( $result as $row) {
+		$CList .= '<tr><td width="30%">'.$row->Name_First.'&nbsp;'.$row->Name_Last.'</a></td><td>'.$row->Name.'</td>';
+	}
+	$CList .= '</tbody></table>' ;
+	
+	return $CList ;
+}
+
+
+
+
 function gbifims_queue_2_worker($item) {
 	gbifims_queue_report_work(2, $item);
 }
@@ -93,10 +663,10 @@ function gbifims_queue_2_worker($item) {
 * @param $item
 * (object) the $item which was stored in the cron queue.
 */
-function gbifims_queue_report_work($worker, $item) {
-	if (!empty($GLOBALS['gbifims_show_status_message'])) {
-		drupal_set_message(t('Queue @worker worker processed item with sequence @sequence created at @time', array('@worker' => $worker, '@sequence' => $item->sequence, '@time' => date_iso8601($item->created))));
+function gbifims_queue_report_work($worker, $item, $message='') {
+	if (!empty($GLOBALS['_show_status_message'])) {
+		drupal_set_message(t('<div>'.$message.'</div><div>Queue @worker worker processed item with sequence @sequence created at @time</div>', array('@worker' => $worker, '@sequence' => $item->sequence, '@time' => date_iso8601($item->created))));
 	}
 	
-	watchdog('gbifims', 'Queue @worker worker processed item with sequence @sequence created at @time', array('@worker' => $worker, '@sequence' => $item->sequence, '@time' => date_iso8601($item->created)));
+	watchdog('', '<div>'.$message.'</div><div>Queue @worker worker processed item with sequence @sequence created at @time</div>', array('@worker' => $worker, '@sequence' => $item->sequence, '@time' => date_iso8601($item->created)));
 }

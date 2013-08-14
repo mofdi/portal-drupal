@@ -15,15 +15,26 @@
 * The form to provide a link to cron.php.
 */
 function gbifims_form($form, &$form_state) {
+
 	$form['status'] = array(
 		'#type' => 'fieldset',
 		'#title' => t('Cron status information'),
 		);
-		
-	$form['status']['intro'] = array(
-		'#markup' => '<div>' . t('Title') . '</div>',
+
+	if ( ($library = libraries_detect('filemaker')) && !empty($library['installed']) ) {
+		$form['status']['intro'] = array(
+			'#markup' => '<div>FileMaker library detected</div>',
+			);
+	} else {
+		$error = $library['error'];
+		$error_message = $library['error message'];
+		$form['status']['intro'] = array(
+			'#markup' => '<div style="color: red; font-weight: bold">Warning: FileMaker library missing;'.$error.' '.$error_message.'</div>',
 		);
 		
+	}
+
+				
 	$form['status']['last'] = array(
 		'#markup' => '<div>' . t('gbifims_cron() will next execute the first time cron runs after %time (%seconds seconds from now)' . '</div>',
 									array(
@@ -145,3 +156,4 @@ function gbifims_add_jobs_to_queue($form, &$form_state) {
 		$queue->createItem($item);
 	}
 }
+
