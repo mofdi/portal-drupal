@@ -11,6 +11,7 @@
 * @see system_settings_form().
 */
 
+
 /**
 * The form to provide a link to cron.php.
 */
@@ -20,21 +21,7 @@ function gbifims_form($form, &$form_state) {
 		'#type' => 'fieldset',
 		'#title' => t('Cron status information'),
 		);
-
-	if ( ($library = libraries_detect('filemaker')) && !empty($library['installed']) ) {
-		$form['status']['intro'] = array(
-			'#markup' => '<div>FileMaker library detected</div>',
-			);
-	} else {
-		$error = $library['error'];
-		$error_message = $library['error message'];
-		$form['status']['intro'] = array(
-			'#markup' => '<div style="color: red; font-weight: bold">Warning: FileMaker library missing;'.$error.' '.$error_message.'</div>',
-		);
 		
-	}
-
-				
 	$form['status']['last'] = array(
 		'#markup' => '<div>' . t('gbifims_cron() will next execute the first time cron runs after %time (%seconds seconds from now)' . '</div>',
 									array(
@@ -117,6 +104,27 @@ function gbifims_form($form, &$form_state) {
 				60*60*24 => t('1 day'),
 				),
 		);
+
+	$form['filemaker'] = array(
+		'#type' => 'fieldset',
+		'#title' => t('FileMaker library status and configuration'),
+		'#weight' => 4 ,
+		);
+
+	if ( ($library = libraries_detect('filemaker')) && !empty($library['installed']) ) {
+			$form['filemaker']['intro'] = array(
+				'#markup' => '<div>FileMaker library detected</div>',
+				);
+	} else {
+		$error = $library['error'];
+		$error_message = $library['error message'];
+		$form['filemaker']['intro'] = array(
+			'#markup' => '<div style="color: red; font-weight: bold">Warning: FileMaker library missing;'.$error.' '.$error_message.'</div>',
+		);
+		
+	}		
+		
+		
 		
 	return system_settings_form($form);
 }

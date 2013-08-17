@@ -5,4 +5,5 @@ core = 7.x
 files[] = gbifims.module
 files[] = gbifims.install
 files[] = gbifims.admin.inc
+files[] = gbifims.filemaker.inc
 configure=admin/config/gbifims/settings

@@ -7,7 +7,7 @@ class db extends FileMaker {
 
 	private $instance = NULL ;
 
-	public function __construct() {
+	public function __construct( $hostname='', $database='', $username='', $password='' ) {
 		$hostname = "filemaker.gbif.org";
 		$database = "IMS_NG";
 		$username = "webreadonly";
