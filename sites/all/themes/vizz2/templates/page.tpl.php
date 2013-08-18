@@ -45,7 +45,7 @@
 		<a id="disclaimerToggle" href="/portal/disclaimer">
 		<img id="beta" src="http://uat.gbif.org/img/beta.gif">
 		</a>
-	<?php get_nav() ?>
+	<?php get_nav($base_url) ?>
     </div>
   </div>
   <!-- /top -->
