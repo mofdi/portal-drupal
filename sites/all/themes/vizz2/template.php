@@ -809,9 +809,11 @@ echo "            <li><a href='$dataportal_base_url/dataset'>Explore datasets</a
 echo "            <li><a href='$dataportal_base_url/species'>Explore species</a></li> " ;
 echo "            <li><a href='$dataportal_base_url/country'>Explore by country</a></li> " ;
 echo "            <li class='divider'></li>" ;
-echo "            <li><a class='placeholder_temp' href='#'>Publishing data</a></li> " ;
-echo "            <li><a class='placeholder_temp' href='#'>Using data</a></li> " ;
-echo "            <li><a class='placeholder_temp' href='#'>Infrastructure</a></li> " ;
+echo "            <li><a href='$dataportal_base_url/publishingdata/summary'>Publishing data</a></li> " ;
+echo "            <li><a href='$dataportal_base_url/usingdata/summary'>Using Data</a></li> " ;
+echo "            <li><a href='$dataportal_base_url/infrastructure/summary'>Infrastructure</a></li> " ;
+echo "            <li><a href='$dataportal_base_url/gbifipt/about'>GBIF IPT</a></li> " ;
+echo "            <li><a href='$dataportal_base_url/portalapiv1/summary'>Portal API v1</a></li> " ;
 echo '          </ul>
         </div>
 
@@ -823,11 +825,11 @@ echo "        <a class='' href='#' title='About GBIF'>About GBIF</a> " ;
 echo '        <div class="about">
           <a href="#"></a>
           <ul> ' ;
-echo "            <li><a class='placeholder_temp' href='#'>What is GBIF?</a></li> " ;
-echo "            <li><a class='placeholder_temp' href='#'>Key information</a></li> " ;
-echo "            <li><a class='placeholder_temp' href='#'>Governance</a></li> " ;
-echo "            <li><a class='placeholder_temp' href='#'>Who we work with </a></li> " ;
-echo "            <li><a class='placeholder_temp' href='#'>Contact us</a></li> " ;
+echo "            <li><a href='$dataportal_base_url/whatisgbif/whatisgbif'>What is GBIF</a></li> " ;
+echo "            <li><a href='$dataportal_base_url/keyinformation/keyinformation'>Key information</a></li> " ;
+echo "            <li><a href='$dataportal_base_url/governamce/summary'>Governance</a></li> " ;
+echo "            <li><a href='$dataportal_base_url/whoweworkwith/whoweworkwith/'>Who we work with</a></li> " ;
+echo "            <li><a href='$dataportal_base_url/contact/contactus'>Contact</a></li> " ;
 echo "          </ul>
         </div>
 
@@ -839,10 +841,10 @@ echo "        <a href='#' title='Community'>Community</a> " ;
 echo '        <div class="community"> 
           <a href="#"></a>
           <ul> ' ;
-echo "            <li><a class='placeholder_temp' href='#'>Participation</a></li> " ; 
-echo "            <li><a class='placeholder_temp' href='#'>Training/Capacity</a></li> " ;
-echo "            <li><a class='placeholder_temp' href='#'>Networking</a></li> " ;
-echo "            <li><a class='placeholder_temp' href='#'>Resources</a></li> " ;
+echo "            <li><a href='$dataportal_base_url/participation/summary'>Participation</a></li> " ;
+echo "            <li><a href='$dataportal_base_url/capacityenhancement/summary'>Capacity enhancement</a></li> " ;
+echo "            <li><a href='$dataportal_base_url/networking/nlink1'>Networking</a></li> " ;
+echo "            <li><a href='$dataportal_base_url/resources/summary'>Resources</a></li> " ;
 echo '          </ul>
         </div>
 
@@ -859,7 +861,6 @@ echo "            <li><a href='$base_url/newsroom/summary'>GBIF news</a></li> " 
 echo "            <li><a href='$base_url/newsroom/uses'>Featured data use</a></li> " ;
 echo "            <li><a href='$base_url/newsroom/opportunities'>Opportunities</a></li> " ;
 echo "            <li><a href='$base_url/newsroom/events'>Events</a></li> " ;
-echo "            <li><a class='placeholder_temp' href='#'>GBIF in the news</a></li> " ;
 echo '          </ul>
         </div>
 
