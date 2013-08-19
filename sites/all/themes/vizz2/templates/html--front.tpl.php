@@ -117,18 +117,21 @@
   <script type="text/javascript" src="<?php print ($dataportal_base_url); ?>/js/vendor/css_browser_selector.js"></script>
 
 	<script type="text/javascript">
+		function numberWithCommas(x) {
+	      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	    }
 		$(function() {
 			$.getJSON(cfg.wsMetrics + 'occurrence/count?callback=?', function (data)
-			{ $("#countOccurrences").html(data); }
+			{ $("#countOccurrences").html(numberWithCommas(data)); }
 			);
 			$.getJSON(cfg.wsClbSearch + '?dataset_key=d7dddbf4-2cf0-4f39-9b2a-bb099caae36c&limit=1&rank=species&status=accepted&callback=?', function (data)
-			{ $("#countSpecies").html(data.count); }
+			{ $("#countSpecies").html(numberWithCommas(data.count)); }
 			);	
 			$.getJSON(cfg.wsRegSearch + '?limit=1&callback=?', function (data)
-			{ $("#countDatasets").html(data.count); }
+			{ $("#countDatasets").html(numberWithCommas(data.count)); }
 			);
 			$.getJSON(cfg.wsReg + 'organization?limit=1&callback=?', function (data)
-			{ $("#countPublishers").html(data.count); }
+			{ $("#countPublishers").html(numberWithCommas(data.count)); }
 			);
 		});
 	</script>
