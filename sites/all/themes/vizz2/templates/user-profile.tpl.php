@@ -4,14 +4,8 @@ global $base_url ;
 global $base_path ;
 $dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
 ?>
-
-	<div id="content">
-		<article class="results">
-			<header></header>
-      <article class="detail">
-
-
     <div class="content">
+    <br/>
 	<?php if ($logged_in) { ?>
 		<div class="header">
 			<div class="left">
@@ -30,13 +24,14 @@ $dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) 
 
 		<?php } ?>
 
-		</br>
-		</br>
+		<br/>
+		<br/>
 
 		<?php print render($user_profile); ?>
+				<br/>
+		<br/>
+
 	</div>
 	</div>
-    <footer></footer>
-    </article>
-  </div>
-</div><!-- /#page -->
+
+
