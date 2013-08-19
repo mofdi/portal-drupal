@@ -812,7 +812,7 @@ echo "            <li class='divider'></li>" ;
 echo "            <li><a href='$base_url/publishingdata/summary'>Publishing data</a></li> " ;
 echo "            <li><a href='$base_url/usingdata/summary'>Using Data</a></li> " ;
 echo "            <li><a href='$base_url/infrastructure/summary'>Infrastructure</a></li> " ;
-echo "            <li><a href='$base_url/gbifipt/about'>GBIF IPT</a></li> " ;
+echo "            <li><a href='$base_url/ipt/about'>GBIF IPT</a></li> " ;
 echo "            <li><a href='$base_url/portalapiv1/summary'>Portal API v1</a></li> " ;
 echo '          </ul>
         </div>
