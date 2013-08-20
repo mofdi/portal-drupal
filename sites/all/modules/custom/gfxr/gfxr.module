@@ -1,0 +1,71 @@
+<?php
+
+/**
+* 
+* @ingroup GBIF
+*/
+
+global $base_url ;
+
+/**
+* Implements hook_menu().
+*
+*/
+function gfxr_menu() {
+	$items['admin/config/gfxr/settings'] = array(
+			'title' => 'GBIF Fixer',
+			'description' => 'A collection of various fixes needed for the GBIF implementation on Drupal',
+			'page callback' => 'drupal_get_form',
+			'page arguments' => array('gfxr_form'),
+			'access arguments' => array('administer site configuration'),
+			'type' => MENU_NORMAL_ITEM,
+			'file' => 'gfxr.admin.inc',
+			);
+
+	return $items;
+
+}
+
+
+/**
+ * Implements hook_token_info().
+ */
+function gfxr_token_info() {
+  $types['gfxr'] = array(
+    'name' => t("GBIF Fixer tokens"),
+    'description' => t("Tokens for various local fixes"),
+  );
+  
+  $gfxr['baseurl'] = array(
+    'name' => t("$base_url"),
+    'description' => t("Emit $base_url to be used inside large text fields"),
+  );
+  
+  return array(
+    'types' => $types,
+    'tokens' => array(
+      'gfxr' => $gfxr,
+    ),
+  );
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function gfxr_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  global $user;
+
+	$replacements = array();
+  
+	if ($type == 'gfxr') {
+		foreach ($tokens as $name => $original) {
+			switch ($name) {
+				case 'baseurl':
+				  $replacements[$original] = $GLOBALS['base_url'];
+				break;
+			}
+		}
+	}
+  
+  return $replacements;
+}

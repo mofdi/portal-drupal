@@ -1,0 +1,24 @@
+<?php
+/**
+* Implements hook_install()
+*/
+function gfx_install(){
+
+}
+
+
+/**
+* Implements hook_uninstall()
+*/
+function gfx_uninstall() {
+
+}
+
+/**
+* Implements hook_schema().
+*
+*
+*/
+function gfx_schema() {
+
+}
