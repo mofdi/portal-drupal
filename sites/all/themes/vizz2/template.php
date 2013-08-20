@@ -823,8 +823,8 @@ echo "        <a class='' href='#' title='About GBIF'>About GBIF</a> " ;
 echo '        <div class="about">
           <a href="#"></a>
           <ul> ' ;
-echo "            <li><a href='$base_url/whatisgbif/whatisgbif'>What is GBIF</a></li> " ;
-echo "            <li><a href='$base_url/keyinformation/keyinformation'>Key information</a></li> " ;
+echo "            <li><a href='$base_url/whatisgbif'>What is GBIF</a></li> " ;
+echo "            <li><a href='$base_url/resources/keyinformation'>Key information</a></li> " ;
 echo "            <li><a href='$base_url/governamce/summary'>Governance</a></li> " ;
 echo "            <li><a href='$base_url/whoweworkwith/whoweworkwith/'>Who we work with</a></li> " ;
 echo "            <li><a href='$base_url/contact/contactus'>Contact</a></li> " ;
