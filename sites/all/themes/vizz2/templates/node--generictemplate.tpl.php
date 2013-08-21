@@ -141,7 +141,7 @@
 				<ul>
 				<?php 
 				foreach ( $anchors->field_anchorlink['und'] as $anchor ) { 
-					print ( '<li><a href="#'.$anchor['link'].'">'.$anchor['title'].'</li>' ) ; 
+					print ( '<li><a href="#'.$anchor['link'].'">'.$anchor['title'].'</a></li>' ) ; 
 					
 				} ?>
 				</ul>			
