@@ -159,6 +159,7 @@ function get_title_data() {
 	$navigation_vocab = 'taxanavigation' ;
 	$trail = menu_get_active_trail() ;
 	$taxon = taxonomy_get_term_by_name($trail[2]['title'], $navigation_vocab ) ;
+//	var_dump($taxon);
 	reset ( $taxon ) ;
 
 	return current( $taxon ) ;

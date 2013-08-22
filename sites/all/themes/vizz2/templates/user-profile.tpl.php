@@ -14,7 +14,7 @@ $dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) 
 		</div>    
 	<?php } ?>
 		
-	<?php print $messages ?>
+	<?php // print $messages ?>
      
 			
 	<div class="left">

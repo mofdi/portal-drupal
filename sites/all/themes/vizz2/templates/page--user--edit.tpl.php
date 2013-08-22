@@ -60,12 +60,21 @@
 </header>
 
 <div id="content"><!-- page.tpl -->
+		<?php if (!empty ($messages) ) { ?>
 		<article id="step-0" class="register">
 			<header></header>
 			<div class="content">
 				<div class="content">
-					<?php // echo "<pre>" ; var_dump($page['content']) ; echo "</pre>" ; ?>
 					<?php print $messages ; ?>
+				</div>
+			</div>
+			<footer></footer>
+		</article>
+		<?php } ?>
+		<article id="step-0" class="register">
+			<header></header>
+			<div class="content">
+				<div class="content">
 					<?php print render($page['content']); ?>
 				</div>
 			</div>

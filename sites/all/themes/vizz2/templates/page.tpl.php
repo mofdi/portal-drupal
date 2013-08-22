@@ -59,9 +59,7 @@
 		<?php print render($page['sidebar_first']); ?>
 </header>
 <div id="content"><!-- page.tpl -->
-	<?php print $messages ; ?>
 	<?php print render($page['content']); ?>
-	<?php print $messages ; ?>
 </div><!-- page.tpl -->
 		
 <?php get_footer($base_url) ?>

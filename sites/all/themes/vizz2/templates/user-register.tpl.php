@@ -5,18 +5,6 @@ global $base_url ;
 global $base_path ;
 $dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
 
-// $form['field_country']['und']['#options']) ;
-
-//  dpm($form);
-/*
-	print render($form['account']['name']);
-	print render($form['account']['mail']);
-	print render($form['field_firstname']);
-	print render($form['field_lastname']);
-	print render($form['field_country']); // Your Drupal 7 profile field if any.
-	print drupal_render($form['actions']); 
-*/	
-	
 ?>
 
 

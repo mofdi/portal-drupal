@@ -105,8 +105,9 @@
   <link rel="stylesheet" href="<?php print ($dataportal_base_url); ?>/css/style.css?v=2"/>
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css" type="text/css" media="all"/>
 
-  
+  <!-- begin Drupal scripts -->
   <?php print $scripts; ?>
+  <!-- end Drupa scripts -->
   <script src="<?php print ($dataportal_base_url); ?>/cfg"></script>
   <script src="<?php print ($dataportal_base_url); ?>/js/vendor/modernizr-1.7.min.js"></script>
   <script type="text/javascript" src="<?php print ($dataportal_base_url); ?>/js/vendor/jquery-1.7.1.min.js"></script>

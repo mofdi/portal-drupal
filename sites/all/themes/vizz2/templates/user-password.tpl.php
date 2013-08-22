@@ -6,7 +6,7 @@ $dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) 
 // dpm($form) ;
 ?>
 
-<form action="<?php echo $base_url?>/user/register" method="post" autocomplete="off">
+<form action="<?php echo $base_url?>/user/register" method="post" autocomplete="on">
 <?php	print render($form['form_id']); ?>
 <?php	print render($form['form_build_id']); ?>
 

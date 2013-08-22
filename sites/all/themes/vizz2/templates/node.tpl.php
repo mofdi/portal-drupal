@@ -97,7 +97,6 @@
 				<?php
 					// We hide the comments and links now so that we can render them later.
 					print render($content['body']);
-					print $messages ; 
 				?>
 			</div>
 		</div>

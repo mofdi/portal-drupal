@@ -74,18 +74,22 @@
 			</div>
 			<footer></footer>
 		</article>
+		<?php if (!empty ($messages) ) { ?>
 		<article id="step-0" class="register">
 			<header></header>
 			<div class="content">
 				<div class="content">
 					<?php print $messages ; ?>
-
-<?php // dpm($page) ; ?>					
-					
-					
+				</div>
+			</div>
+			<footer></footer>
+		</article>
+		<?php } ?>		
+		<article id="step-0" class="register">
+			<header></header>
+			<div class="content">
+				<div class="content">
 					<?php print render($page['content']); ?>					
-					
-										
 				</div>
 			</div>
 			<footer></footer>
