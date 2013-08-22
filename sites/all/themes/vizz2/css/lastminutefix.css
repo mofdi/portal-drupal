@@ -73,6 +73,7 @@ div.form-item.form-type-password.form-item-pass{
 div.recover_password {
 	top: -20px;
 	position: relative;	
+	width: 340px;
 }
 
 #content article.register form input {
