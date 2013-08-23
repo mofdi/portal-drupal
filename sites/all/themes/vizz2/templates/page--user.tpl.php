@@ -48,7 +48,7 @@
 		<h1><?php print ( $more_user->field_firstname['und'][0]['value']); print '&nbsp;' ; print ( $more_user->field_lastname['und'][0]['value']); ?></h1>
 		<h3>User account and personal settings</h3>
 		<?php  } else { ?>
-		<h1>Sign In To GBIF</h1>
+		<h1>Login To GBIF</h1>
 		<?php } ?>
 		</div>
 	</div>
