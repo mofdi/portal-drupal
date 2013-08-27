@@ -307,3 +307,55 @@ body > .contact_footer .copyright, .contact_footer .address, .contact_footer .co
 	width: 80px;
 	height: 95px;
 }
+
+/* Needed for IPT Page */
+body.newsroom #content article.detail .headerleft {
+    width: 603px;
+	float: left;
+	padding-right:41px;
+}
+body.newsroom #content article.detail .headerright {
+    width: 210px;
+	float: left;
+}
+body.newsroom #content .wholewidth {
+	border-top: 1px solid #E0E0E0;
+	padding-top: 25px;
+}
+body.newsroom #content article.detail .content .box {
+    background: url("http://uat.gbif.org/img/header/infoband_box_left.png") no-repeat scroll left top transparent;
+    padding: 0 12px;
+    position: absolute;
+    right: 67px;
+    top: -180px;
+	z-index:1000000;
+}
+body.newsroom #content article.detail .content .box .content ul li h4 {
+    color: #333333;
+    font-family: "DINOT-Medium",Sans-Serif;
+    font-size: 31px;
+    margin-bottom: 3px;
+	text-align: center;
+}
+body.newsroom #content article.detail .content .box .content {
+    background: url("http://uat.gbif.org/img/header/infoband_box_right.png") repeat-x scroll right top transparent;
+    height: 88px;
+    left: 0;
+    margin: 0;
+    padding: 12px 12px 0 0;
+    position: relative;
+    right: 0;
+    width: auto;
+}
+body.newsroom #content article.iptfeatures >.content .inner{padding:0;margin:0;background:none;}
+body.newsroom #content article.iptfeatures >.content .inner ul{padding:0 0 20px 0;margin:0 0 0 0;background:#fff;}
+body.newsroom #content article.iptfeatures >.content .inner ul li{padding:0;margin:0;width:250px;height:320px;margin:0 28px 0 0;background:#fff;list-style:none;display:inline-block;*display:inline;*zoom:1;vertical-align:top;}
+body.newsroom #content article.iptfeatures >.content .inner ul li.last{margin-right:0;border-right: none}
+body.newsroom #content article.iptfeatures >.content .inner ul li.iptfeature{padding-left:5px;padding-top:5px;margin-bottom:10px;border-left: 1px solid #E0E0E0;border-top: 1px solid #E0E0E0;}
+body.newsroom #content article.iptfeatures >.content .inner ul li:last-child{margin-right:0;}
+body.newsroom #content article.iptfeatures >.content .inner ul li .imgbox-tall{display:block;height:160px;}
+body.newsroom #content article.iptfeatures >.content .inner ul li .imgbox-short{display:block;height:135px;}
+body.newsroom #content article.iptfeatures >.content .inner ul li img{margin:0 0 15px 0;}
+body.newsroom #content article.iptfeatures >.content .inner ul li h3{margin:0 0 5px 0!important;}
+body.newsroom #content article.iptfeatures >.content .inner ul li .title{display:block;overflow:hidden;margin:0 0 10px 0;height:40px;color:#0099CC;text-decoration:none;font-weight:bold;font-size:19px;}
+body.newsroom #content article.iptfeatures >.content .inner ul li p{overflow:hidden;color:#666666;font-size:15px;margin-bottom:0px;}
