@@ -256,11 +256,11 @@ foreach ($view as $key => $vnode) {
   </div>
 
   <div class="footer">
-    <a href="#">Animals</a> &middot;
-    <a href="#">Plants</a> &middot;
-    <a href="#">Fungi</a> &middot;
-    <a href="#">Bacteria</a> &middot;
-    <a href="#">Archaea</a> &middot;
+    <a href="<?php echo $dataportal_base_url?>/species/1">Animals</a> &middot;
+    <a href="<?php echo $dataportal_base_url?>/species/6">Plants</a> &middot;
+    <a href="<?php echo $dataportal_base_url?>/species/5">Fungi</a> &middot;
+    <a href="<?php echo $dataportal_base_url?>/species/3">Bacteria</a> &middot;
+    <a href="<?php echo $dataportal_base_url?>/species/2">Archaea</a> &middot;
   </div>
 
   <footer></footer>
