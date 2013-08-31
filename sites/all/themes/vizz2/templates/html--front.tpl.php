@@ -96,7 +96,7 @@
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title property="dc:title">GBIF Data Portal - Home</title>
+  <title property="dc:title">GBIF Portal - Home</title>
   <meta name="description" content="">
   <meta name="author" content="GBIF">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">

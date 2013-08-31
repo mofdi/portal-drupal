@@ -2,7 +2,9 @@
 /**
 * Implements hook_install()
 */
-function gfx_install(){
+function gfxr_install(){
+	// req BKO
+	variable_set('gbif_portal_drupal', TRUE);
 
 }
 
@@ -10,8 +12,9 @@ function gfx_install(){
 /**
 * Implements hook_uninstall()
 */
-function gfx_uninstall() {
-
+function gfxr_uninstall() {
+	// req BKO
+	variable_del('gbif_portal_drupal', TRUE);
 }
 
 /**
@@ -19,6 +22,6 @@ function gfx_uninstall() {
 *
 *
 */
-function gfx_schema() {
+function gfxr_schema() {
 
 }
