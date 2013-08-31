@@ -131,6 +131,23 @@ function vizz2_theme($existing, $type, $theme, $path){
 return $hooks;
 }
 
+/**
+ * Override or insert variables into the html templates.
+ *
+ * @param $variables
+ *   An array of variables to pass to the theme template.
+ * @param $hook
+ *   The name of the template being rendered ("html" in this case.)
+ */
+
+function vizz2_preprocess_html(&$vars, $hook) {
+
+	$status = drupal_get_http_header("status");  
+	if($status == "404 Not Found") {      
+		$vars['theme_hook_suggestions'][] = 'html__404';
+	}
+
+}
  
   
 function vizz2_preprocess_page( &$vars, $hook ) {
@@ -147,9 +164,12 @@ function vizz2_preprocess_page( &$vars, $hook ) {
 		unset($vars['page']['content']['system_main']['no_content']);
 	}
 
-//    echo '<pre>'; var_dump($vars['theme_hook_suggestions']); echo '</pre>';
+	$status = drupal_get_http_header("status");  
+	if($status == "404 Not Found") {      
+		$vars['theme_hook_suggestions'][] = 'page__404';
+	}
 
-		
+// 	echo '<pre>'; var_dump($vars['theme_hook_suggestions']); echo '</pre>';
 }
 
 
@@ -303,23 +323,6 @@ function STARTERKIT_preprocess_maintenance_page(&$variables, $hook) {
 }
 // */
 
-/**
- * Override or insert variables into the html templates.
- *
- * @param $variables
- *   An array of variables to pass to the theme template.
- * @param $hook
- *   The name of the template being rendered ("html" in this case.)
- */
-/* -- Delete this line if you want to use this function
-function STARTERKIT_preprocess_html(&$variables, $hook) {
-  $variables['sample_variable'] = t('Lorem ipsum.');
-
-  // The body tag's classes are controlled by the $classes_array variable. To
-  // remove a class from $classes_array, use array_diff().
-  //$variables['classes_array'] = array_diff($variables['classes_array'], array('class-to-remove'));
-}
-// */
 
 /**
  * Override or insert variables into the page templates.

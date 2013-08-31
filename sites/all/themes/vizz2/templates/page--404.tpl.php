@@ -1,16 +1,9 @@
 <?php 
 	
-	// $rgr = field_get_items('node',$node,'field_relatedgbifresources') ; dpm($rgr)
-
-	// we ASSUME there is a $node since we are in a template named page--node--something.tpl.php
-	// get an array with all the fields for this node
-	
 	if ($node) {
 		$tags = field_attach_view('node', $node,'full' ) ; 
 	}
 
-	// Fetch some data from the navigation taxonomy in order to use it for the page title
-	// via custom function in template.php
 	$taxon = get_title_data() ;
 
 	global $user;
@@ -49,17 +42,18 @@
     </div>
   </div>
   <!-- /top -->
-	<?php $taxon = get_title_data() ; ?>
-	<div id="infoband">
-		<div class="content">
-			<h1><?php print $taxon->name ?></h1>
-			<h3><?php print $taxon->description ?></h3>
-		</div>
-	</div>
-		<?php print render($page['sidebar_first']); ?>
 </header>
 <div id="content"><!-- page.tpl -->
-	<?php print render($page['content']); ?>
+    <article class="dataset">
+    <header></header>
+    <div class="content">
+
+      <h1>Page Not Found</h1>
+      <p><?php // print render($page['content']); ?>We are sorry, but the page you requested does not exist.</p>
+
+    </div>
+    <footer></footer>
+  </article>
 </div><!-- page.tpl -->
 		
 <?php get_footer($base_url) ?>
