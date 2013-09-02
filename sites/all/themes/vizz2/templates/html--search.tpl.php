@@ -68,7 +68,7 @@
 	<link rel="stylesheet" href="<?php print ($base_url); ?>/sites/all/themes/vizz2/css/lastminutefix.css">	
 	  
 </head>
-<body class="newsroom">
+<body class="search">
 	<?php print $page_top; ?>
 	<?php print $page; ?>
 	<?php print $page_bottom; ?>
