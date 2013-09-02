@@ -23,7 +23,6 @@
 	global $base_url ;
 	global $base_path ;
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
-					
 ?>
 <header>
   <div id="top">
@@ -59,17 +58,18 @@
 	<div id="infoband">
 		<div class="content">
 		<h2>Search GBIF</h2>
-		<?php $search_form = drupal_get_form("search-form") ;  ?>
-		<form action="/search/node" method="post" id="formSearch" >
-		  <input id="q" type="text" name="keys" value="" autocomplete="off" placeholder="Search scientific name, common name, checklist description..."/>
-		  <input type="hidden" name="form_build_id" value="<?php print $search_form['#build_id']?>" />
+		<form action="/search/node" method="post" id="search-form">
+		  <input id="edit-keys"  type="text" name="keys" value="<?php print ($page['content']['system_main']['search_form']['basic']['keys']['#default_value']) ; ?>" autocomplete="off" placeholder="Search scientific name, common name, checklist description..."/>
+		  <input type="hidden" name="form_build_id" value="<?php print $page['content']['system_main']['search_form']['#build_id']?>" />
+		  <input type="hidden" name="form_id" value="search_form" />
+		  <input type="hidden" id="edit-submit" name="op" value="Search" class="form-submit" />
 		</form>
 		</div>
 	</div>
 		<?php print render($page['sidebar_first']); ?>
 </header>
 <div id="content"><!-- page.tpl -->
-	<?php print render($page['content']); ?>
+	<?php print render($page['content']['system_main']['search_results']); 	 ?>
 </div><!-- page.tpl -->
 		
 <?php get_footer($base_url) ?>

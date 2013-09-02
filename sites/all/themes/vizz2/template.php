@@ -250,13 +250,16 @@ function vizz2_form_alter( &$form, &$form_state, $form_id ) {
 	}
 
 /* The search form WILL be included in all results pages. 
- * there doesn't seem to be a template/hook to prevent that
+ * there doesn't seem to be a template/hook to prevent that so
  * brute force the form out completely when it's for search
+ * 
+ * ... unless you bypass $page['content'] in your tpl and go directly for
+ *  $page['content']['system_main']['search_results']
  */
-	if ( $form['#action'] == '/search/node' ) {
+/*	if ( $form['#action'] == '/search/node' ) {
 		dpm($form);
 		$form = array();
-    }
+    } */
 
 }
 
