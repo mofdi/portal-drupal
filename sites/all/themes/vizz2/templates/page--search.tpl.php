@@ -23,6 +23,8 @@
 	global $base_url ;
 	global $base_path ;
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
+	//  print $messages ;
+	$results_exist = $page['content']['system_main']['search_results']['#results'] ? : FALSE
 ?>
 <header>
   <div id="top">
@@ -69,7 +71,22 @@
 		<?php print render($page['sidebar_first']); ?>
 </header>
 <div id="content"><!-- page.tpl -->
-	<?php print render($page['content']['system_main']['search_results']); 	 ?>
+<?php if ( $results_exist ) { ?>
+		<?php print render($page['content']['system_main']['search_results']); 	 ?>
+<?php } else { ?>
+	    <article class="dataset">
+			<header></header>
+			<div class="content">
+			<?php if ( $messages ) { ?>
+			<p><?php echo $messages ; ?></p>
+			<?php } else { ?>
+			<h2>Search Error</h2>
+			<p>Please enter at least one search term.</p>
+			<?php } ?>
+			</div>
+			<footer></footer>
+		</article>
+<?php } ?>
 </div><!-- page.tpl -->
 		
 <?php get_footer($base_url) ?>
