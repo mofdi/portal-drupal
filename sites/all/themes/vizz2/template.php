@@ -256,8 +256,8 @@ function vizz2_form_alter( &$form, &$form_state, $form_id ) {
  * ... unless you bypass $page['content'] in your tpl and go directly for
  *  $page['content']['system_main']['search_results']
  */
-/*	if ( $form['#action'] == '/search/node' ) {
-		dpm($form);
+
+ /*	if ( $form['#action'] == '/search/node' ) {
 		$form = array();
     } */
 
