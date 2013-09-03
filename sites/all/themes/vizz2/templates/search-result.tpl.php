@@ -69,7 +69,17 @@ if ( $info_split['date'] ) {
 }
 ?>    
 <div class="result">
-	<h3><?php // print $result['type'] ; ?></h3>
+	<h3><?php switch ( $result['type'] ) { // :-s
+		case 'News Article' : 
+			print ('News item') ;
+			break ;
+		case 'Uses of Data Article' :
+			print ('Featured data use') ;
+			break ;
+		default :
+			print ('Information page');
+		}
+		?></h3>
 	<h2><a href="<?php print $url; ?>"><?php print $title; ?></a></h2>
 	<?php if ($snippet): ?>
 	<p><?php print $snippet; ?></p>
