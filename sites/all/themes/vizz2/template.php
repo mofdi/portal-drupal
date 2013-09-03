@@ -932,7 +932,7 @@ echo'	<li class="search">';
 if ( $w_search ) {
 
 	echo '     <form action="/search/node" method="post" id="search-form">' ;
-	print "<span class='input_text'><input id='edit-keys'  type='text' name='keys' value='{$search_form['basic']['keys']['#default_value']}' autocomplete='off' placeholder='Search GBIF news and articles...'/></span>" ;
+	print "<span class='input_text'><input id='edit-keys'  type='text' name='keys' value='{$search_form['basic']['keys']['#default_value']}' autocomplete='off' placeholder='News and articles'/></span>" ;
 	print "<input type='hidden' name='form_build_id' value='{$search_form['#build_id']}' ";
 	print "<input type='hidden' name='form_token' value='{$search_form['form_token']['#default_value']}'" ;
 	echo '<input type="hidden" name="form_id" value="search_form" />' ;

@@ -100,7 +100,7 @@
 		
 		<form action="/search/node" method="post" id="search-form">
 	        <span class="input_text">
-			  <input id="edit-keys"  type="text" name="keys" value="<?php print ($search_form['basic']['keys']['#default_value']) ; ?>" autocomplete="off" placeholder="Search GBIF news and articles..."/>
+			  <input id="edit-keys"  type="text" name="keys" value="<?php print ($search_form['basic']['keys']['#default_value']) ; ?>" autocomplete="off" placeholder="Search news items and information pages..."/>
 	        </span>
 			<input type="hidden" name="form_build_id" value="<?php print ($search_form['#build_id']) ?>" />
 			<input type="hidden" name="form_token" value="<?php print ($search_form['form_token']['#default_value']) ?>" />
