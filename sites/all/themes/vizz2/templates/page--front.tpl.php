@@ -96,14 +96,17 @@
       </ul>
     </div>
     <div class="footer">
-<p>Note: only searches species currently</p>
-      <form action='/species/search' method='GET'>
-        <span class="input_text">
-          <input type="text" name="q" placeholder="Search GBIF for species datasets or countries" class="focus">
-        </span>
-        <button class="search_button"><span>Search</span></button>
-      </form>
-
+		
+		<form action="/search/node" method="post" id="search-form">
+	        <span class="input_text">
+			  <input id="edit-keys"  type="text" name="keys" value="<?php print ($page['content']['system_main']['search_form']['basic']['keys']['#default_value']) ; ?>" autocomplete="off" placeholder="Search GBIF news and articles..."/>
+	        </span>
+			<input type="hidden" name="form_build_id" value="<?php print $page['content']['system_main']['search_form']['#build_id']?>" />
+			<input type="hidden" name="form_token" value="<?php print $page['content']['system_main']['search_form']['form_token']['#default_value']?>" />
+			<input type="hidden" name="form_id" value="search_form" />
+			<input type="hidden" id="edit-submit" name="op" value="Search" class="form-submit" />
+			<button class="search_button"><span>Search</span></button>
+		</form>
     </div>
     <footer></footer>
     </article>
