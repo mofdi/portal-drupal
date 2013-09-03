@@ -11,7 +11,7 @@
 	global $base_url ;
 	global $base_path ;
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
-  
+	$total = ( $GLOBALS['pager_total_items'][0] > 0 ? " {$GLOBALS['pager_total_items'][0]} results" : '' ) ;
  ?><!doctype html>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
 <!--[if lt IE 7 ]> <html class="no-js ie6" lang="en"> <![endif]-->
@@ -32,10 +32,10 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-<?php $taxon = get_title_data() ; ?>
+<?php // $taxon = get_title_data() ; // not needed we use the number of searches ?>
 
   <title property="dc:title">
-  <?php print $taxon->name?>&nbsp;&dash;&nbsp;<?php if ($taxon->description != '') print $taxon->description ; else print $head_title;  ?></title>
+  <?php print $head_title; print $total ; ?></title>
   <meta name="description" content="">
   <meta name="author" content="GBIF">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">

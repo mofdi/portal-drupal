@@ -329,9 +329,9 @@ function vizz2_form_alter( &$form, &$form_state, $form_id ) {
  *
  */
 function vizz2_preprocess_search_results(&$vars) {
+
 	// search.module shows 10 items per page (this isn't customizable)
 	$itemsPerPage = 10;
-
 	// Determine which page is being viewed
 	// If $_REQUEST['page'] is not set, we are on page 1
 	$currentPage = (isset($_REQUEST['page']) ? $_REQUEST['page'] : 0) + 1;
