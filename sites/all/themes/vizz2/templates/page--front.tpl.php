@@ -3,6 +3,7 @@
 	global $base_url ;
 	global $base_path ;
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
+	$search_form = drupal_get_form('search_form') ; 
 ?>
 <header>
 
@@ -99,10 +100,10 @@
 		
 		<form action="/search/node" method="post" id="search-form">
 	        <span class="input_text">
-			  <input id="edit-keys"  type="text" name="keys" value="<?php print ($page['content']['system_main']['search_form']['basic']['keys']['#default_value']) ; ?>" autocomplete="off" placeholder="Search GBIF news and articles..."/>
+			  <input id="edit-keys"  type="text" name="keys" value="<?php print ($search_form['basic']['keys']['#default_value']) ; ?>" autocomplete="off" placeholder="Search GBIF news and articles..."/>
 	        </span>
-			<input type="hidden" name="form_build_id" value="<?php print $page['content']['system_main']['search_form']['#build_id']?>" />
-			<input type="hidden" name="form_token" value="<?php print $page['content']['system_main']['search_form']['form_token']['#default_value']?>" />
+			<input type="hidden" name="form_build_id" value="<?php print ($search_form['#build_id']) ?>" />
+			<input type="hidden" name="form_token" value="<?php print ($search_form['form_token']['#default_value']) ?>" />
 			<input type="hidden" name="form_id" value="search_form" />
 			<input type="hidden" id="edit-submit" name="op" value="Search" class="form-submit" />
 			<button class="search_button"><span>Search</span></button>

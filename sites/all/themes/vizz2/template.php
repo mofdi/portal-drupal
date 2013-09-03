@@ -856,6 +856,7 @@ function vizz2_item_list($variables) {
 
 function get_nav ($base_url, $w_search=TRUE) {
 $dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
+$search_form = drupal_get_form('search_form') ; 
 
 echo '
       <nav>
@@ -931,9 +932,9 @@ echo'	<li class="search">';
 if ( $w_search ) {
 
 	echo '     <form action="/search/node" method="post" id="search-form">' ;
-	print "<span class='input_text'><input id='edit-keys'  type='text' name='keys' value='{$page['content']['system_main']['search_form']['basic']['keys']['#default_value']}' autocomplete='off' placeholder='Search GBIF news and articles...'/></span>" ;
-	print "<input type='hidden' name='form_build_id' value='{$page['content']['system_main']['search_form']['#build_id']}' ";
-	print "<input type='hidden' name='form_token' value='{$page['content']['system_main']['search_form']['form_token']['#default_value']}'" ;
+	print "<span class='input_text'><input id='edit-keys'  type='text' name='keys' value='{$search_form['basic']['keys']['#default_value']}' autocomplete='off' placeholder='Search GBIF news and articles...'/></span>" ;
+	print "<input type='hidden' name='form_build_id' value='{$search_form['#build_id']}' ";
+	print "<input type='hidden' name='form_token' value='{$search_form['form_token']['#default_value']}'" ;
 	echo '<input type="hidden" name="form_id" value="search_form" />' ;
 	echo '<input type="hidden" id="edit-submit" name="op" value="Search" class="form-submit" />' ;
 	echo '	</form> ';
