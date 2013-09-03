@@ -16,6 +16,8 @@ body.home #beta {
 	top: 10px;
 }
 
+#search_placeholder { width:179px ; display: inline-block } 
+
 #content article form div.fields {
 	overflow: visible ;
 	margin: 70px 0 0 0 ;
@@ -227,6 +229,10 @@ body.newsroom #content article.slideshow > .content > .right ul li {
 
 #content article.register {
 		padding-right: 222px ;
+}
+
+#more_links li {
+	list-style: none ;
 }
 
 body.home header .info .counters li a:link,

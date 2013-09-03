@@ -854,7 +854,7 @@ function vizz2_item_list($variables) {
  */
 
 
-function get_nav ($base_url) {
+function get_nav ($base_url, $w_search=TRUE) {
 $dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
 
 echo '
@@ -924,17 +924,23 @@ echo "            <li><a href='$base_url/newsroom/events'>Events</a></li> " ;
 echo '          </ul>
         </div>
 
-        </li>
+        </li>';
 
-        <li class="search">
-        <form href="#" method="GET">
+echo'	<li class="search">';
+
+if ( $w_search ) {
+	echo '     <form href="#" method="GET">
           <span class="input_text">
               <!-- Global search disabled until implemented later. See issue: http://dev.gbif.org/issues/browse/POR-387 -->
             <input type="text" name="q" disabled="true"/>
           </span>
-        </form>
-        </li>
-      </ul>
+        </form> ';
+} else {
+	echo'     <span id="search_placeholder"></span>' ;
+}        
+echo '        </li>' ;
+
+echo'      </ul>
       </nav>
 ' ;
 

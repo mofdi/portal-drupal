@@ -52,22 +52,28 @@
 		<a id="disclaimerToggle" href="/portal/disclaimer">
 		<img id="beta" src="<?php echo $dataportal_base_url?>/img/beta.gif">
 		</a>
-	<?php get_nav($base_url) ?>
+	<?php get_nav($base_url, $w_search=FALSE) ?>
     </div>
   </div>
   <!-- /top -->
 	<?php $taxon = get_title_data() ; ?>
 	<div id="infoband">
-		<div class="content">
-		<h2>Search GBIF</h2>
-		<form action="/search/node" method="post" id="search-form">
-		  <input id="edit-keys"  type="text" name="keys" value="<?php print ($page['content']['system_main']['search_form']['basic']['keys']['#default_value']) ; ?>" autocomplete="off" placeholder="Search scientific name, common name, checklist description..."/>
+		<div class="content">
+
+		<h2>Search GBIF</h2>
+
+		<form action="/search/node" method="post" id="search-form">
+
+		  <input id="edit-keys"  type="text" name="keys" value="<?php print ($page['content']['system_main']['search_form']['basic']['keys']['#default_value']) ; ?>" autocomplete="off" placeholder="Search GBIF news and articles..."/>
+
 		  <input type="hidden" name="form_build_id" value="<?php print $page['content']['system_main']['search_form']['#build_id']?>" />
 		  <input type="hidden" name="form_token" value="<?php print $page['content']['system_main']['search_form']['form_token']['#default_value']?>" />
 		  <input type="hidden" name="form_id" value="search_form" />
 		  <input type="hidden" id="edit-submit" name="op" value="Search" class="form-submit" />
-		</form>
-		</div>
+		</form>
+
+		</div>
+
 	</div>
 		<?php print render($page['sidebar_first']); ?>
 </header>
