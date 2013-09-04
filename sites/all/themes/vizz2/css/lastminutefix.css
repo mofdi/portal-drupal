@@ -32,7 +32,6 @@ body.home #beta {
 	text-transform: uppercase;
 	color: #333333;
 	text-shadow: 0 1px white;
-	filter: progid:dximagetransform.microsoft.dropshadow(offx=0, offy=1, color=#ffffff);
 }
 
 
@@ -44,7 +43,6 @@ body.home #beta {
 	text-transform: uppercase;
 	color: #333333;
 	text-shadow: 0 1px white;
-	filter: progid:dximagetransform.microsoft.dropshadow(offx=0, offy=1, color=#ffffff);
 }
 
 
