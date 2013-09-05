@@ -42,8 +42,8 @@
         <span>Free and open access to biodiversity data</span>
       </div>
 
-		<a id="disclaimerToggle" href="/portal/disclaimer">
-		<img id="beta" src="<?php echo $dataportal_base_url?>/img/beta.gif">
+		<a class="disclaimerToggle" href="/portal/disclaimer">
+		<img src="<?php echo $dataportal_base_url?>/img/beta.gif">
 		</a>
 	<?php get_nav($base_url) ?>
     </div>
