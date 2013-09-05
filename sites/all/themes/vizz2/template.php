@@ -143,7 +143,7 @@ return $hooks;
 function vizz2_preprocess_html(&$vars, $hook) {
 // var_dump ($vars) ;
 	$status = drupal_get_http_header("status");  
-	if($status == "404 Not Found") {      
+	if($status == "404 Not Found" OR $status == "403 Forbidden") {      
 		$vars['theme_hook_suggestions'][] = 'html__404';
 	}
 
@@ -167,6 +167,9 @@ function vizz2_preprocess_page( &$vars, $hook ) {
 	$status = drupal_get_http_header("status");  
 	if($status == "404 Not Found") {      
 		$vars['theme_hook_suggestions'][] = 'page__404';
+	}
+	if($status == "403 Forbidden") {      
+		$vars['theme_hook_suggestions'][] = 'page__403';
 	}
 
 // 	echo '<pre>'; var_dump($vars['theme_hook_suggestions']); echo '</pre>';
