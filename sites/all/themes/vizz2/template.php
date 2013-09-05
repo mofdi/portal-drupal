@@ -1022,10 +1022,10 @@ echo "  </ul> " ;
 
 echo "  <ul class='last'> " ;
 echo "	  <li><h3>SOCIAL MEDIA</h3></li> " ; 
-echo "	  <li class='twitter'><a href='https://twitter.com/GBIF'>Follow GBIF on Twitter</a></li> " ; 
-echo "	  <li class='facebook'><a href='https://www.facebook.com/gbifnews'>Like GBIF on Facebook</a></li> " ; 
-echo "	  <li class='linkedin'><a href='http://www.linkedin.com/groups/GBIF-55171'>Join GBIF on Linkedin</a></li> " ; 
-echo "	  <li class='vimeo'><a href='http://vimeo.com/gbif'>View GBIF on Vimeo</a></li> " ; 
+echo "	  <li class='twitter'><i></i><a href='https://twitter.com/GBIF'>Follow GBIF on Twitter</a></li> " ; 
+echo "	  <li class='facebook'><i></i><a href='https://www.facebook.com/gbifnews'>Like GBIF on Facebook</a></li> " ; 
+echo "	  <li class='linkedin'><i></i><a href='http://www.linkedin.com/groups/GBIF-55171'>Join GBIF on Linkedin</a></li> " ; 
+echo "	  <li class='vimeo'><i></i><a href='http://vimeo.com/gbif'>View GBIF on Vimeo</a></li> " ; 
 echo "  </ul> " ;
 
 echo "	</div> " ;
