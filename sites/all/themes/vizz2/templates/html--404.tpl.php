@@ -100,7 +100,6 @@
   <?php print $taxon->name?>&nbsp;&dash;&nbsp;<?php if ($taxon->description != '') print $taxon->description ; else print $head_title;  ?></title>
   <meta name="description" content="">
   <meta name="author" content="GBIF">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="<?php print ($dataportal_base_url); ?>/img/favicon/favicon_32x32.ico">
   <link rel="apple-touch-icon" href="<?php print ($dataportal_base_url); ?>/img/favicon/favicon_32x32.ico">
   <link rel="stylesheet" href="<?php print ($dataportal_base_url); ?>/css/style.css?v=2"/>
