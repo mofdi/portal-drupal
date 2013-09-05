@@ -977,7 +977,7 @@ echo "	<ul> " ;
 echo "		<li><h3>WHO’S PARTICIPATING</h3></li> " ; 
 echo "		<li><a class='placeholder_temp' href='#'>Countries</a></li> " ; 
 echo "		<li><a class='placeholder_temp' href='#'>Organizations</a></li> " ; 
-echo "		<li><a class='placeholder_temp' href='#'>Data publishers</a></li> " ; 
+echo "		<li class='last'><a class='placeholder_temp' href='#'>Data publishers</a></li> " ; 
 echo "	</ul> " ;
 
 echo "	<ul> " ;
