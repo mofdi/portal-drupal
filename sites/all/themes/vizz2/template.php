@@ -1040,7 +1040,8 @@ echo "	</div> " ;
 function get_bottom_js ($base_url) {
 
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
-
+	$google_analytics_key = theme_get_setting( 'vizz2_google_analytics_key','vizz2' ) ;
+	
 	echo '  <!-- JavaScript at the bottom for fast page loading --> ' ;
 	echo "<script type='text/javascript' src='$dataportal_base_url/js/vendor/jquery-ui-1.8.17.min.js'></script> " ;
 	echo "<script type='text/javascript' src='$dataportal_base_url/js/vendor/jquery.dropkick-1.0.0.js'></script> " ;
@@ -1060,10 +1061,10 @@ function get_bottom_js ($base_url) {
 	echo '<!-- JIRA feedback buttons -->' ;
 	echo '<script type="text/javascript" src="http://dev.gbif.org/issues/s/en_UKkby86d-1988229788/6096/5/1.4.0-m2/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=a2e9eca4"></script>';
 	echo '<!-- end JIRA feedback buttons -->' ;
-	echo '<!-- Google analytics. Use UA-42057855-1 for UAT instead of UA-myAnalyticsKey below -->';
+	echo '<!-- Google analytics. Use the value provided by the theme -->';
 	echo '<script>';
 	echo "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');";
-	echo "ga('create', 'UA-42057855-1', 'gbif.org');";
+	echo "ga('create', '".$google_analytics_key."', 'gbif.org');";
 	echo "ga('send', 'pageview');";
 	echo '</script>';
 	echo '  <!-- end scripts-->

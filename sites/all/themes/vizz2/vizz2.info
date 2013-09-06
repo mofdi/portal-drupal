@@ -133,7 +133,7 @@ features[] = secondary_menu
 
 
 settings[vizz2_dataportal_base_url] = 'http://data.gbif.org'
-
+settings[vizz2_google_analytics_key] = 'UA-42057855-1'
 
 ; Set the default values of settings on the theme-settings.php form.
 
