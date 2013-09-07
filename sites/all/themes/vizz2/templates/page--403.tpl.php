@@ -46,7 +46,7 @@
 
       <h1>403 Frobidden</h1>
       <p><?php print render($page['content']); ?><p>
-      <p>We are sorry, but you the requested is not accesible.</p>
+      <p>We are sorry, but the requested page is not accesible.</p>
 
     </div>
     <footer></footer>
