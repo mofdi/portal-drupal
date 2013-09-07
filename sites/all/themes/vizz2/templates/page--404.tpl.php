@@ -1,9 +1,4 @@
 <?php 
-	
-	if ($node) {
-		$tags = field_attach_view('node', $node,'full' ) ; 
-	}
-
 	$taxon = get_title_data() ;
 
 	global $user;

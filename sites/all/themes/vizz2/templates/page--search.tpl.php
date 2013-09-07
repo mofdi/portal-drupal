@@ -10,11 +10,6 @@
 	print render($block); 
 	*/
 	
-		
-	if ($node) {
-		$tags = field_attach_view('node', $node,'full' ) ; 
-	}
-
 	// Fetch some data from the navigation taxonomy in order to use it for the page title
 	// via custom function in template.php
 	$taxon = get_title_data() ;
