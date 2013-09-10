@@ -167,13 +167,15 @@ foreach ($view as $key => $vnode) {
             <h3>GBITS NEWSLETTER</h3>
             <p>Download the latest issue of our bimonthly newsletter <a href="http://www.gbif.org/communications/resources/newsletters/">here</a> or keep up to date with the latest GBIF news by signing up to GBits</p>
 
-            <form action="<?php // print $base_url ?>" method='post'>
+            <form method="post" action="http://www.jangomail.com/OptIn.aspx">
               <div class="input_text">
-				<?php print ( render($form['form_build_id']) ) ; print ( render($form['form_id'])) ;  ?>
-				<input type="text" id="edit-mail" name="mail" value="" placeholder="Enter your email" maxlength="68" />
-				<!-- input type="text" name="q" placeholder="Enter your email" / -->
+              	<input name="optinform$txtUniqueID" id="optinform_txtUniqueID" value="6f1fe36b-52ee-4ac3-a83f-98f800f3c16c" type="hidden">
+				<input name="optinform$Field0" id="optinform_Field0" type="text" placeholder="Enter your email" maxlength="68" >
+				<input name="optinform$Field5649548" id="optinform_Field5649548" type="text" placeholder="First Name" maxlength="68">
+				<input name="optinform$Field5649560" id="optinform_Field5649560" type="text" placeholder="Last Name" maxlength="68">
               </div>
-				<a href="" class="candy_blue_button"><span><input type="submit" id="edit-submit" name="op" value="Subscribe" class="form-submit" /></span></a>
+				<a href="#" id="signup" class="candy_blue_button"><span> <input type="submit" id="optinform_btnSubscribe" name="optinform$btnSubscribe" class="form-submit" value="Subscribe" /></span></a>
+															
               </form>
 
             

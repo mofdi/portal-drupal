@@ -969,7 +969,7 @@ echo "<footer>
 		<ul>" ;
 echo "		<li><h3>JOIN THE COMMUNITY</h3></li> " ;
 echo "		<li><a class='placeholder_temp' href='#'>Join GBIF Community Site</a></li> " ; 
-echo "		<li><a class='placeholder_temp' href='#'>Sign up to GBits newsletter</a></li> " ; 
+echo "		<li><a class='' href='#signup'>Sign up to GBits newsletter</a></li> " ; 
 echo "		<li><a class='placeholder_temp' href='#'>GBIF Online Resource Centre</a></li> " ; 
 echo "	</ul> " ;
 
