@@ -53,7 +53,7 @@
 
   <div id="content">
 	<?php print render($page['content']); ?>
-<?php print $messages ?>
+
   </div> <!--  end <div id="content"> -->
 
 <?php get_footer($base_url) ?>		

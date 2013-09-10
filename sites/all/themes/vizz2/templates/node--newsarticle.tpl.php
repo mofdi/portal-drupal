@@ -108,7 +108,7 @@
 			}
 				print render($content['body']);
 			?>
-				<?php print $messages ; ?>
+				<?php // var_dump ($content['field_country']) ; print $messages ; ?>
 		</div>
 		<div class="right">
 			<h3>Publication Date</h3>
@@ -140,7 +140,7 @@
 			<ul class='tags'>
 			<?php 
 			foreach ( array('field_capacity','field_country','field_informatics','field_organizations','field_regions') as $field ) { 
-				print ( '<li>'.render ( field_view_field ('node', $node, $field) ).'</li>' ) ; 
+				print ( '<li>'.render ( $content[$field] ).'</li>' ) ; 
 				
 			} ?>
 			</ul>			
