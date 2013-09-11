@@ -170,9 +170,9 @@ foreach ($view as $key => $vnode) {
             <form method="post" action="http://www.jangomail.com/OptIn.aspx">
               <div class="input_text">
               	<input name="optinform$txtUniqueID" id="optinform_txtUniqueID" value="6f1fe36b-52ee-4ac3-a83f-98f800f3c16c" type="hidden">
-				<input name="optinform$Field0" id="optinform_Field0" type="text" placeholder="Enter your email" maxlength="68" >
-				<input name="optinform$Field5649548" id="optinform_Field5649548" type="text" placeholder="First Name" maxlength="68">
-				<input name="optinform$Field5649560" id="optinform_Field5649560" type="text" placeholder="Last Name" maxlength="68">
+				<input name="optinform$Field0" id="optinform_Field0" type="text" placeholder="Enter your email (required)" maxlength="68" >
+				<input name="optinform$Field5649548" id="optinform_Field5649548" type="text" placeholder="First Name (required)" maxlength="68">
+				<input name="optinform$Field5649560" id="optinform_Field5649560" type="text" placeholder="Last Name (required)" maxlength="68">
               </div>
 				<a href="#" class="candy_blue_button"><span> <input type="submit" id="optinform_btnSubscribe" name="optinform$btnSubscribe" class="form-submit" value="Subscribe" /></span></a>
 															
