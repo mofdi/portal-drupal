@@ -163,7 +163,7 @@ foreach ($view as $key => $vnode) {
         </div>
 
         <div class="right">
-          <div class="subscribe">
+          <div class="subscribe"><a id="signup"></a>
             <h3>GBITS NEWSLETTER</h3>
             <p>Download the latest issue of our bimonthly newsletter <a href="http://www.gbif.org/communications/resources/newsletters/">here</a> or keep up to date with the latest GBIF news by signing up to GBits</p>
 
@@ -174,7 +174,7 @@ foreach ($view as $key => $vnode) {
 				<input name="optinform$Field5649548" id="optinform_Field5649548" type="text" placeholder="First Name" maxlength="68">
 				<input name="optinform$Field5649560" id="optinform_Field5649560" type="text" placeholder="Last Name" maxlength="68">
               </div>
-				<a href="#" id="signup" class="candy_blue_button"><span> <input type="submit" id="optinform_btnSubscribe" name="optinform$btnSubscribe" class="form-submit" value="Subscribe" /></span></a>
+				<a href="#" class="candy_blue_button"><span> <input type="submit" id="optinform_btnSubscribe" name="optinform$btnSubscribe" class="form-submit" value="Subscribe" /></span></a>
 															
               </form>
 

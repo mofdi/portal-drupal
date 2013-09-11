@@ -884,11 +884,11 @@ echo '          </ul>
         </li>
 
         <li>' ;
-echo "        <a class='' href='#' title='About GBIF'>About GBIF</a> " ;
+echo "        <a class='' href='#' title='About GBIF'>About</a> " ;
 
-echo '        <div class="about">
-          <a href="#"></a>
-          <ul> ' ;
+echo "        <div class='about'>
+          <a href='$base_url/whatisgbif'></a>
+          <ul> " ;
 echo "            <li><a href='$base_url/whatisgbif'>What is GBIF?</a></li> " ;
 echo "            <li><a href='$base_url/resources/keyinformation'>Key information</a></li> " ;
 echo "            <li><a href='$base_url/governance/summary'>Governance</a></li> " ;
@@ -900,7 +900,7 @@ echo "          </ul>
         </li>
         
         <li> " ;
-echo "        <a href='#' title='Community'>Community</a> " ;
+echo "        <a href='$base_url/participation/summary' title='Community'>Community</a> " ;
 
 echo '        <div class="community"> 
           <a href="#"></a>
@@ -916,7 +916,7 @@ echo '          </ul>
 
 
         <li>
-        <a href="#" title="Newsroom">Newsroom</a>
+        <a href="'.$base_url.'/newsroom/summary" title="News">News</a>
 
         <div class="news">
           <a href="#"></a>
@@ -969,7 +969,7 @@ echo "<footer>
 		<ul>" ;
 echo "		<li><h3>JOIN THE COMMUNITY</h3></li> " ;
 echo "		<li><a class='placeholder_temp' href='#'>Join GBIF Community Site</a></li> " ; 
-echo "		<li><a class='' href='#signup'>Sign up to GBits newsletter</a></li> " ; 
+echo "		<li><a class='' href='$base_url/newsroom/summary/#signup'>Sign up to GBits newsletter</a></li> " ; 
 echo "		<li><a class='placeholder_temp' href='#'>GBIF Online Resource Centre</a></li> " ; 
 echo "	</ul> " ;
 
