@@ -36,7 +36,7 @@
         <li><a href="<?php echo $dataportal_base_url?>/occurrence"><strong id="countOccurrences">?</strong> Occurrences</a></li>
         <li><a href="<?php echo $dataportal_base_url?>/species"><strong id="countSpecies">?</strong> Species</a></li>
         <li><a href="<?php echo $dataportal_base_url?>/dataset"><strong id="countDatasets">?</strong> Datasets</a></li>
-        <li><strong id="countPublishers">?</strong> Data publishers</li>
+        <li><a href="<?php echo $dataportal_base_url?>/publisher/search"><strong id="countPublishers">?</strong> Data publishers</a></li>
       </ul>
     </div>
 
