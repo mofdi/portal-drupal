@@ -968,26 +968,26 @@ echo "<footer>
 	<div class='footer'>
 		<ul>" ;
 echo "		<li><h3>JOIN THE COMMUNITY</h3></li> " ;
-echo "		<li><a class='placeholder_temp' href='#'>Join GBIF Community Site</a></li> " ; 
+echo "		<li><a class='' href='http://community.gbif.org/'>Join GBIF Community Site</a></li> " ; 
 echo "		<li><a class='' href='$base_url/newsroom/summary/#signup'>Sign up to GBits newsletter</a></li> " ; 
-echo "		<li><a class='placeholder_temp' href='#'>GBIF Online Resource Centre</a></li> " ; 
+echo "		<li><a class='' href='$base_url/resources/summary'>GBIF Online Resource Centre</a></li> " ; 
 echo "	</ul> " ;
 
 echo "	<ul> " ;
 echo "		<li><h3>WHO’S PARTICIPATING</h3></li> " ; 
-echo "		<li><a class='placeholder_temp' href='#'>Countries</a></li> " ; 
-echo "		<li><a class='placeholder_temp' href='#'>Organizations</a></li> " ; 
-echo "		<li class='last'><a class='placeholder_temp' href='#'>Data publishers</a></li> " ; 
+echo "		<li><a class='' href='$base_url/country'>Countries</a></li> " ; 
+echo "		<li><a class='' href='$base_url/node/other'>Organizations</a></li> " ; 
+echo "		<li class='last'><a class='' href='$base_url/publisher/search'>Data publishers</a></li> " ; 
 echo "	</ul> " ;
 
 echo "	<ul> " ;
 echo "		<li><h3>KEY DOCUMENTS</h3></li> " ; 
-echo "		<li><a class='placeholder_temp' href='#'>Data use agreement</a></li> " ; 
-echo "		<li><a class='placeholder_temp' href='#'>Data sharing agreement</a></li> " ; 
-echo "		<li><a class='placeholder_temp' href='#'>Memorandum of Understanding</a></li> " ; 
-echo "		<li><a class='placeholder_temp' href='#'>Annual Report</a></li> " ; 
-echo "		<li><a class='placeholder_temp' href='#'>GBIF Strategic Plan</a></li> " ; 
-echo "		<li><a class='placeholder_temp' href='#'>GBIF Work Programme</a></li> " ; 
+echo "		<li><a class='' href='$base_url/orc/?doc_id=2779&l=en'>Data use agreement</a></li> " ; 
+echo "		<li><a class='' href='$base_url/orc/?doc_id=2780&l=en'>Data sharing agreement</a></li> " ; 
+echo "		<li><a class='' href='$base_url/orc/?doc_id=2955&l=en'>Memorandum of Understanding</a></li> " ; 
+echo "		<li><a class='' href='$base_url/orc/?doc_id=5304'>Annual Report</a></li> " ; 
+echo "		<li><a class='' href='$base_url/orc/?doc_id=2792&l=en'>GBIF Strategic Plan</a></li> " ; 
+echo "		<li><a class='' href='$base_url/orc/?doc_id=4394&l=en'>GBIF Work Programme</a></li> " ; 
 echo "	</ul> " ;
 
 echo "	<ul class='last'> " ;
