@@ -881,25 +881,25 @@ echo "            <li><a href='$base_url/infrastructure/summary'>Infrastructure<
 echo '          </ul>
         </div>
 
-        </li>
+        </li> ' ;
 
-        <li>' ;
-echo "        <a class='' href='#' title='About GBIF'>About</a> " ;
 
-echo "        <div class='about'>
-          <a href='$base_url/whatisgbif'></a>
-          <ul> " ;
-echo "            <li><a href='$base_url/whatisgbif'>What is GBIF?</a></li> " ;
-echo "            <li><a href='$base_url/resources/keyinformation'>Key information</a></li> " ;
-echo "            <li><a href='$base_url/governance/summary'>Governance</a></li> " ;
-echo "            <li><a href='$base_url/whoweworkwith'>Who we work with</a></li> " ;
-echo "            <li><a href='$base_url/contact/contactus'>Contact</a></li> " ;
-echo "          </ul>
+echo '  <li>
+        <a href="'.$base_url.'/newsroom/summary" title="News">News</a>
+
+        <div class="news">
+          <a href="#"></a>
+          <ul> ' ;
+echo "            <li><a href='$base_url/newsroom/summary'>GBIF news</a></li> " ;
+echo "            <li><a href='$base_url/newsroom/uses'>Featured data use</a></li> " ;
+echo "            <li><a href='$base_url/newsroom/opportunities'>Opportunities</a></li> " ;
+echo "            <li><a href='$base_url/newsroom/events'>Events</a></li> " ;
+echo '          </ul>
         </div>
 
-        </li>
+        </li>';        
         
-        <li> " ;
+echo '  <li> ' ;
 echo "        <a href='$base_url/participation/summary' title='Community'>Community</a> " ;
 
 echo '        <div class="community"> 
@@ -912,19 +912,19 @@ echo "            <li><a href='$base_url/resources/summary'>Resources</a></li> "
 echo '          </ul>
         </div>
 
-        </li>
+        </li>' ;
 
+echo '   <li>' ;
+echo "        <a class='' href='#' title='About GBIF'>About</a> " ;
 
-        <li>
-        <a href="'.$base_url.'/newsroom/summary" title="News">News</a>
-
-        <div class="news">
-          <a href="#"></a>
-          <ul> ' ;
-echo "            <li><a href='$base_url/newsroom/summary'>GBIF news</a></li> " ;
-echo "            <li><a href='$base_url/newsroom/uses'>Featured data use</a></li> " ;
-echo "            <li><a href='$base_url/newsroom/opportunities'>Opportunities</a></li> " ;
-echo "            <li><a href='$base_url/newsroom/events'>Events</a></li> " ;
+echo "        <div class='about'>
+          <a href='$base_url/whatisgbif'></a>
+          <ul> " ;
+echo "            <li><a href='$base_url/whatisgbif'>What is GBIF?</a></li> " ;
+echo "            <li><a href='$base_url/resources/keyinformation'>Key information</a></li> " ;
+echo "            <li><a href='$base_url/governance/summary'>Governance</a></li> " ;
+echo "            <li><a href='$base_url/whoweworkwith'>Who we work with</a></li> " ;
+echo "            <li><a href='$base_url/contact/contactus'>Contact</a></li> " ;
 echo '          </ul>
         </div>
 
