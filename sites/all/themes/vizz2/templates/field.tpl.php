@@ -4,7 +4,7 @@ if ( $element['#field_name'] == 'field_linkstoresearch' ) {
 	echo '<ul>' ;
 	foreach ($items as $delta => $item) {
 		echo '<li>' ;
-		print render($item);
+		print (render($item).'&nbsp');
 		echo '</li>' ;
 	}
 	echo '</ul>';
@@ -12,7 +12,7 @@ if ( $element['#field_name'] == 'field_linkstoresearch' ) {
 	echo '<ul class="tags">' ;
 	foreach ($items as $delta => $item) {
 		echo '<li>' ;
-		print ( render($item) );
+		print (render($item).'&nbsp');
 		echo '</li>' ;
 	}
 	echo '</ul>';
@@ -20,7 +20,7 @@ if ( $element['#field_name'] == 'field_linkstoresearch' ) {
 	echo '<ul class="tags">' ;
 	foreach ($items as $delta => $item) {
 		echo '<li>' ;
-		print ( render($item) );
+		print (render($item).'&nbsp');
 		echo '</li>' ;
 	}
 	echo '</ul>';
@@ -28,7 +28,7 @@ if ( $element['#field_name'] == 'field_linkstoresearch' ) {
 	echo '<ul class="tags">' ;
 	foreach ($items as $delta => $item) {
 		echo '<li>' ;
-		print ( render($item) );
+		print (render($item).'&nbsp');
 		echo '</li>' ;
 	}
 	echo '</ul>';
