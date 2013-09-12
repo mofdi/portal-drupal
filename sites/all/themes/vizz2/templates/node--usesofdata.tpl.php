@@ -80,7 +80,6 @@
 	$taxon = get_title_data() ;
 	
 ?>	
-<?php dpm( $node); ?>
     <article class="detail">
     <header>
     </header>
