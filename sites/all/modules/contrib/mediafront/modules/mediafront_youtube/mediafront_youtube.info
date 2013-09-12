@@ -68,9 +68,9 @@ features[variable][] = node_submitted_youtube_channel
 features[variable][] = node_submitted_youtube_media
 features[views_view][] = youtube_media
 
-; Information added by drupal.org packaging script on 2013-07-05
-version = "7.x-2.0"
+; Information added by drupal.org packaging script on 2013-09-10
+version = "7.x-2.1"
 core = "7.x"
 project = "mediafront"
-datestamp = "1373064953"
+datestamp = "1378855005"
 
