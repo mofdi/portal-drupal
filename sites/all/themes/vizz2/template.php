@@ -1078,7 +1078,6 @@ function get_bottom_js ($base_url) {
 
 }
 
-
 function vizz2_preprocess_user_register(&$vars) {
 	$vars['form'] = drupal_build_form('user_register_form', user_register_form(array()));
 
