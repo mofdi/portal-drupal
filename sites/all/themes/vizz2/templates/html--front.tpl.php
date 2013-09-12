@@ -130,7 +130,7 @@
 			$.getJSON(cfg.wsRegSearch + '?limit=1&callback=?', function (data)
 			{ $("#countDatasets").html(numberWithCommas(data.count)); }
 			);
-        $.getJSON(cfg.wsReg + 'organization/count&callback=?', function (data)
+        $.getJSON(cfg.wsReg + 'organization/count?callback=?', function (data)
 			{ $("#countPublishers").html(numberWithCommas(data)); }
 			);
 		});
