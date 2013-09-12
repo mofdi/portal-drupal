@@ -45,6 +45,7 @@
 	<link rel="stylesheet" href="<?php print ($dataportal_base_url); ?>/css/bootstrap-tables.css"/>
   
   <!-- begin Drupal scripts -->
+  <?php print $styles ; ?>
   <?php print $scripts; ?>
   <!-- end Drupa scripts -->
   

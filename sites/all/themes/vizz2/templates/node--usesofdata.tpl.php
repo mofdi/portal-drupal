@@ -78,16 +78,14 @@
 	global $base_path ;
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
 	$taxon = get_title_data() ;
-
+	
 ?>	
-<?php // dpm( ); ?>
+<?php dpm( $node); ?>
     <article class="detail">
     <header>
     </header>
 
     <div class="content">
-
-	<?php print $messages ;  ?>
 
 		<div class="header">
 			<div class="left">
@@ -99,8 +97,8 @@
 		</div>
 			
 		<div class="left">
+			<?php  $content['field_image'][0]['#item']['attributes']['css'] = 'mainImage' ; print render ( $content['field_image']  ) ; ?>
 			<h4 class="subheader"><?php print render( $node->body[$node->language][0]['safe_summary'] ) ; ?></h4>
-			<?php  $tags['field_image'][0]['#item']['attributes']['css'] = 'mainImage' ; print render ( $tags['field_image']  ) ; ?>
 			<?php print render($content['body']); ?>
 		</div>
 		<div class="right">
@@ -116,7 +114,7 @@
 			}
 			if ( !empty ( $node->field_reasearcherslocation ) ) {
 				echo '<h3>Location Of Researchers</h3>' ;
-				print ( render ( field_view_field ('node', $node, 'field_raesearcherslocation') ) ) ; 
+				print ( render ( field_view_field ('node', $node, 'field_reasearcherslocation') ) ) ; 
 			}
 			if ( !empty ( $node->field_studyarea ) ) {
 				echo '<h3>Study Area</h3>' ;
