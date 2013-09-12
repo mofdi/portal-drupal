@@ -130,8 +130,8 @@
 			$.getJSON(cfg.wsRegSearch + '?limit=1&callback=?', function (data)
 			{ $("#countDatasets").html(numberWithCommas(data.count)); }
 			);
-			$.getJSON(cfg.wsReg + 'organization?limit=1&callback=?', function (data)
-			{ $("#countPublishers").html(numberWithCommas(data.count)); }
+        $.getJSON(cfg.wsReg + 'organization/count&callback=?', function (data)
+			{ $("#countPublishers").html(numberWithCommas(data)); }
 			);
 		});
 	</script>
