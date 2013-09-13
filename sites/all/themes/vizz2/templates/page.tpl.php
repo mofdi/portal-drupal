@@ -14,6 +14,7 @@
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
 					
 ?>
+<body class="newsroom">
 <header>
   <div id="top">
     <div class="content">
@@ -74,7 +75,7 @@
       });
     });
   </script>
-
+</body>
 
 
 

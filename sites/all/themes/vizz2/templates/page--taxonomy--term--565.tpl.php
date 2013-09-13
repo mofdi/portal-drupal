@@ -9,6 +9,7 @@
 // dpm($page) ;  
 	
 ?>
+<body class="newsroom">
 <header>
   <div id="top">
     <div class="content">
@@ -241,5 +242,5 @@ foreach ($view as $key => $vnode) {
       });
     });
   </script>
-
+</body>
 

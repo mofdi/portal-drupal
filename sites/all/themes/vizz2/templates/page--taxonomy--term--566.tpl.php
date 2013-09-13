@@ -12,6 +12,7 @@
 // dpm($page) ;  
 	
 ?>
+<body class="newsroom">
 <header>
   <div id="top">
     <div class="content">
@@ -155,3 +156,4 @@
       });
     });
   </script>
+</body>

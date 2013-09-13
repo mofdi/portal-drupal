@@ -21,6 +21,7 @@
 	// dpm($page['content']['system_main']['search_form']);  print $messages ;
 	$results_exist = isset( $page['content']['system_main']['search_results']['#results'] ) ? : FALSE
 ?>
+<body class="search">
 <header>
   <div id="top">
     <div class="content">
@@ -108,7 +109,4 @@
       });
     });
   </script>
-
-
-
-
+</body>

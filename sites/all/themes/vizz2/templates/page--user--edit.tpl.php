@@ -8,7 +8,7 @@
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
 	$more_user = user_load($user->uid) ;
 ?>
-
+<body class="newsroom">
 <header>
   <div id="top">
     <div class="content">
@@ -98,7 +98,4 @@
       });
     });
   </script>
-
-
-
-
+</body>

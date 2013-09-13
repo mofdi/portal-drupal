@@ -9,7 +9,7 @@
 	$more_user = user_load($user->uid) ;
 	
 ?>
-
+<body class="newsroom">
 <header>
   <div id="top">
     <div class="content">
@@ -112,7 +112,4 @@
       });
     });
   </script>
-
-
-
-
+</body>
