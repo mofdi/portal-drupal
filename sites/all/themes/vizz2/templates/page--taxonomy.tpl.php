@@ -43,7 +43,7 @@
 	<div id="infoband">
 		<div class="content">
 			<div class="content">
-				<h1>Items filed under "<?php echo $title?>"</h1>
+				<h1>Items tagged "<?php echo $title?>"</h1>
 			</div>
 
 		</div>

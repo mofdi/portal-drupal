@@ -46,19 +46,31 @@ function gbifims_entity_info_alter(&$info) {
  * Implements hook_token_info().
  */
 function gbifims_token_info() {
-  $types['gbifims'] = array(
-    'name' => t("GBIF IMS tokens"),
-    'description' => t("Tokens for various GBIF IMS"),
-  );
-  
-  $gbifims['ECList'] = array(
-    'name' => t("ECList"),
-    'description' => t("Tabular listing of the EC"),
-  );
-  $gbifims['BCList'] = array(
-    'name' => t("VPList"),
-    'description' => t("Tabular listing of the BC"),
-  );
+	$types['gbifims'] = array(
+		'name' => t("GBIF IMS tokens"),
+		'description' => t("Tokens for various GBIF IMS"),
+	);
+
+	$gbifims['BCList'] = array(
+		'name' => t("BCList"),
+		'description' => t("Tabular listing of the EC"),
+	);
+	$gbifims['ECList'] = array(
+		'name' => t("ECList"),
+		'description' => t("Tabular listing of the BC"),
+	);
+	$gbifims['NCList'] = array(
+		'name' => t("NCList"),
+		'description' => t("Tabular listing of the EC"),
+	);
+	$gbifims['RCList'] = array(
+		'name' => t("RCList"),
+		'description' => t("Tabular listing of the BC"),
+	);
+	$gbifims['SCList'] = array(
+		'name' => t("SCList"),
+		'description' => t("Tabular listing of the BC"),
+	);
   
   return array(
     'types' => $types,
