@@ -67,7 +67,7 @@
 				<?php print render($page['content']); 	 ?>
 				<?php print $pager; ?>
 				<?php else : ?>
-				<p>For the moment there are no items filed under this term</p>
+				<p>For the moment there are no items tagged "<?php echo $title?>"</p>
 				<?php endif; ?>
 			</div>
 			<div class="right">
