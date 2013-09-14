@@ -30,7 +30,6 @@
         <h1><a href="<?php print $base_url;?>/newsroom/summary" title="GBIF.ORG">GBIF.ORG</a></h1>
         <span>Free and open access to biodiversity data</span>
       </div>
-
 		<a class="disclaimerToggle" href="/portal/disclaimer">
 		<img src="<?php echo $dataportal_base_url?>/img/beta.gif">
 		</a>

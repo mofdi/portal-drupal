@@ -4,7 +4,7 @@
 	<div class="content">
 		<div class="header">
 			<?php if ($search_results): ?>
-			<div class="left"><h2><?php print $search_totals; ?></h2></div>
+			<div class="left"><h2><?php print $search_totals; //calculated in template.php! ?></h2></div>
 			<?php else : ?>
 			<div class="left"><h2><?php print t('Your search yielded no results');?></h2></div>
 			<?php endif; ?>
