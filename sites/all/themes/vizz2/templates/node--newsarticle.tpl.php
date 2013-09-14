@@ -104,7 +104,7 @@
 		?></h3>
 	<h2><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
 	<p><?php print ($body[0]['summary']); ?></p>
-	<p>	Also filed under: 
+	<p>	Also tagged: 
 		<?php 
 		foreach ( array('field_country','field_regions','field_organizations') as $field ) { 
 			print ( render ( field_view_field ('node', $node, $field) ).' ' ) ; 
