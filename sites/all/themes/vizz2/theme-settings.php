@@ -31,6 +31,12 @@ function vizz2_form_system_theme_settings_alter(&$form, &$form_state, $form_id =
 		'#default_value' => theme_get_setting('vizz2_google_analytics_key'),
 		'#description'   => t("Input the value for the Google analytics key to be used in the footer section"),
 	);
+	$form['vizz2_settings']['vizz2_api_base_url'] = array(
+		'#type'          => 'textfield',
+		'#title'         => t('$base_url for the API site'),
+		'#default_value' => theme_get_setting('vizz2_api_base_url'),
+		'#description'   => t("Input the value for $base_url to be used for various GBIF API calls"),
+	);
 
 
 }

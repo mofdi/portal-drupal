@@ -73,7 +73,7 @@
 	global $base_url ;
 	global $base_path ;
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
-
+	$api_base_url = theme_get_setting ( 'vizz2_api_base_url', 'vizz2' );
 		
 ?><!doctype html>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
@@ -121,16 +121,16 @@
 	      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	    }
 		$(function() {
-			$.getJSON(cfg.wsMetrics + 'occurrence/count?callback=?', function (data)
+			$.getJSON('<?php echo $api_base_url?>/occurrence/count?callback=?', function (data)
 			{ $("#countOccurrences").html(numberWithCommas(data)); }
 			);
-			$.getJSON(cfg.wsClbSearch + '?dataset_key=7ddf754f-d193-4cc9-b351-99906754a03b&limit=1&rank=species&status=accepted&callback=?', function (data)
+			$.getJSON('<?php echo $api_base_url?>/name_usage/search?dataset_key=7ddf754f-d193-4cc9-b351-99906754a03b&limit=1&rank=species&status=accepted&callback=?', function (data)
 			{ $("#countSpecies").html(numberWithCommas(data.count)); }
 			);	
-			$.getJSON(cfg.wsRegSearch + '?limit=1&callback=?', function (data)
+			$.getJSON('<?php echo $api_base_url?>/dataset/search?limit=1&callback=?', function (data)
 			{ $("#countDatasets").html(numberWithCommas(data.count)); }
 			);
-        $.getJSON(cfg.wsReg + 'organization/count?callback=?', function (data)
+			$.getJSON('<?php echo $api_base_url?>/organization/count?callback=?', function (data)
 			{ $("#countPublishers").html(numberWithCommas(data)); }
 			);
 		});
