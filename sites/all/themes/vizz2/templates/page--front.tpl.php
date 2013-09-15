@@ -264,7 +264,7 @@ foreach ($view as $key => $vnode) {
     <a href="<?php echo $dataportal_base_url?>/species/6">Plants</a> &middot;
     <a href="<?php echo $dataportal_base_url?>/species/5">Fungi</a> &middot;
     <a href="<?php echo $dataportal_base_url?>/species/3">Bacteria</a> &middot;
-    <a href="<?php echo $dataportal_base_url?>/species/2">Archaea</a> &middot;
+    <a href="<?php echo $dataportal_base_url?>/species/2">Archaea</a>
   </div>
 
   <footer></footer>
