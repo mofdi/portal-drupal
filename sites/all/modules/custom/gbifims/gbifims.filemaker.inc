@@ -54,7 +54,28 @@ function _gbifims_doContact() {
 				$FMResults[$key]['Name_First'] = $record->getField('Name_First') ;
 				$FMResults[$key]['Name_Middle'] = $record->getField('Name_Middle') ;
 				$FMResults[$key]['Name_Last'] =  $record->getField('Name_Last') ;
-
+				
+				$tmp = $record->getField('Address') ; 
+				$FMResults[$key]['Address'] = (empty($tmp)) ? NULL : $tmp ; 
+				
+				$tmp = $record->getField('City') ; 
+				$FMResults[$key]['City'] = (empty($tmp)) ? NULL : $tmp ; 
+				
+				$tmp = $record->getField('Email') ; 
+				$FMResults[$key]['Email'] = (empty($tmp)) ? NULL : $tmp ; 
+				
+				$tmp = $record->getField('Fax') ; 
+				$FMResults[$key]['Fax'] = (empty($tmp)) ? NULL : $tmp ; 
+				
+				$tmp = $record->getField('Job_Position') ; 
+				$FMResults[$key]['Job_Position'] = (empty($tmp)) ? NULL : $tmp ; 
+				
+				$tmp = $record->getField('Phone_Office') ; 
+				$FMResults[$key]['Phone_Office'] = (empty($tmp)) ? NULL : $tmp ; 
+				
+				$tmp = $record->getField('ZipCode') ; 
+				$FMResults[$key]['ZipCode'] = (empty($tmp)) ? NULL : $tmp ; 
+				
 				$tmp = $record->getField('GBIF_Order') ;
 				$FMResults[$key]['GBIF_Order'] = (empty($tmp)) ? NULL : (int)$tmp ;
 
@@ -411,6 +432,19 @@ function _gbifims_doParticipant() {
 				$FMResults[$key]['InstitutionID'] = (empty($tmp)) ? NULL : (int)$tmp ; 
 				
 				$FMResults[$key]['GBIFmembership'] = $record->getField('GBIFmembership') ;
+				
+				$tmp = $record->getField('Member_AsOf') ; 
+				if (! empty( $tmp ) ) {
+					$tmp = '01 '. $tmp . ' 00:00' ;
+					$cur_format = 'd F Y H:i';
+					$date = DateTime::createFromFormat($cur_format, $tmp);
+  					$member_asof = $date->format('Y-m-d h:i') ;
+					$FMResults[$key]['Member_AsOf'] = $member_asof ;
+				} else {
+					$FMResults[$key]['Member_AsOf'] = NULL ;
+				}
+				
+				
 				$FMResults[$key]['Name_Full'] = $record->getField('Name_Full') ;
 				$FMResults[$key]['Name_Short'] =  $record->getField('Name_Short') ;
 				$FMResults[$key]['Host_URL'] = $record->getField('Host_URL') ;
@@ -427,10 +461,11 @@ function _gbifims_doParticipant() {
 
 function _gbifims_get_CommitteeList( $committee ) {
 	$CList = '';
-	
-	$result = db_query('SELECT DISTINCT Name_First, Name_Last, gbifims_Grouprole.Name, gbifims_Grouprole.SortOrder FROM 
-						{gbifims_Contact}, {gbifims_ContactGrouproleNodeParticipant}, {gbifims_Grouprole} 
-						WHERE 	gbifims_Contact.ContactID = gbifims_ContactGrouproleNodeParticipant.ContactID 
+
+	$result = db_query('SELECT DISTINCT Name_First, Name_Last, Address, Email, City, ZipCode, Phone_Office, Fax, Job_Position, gbifims_Country.Name, gbifims_Grouprole.Name, gbifims_Grouprole.SortOrder FROM 
+						{gbifims_Contact}, {gbifims_ContactGrouproleNodeParticipant}, {gbifims_Grouprole}, {gbifims_Country}
+						WHERE gbifims_Contact.ContactID = gbifims_ContactGrouproleNodeParticipant.ContactID 
+							AND gbifims_Contact.CountryID_Address = gbifims_Country.CountryID
 							AND gbifims_Grouprole.GrouproleID = gbifims_ContactGrouproleNodeParticipant.GrouproleID 
 							AND gbifims_ContactGrouproleNodeParticipant.Active = 1  
 							AND gbifims_ContactGrouproleNodeParticipant.GrouproleID IN 
@@ -438,15 +473,31 @@ function _gbifims_get_CommitteeList( $committee ) {
 										WHERE gbifims_Grouprole.GroupID IN (SELECT GroupID FROM {gbifims_Group} WHERE gbifims_Group.Name= :rcom)
 										AND gbifims_Grouprole.Name <> :rSS) ORDER BY gbifims_Grouprole.SortOrder, Name_First, Name_Last', array(':rcom'=>$committee, 'rSS'=>'Secretariat Support')) ;
 
-
 	/* hook_theme? What hook_theme... :-| */	
 	$CList = '<table style="" class="metrics table table-bordered table-stripped"><tbody>';
 	// <thead><tr><th colspan="2" >'.$options[1].'</th><tr></thead>
 	foreach ( $result as $row) {
-		$CList .= '<tr><td width="30%">'.$row->Name_First.'&nbsp;'.$row->Name_Last.'</a></td><td>'.$row->Name.'</td>';
+		$CList .= "<tr><td>
+			<div class='contact'>
+				<a name='$row->Name_First,$row->Name_Last'></a>
+				<div class='contactName'>$row->Name_First,$row->Name_Last</div>
+				<div style='display: none;'>
+					<div class='contactPosition'>$row->Job_Position</div>
+					<div class='contactInstitution'></div>
+					<div class='address'>
+						<span>$row->Address</span>
+						<span class='city'>$row->City</span>
+						<span class='country'>$row->Country</span>
+						<span class='email'><a href='mailto:$row->Email' title='email'>$row->Email</a></span>
+						<span class='phone'>$row->Phone_Office</span>
+						<span class='phone'>$row->Fax</span>
+					</div>
+				</div>
+			</div>
+		</td><td>$row->Name</td>'";
 	}
 	$CList .= '</tbody></table>' ;
-	
+
 	return $CList ;
 }
 

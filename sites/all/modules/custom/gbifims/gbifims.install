@@ -57,10 +57,46 @@ $schema['gbifims_Contact'] = array(
 	  'length' => '128',
 	  'not null' => FALSE,
 	),
+	'Address' => array(
+	  'description' => 'Postal address',
+	  'type' => 'varchar',
+	  'length' => '4096',
+	  'not null' => FALSE,
+	),
+	'City' => array(
+	  'description' => 'City',
+	  'type' => 'varchar',
+	  'length' => '256',
+	  'not null' => FALSE,
+	),
 	'Email' => array(
 	  'description' => 'TODO: please describe this field!',
 	  'type' => 'varchar',
 	  'length' => '64',
+	  'not null' => FALSE,
+	),
+	'Fax' => array(
+	  'description' => 'Telefax number',
+	  'type' => 'varchar',
+	  'length' => '256', // because some people will insert MULTIPLE numbers in one FMaker field! :-@
+	  'not null' => FALSE,
+	),
+	'Job_Position' => array(
+	  'description' => 'Job Position',
+	  'type' => 'varchar',
+	  'length' => '1024',
+	  'not null' => FALSE,
+	),
+	'Phone_Office' => array(
+	  'description' => 'Telephone number',
+	  'type' => 'varchar',
+	  'length' => '256', // because some people will insert MULTIPLE numbers in one FMaker field! :-@
+	  'not null' => FALSE,
+	),
+	'ZipCode' => array(
+	  'description' => 'Postal Zip code',
+	  'type' => 'varchar',
+	  'length' => '32',
 	  'not null' => FALSE,
 	),
 	'GBIF_Order' => array(
@@ -348,6 +384,11 @@ $schema['gbifims_Participant'] = array(
       'length' => '64',
       'not null' => FALSE,
     ),
+    'Member_AsOf' => array(
+	  'description' => 'Start date of GBIF membership',
+	  'mysql_type' => 'DATETIME',
+	  'not null' => FALSE,
+	),
     'Name_Full' => array(
       'description' => 'TODO: please describe this field!',
       'type' => 'varchar',
