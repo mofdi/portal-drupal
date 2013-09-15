@@ -35,7 +35,7 @@
 		<a class="disclaimerToggle" href="/portal/disclaimer">
 		<img src="<?php echo $dataportal_base_url?>/img/beta.gif">
 		</a>
-	<?php get_nav($base_url, $w_search=FALSE) ?>
+	<?php get_nav($base_url) ?>
     </div>
   </div>
   <!-- /top -->
