@@ -98,7 +98,7 @@ function gbifims_tokens($type, $tokens, array $data = array(), array $options = 
           $replacements[$original] = _gbifims_get_CommitteeList('Executive Committee');
         break;
         case 'NCList':
-          $replacements[$original] = _gbifims_get_CommitteeList('Nodes Committee');
+          $replacements[$original] = _gbifims_get_NCList();
         break;
         case 'RCList':
           $replacements[$original] = _gbifims_get_CommitteeList('Rules Committee');
