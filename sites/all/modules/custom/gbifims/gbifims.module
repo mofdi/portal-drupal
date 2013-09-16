@@ -71,7 +71,18 @@ function gbifims_token_info() {
 		'name' => t("SCList"),
 		'description' => t("Tabular listing of the BC"),
 	);
-  
+	$gbifims['NSGList'] = array(
+		'name' => t("NSGList"),
+		'description' => t("Tabular listing of the BC"),
+	);
+	$gbifims['GBSList'] = array(
+		'name' => t("GBSList"),
+		'description' => t("Tabular listing of the BC"),
+	);	
+	$gbifims['VPList'] = array(
+		'name' => t("VPList"),
+		'description' => t("Tabular listing of the BC"),
+	);	
   return array(
     'types' => $types,
     'tokens' => array(
@@ -92,20 +103,30 @@ function gbifims_tokens($type, $tokens, array $data = array(), array $options = 
     foreach ($tokens as $name => $original) {
       switch ($name) {
         case 'BCList':
-          $replacements[$original] = _gbifims_get_CommitteeList('Budget Committee');
-        break;
+			$replacements[$original] = _gbifims_get_CommitteeList('Budget Committee');
+			break;
         case 'ECList':
-          $replacements[$original] = _gbifims_get_CommitteeList('Executive Committee');
-        break;
+			$replacements[$original] = _gbifims_get_CommitteeList('Executive Committee');
+			break;
         case 'NCList':
-          $replacements[$original] = _gbifims_get_NCList();
-        break;
+			$replacements[$original] = _gbifims_get_NCList();
+			break;
         case 'RCList':
-          $replacements[$original] = _gbifims_get_CommitteeList('Rules Committee');
-        break;
+			$replacements[$original] = _gbifims_get_CommitteeList('Rules Committee');
+			break;
         case 'SCList':
-          $replacements[$original] = _gbifims_get_CommitteeList('Science Committee');
-        break;
+			$replacements[$original] = _gbifims_get_CommitteeList('Science Committee');
+			break;
+        case 'NSGList':
+			$replacements[$original] = _gbifims_get_CommitteeList('Nodes Steering Group');
+			break;
+		case 'GBSList':
+			$replacements[$original] = _gbifims_get_CommitteeList('GBIF Secretariat');
+			break;			
+        case 'VPList':
+			$replacements[$original] = _gbifims_get_ParticipantsList('Voting Participant');
+			break;
+			
       }
     }
   }
