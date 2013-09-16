@@ -459,6 +459,59 @@ function _gbifims_doParticipant() {
 		}
 }
 
+function _gbifims_get_ParticipantsList( $type ) {
+$PList = '' ;
+
+switch ($type) {
+	case 'Voting Participant':
+		$where = 'gbifims_Participant.GBIFMembership = :ptype';
+	case 'Associate Country Participant':
+		$where = 'gbifims_Participant.GBIFMembership = :ptype';
+	case 'Other Associate Participant':
+		$where = 'gbifims_Participant.GBIFMembership = :ptype';
+		// explicitelly fall through
+		$ptype = array ( ':ptype', $type );
+		break ;
+	case 'All':
+		$where = "gbifims_Participant.GBIFMembership = 'Voting Participant' OR gbifims_Participant.GBIFMembership = 'Associate Country Participant' OR gbifims_Participant.GBIFMembership = 'Other Associate Participant' ";
+	
+}
+	
+$result = db_query('SELECT *
+					FROM gbifims_Participant
+					LEFT JOIN gbifims_Institution ON gbifims_Participant.InstitutionID = gbifims_Institution.InstitutionID 
+					LEFT JOIN gbifims_Country ON gbifims_Participant.CountryID = gbifims_Country.CountryID
+					WHERE '.$where.'
+					ORDER BY gbifims_Participant.Name_Full )', $ptype );
+
+$PList = '<table style="" class="table table-bordered table-stripped"><tbody>';
+// <thead><tr><th colspan="2" >'.$options[1].'</th><tr></thead>
+foreach ( $result as $row) {
+	$PList .= "<tr><td>
+		<div class='contact'>
+			<a name='$row->Name_First,$row->Name_Last'></a>
+			<div class='contactName'>$row->Name_First $row->Name_Last</div>
+			<div style='display: none;'>
+				<div class='contactPosition'>$row->Job_Position</div>
+				<div class='contactInstitution'></div>
+				<div class='address'>
+					<span>$row->Address</span>
+					<span class='city'>$row->City</span>
+					<span class='country'>$row->Country</span>
+					<span class='email'><a href='mailto:$row->Email' title='email'>$row->Email</a></span>
+					<span class='phone'>$row->Phone_Office</span>
+					<span class='phone'>$row->Fax</span>
+				</div>
+			</div>
+		</div>
+	</td><td>$row->Name</td>";
+}
+$PList .= '</tbody></table>' ;
+
+return $CList ;
+
+}
+
 function _gbifims_get_CommitteeList( $committee ) {
 	$CList = '';
 
@@ -509,7 +562,7 @@ function _gbifims_get_NCList( ) {
 
 	$CList = '';
 
-	$result = db_query('SELECT Name_First, Name_Last, gbifims_Contact.Address, Email, gbifims_Contact.City, ZipCode, Phone_Office, Fax, gbifims_Node.Name_Full, gbifims_Grouprole.Name AS Role, gbifims_Group.Name, gbifims_Participant.Name_Short 
+	$result = db_query('SELECT Name_First, Name_Last, gbifims_Contact.Address, Email, gbifims_Contact.City, ZipCode, Phone_Office, Fax, gbifims_Node.Name_Full, gbifims_Grouprole.Name AS Role, gbifims_Group.Name, gbifims_Participant.Name_Short,gbifims_Grouprole.SortOrder 
 							FROM gbifims_Contact, gbifims_ContactGrouproleNodeParticipant, gbifims_Grouprole, gbifims_Group, gbifims_Country, gbifims_Node, gbifims_Participant
 							WHERE 	gbifims_Contact.ContactID = gbifims_ContactGrouproleNodeParticipant.ContactID 
 								AND gbifims_Grouprole.GrouproleID = gbifims_ContactGrouproleNodeParticipant.GrouproleID 
@@ -521,8 +574,7 @@ function _gbifims_get_NCList( ) {
 								AND gbifims_Group.Name = :nc
 								AND ( gbifims_Grouprole.Name = :nm OR gbifims_Grouprole.Name = :chair OR gbifims_Grouprole.Name = :vc)
 								AND gbifims_Grouprole.Name <> :rSS
-							ORDER BY gbifims_Participant.Name_Short', array(':nc'=>'Nodes Committee', 'nm'=>'Node Manager', ':chair'=>'Chair', ':vc'=>'Vice Chair',':rSS'=>'Secretariat Support')) ;
-
+							ORDER BY gbifims_Grouprole.SortOrder, gbifims_Participant.Name_Short', array(':nc'=>'Nodes Committee', 'nm'=>'Node Manager', ':chair'=>'Chair', ':vc'=>'Vice Chair',':rSS'=>'Secretariat Support')) ;
 	// hook_theme? What hook_theme... :-| 
 	$CList = '<table style="" class="table table-bordered table-stripped"><tbody>';
 	// <thead><tr><th colspan="2" >'.$options[1].'</th><tr></thead>
