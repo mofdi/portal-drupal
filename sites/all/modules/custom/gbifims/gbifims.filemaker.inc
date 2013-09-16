@@ -494,7 +494,7 @@ function _gbifims_get_CommitteeList( $committee ) {
 					</div>
 				</div>
 			</div>
-		</td><td>$row->Name</td>'";
+		</td><td>$row->Name</td>";
 	}
 	$CList .= '</tbody></table>' ;
 
