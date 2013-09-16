@@ -469,23 +469,28 @@ switch ($type) {
 		$where = 'gbifims_Participant.GBIFMembership = :ptype';
 	case 'Other Associate Participant':
 		$where = 'gbifims_Participant.GBIFMembership = :ptype';
-		// explicitelly fall through
+		// explicitelly fall through from all above
 		$ptype = array ( ':ptype', $type );
 		break ;
 	case 'All':
-		$where = "gbifims_Participant.GBIFMembership = 'Voting Participant' OR gbifims_Participant.GBIFMembership = 'Associate Country Participant' OR gbifims_Participant.GBIFMembership = 'Other Associate Participant' ";
-	
+		$where = "(gbifims_Participant.GBIFMembership = 'Voting Participant' OR gbifims_Participant.GBIFMembership = 'Associate Country Participant' OR gbifims_Participant.GBIFMembership = 'Other Associate Participant') ";
+		$ptype = array ();
 }
 	
-$result = db_query('SELECT *
+$result = db_query('SELECT gbifims_Participant.Name_Full, gbifims_Contact.Name_First, gbifims_Contact.Name_Last, c2.Name, gbifims_Contact.Name_First, 
+					gbifims_Contact.Name_Last, gbifims_Grouprole.Name, gbifims_Contact.Address, gbifims_Contact.Email, gbifims_Contact.City, gbifims_Contact.ZipCode, gbifims_Contact.Phone_Office, gbifims_Contact.Fax
 					FROM gbifims_Participant
-					LEFT JOIN gbifims_Institution ON gbifims_Participant.InstitutionID = gbifims_Institution.InstitutionID 
+					LEFT JOIN gbifims_Institution ON gbifims_Participant.InstitutionID = gbifims_Institution.InstitutionID
 					LEFT JOIN gbifims_Country ON gbifims_Participant.CountryID = gbifims_Country.CountryID
-					WHERE '.$where.'
-					ORDER BY gbifims_Participant.Name_Full )', $ptype );
+					LEFT JOIN gbifims_ContactGrouproleNodeParticipant ON gbifims_Participant.ParticipantID = gbifims_ContactGrouproleNodeParticipant.ParticipantID
+					LEFT JOIN gbifims_Contact ON gbifims_ContactGrouproleNodeParticipant.ContactID = gbifims_Contact.ContactID
+					LEFT JOIN gbifims_Country c2 ON gbifims_Contact.CountryID_Address = c2.CountryID 
+					LEFT JOIN gbifims_Grouprole ON gbifims_ContactGrouproleNodeParticipant.GrouproleID = gbifims_Grouprole.GrouproleID
+					WHERE '.$where.' AND gbifims_ContactGrouproleNodeParticipant.Active = 1
+					ORDER BY gbifims_Participant.Name_Full', $ptype );
 
 $PList = '<table style="" class="table table-bordered table-stripped"><tbody>';
-// <thead><tr><th colspan="2" >'.$options[1].'</th><tr></thead>
+
 foreach ( $result as $row) {
 	$PList .= "<tr><td>
 		<div class='contact'>
@@ -508,15 +513,16 @@ foreach ( $result as $row) {
 }
 $PList .= '</tbody></table>' ;
 
-return $CList ;
+return $PList ;
 
 }
+
 
 function _gbifims_get_CommitteeList( $committee ) {
 	$CList = '';
 
-	$result = db_query('SELECT DISTINCT Name_First, Name_Last, Address, Email, City, ZipCode, Phone_Office, Fax, Job_Position, gbifims_Country.Name, gbifims_Grouprole.Name, gbifims_Grouprole.SortOrder FROM 
-						{gbifims_Contact}, {gbifims_ContactGrouproleNodeParticipant}, {gbifims_Grouprole}, {gbifims_Country}
+	$result = db_query('SELECT DISTINCT Name_First, Name_Last, Address, Email, City, ZipCode, Phone_Office, Fax, Job_Position, gbifims_Country.Name, gbifims_Grouprole.Name, gbifims_Grouprole.SortOrder 
+						FROM {gbifims_Contact}, {gbifims_ContactGrouproleNodeParticipant}, {gbifims_Grouprole}, {gbifims_Country}
 						WHERE gbifims_Contact.ContactID = gbifims_ContactGrouproleNodeParticipant.ContactID 
 							AND gbifims_Contact.CountryID_Address = gbifims_Country.CountryID
 							AND gbifims_Grouprole.GrouproleID = gbifims_ContactGrouproleNodeParticipant.GrouproleID 
@@ -524,9 +530,9 @@ function _gbifims_get_CommitteeList( $committee ) {
 							AND gbifims_ContactGrouproleNodeParticipant.GrouproleID IN 
 										(SELECT GrouproleID FROM {gbifims_Grouprole} 
 										WHERE gbifims_Grouprole.GroupID IN (SELECT GroupID FROM {gbifims_Group} WHERE gbifims_Group.Name= :rcom)
-										AND gbifims_Grouprole.Name <> :rSS) ORDER BY gbifims_Grouprole.SortOrder, Name_Last', array(':rcom'=>$committee, 'rSS'=>'Secretariat Support')) ;
+										AND gbifims_Grouprole.Name <> :rSS  AND gbifims_Grouprole.Name <> :rscis) ORDER BY gbifims_Grouprole.SortOrder, gbifims_Contact.GBIF_Order, Name_Last', array(':rcom'=>$committee, ':rSS'=>'Secretariat Support', ':rscis'=>'Sci-staff')) ;
 
-	/* hook_theme? What hook_theme... :-| */	
+	// hook_theme? What hook_theme... :-| 
 	$CList = '<table style="" class="table table-bordered table-stripped"><tbody>';
 	// <thead><tr><th colspan="2" >'.$options[1].'</th><tr></thead>
 	foreach ( $result as $row) {
@@ -550,7 +556,6 @@ function _gbifims_get_CommitteeList( $committee ) {
 		</td><td>$row->Name</td>";
 	}
 	$CList .= '</tbody></table>' ;
-
 	return $CList ;
 }
 
@@ -602,7 +607,6 @@ function _gbifims_get_NCList( ) {
 
 	return $CList ;
 }
-
 
 
 ?>
