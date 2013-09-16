@@ -596,7 +596,7 @@ function _gbifims_get_NCList( ) {
 					</div>
 				</div>
 			</div>
-		</td><td>$row->Role</td><td>$row->Name_Short</td>";
+		</td><td width='18%'>$row->Role</td><td width='20%'>$row->Name_Short</td>";
 	}
 	$CList .= '</tbody></table>' ;
 
