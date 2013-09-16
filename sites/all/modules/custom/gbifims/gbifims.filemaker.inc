@@ -471,16 +471,16 @@ function _gbifims_get_CommitteeList( $committee ) {
 							AND gbifims_ContactGrouproleNodeParticipant.GrouproleID IN 
 										(SELECT GrouproleID FROM {gbifims_Grouprole} 
 										WHERE gbifims_Grouprole.GroupID IN (SELECT GroupID FROM {gbifims_Group} WHERE gbifims_Group.Name= :rcom)
-										AND gbifims_Grouprole.Name <> :rSS) ORDER BY gbifims_Grouprole.SortOrder, Name_First, Name_Last', array(':rcom'=>$committee, 'rSS'=>'Secretariat Support')) ;
+										AND gbifims_Grouprole.Name <> :rSS) ORDER BY gbifims_Grouprole.SortOrder, Name_Last', array(':rcom'=>$committee, 'rSS'=>'Secretariat Support')) ;
 
 	/* hook_theme? What hook_theme... :-| */	
-	$CList = '<table style="" class="metrics table table-bordered table-stripped"><tbody>';
+	$CList = '<table style="" class="table table-bordered table-stripped"><tbody>';
 	// <thead><tr><th colspan="2" >'.$options[1].'</th><tr></thead>
 	foreach ( $result as $row) {
 		$CList .= "<tr><td>
 			<div class='contact'>
 				<a name='$row->Name_First,$row->Name_Last'></a>
-				<div class='contactName'>$row->Name_First,$row->Name_Last</div>
+				<div class='contactName'>$row->Name_First $row->Name_Last</div>
 				<div style='display: none;'>
 					<div class='contactPosition'>$row->Job_Position</div>
 					<div class='contactInstitution'></div>
