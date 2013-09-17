@@ -82,7 +82,7 @@ if ( $info_split['date'] ) {
 		?></h3>
 	<h2><a href="<?php print $url; ?>"><?php print $title; ?></a></h2>
 	<?php if ($snippet): ?>
-	<p><?php print $snippet; ?></p>
+	<p class="date"><?php print $snippet; ?></p>
 	<?php endif; ?>
 
 	<div class="footer">
