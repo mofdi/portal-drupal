@@ -157,9 +157,14 @@ function vizz2_preprocess_page( &$vars, $hook ) {
 //		$vars['theme_hook_suggestions'][] = 'taxonomy_term__' . $term->vocabulary_machine_name;
 //		$vars['theme_hook_suggestions'][] = 'taxonomy_term__' . $term->tid;
 
-
 	}
 
+	// whoever decided to separate deep leve styles based on the <body> class?! :-@
+	if(views_get_page_view())   {
+		$vars['theme_hook_suggestions'][] = 'page__view__newsarticles';
+		$vars['theme_hook_suggestions'][] = 'page__view__datausearticles';      			
+	}
+	
 	if(isset($vars['page']['content']['system_main']['no_content'])) {
 		unset($vars['page']['content']['system_main']['no_content']);
 	}

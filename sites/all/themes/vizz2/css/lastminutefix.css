@@ -130,6 +130,10 @@ font-weight: bold;
 margin: 0 -5px 0 -5px ;
 }
 
+.candy_white_button.lft { 
+	float: left;
+}
+
 #content  .error {
 	border: 0 !important ;
 	margin: 0 0 30px 0 ;

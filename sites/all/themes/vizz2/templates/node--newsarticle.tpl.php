@@ -89,8 +89,9 @@
 
 	
 ?>
-<?php if ( $view_mode == 'teaser'): ?>
+<?php if ( $view_mode == 'teaser' OR $view_mode == 'teaser_nt' ): ?>
 <div class="result">
+	<?php if ( $view_mode == 'teaser' ): ?>
 	<h3><?php switch ( $type ) { // :-s
 		case 'newsarticle' : 
 			print ('News item') ;
@@ -101,9 +102,12 @@
 		default :
 			print ('Information page');
 		}
-		?></h3>
+		?>
+	</h3>
+	<?php endif ?>
 	<h2><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
 	<p><?php print ($body[0]['summary']); ?></p>
+	<?php if ( $view_mode == 'teaser' ): ?>
 	<p>	Also tagged: 
 		<?php 
 		foreach ( array('field_country','field_regions','field_organizations') as $field ) { 
@@ -111,8 +115,9 @@
 			
 		} ?>
 	</p>
+	<?php endif ?>
 	<div class="footer">
-		<?php print( date('F dS, Y',$created) ) . "\n"; ; ?>
+		<p class="date"><?php print( date('F jS, Y',$created) ) . "\n"; ; ?></p>
 	</div>
 </div>
 

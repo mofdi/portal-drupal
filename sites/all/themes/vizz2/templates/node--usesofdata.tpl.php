@@ -80,32 +80,37 @@
 	$taxon = get_title_data() ;
 	
 ?>	
-<?php if ( $view_mode == 'teaser'): ?>
-	<div class="result">
-		<h3><?php switch ( $type ) { // :-s
-			case 'newsarticle' : 
-				print ('News item') ;
-				break ;
-			case 'usesofdata' :
-				print ('Featured data use') ;
-				break ;
-			default :
-				print ('Information page');
-			}
-			?></h3>
-		<h2><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
-		<p><?php print ($body[0]['summary']); ?></p>
-		<p>	Also tagged: 
-			<?php 
-			foreach ( array('field_country','field_regions','field_organizations') as $field ) { 
-				print ( render ( field_view_field ('node', $node, $field) ).' ' ) ; 
-				
-			} ?>
-		</p>
-		<div class="footer">
-			<?php print( date('F dS, Y',$created) ) . "\n"; ; ?>
-		</div>
+<?php if ( $view_mode == 'teaser' OR $view_mode == 'teaser_nt' ): ?>
+<div class="result">
+	<?php if ( $view_mode == 'teaser' ): ?>
+	<h3><?php switch ( $type ) { // :-s
+		case 'newsarticle' : 
+			print ('News item') ;
+			break ;
+		case 'usesofdata' :
+			print ('Featured data use') ;
+			break ;
+		default :
+			print ('Information page');
+		}
+		?>
+	</h3>
+	<?php endif ?>
+	<h2><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
+	<p><?php print ($body[0]['summary']); ?></p>
+	<?php if ( $view_mode == 'teaser' ): ?>
+	<p>	Also tagged: 
+		<?php 
+		foreach ( array('field_country','field_regions','field_organizations') as $field ) { 
+			print ( render ( field_view_field ('node', $node, $field) ).' ' ) ; 
+			
+		} ?>
+	</p>
+	<?php endif ?>
+	<div class="footer">
+		<p class="date"><?php print( date('F jS, Y',$created) ) . "\n"; ; ?></p>
 	</div>
+</div>
 <?php else: ?>
     <article class="detail">
     <header>

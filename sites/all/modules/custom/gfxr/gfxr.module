@@ -73,3 +73,18 @@ function gfxr_tokens($type, $tokens, array $data = array(), array $options = arr
   
   return $replacements;
 }
+
+
+/**
+ * Implements hook_entity_info_alter().
+ *
+ * Add an additional display mode
+ * so that various custom view(s) can make use of the extra 
+ * setting
+ */
+function gfxr_entity_info_alter(&$entity_info) {
+	$entity_info['node']['view modes']['teaser_nt'] = array(
+		'label' => t('Teaser_NT'),
+		'custom settings' => TRUE,
+	);
+}

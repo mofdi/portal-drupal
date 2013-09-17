@@ -7,7 +7,7 @@
 	global $base_path ;
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
 // dpm($page) ;  
-	
+// newsroom/summary
 ?>
 <body class="newsroom">
 <header>
@@ -144,8 +144,6 @@ foreach ($view as $key => $vnode) {
 		$nid = $vnode->nid  ;
 		$anode = node_load( $nid ) ;
 		$results[$key] = $anode ;
-		// $results[$nid]['fields'] = field_attach_view('node', $anode,'full' ) ; 
-		// print render ( $result[$nid]->field_featured  ) ; 
 	}
 
 ?>
@@ -159,7 +157,6 @@ foreach ($view as $key => $vnode) {
 			</li>
 		<?php endfor ?>
           </ul>
-
           <a href="<?php print $base_url?>/newsroom/news" class="candy_white_button more_news next lft"><span>More GBIF news</span></a>
         </div>
 
@@ -226,21 +223,5 @@ foreach ($view as $key => $vnode) {
 
 <?php get_footer($base_url) ?>		
 <?php get_bottom_js($base_url) ?>
-
-
-  <!#-- keep this javascript here so we can use the s.url tag -->
-  <script type="text/javascript">
-    $(function() {
-      $('nav ul li a.more').bindLinkPopover({
-        links:{
-          "Countries":"/portal-web-dynamic/country",
-          "GBIF Network":"/portal-web-dynamic/member",
-          "Themes":"/portal-web-dynamic/theme",
-          "Statistics":"/portal-web-dynamic/stats",
-          "About":"http://staging.gbif.org/drupal/about"
-        }
-      });
-    });
-  </script>
 </body>
 

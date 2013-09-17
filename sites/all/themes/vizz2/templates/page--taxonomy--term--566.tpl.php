@@ -1,18 +1,23 @@
-<?php 
-	
-	// $rgr = field_get_items('node',$node,'field_relatedgbifresources') ; dpm($rgr)
-	// Fetch some data from the navigation taxonomy in order to use it for the page title
-	// via custom function in template.php
-	$taxon = get_title_data() ;
+<?php
+$taxon = get_title_data() ;
 
-	global $user;
-	global $base_url ;
-	global $base_path ;
-	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
-// dpm($page) ;  
-	
+global $user;
+global $base_url ;
+global $base_path ;
+$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
+
+$results = array() ;
+$view = views_get_view_result('newsarticles');
+foreach ($view as $key => $vnode) {
+	$nid = $vnode->nid  ;
+	$anode = node_load( $nid ) ;
+	$results[$key] = $anode ;
+	// $results[$nid]['fields'] = field_attach_view('node', $anode,'full' ) ; 
+	// print render ( $result[$nid]->field_featured  ) ; 
+}
+// dpm($page);  print $messages ;
 ?>
-<body class="newsroom">
+<body class="search">
 <header>
   <div id="top">
     <div class="content">
@@ -35,112 +40,63 @@
         <h1><a href="<?php print $base_url;?>/newsroom/summary" title="GBIF.ORG">GBIF.ORG</a></h1>
         <span>Free and open access to biodiversity data</span>
       </div>
+
 		<a class="disclaimerToggle" href="/portal/disclaimer">
 		<img src="<?php echo $dataportal_base_url?>/img/beta.gif">
 		</a>
 	<?php get_nav($base_url) ?>
-	
     </div>
   </div>
   <!-- /top -->
+	<?php $taxon = get_title_data() ; ?>
 	<div id="infoband">
 		<div class="content">
-
 		<?php $taxon = get_title_data() ; ?>
-      
 		<h1><?php print $taxon->name ?></h1>
 		<h3><?php print $taxon->description ?></h3>
-
 		</div>
 	</div>
 		<?php print render($page['sidebar_first']); ?>
 </header>
-
-  <div id="content">
-  <article class="news">
-
-  <header></header>
-
-  <div class="content">
-
-
-<?php  
-	$results = array() ;
-	$view = views_get_view_result('newsarticles');
-
-	foreach ($view as $key => $vnode) {
-		$nid = $vnode->nid  ;
-		$anode = node_load( $nid ) ;
-		$results[$key] = $anode ;
-		// $results[$nid]['fields'] = field_attach_view('node', $anode,'full' ) ; 
-		// print render ( $result[$nid]->field_featured  ) ; 
-	}
-
-?>
-
-    <div class="content">
-      <div class="left">
-
-      
-      <ul>
-		<?php for ( $td = 0 ; $td < 5 ; $td++ ) : ?>
-			<li>
-				<h4 class="date"><?php { print( format_date($results[$td]->created, 'custom', 'F jS, Y')) ; } ?></h4>
-				<a href="<?php print $base_url.'/page/'.$results[$td]->nid ?>" class="title"><?php print $results[$td]->title ?></a>
-				<p><?php print $results[$td]->body['und'][0]['summary'] ?></p>
-				<a href="<?php print $base_url.'/page/'.$results[$td]->nid ?>" class="read_more">Read more</a>
-			</li>
-		<?php endfor ?>
-
-
-        </ul>
-
-
-
-        <a href="<?php print $base_url?>/newsroom/archive/allnewsarticles" class="candy_white_button more_news next lft"><span>More GBIF news</span></a>
-
-      </div>
-
-
-
-      <div class="right">
-
-
-
-        <div class="filters">
-
-			<h3>Filter news by region</h3>
-				<ul>
-				<li><!--  class="selected" --><a href="<?php print $base_url ?>/allnewsarticles">All news</a></li>
-				<li><a href="<?php print $base_url ?>/newsroom/archive/allnewsarticles/africa">Africa</a></li>
-				<li><a href="<?php print $base_url ?>/newsroom/archive/allnewsarticles/asia">Asia</a></li>
-				<li><a href="<?php print $base_url ?>/newsroom/archive/allnewsarticles/europe">Europe</a></li>
-				<li><a href="<?php print $base_url ?>/newsroom/archive/allnewsarticles/latinamerica">Latin America</a></li>
-				<li><a href="<?php print $base_url ?>/newsroom/archive/allnewsarticles/northamerica">North America</a></li>
-				<li><a href="<?php print $base_url ?>/newsroom/archive/allnewsarticles/oceania">Oceania</a></li>
-				</ul>
-        </div>
-
-
-
-      </div>
-
-    </div>
-
-
-
-
-
-  </div>
-
-  <footer></footer>
-
-  </article>
-
-  </div>
-  
+<div id="content">
+	<article class="results light_pane">
+		<header></header>
+		<div class="content">
+		<div class="header">
+			<div class="left"><h2>Latest News Articles</h2></div>
+			<div class="right"><h3>Filter by region</h3></div>
+		</div>
+			<div class="left">
+				<?php for ( $td = 0 ; $td < 5 ; $td++ ) : ?>
+				<div class="result">
+					<h2><a href="<?php print $base_url.'/page/'.$results[$td]->nid ?>"><?php print $results[$td]->title ?></a></h2>
+					<p><?php print $results[$td]->body['und'][0]['summary'] ?></p>
+					<div class="footer">
+						<p class="date"><?php { print( format_date($results[$td]->created, 'custom', 'F jS, Y')) ; } ?></p>
+					</div>
+				</div>
+				<?php endfor ?>
+			<a href="<?php print $base_url?>/newsroom/archive/allnewsarticles" class="candy_white_button more_news next lft"><span>More GBIF news</span></a>
+			</div>
+			<div class="right">
+				<div class="refine">
+					<ul id="more_links">
+						<li><a href="<?php print $base_url ?>/search/node/africa">Africa</a></li>
+						<li><a href="<?php print $base_url ?>/search/node/asia">Asia</a></li>
+						<li><a href="<?php print $base_url ?>/search/node/europe">Europe</a></li>
+						<li><a href="<?php print $base_url ?>/search/node/latinamerica">Latin America</a></li>
+						<li><a href="<?php print $base_url ?>/search/node/northamerica">North America</a></li>
+						<li><a href="<?php print $base_url ?>/search/node/oceania">Oceania</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<footer></footer>
+	</article>
+</div>
+		
 <?php get_footer($base_url) ?>
-<?php get_bottom_js($base_url) ?>
+<?php get_bottom_js($base_url) ?>		
 
   <!#-- keep this javascript here so we can use the s.url tag -->
   <script type="text/javascript">
