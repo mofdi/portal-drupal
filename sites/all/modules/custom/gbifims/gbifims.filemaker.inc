@@ -67,6 +67,9 @@ function _gbifims_doContact() {
 				$tmp = $record->getField('Fax') ; 
 				$FMResults[$key]['Fax'] = (empty($tmp)) ? NULL : $tmp ; 
 				
+				$tmp = $record->getField('OnTheWeb') ; 
+				$FMResults[$key]['OnTheWeb'] = (empty($tmp)) ? NULL : (int)$tmp ;
+				
 				$tmp = $record->getField('Job_Position') ; 
 				$FMResults[$key]['Job_Position'] = (empty($tmp)) ? NULL : $tmp ; 
 				
@@ -281,7 +284,11 @@ function _gbifims_doInstitution() {
 				$FMResults[$key]['Address'] = $record->getField('Address') ;
 				$FMResults[$key]['City'] =  $record->getField('City') ;
 				$FMResults[$key]['Description'] = $record->getField('Description') ;
+				$FMResults[$key]['Email'] = $record->getField('Email') ;
 				$FMResults[$key]['Name'] = $record->getField('Name') ;
+				$FMResults[$key]['State'] = $record->getField('State') ;
+				$FMResults[$key]['Telephone'] = $record->getField('Telephone') ;
+				$FMResults[$key]['ZipCode'] = $record->getField('ZipCode') ;
 			}
 			
 			foreach ($FMResults as $values) 
@@ -434,7 +441,8 @@ function _gbifims_doParticipant() {
 				$FMResults[$key]['GBIFmembership'] = $record->getField('GBIFmembership') ;
 				
 				$tmp = $record->getField('Member_AsOf') ; 
-				if (! empty( $tmp ) ) {
+				if ( !empty( $tmp ) ) {
+					// original field is returned as "April 2001"
 					$tmp = '01 '. $tmp . ' 00:00' ;
 					$cur_format = 'd F Y H:i';
 					$date = DateTime::createFromFormat($cur_format, $tmp);
@@ -447,7 +455,22 @@ function _gbifims_doParticipant() {
 				
 				$FMResults[$key]['Name_Full'] = $record->getField('Name_Full') ;
 				$FMResults[$key]['Name_Short'] =  $record->getField('Name_Short') ;
-				$FMResults[$key]['Host_URL'] = $record->getField('Host_URL') ;
+				
+				$FMResults[$key]['PublicDescription'] = $record->getField('PublicDescription') ; 
+				
+				$tmp = $record->getField('MOU2012_Date') ;
+				if ( !empty( $tmp ) ) {
+					// format is (so far...) 'mm/dd/yyyy' so we only patch the time
+ 					$tmp .= ' 00:00' ;
+					$cur_format = 'm/d/Y H:i';
+					$date = DateTime::createFromFormat($cur_format, $tmp);
+  					$mou2012_date = $date->format('Y-m-d h:i') ;
+					$FMResults[$key]['MOU2012_Date'] = $mou2012_date ;
+				} else {
+					$FMResults[$key]['MOU2012_Date'] = NULL ;
+				}
+				
+				$FMResults[$key]['Host_URL'] = $record->getField('Host_URL') ; 
 
 			}
 			
