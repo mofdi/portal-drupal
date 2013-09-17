@@ -470,7 +470,7 @@ switch ($type) {
 	case 'Other Associate Participant':
 		$where = 'gbifims_Participant.GBIFMembership = :ptype';
 		// explicitelly fall through from all above
-		$ptype = array ( ':ptype', $type );
+		$ptype = array ( ':ptype'=> $type );
 		break ;
 	case 'All':
 		$where = "(gbifims_Participant.GBIFMembership = 'Voting Participant' OR gbifims_Participant.GBIFMembership = 'Associate Country Participant' OR gbifims_Participant.GBIFMembership = 'Other Associate Participant') ";
