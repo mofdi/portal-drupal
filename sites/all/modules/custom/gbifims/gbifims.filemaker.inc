@@ -536,6 +536,7 @@ function _gbifims_get_CommitteeList( $committee ) {
 	$CList = '<table style="" class="table table-bordered table-stripped"><tbody>';
 	// <thead><tr><th colspan="2" >'.$options[1].'</th><tr></thead>
 	foreach ( $result as $row) {
+		$job_or_role = ( $committee == 'GBIF Secretariat' ) ? $row->Job_Position : $row->Name ;
 		$CList .= "<tr><td>
 			<div class='contact'>
 				<a name='$row->Name_First,$row->Name_Last'></a>
@@ -553,7 +554,7 @@ function _gbifims_get_CommitteeList( $committee ) {
 					</div>
 				</div>
 			</div>
-		</td><td>$row->Name</td>";
+		</td><td>$job_or_role</td>";
 	}
 	$CList .= '</tbody></table>' ;
 	return $CList ;
