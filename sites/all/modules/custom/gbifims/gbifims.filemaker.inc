@@ -82,10 +82,15 @@ function _gbifims_doContact() {
 				$tmp = $record->getField('GBIF_Order') ;
 				$FMResults[$key]['GBIF_Order'] = (empty($tmp)) ? NULL : (int)$tmp ;
 
+				$tmp = $record->getField('Job_Description') ; 
+				$FMResults[$key]['Job_Description'] = (empty($tmp)) ? NULL : $tmp ;
+				
+				$tmp = $record->getField('URL') ; 
+				$FMResults[$key]['URL'] = (empty($tmp)) ? NULL : $tmp ; 
+
 				$tmp = 	$record->getField('GBIF_Staff') ;
 				$FMResults[$key]['GBIF_Staff'] = (empty($tmp)) ? NULL : (int)$tmp ;
 				
-				$FMResults[$key]['Email'] = $record->getField('Email') ;
 				$FMResults[$key]['zz__PEOP_SuperContainer_IMGURL__lct'] = $record->getField('zz__PEOP_SuperContainer_IMGURL__lct') ;
 			}
 			

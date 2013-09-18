@@ -75,6 +75,12 @@ $schema['gbifims_Contact'] = array(
 	  'length' => '64',
 	  'not null' => FALSE,
 	),
+	'Job_Description' => array(
+	  'description' => 'TODO: please describe this field!',
+	  'type' => 'varchar',
+	  'length' => '4096',
+	  'not null' => FALSE,
+	),
 	'Fax' => array(
 	  'description' => 'Telefax number',
 	  'type' => 'varchar',
@@ -114,6 +120,12 @@ $schema['gbifims_Contact'] = array(
 	  'description' => 'TODO: please describe this field!',
 	  'type' => 'varchar',
 	  'length' => '256',
+	  'not null' => FALSE,
+	),
+	'URL' => array(
+	  'description' => 'TODO: please describe this field!',
+	  'type' => 'varchar',
+	  'length' => '2048',
 	  'not null' => FALSE,
 	),
 	'GBIF_Staff' => array(
