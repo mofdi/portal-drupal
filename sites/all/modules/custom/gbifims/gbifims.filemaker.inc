@@ -546,6 +546,35 @@ return $PList ;
 }
 
 
+function _gbifims_get_SecretariatList () {
+	$CList = '';
+
+	$result = db_query('SELECT * FROM gbifims_Contact WHERE GBIF_Staff = 1 ORDER BY GBIF_Order') ;
+
+	$CList = '<table style="" class="table table-bordered table-stripped"><tbody>';
+	// <thead><tr><th colspan="2" >'.$options[1].'</th><tr></thead>
+	foreach ( $result as $row) {
+		$CList .= "<tr><td>
+			<div class='contact'>
+				<a name='$row->Name_First,$row->Name_Last'></a>
+				<div class='contactName'>$row->Name_First $row->Name_Last</div>
+				<div style='display: none;'>
+					<div class='contactPosition'>$row->Job_Position</div>
+					<div class='address'>
+						<span>$row->Address</span>
+						<span class='city'>$row->City</span>
+						<span class='email'><a href='mailto:$row->Email' title='email'>$row->Email</a></span>
+						<span class='phone'>$row->Phone_Office</span>
+						<span class='phone'>$row->Fax</span>
+					</div>
+				</div>
+			</div>
+		</td><td>$row->Job_Position</td>";
+	}
+	$CList .= '</tbody></table>' ;
+	return $CList ;
+}
+
 function _gbifims_get_CommitteeList( $committee ) {
 	$CList = '';
 

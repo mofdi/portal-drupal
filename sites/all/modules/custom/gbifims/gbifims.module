@@ -121,7 +121,7 @@ function gbifims_tokens($type, $tokens, array $data = array(), array $options = 
 			$replacements[$original] = _gbifims_get_CommitteeList('Nodes Steering Group');
 			break;
 		case 'GBSList':
-			$replacements[$original] = _gbifims_get_CommitteeList('GBIF Secretariat');
+			$replacements[$original] = _gbifims_get_SecretariatList('GBIF Secretariat');
 			break;			
         case 'VPList':
 			$replacements[$original] = _gbifims_get_ParticipantsList('Voting Participant');
