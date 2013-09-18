@@ -109,8 +109,7 @@
 	<p>	Also tagged:
 		<?php 
 		foreach ( array('field_capacity','field_country','field_regions','field_organizations') as $field ) { 
-			print ( render ( field_view_field ('node', $node, $field) ).' ' ) ; 
-			
+			if ( isset ($node->$field) ) print ( render ( field_view_field ('node', $node, $field) ) ); 
 		} ?>
 	</p>
 	<?php endif ?>

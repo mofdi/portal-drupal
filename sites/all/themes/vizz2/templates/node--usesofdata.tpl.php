@@ -78,7 +78,6 @@
 	global $base_path ;
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
 	$taxon = get_title_data() ;
-	
 ?>	
 <?php if ( $view_mode == 'teaser' OR $view_mode == 'teaser_nt' ): ?>
 <div class="result">
@@ -102,7 +101,7 @@
 	<p>	Also tagged: 
 		<?php 
 		foreach ( array('field_capacity','field_country','field_regions','field_organizations') as $field ) { 
-			print ( render ( field_view_field ('node', $node, $field) ).' ' ) ; 
+			if ( isset ($node->$field) ) print ( render ( field_view_field ('node', $node, $field) ) ); 
 			
 		} ?>
 	</p>
