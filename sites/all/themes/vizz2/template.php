@@ -1060,7 +1060,7 @@ echo "	<li><h3>Contact</h3></li> " ;
 echo "	<li><strong>Email</strong> info@gbif.org</li> " ; 
 echo "	<li><strong>Tel</strong> +45 35 32 14 70</li> " ; 
 echo "	<li><strong>Fax</strong> +45 35 32 14 80</li> " ; 
-echo "	<li>You can also check the <a class='placeholder_temp' href='#'>GBIF Directory</a></li> " ; 
+echo "	<li>You can also check the <a href='$base_url/contact/directoryofcontacts#secretariat'>GBIF Directory</a></li> " ; 
 echo "  </ul> " ;
 
 echo "  <ul class='social last'> " ;
