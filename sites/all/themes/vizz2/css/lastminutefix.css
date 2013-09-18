@@ -215,9 +215,9 @@ body.newsroom #content article.detail > .content .right ul li {
 		margin: 0 ;
 }
 
-body.newsroom #content article.detail > .content .right ul.tags li {
+/* body.newsroom #content article.detail > .content .right ul.tags li {
 		display: inline-block ;
-}
+} */
 
 body.newsroom #content article.data-use-news > .content .inner ul li .ocurrences {
 	height: 18px ;

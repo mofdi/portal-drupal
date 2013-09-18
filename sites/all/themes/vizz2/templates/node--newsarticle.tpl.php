@@ -86,8 +86,6 @@
 	global $base_url ;
 	global $base_path ;
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
-
-	
 ?>
 <?php if ( $view_mode == 'teaser' OR $view_mode == 'teaser_nt' ): ?>
 <div class="result">
@@ -108,9 +106,9 @@
 	<h2><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
 	<p><?php print ($body[0]['summary']); ?></p>
 	<?php if ( $view_mode == 'teaser' ): ?>
-	<p>	Also tagged: 
+	<p>	Also tagged:
 		<?php 
-		foreach ( array('field_country','field_regions','field_organizations') as $field ) { 
+		foreach ( array('field_capacity','field_country','field_regions','field_organizations') as $field ) { 
 			print ( render ( field_view_field ('node', $node, $field) ).' ' ) ; 
 			
 		} ?>
@@ -142,7 +140,6 @@
 			}
 				print render($content['body']);
 			?>
-				<?php // var_dump ($content['field_country']) ; print $messages ; ?>
 		</div>
 		<div class="right">
 			<h3>Publication Date</h3>
@@ -158,27 +155,13 @@
 			
 			}
 			?>
-
-			
-<!--			<div class="contact">
-				<div class="contactType">
-					Author
-				</div>
-				<?php	// $node_author = user_load($node->uid); ?>
-				<div class="contactName">
-					<?php // print( render( $node_author->field_firstname['und'][0]['value']))?>&nbsp;<?php // print( render( $node_author->field_lastname['und'][0]['value'])) ; ?>	
-					<br /><a href="mailto:<?php // print( render( $node_author->mail))?>"><?php // print( render( $node_author->mail))?></a><br />
-				</div> 
-			</div> -->
 			<h3>TAGS</h3>
-			<ul class='tags'>
+			<ul class="tags">
 			<?php 
 			foreach ( array('field_capacity','field_country','field_informatics','field_organizations','field_regions') as $field ) { 
-				print ( '<li>'.render ( $content[$field] ).'</li>' ) ; 
-				
+				if ( isset( $content[ $field ] ) ) print (render ( $content[$field] ) ) ; 
 			} ?>
-			</ul>			
-
+			</ul>
 		</div>
 	</div>
 

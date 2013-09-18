@@ -63,7 +63,7 @@ foreach ($view as $key => $vnode) {
 		<header></header>
 		<div class="content">
 		<div class="header">
-			<div class="left"><h2>Latest News Articles</h2></div>
+			<div class="left"><h2>Latest news items</h2></div>
 			<div class="right"><h3>Filter by region</h3></div>
 		</div>
 			<div class="left">

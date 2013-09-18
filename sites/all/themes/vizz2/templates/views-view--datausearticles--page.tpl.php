@@ -39,7 +39,7 @@
 		<div class="content">
 		<div class="header">
 			<div class="left"><h2>All featured data uses</h2></div>
-			<div class="right"><h3>Filter by tag</h3></div>
+			<div class="right"><h3>Filter by subject</h3></div>
 		</div>
 			<div class="left">
 			<?php print $rows ; ?>
@@ -48,12 +48,12 @@
 			<div class="right">
 				<div class="refine">
 					<ul id="more_links">
+						<li><a href="<?php print $base_url ?>/taxonomy/term/635">Invasives</a></li>
+						<li><a href="<?php print $base_url ?>/taxonomy/term/639">Climate change</a></li>
 						<li><a href="<?php print $base_url ?>/taxonomy/term/638">Conservation</a></li>					
-						<li><a href="<?php print $base_url ?>/taxonomy/term/618">Policy Use</a></li>
-						<li><a href="<?php print $base_url ?>/taxonomy/term/617">Science Uses</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/latinamerica">Latin America</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/northamerica">North America</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/oceania">Oceania</a></li>
+						<li><a href="<?php print $base_url ?>/taxonomy/term/636">Agriculture</a></li>
+						<li><a href="<?php print $base_url ?>/taxonomy/term/637">Human health</a></li>
+						<li><a href="<?php print $base_url ?>/taxonomy/term/640">Species distributions</a></li>
 					</ul>
 				</div>
 			</div>

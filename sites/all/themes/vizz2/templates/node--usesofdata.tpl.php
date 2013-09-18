@@ -101,7 +101,7 @@
 	<?php if ( $view_mode == 'teaser' ): ?>
 	<p>	Also tagged: 
 		<?php 
-		foreach ( array('field_country','field_regions','field_organizations') as $field ) { 
+		foreach ( array('field_capacity','field_country','field_regions','field_organizations') as $field ) { 
 			print ( render ( field_view_field ('node', $node, $field) ).' ' ) ; 
 			
 		} ?>
@@ -145,7 +145,7 @@
 			}
 			if ( !empty ( $node->field_reasearcherslocation ) ) {
 				echo '<h3>Location Of Researchers</h3>' ;
-				print ( render ( field_view_field ('node', $node, 'field_reasearcherslocation') ) ) ; 
+				print ( '<ul>'.render ( $content['field_reasearcherslocation']).'</ul>'  ) ; 
 			}
 			if ( !empty ( $node->field_studyarea ) ) {
 				echo '<h3>Study Area</h3>' ;
@@ -153,22 +153,22 @@
 			}
 			if ( !empty ( $node->field_datasources ) ) {
 				echo '<h3>Data Sources</h3>' ;
-				print ( '<p>'.render ( field_view_field ('node', $node, 'field_datasources') ).'</p>' ) ; 
+				print ( '<p>'.render ( $content['field_datasources']).'</p>' ) ; 
 			}						
 			if ( !empty ( $node->field_linkstoresearch ) ) {
 				echo '<h3>Links To Research</h3>' ;
-				print ( render ( field_view_field ('node', $node, 'field_linkstoresearch') ) ) ; 
+				print ( '<ul>'.render ( $content['field_linkstoresearch']).'</ul>' ) ; 
 			}
 			if ( !empty ( $node->field_datausecategories ) ) {
 				echo '<h3>Data Use Categories</h3>' ;
-				print ( render ( field_view_field ('node', $node, 'field_datausecategories') ) ) ; 
+				print ( '<ul>'.render ( $content['field_datausecategories']).'</ul>' ) ; 
 			}									
 			?>
 			<h3>Tags</h3>
 			<ul class='tags'>
 			<?php 
 			foreach ( array('field_country','field_regions','field_organizations') as $field ) { 
-				print ( '<li>'.render ( field_view_field ('node', $node, $field) ).'</li>' ) ; 
+				print ( render ( $content[$field] ) ) ; 
 				
 			} ?>
 			</ul>
