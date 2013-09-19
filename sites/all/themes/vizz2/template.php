@@ -1015,8 +1015,8 @@ echo "	</ul> " ;
 
 echo "	<ul> " ;
 echo "		<li><h3>WHO’S PARTICIPATING</h3></li> " ; 
-echo "		<li><a class='' href='$base_url/country'>Countries</a></li> " ; 
-echo "		<li><a class='' href='$base_url/node/other'>Organizations</a></li> " ; 
+echo "		<li><a class='' href='$base_url/participation/list#voting'>Countries</a></li> " ; 
+echo "		<li><a class='' href='$base_url/participation/list#other'/'>Organizations</a></li> " ; 
 echo "		<li class='last'><a class='' href='$base_url/publisher/search'>Data publishers</a></li> " ; 
 echo "	</ul> " ;
 
