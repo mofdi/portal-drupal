@@ -1022,8 +1022,8 @@ echo "	</ul> " ;
 
 echo "	<ul> " ;
 echo "		<li><h3>KEY DOCUMENTS</h3></li> " ; 
-echo "		<li><a class='' href='$base_url/orc/?doc_id=2779&l=en'>Data use agreement</a></li> " ; 
-echo "		<li><a class='' href='$base_url/orc/?doc_id=2780&l=en'>Data sharing agreement</a></li> " ; 
+echo "		<li><a class='' href='$base_url/datauseagreement'>Data use agreement</a></li> " ; 
+echo "		<li><a class='' href='$base_url/datasharingagreement'>Data sharing agreement</a></li> " ; 
 echo "		<li><a class='' href='$base_url/orc/?doc_id=2955&l=en'>Memorandum of Understanding</a></li> " ; 
 echo "		<li><a class='' href='$base_url/orc/?doc_id=5304'>Annual Report</a></li> " ; 
 echo "		<li><a class='' href='$base_url/orc/?doc_id=2792&l=en'>GBIF Strategic Plan</a></li> " ; 
