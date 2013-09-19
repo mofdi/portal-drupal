@@ -58,7 +58,7 @@
 				<div class="content">
 				<h3>Disclaimer</h3>
 				<p>Any user accounts created may be deleted; users might need to recreate their accounts in the future</p>
-				<p>By registering with GBIF you agree to abide by the terms of usage set out <a href="http://data.gbif.org/tutorial/datauseagreement">here</a></p>
+				<p>By registering with GBIF you agree to abide by the terms of usage set out <a href="<?php echo $base_url?>/datauseagreement">here</a></p>
 										
 				</div>
 			</div>
