@@ -49,16 +49,6 @@
 			<h3>Please, register to the GBIF data portal for downloading data, or login if you already have an account </h3>
 		</div>
 	</div>
-
-<!--	<div id="tabs">
-		<div class="content">
-			<ul>
-				<li class='selected'><a href="<?php print($base_url.'/user/'.$user->uid.'/edit') ?>" title="Summary"><span>Account</span></a></li>
-				<li><a href="<?php print($dataportal_base_url.'/user/downloads') ?>" title="Summary" title="News"><span>Downloads</span></a></li>
-				<li><a href="<?php print($dataportal_base_url.'/user/namelists') ?>" title="Summary" title="News"><span>Name lists</span></a></li>
-			</ul>
-		</div>
-	</div> -->
 </header>
 
 <div id="content"><!-- page.tpl -->
