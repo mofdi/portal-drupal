@@ -591,31 +591,24 @@ function _link_sanitize(&$item, $delta, &$field, $instance, &$entity) {
  * @return Array
  *   Array of url pieces.
  */
-
-function _proper_parse_str($str, &$result) {
-
-// 	$result = array();
-
+function _proper_parse_str($str) {
 	# split on delimiter
 	$params = explode('&', $str);
 
-	foreach ($params as $i) {
+	foreach ($params as $index => $i) {
 		# split to param/value
 		list ( $param , $value) = explode('=', $i, 2);
-
+	
 		# if param is already set
 		if( isset( $result[$param] ) ) {
-			# create and set values into an array
-			if( is_array ( $result[$param] ) ) {
-				$result[$param][] = $value;
-			} else {
-				$result[$param] = array($result[$param], $value);
-			}
-		} else { // else put it into a scalar
+			# transform the parameter name while avoiding the later htmlspecialchars() trap :-s
+			$param = $param.'-'.$index ;
+				$result[$param] = $value;
+		} else { 
 			$result[$param] = $value;
 		}
 	}
-
+	
 	return $result;
 }
 
