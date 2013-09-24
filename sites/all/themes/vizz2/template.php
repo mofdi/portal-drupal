@@ -163,6 +163,7 @@ function vizz2_preprocess_page( &$vars, $hook ) {
 	if(views_get_page_view())   {
 		$vars['theme_hook_suggestions'][] = 'page__view__newsarticles';
 		$vars['theme_hook_suggestions'][] = 'page__view__datausearticles';      			
+		$vars['theme_hook_suggestions'][] = 'page__view__viewallevents';
 	}
 	
 	if(isset($vars['page']['content']['system_main']['no_content'])) {
@@ -696,7 +697,8 @@ function vizz2_pager($variables) {
 	$tags = $variables['tags'];
 	$element = $variables['element'];
 	$parameters = $variables['parameters'];
-	$quantity = $variables['quantity'];
+	// attempt to accont for the theme's page width
+	$quantity = ( $variables['quantity'] < 7) ? $variables['quantity'] : 7 ;
 	global $pager_page_array, $pager_total;
 
 	// Calculate various markers within this pager piece:

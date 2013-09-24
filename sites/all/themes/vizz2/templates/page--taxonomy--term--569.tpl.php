@@ -1,12 +1,28 @@
 <?php 
+	if ($node) {
+		$tags = field_attach_view('node', $node,'full' ) ; 
+	}
 	$taxon = get_title_data() ;
 
 	global $user;
 	global $base_url ;
 	global $base_path ;
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
-	// dpm($page); print $messages ;
-	$results_exist = isset( $page['content']['system_main']['nodes'] ) ? : FALSE
+	
+	$results = array() ;
+	$view = views_get_view_result('viewallevents');
+
+	foreach ($view as $key => $vnode) {
+		$nid = $vnode->nid  ;
+		$anode = node_load( $nid ) ;
+		$results[$key] = $anode ;
+		// $results[$nid]['fields'] = field_attach_view('node', $anode,'full' ) ; 
+		// print render ( $result[$nid]->field_featured  ) ; 
+	}
+
+
+// dpm($page) ;  
+//newsroom/events	
 ?>
 <body class="search">
 <header>
@@ -42,53 +58,49 @@
 	<?php $taxon = get_title_data() ; ?>
 	<div id="infoband">
 		<div class="content">
-			<div class="content">
-				<h1>Items tagged "<?php echo $title?>"</h1>
-			</div>
-
+		<?php $taxon = get_title_data() ; ?>
+		<h1><?php print $taxon->name ?></h1>
+		<h3><?php print $taxon->description ?></h3>
 		</div>
-	</div>	
+	</div>
 		<?php print render($page['sidebar_first']); ?>
 </header>
-<div id="content"><!-- page.tpl -->
+<div id="content">
 	<article class="results light_pane">
 		<header></header>
 		<div class="content">
-			<div class="header">
-				<?php if ( $results_exist ) : ?>
-				<div class="left"><h2><?php print $search_totals; ?></h2><a href="<?php echo $base_url.'/taxonomy/term/'.$page['content']['system_main']['term_heading']['term']['#term']->tid?>/feed"><img src="<?php echo $base_url?>/sites/all/themes/vizz2/img/feed-icon-14x14.png"></a></div>
-				<?php else : ?>
-				<div class="left"><h2><?php print t('Your search yielded no results');?></h2></div>
-				<?php endif; ?>
-				<div class="right"><h3>More search options</h3></div>
-			</div>
+		<div class="header">
+			<div class="left"><h2>Latest GBIF Events</h2></div>
+			<div class="right"><h3>Filter by region</h3></div>
+		</div>
 			<div class="left">
-				<?php if ( $results_exist ) : ?>
-				<?php print render($page['content']); 	 ?>
-				<?php print $pager; ?>
-				<?php else : ?>
-				<p>For the moment there are no items tagged "<?php echo $title?>"</p>
-				<?php endif; ?>
+				<?php for ( $td = 0 ; $td < 5 ; $td++ ) : ?>
+				<div class="result">
+					<h2><a href="<?php print $base_url.'/page/'.$results[$td]->nid ?>"><?php print $results[$td]->title ?></a></h2>
+					<p><?php print $results[$td]->body['und'][0]['summary'] ?></p>
+					<div class="footer">
+						<p class="date"><?php { print( $results[$td]->field_dates['und'][0]['value']) ; } ?></p>
+					</div>
+				</div>
+				<?php endfor ?>
+			<a href="<?php print $base_url?>/newsroom/archive/allevents" class="candy_white_button more_news next lft"><span>More GBIF events</span></a>
 			</div>
 			<div class="right">
 				<div class="refine">
-					<p>This search result only covers the text content of the news and information pages of the GBIF portal.</p>
-					<p>If you want to search data content, start here:</p>
-
 					<ul id="more_links">
-					<li><a href="<?php print ($dataportal_base_url) ?>/dataset">Publishers and datasets</a></li>
-					<li><a href="<?php print ($dataportal_base_url) ?>/country">Countries</a></li>
-					<li><a href="<?php print ($dataportal_base_url) ?>/occurrence">Occurrences</a></li>
-					<li><a href="<?php print ($dataportal_base_url) ?>/species">Species</a></li>
+						<li><a href="<?php print $base_url ?>/search/node/africa">Africa</a></li>
+						<li><a href="<?php print $base_url ?>/search/node/asia">Asia</a></li>
+						<li><a href="<?php print $base_url ?>/search/node/europe">Europe</a></li>
+						<li><a href="<?php print $base_url ?>/search/node/latinamerica">Latin America</a></li>
+						<li><a href="<?php print $base_url ?>/search/node/northamerica">North America</a></li>
+						<li><a href="<?php print $base_url ?>/search/node/oceania">Oceania</a></li>
 					</ul>
-
 				</div>
 			</div>
 		</div>
 		<footer></footer>
 	</article>
-</div><!-- page.tpl -->
-		
+</div>
 <?php get_footer($base_url) ?>
 <?php get_bottom_js($base_url) ?>		
 </body>

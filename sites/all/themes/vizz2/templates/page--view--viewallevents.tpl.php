@@ -59,40 +59,7 @@ foreach ($view as $key => $vnode) {
 		<?php print render($page['sidebar_first']); ?>
 </header>
 <div id="content">
-	<article class="results light_pane">
-		<header></header>
-		<div class="content">
-		<div class="header">
-			<div class="left"><h2>Latest news items</h2></div>
-			<div class="right"><h3>Filter by region</h3></div>
-		</div>
-			<div class="left">
-				<?php for ( $td = 0 ; $td < 5 ; $td++ ) : ?>
-				<div class="result">
-					<h2><a href="<?php print $base_url.'/page/'.$results[$td]->nid ?>"><?php print $results[$td]->title ?></a></h2>
-					<p><?php print $results[$td]->body['und'][0]['summary'] ?></p>
-					<div class="footer">
-						<p class="date"><?php { print( format_date($results[$td]->created, 'custom', 'F jS, Y')) ; } ?></p>
-					</div>
-				</div>
-				<?php endfor ?>
-			<a href="<?php print $base_url?>/newsroom/archive/allnewsarticles" class="candy_white_button more_news next lft"><span>More GBIF news</span></a>
-			</div>
-			<div class="right">
-				<div class="refine">
-					<ul id="more_links">
-						<li><a href="<?php print $base_url ?>/search/node/africa">Africa</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/asia">Asia</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/europe">Europe</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/latinamerica">Latin America</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/northamerica">North America</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/oceania">Oceania</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<footer></footer>
-	</article>
+	<?php print ( render ($page['content']) )  ?>
 </div>
 		
 <?php get_footer($base_url) ?>
