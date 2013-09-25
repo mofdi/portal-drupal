@@ -139,7 +139,7 @@
             <div class="right">
             <?php if (! empty ( $node->field_image_url["und"][0]["value"] )) { ?>		
             <p><img src="<?php echo $node->field_image_url["und"][0]["value"]; ?>" alt="Event image" width="200px"></p>
-            <? } ?>
+            <?php } ?>
             <?php if (! empty ( $node->field_dates["und"][0]["value"] )) { ?>		
                 <h3><?php echo t('Dates'); ?></h3>
                 <p><?php print render($content['field_dates']); ?></p>
