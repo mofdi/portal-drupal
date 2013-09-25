@@ -103,6 +103,8 @@
   <link rel="apple-touch-icon" href="<?php print ($dataportal_base_url); ?>/img/favicon/favicon_32x32.ico">
   <link rel="stylesheet" href="<?php print ($dataportal_base_url); ?>/css/style.css?v=2"/>
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css" type="text/css" media="all"/>
+  <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />		
+  <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->		
 
   <!-- begin Drupal scripts -->
   <?php print $scripts; ?>
@@ -115,6 +117,8 @@
   <script type="text/javascript" src="<?php print ($dataportal_base_url); ?>/js/vendor/jscrollpane.min.js"></script>
   <!-- we have issues with firefox, not only IE: http://dev.gbif.org/issues/browse/POR-412 -->  
   <script type="text/javascript" src="<?php print ($dataportal_base_url); ?>/js/vendor/css_browser_selector.js"></script>
+  <script type="text/javascript" src="<?php print ($dataportal_base_url); ?>/js/vendor/leaflet/leaflet.js'/>"></script>		
+  <script type="text/javascript" src="<?php print ($dataportal_base_url); ?>/js/homepage-map.js'/>"></script>		
 
 	<script type="text/javascript">
 		function numberWithCommas(x) {

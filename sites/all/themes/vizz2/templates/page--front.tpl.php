@@ -6,7 +6,7 @@
 	$search_form = drupal_get_form('search_form') ; 
 ?>
 <header>
-
+  <div id="homepageMap"></div>
   <!-- top -->
   <div id="top">
     <div class="content">
