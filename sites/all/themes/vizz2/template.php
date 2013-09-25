@@ -1037,7 +1037,6 @@ echo "		<li><h3>FOR DEVELOPERS</h3></li> " ;
 echo "		<li><a href='/developer'>Portal API</a></li> " ; 
 echo "		<li><a href='http://gbif.blogspot.com'>Developer blog</a></li> " ; 
 echo "		<li><a href='http://tools.gbif.org'>Tools</a></li> " ; 
-echo "		<li><a class='placeholder_temp' href='#'>Standards</a></li> " ; 
 echo "	</ul> " ;
 
 echo "  </div> " ;

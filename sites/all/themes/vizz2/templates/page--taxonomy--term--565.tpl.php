@@ -123,7 +123,7 @@ foreach ($view as $key => $vnode) {
     <footer></footer>
     </article>
 
-    <article class="news">
+    <article class="news results">
     <header></header>
     <div class="content">
 
@@ -147,16 +147,16 @@ foreach ($view as $key => $vnode) {
 	}
 
 ?>
-          <ul>
 		<?php for ( $td = 0 ; $td < 3 ; $td++ ) : ?>
-			<li>
-				<h4 class="date"><?php { print( format_date($results[$td]->created, 'custom', 'F jS, Y')) ; } ?></h4>
-				<a href="<?php print $base_url.'/page/'.$results[$td]->nid ?>" class="title"><?php print $results[$td]->title ?></a>
+
+  		<div class="result">
+        <h2><a href="<?php print $base_url.'/page/'.$results[$td]->nid ?>"><?php print $results[$td]->title ?></a></h2>
 				<p><?php print $results[$td]->body['und'][0]['summary'] ?></p>
-				<a href="<?php print $base_url.'/page/'.$results[$td]->nid ?>" class="read_more">Read more</a>
-			</li>
-		<?php endfor ?>
-          </ul>
+        <div class="footer">
+          <p class="date"><?php { print( format_date($results[$td]->created, 'custom', 'F jS, Y')) ; } ?></p>
+        </div>
+      </div>
+	<?php endfor ?>
           <a href="<?php print $base_url?>/newsroom/news" class="candy_white_button more_news next lft"><span>More GBIF news</span></a>
         </div>
 

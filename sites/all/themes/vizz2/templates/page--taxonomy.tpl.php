@@ -42,10 +42,7 @@
 	<?php $taxon = get_title_data() ; ?>
 	<div id="infoband">
 		<div class="content">
-			<div class="content">
-				<h1>Items tagged "<?php echo $title?>"</h1>
-			</div>
-
+      <h1>Items tagged "<?php echo $title?>"</h1>
 		</div>
 	</div>	
 		<?php print render($page['sidebar_first']); ?>

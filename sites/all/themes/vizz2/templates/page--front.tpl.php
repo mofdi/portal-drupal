@@ -28,7 +28,7 @@
       <a href="<?php print $base_url;?>" class="logo"></a>
     </div>
 
-    <div class="info">
+    <div id="metrics">
       <h1>Global Biodiversity Information Facility</h1>
       <h2>Free and open access to biodiversity data</h2>
 

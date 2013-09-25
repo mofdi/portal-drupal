@@ -9,7 +9,7 @@
 	$more_user = user_load($user->uid) ;
 	
 ?>
-<body class="newsroom">
+<body>
 <header>
   <div id="top">
     <div class="content">
@@ -65,22 +65,18 @@
 
 <div id="content"><!-- page.tpl -->
 		<?php if (!empty ($messages) ) { ?>
-		<article id="step-0" class="register">
+		<article class="register">
 			<header></header>
 			<div class="content">
-				<div class="content">
-					<?php print $messages ; ?>
-				</div>
+        <?php print $messages ; ?>
 			</div>
 			<footer></footer>
 		</article>
 		<?php } ?>
-		<article id="step-0" class="register">
+		<article class="register">
 			<header></header>
 			<div class="content">
-				<div class="content">
-					<?php print render($page['content']); ?>
-				</div>
+        <?php print render($page['content']); ?>
 			</div>
 			<footer></footer>
 		</article>
