@@ -37,20 +37,13 @@
 	<article class="results light_pane">
 		<header></header>
 		<div class="content">
-		<div class="header">
-			<div class="left"><h2>Archive of all GBIF events</h2></div>
-			<div class="right"><h3></h3></div>
-		</div>
-			<div class="left">
-			<?php print $rows ; ?>
-			<?php print $pager?>
+			<div class="header">
+				<div class="left"><h2>Archive of all GBIF events</h2></div>
+				<div class="right"></div>
 			</div>
-			<div class="right">
-				<div class="refine">
-					<ul id="more_links">
-						<li></li>
-					</ul>
-				</div>
+			<div class="left">
+				<?php print $rows ; ?>
+				<?php print $pager?>
 			</div>
 		</div>
 		<footer></footer>

@@ -71,7 +71,6 @@
 		<div class="content">
 		<div class="header">
 			<div class="left"><h2>Latest GBIF Events</h2></div>
-			<div class="right"><h3>Filter by region</h3></div>
 		</div>
 			<div class="left">
 				<?php for ( $td = 0 ; $td < 5 ; $td++ ) : ?>
@@ -85,18 +84,7 @@
 				<?php endfor ?>
 			<a href="<?php print $base_url?>/newsroom/archive/allevents" class="candy_white_button more_news next lft"><span>More GBIF events</span></a>
 			</div>
-			<div class="right">
-				<div class="refine">
-					<ul id="more_links">
-						<li><a href="<?php print $base_url ?>/search/node/africa">Africa</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/asia">Asia</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/europe">Europe</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/latinamerica">Latin America</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/northamerica">North America</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/oceania">Oceania</a></li>
-					</ul>
-				</div>
-			</div>
+
 		</div>
 		<footer></footer>
 	</article>
