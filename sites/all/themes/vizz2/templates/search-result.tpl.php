@@ -76,6 +76,10 @@ if ( $info_split['date'] ) {
 		case 'Uses of Data Article' :
 			print ('Featured data use') ;
 			break ;
+		case 'Event IMS' :
+			print ('GBIF Event') ;
+			break ;
+			
 		default :
 			print ('Information page');
 		}
