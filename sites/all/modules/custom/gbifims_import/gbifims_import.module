@@ -232,7 +232,7 @@ switch ($_GET['ot'])
 	default:
 		//
 		// generic process. It verfies the current list against the IMS
-		$MaxEventRecordsToUpdate = 25;
+		$MaxEventRecordsToUpdate = 50;
 		switch ($_GET['rt'])
 		{
 			case 'e':
