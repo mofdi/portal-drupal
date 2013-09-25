@@ -129,7 +129,7 @@
 			$.getJSON('<?php echo $api_base_url?>/occurrence/count?callback=?', function (data)
 			{ $("#countOccurrences").html(numberWithCommas(data)); }
 			);
-			$.getJSON('<?php echo $api_base_url?>/name_usage/search?dataset_key=7ddf754f-d193-4cc9-b351-99906754a03b&limit=1&rank=species&status=accepted&callback=?', function (data)
+			$.getJSON('<?php echo $api_base_url?>/name_usage/search?dataset_key=7ddf754f-d193-4cc9-b351-99906754a03b&limit=1&rank=species&status=accepted&status=DOUBTFUL&callback=?', function (data)
 			{ $("#countSpecies").html(numberWithCommas(data.count)); }
 			);	
 			$.getJSON('<?php echo $api_base_url?>/dataset/search?limit=1&callback=?', function (data)
