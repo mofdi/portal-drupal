@@ -56,13 +56,6 @@
   <script type="text/javascript" src="<?php print ($dataportal_base_url); ?>/js/vendor/jscrollpane.min.js"></script>    
   <!-- we have issues with firefox, not only IE: http://dev.gbif.org/issues/browse/POR-412 -->  
   <script type="text/javascript" src="<?php print ($dataportal_base_url); ?>/js/vendor/css_browser_selector.js"></script>
-  	
-	<style type="text/css">
-		header #beta {
-		left: 200px;
-		top: 10px;
-		}
-	</style>
 
 	<link rel="stylesheet" href="<?php print ($base_url); ?>/sites/all/themes/vizz2/css/lastminutefix.css">	
 	  

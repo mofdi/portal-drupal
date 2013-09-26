@@ -1007,73 +1007,68 @@ function get_footer( $base_url ) {
 
 $dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
 echo "<footer>
-	<div class='footer'>
-		<ul>" ;
-echo "		<li><h3>JOIN THE COMMUNITY</h3></li> " ;
-echo "		<li><a class='' href='http://community.gbif.org/'>Join GBIF Community Site</a></li> " ; 
-echo "		<li><a class='' href='$base_url/newsroom/summary/#signup'>Sign up to GBits newsletter</a></li> " ; 
-echo "		<li><a class='' href='$base_url/resources/summary'>GBIF Online Resource Centre</a></li> " ; 
-echo "	</ul> " ;
+<div id='link_footer'>
+ <div class='footer'>
+  <ul>
+		<li><h3>JOIN THE COMMUNITY</h3></li>
+		<li><a class='' href='http://community.gbif.org/'>Join GBIF Community Site</a></li>
+		<li><a class='' href='$base_url/newsroom/summary/#signup'>Sign up to GBits newsletter</a></li>
+		<li><a class='' href='$base_url/resources/summary'>GBIF Online Resource Centre</a></li>
+	</ul>
+	<ul>
+		<li><h3>WHO’S PARTICIPATING</h3></li>
+		<li><a class='' href='$base_url/participation/list#voting'>Countries</a></li>
+		<li><a class='' href='$base_url/participation/list#other'/'>Organizations</a></li>
+		<li class='last'><a class='' href='$base_url/publisher/search'>Data publishers</a></li>
+	</ul>
+	<ul>
+		<li><h3>KEY DOCUMENTS</h3></li>
+		<li><a class='' href='$base_url/agreement/use'>Data use agreement</a></li>
+		<li><a class='' href='$base_url/agreement/sharing'>Data sharing agreement</a></li>
+		<li><a class='' href='$base_url/orc/?doc_id=2955&l=en'>Memorandum of Understanding</a></li>
+		<li><a class='' href='$base_url/orc/?doc_id=5304'>Annual Report</a></li>
+		<li><a class='' href='$base_url/orc/?doc_id=2792&l=en'>GBIF Strategic Plan</a></li>
+		<li><a class='' href='$base_url/orc/?doc_id=4394&l=en'>GBIF Work Programme</a></li>
+	</ul>
+	<ul class='last'>
+		<li><h3>FOR DEVELOPERS</h3></li>
+		<li><a href='/developer'>Portal API</a></li>
+		<li><a href='http://gbif.blogspot.com'>Developer blog</a></li>
+		<li><a href='http://tools.gbif.org'>Tools</a></li>
+	</ul>
+ </div>
+</div>
 
-echo "	<ul> " ;
-echo "		<li><h3>WHO’S PARTICIPATING</h3></li> " ; 
-echo "		<li><a class='' href='$base_url/participation/list#voting'>Countries</a></li> " ; 
-echo "		<li><a class='' href='$base_url/participation/list#other'/'>Organizations</a></li> " ; 
-echo "		<li class='last'><a class='' href='$base_url/publisher/search'>Data publishers</a></li> " ; 
-echo "	</ul> " ;
+<div id='contact_footer'>
+  <div class='footer'>
+    <ul>
+    <li><h3>2013 &copy; GBIF</h3></li>
+    <li><div class='logo'></div></li>
+  </ul>
+  <ul>
+    <li><h3>GBIF Secretariat</h3></li>
+    <li>Universitetsparken 15</li>
+    <li>DK-2100 Copenhagen Ø</li>
+    <li>DENMARK</li>
+  </ul>
+  <ul>
+    <li><h3>Contact</h3></li>
+    <li><strong>Email</strong> info@gbif.org</li>
+    <li><strong>Tel</strong> +45 35 32 14 70</li>
+    <li><strong>Fax</strong> +45 35 32 14 80</li>
+    <li>You can also check the <a href='$base_url/contact/directoryofcontacts#secretariat'>GBIF Directory</a></li>
+  </ul>
+  <ul class='social last'>
+	  <li><h3>SOCIAL MEDIA</h3></li>
+	  <li class='twitter'><i></i><a href='https://twitter.com/GBIF'>Follow GBIF on Twitter</a></li>
+	  <li class='facebook'><i></i><a href='https://www.facebook.com/gbifnews'>Like GBIF on Facebook</a></li>
+	  <li class='linkedin'><i></i><a href='http://www.linkedin.com/groups/GBIF-55171'>Join GBIF on Linkedin</a></li>
+	  <li class='vimeo'><i></i><a href='http://vimeo.com/gbif'>View GBIF on Vimeo</a></li>
+  </ul>
+ </div>
+</div>
 
-echo "	<ul> " ;
-echo "		<li><h3>KEY DOCUMENTS</h3></li> " ; 
-echo "		<li><a class='' href='$base_url/agreement/use'>Data use agreement</a></li> " ; 
-echo "		<li><a class='' href='$base_url/agreement/sharing'>Data sharing agreement</a></li> " ; 
-echo "		<li><a class='' href='$base_url/orc/?doc_id=2955&l=en'>Memorandum of Understanding</a></li> " ; 
-echo "		<li><a class='' href='$base_url/orc/?doc_id=5304'>Annual Report</a></li> " ; 
-echo "		<li><a class='' href='$base_url/orc/?doc_id=2792&l=en'>GBIF Strategic Plan</a></li> " ; 
-echo "		<li><a class='' href='$base_url/orc/?doc_id=4394&l=en'>GBIF Work Programme</a></li> " ; 
-echo "	</ul> " ;
-
-echo "	<ul class='last'> " ;
-echo "		<li><h3>FOR DEVELOPERS</h3></li> " ; 
-echo "		<li><a href='/developer'>Portal API</a></li> " ; 
-echo "		<li><a href='http://gbif.blogspot.com'>Developer blog</a></li> " ; 
-echo "		<li><a href='http://tools.gbif.org'>Tools</a></li> " ; 
-echo "	</ul> " ;
-
-echo "  </div> " ;
-echo "  </footer> " ;
-
-echo "  <div id='contact_footer'> " ;
-echo "	<div class='footer'> " ;
-echo "  <ul> " ;
-echo "	  <li><h3>2013 &copy; GBIF</h3></li> " ; 
-echo "	  <li><div class='logo'></div></li> " ; 
-echo "  </ul> " ;
-
-echo "  <ul> " ;
-echo "	  <li><h3>GBIF Secretariat</h3></li> " ; 
-echo "	  <li>Universitetsparken 15</li> " ; 
-echo "	  <li>DK-2100 Copenhagen Ø</li> " ; 
-echo "	  <li>DENMARK</li> " ; 
-echo "  </ul> " ;
-
-echo "  <ul> " ;
-echo "	<li><h3>Contact</h3></li> " ; 
-echo "	<li><strong>Email</strong> info@gbif.org</li> " ; 
-echo "	<li><strong>Tel</strong> +45 35 32 14 70</li> " ; 
-echo "	<li><strong>Fax</strong> +45 35 32 14 80</li> " ; 
-echo "	<li>You can also check the <a href='$base_url/contact/directoryofcontacts#secretariat'>GBIF Directory</a></li> " ; 
-echo "  </ul> " ;
-
-echo "  <ul class='social last'> " ;
-echo "	  <li><h3>SOCIAL MEDIA</h3></li> " ; 
-echo "	  <li class='twitter'><i></i><a href='https://twitter.com/GBIF'>Follow GBIF on Twitter</a></li> " ; 
-echo "	  <li class='facebook'><i></i><a href='https://www.facebook.com/gbifnews'>Like GBIF on Facebook</a></li> " ; 
-echo "	  <li class='linkedin'><i></i><a href='http://www.linkedin.com/groups/GBIF-55171'>Join GBIF on Linkedin</a></li> " ; 
-echo "	  <li class='vimeo'><i></i><a href='http://vimeo.com/gbif'>View GBIF on Vimeo</a></li> " ; 
-echo "  </ul> " ;
-
-echo "	</div> " ;
-echo "	</div> " ;
+</footer> " ;
 
 
 }
