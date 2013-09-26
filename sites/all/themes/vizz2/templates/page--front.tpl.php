@@ -127,16 +127,17 @@
         </div>
       </div>
       
-<?php  
-	$results = array() ;
-	$view = views_get_view_result('featurednewsarticles');
-	foreach ($view as $key => $vnode) {
-		$nid = $vnode->nid  ;
-		$anode = node_load( $nid ) ;
-		$results[$key] = $anode ;
-	}
-?>
       <div class="featured">
+		<?php  
+			$results = array() ;
+			$view = views_get_view_result('featurednewsarticles');
+			foreach ($view as $key => $vnode) {
+				$nid = $vnode->nid  ;
+				$anode = node_load( $nid ) ;
+				$results[$key] = $anode ;
+			}
+		?>
+      
         <h3>Featured story</h3>
 		<a class="title" href="<?php print $base_url.'/page/'.($results[0]->nid) ?>"><?php print ($results[0]->title)?></a>
 		<?php print( render( field_view_field('node', $results[0], 'field_featured', array('settings' => array('image_style' => 'featured'))) ) ); ?>
@@ -147,16 +148,16 @@
       <div class="latest">
         <h3>Latest news</h3>
 
-<?php  
-	$results = array() ;
-	$view = views_get_view_result('newsarticles');
+		<?php  
+			$results = array() ;
+			$view = views_get_view_result('newsarticles');
 
-	foreach ($view as $key => $vnode) {
-		$nid = $vnode->nid  ;
-		$anode = node_load( $nid ) ;
-		$results[$key] = $anode ;
-	}
-?>
+			foreach ($view as $key => $vnode) {
+				$nid = $vnode->nid  ;
+				$anode = node_load( $nid ) ;
+				$results[$key] = $anode ;
+			}
+		?>
 			<ul>
 		<?php for ( $td = 0 ; $td < 4 ; $td++ ) : ?>
 			<li>
@@ -169,52 +170,30 @@
         <a href="<?php print $base_url?>/newsroom/news" class="read-more">More</a>
       </div>
 
-      <div class="upcoming">
+	<div class="upcoming">
+		<?php  
+		$results = array() ;
+		$view = views_get_view_result('viewallevents','page_1');
+		foreach ($view as $key => $vnode) {
+			$nid = $vnode->nid  ;
+			$anode = node_load( $nid ) ;
+			$events[$key] = $anode ;
+		}
+		?>
         <h3>Upcoming events</h3>
-
         <ul>
-
-          <li>
-          <div class="calendar">
-            <div class="month">Sep</div>
-            <strong>19</strong>
-          </div>
-          <div class="location">Lillehammer, Norway</div> 
-          <a href="#">GBIF Science Symposium 2012</a>
-          </li>
-
-          <li>
-          <div class="calendar">
-            <div class="month">Sep</div>
-            <strong>19</strong>
-          </div>
-          <div class="location">Lillehammer, Norway</div> 
-          <a href="#">GBIF Science Symposium 2012</a>
-          </li>
-
-          <li>
-          <div class="calendar">
-            <div class="month">Sep</div>
-            <strong>19</strong>
-          </div>
-          <div class="location">Lillehammer, Norway</div> 
-          <a href="#">GBIF Science Symposium 2012</a>
-          </li>
-
-          <li>
-          <div class="calendar">
-            <div class="month">Sep</div>
-            <strong>19</strong>
-          </div>
-          <div class="location">Lillehammer, Norway</div> 
-          <a href="#">GBIF Science Symposium 2012</a>
-          </li>
-
+		<?php for ( $td = 0 ; $td < 4 ; $td++ ) : ?>
+			<li>
+				<div class="calendar">
+				<div class="month"><?php print (date ('M',$events[$td]->field_start_date['und'][0]['value']) )?></div>
+				<strong><?php print (date ('d',$events[$td]->field_start_date['und'][0]['value']) )?></strong>
+				</div>
+				<div class="location"><a href="<?php print $base_url.'/page/'.$events[$td]->nid ?>"><?php print ( smart_trim($events[$td]->title, 55, $ending='...', $exact=false,$considerHtml = false)) ?></a></div>
+			</li>
+		<?php endfor ?>
         </ul>
-
-        <a href="#" class="read-more">More</a>
-
-      </div>
+        <a href="<?php print $base_url?>/newsroom/events" class="read-more">More</a>
+	</div>
 
 
     </div>
@@ -278,20 +257,3 @@ foreach ($view as $key => $vnode) {
 
 <?php get_footer($base_url) ?>
 <?php get_bottom_js($base_url) ?>
-
-  <!-- keep this javascript here so we can use the s.url tag -->
-  <script type="text/javascript">
-    $(function() {
-      $('nav ul li a.more').bindLinkPopover({
-        links:{
-          "Countries":"/portal/country",
-          "GBIF Network":"/portal/member",
-          "Themes":"/portal/theme",
-          "Statistics":"/portal/stats",
-          "About":"<?php print $base_url?>/drupal/about"
-        }
-      });
-    });
-  </script>
-
-
