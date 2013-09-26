@@ -1,0 +1,19 @@
+.infowindow form,#content article form{clear:both;overflow:hidden;}
+.infowindow form h2,#content article form h2{float:left;width:100%;padding-bottom:21px;margin-bottom:30px;border-bottom:1px solid #e0e0e0;}
+.infowindow form button,#content article form button{float:right;margin-right:4px;}
+.infowindow form div.fields,#content article form div.fields{clear:both;overflow:hidden;margin-bottom:23px;}
+.infowindow form div.fields div.field,#content article form div.fields div.field{width:auto;float:left;margin:0 17px 0 0;padding:0;}
+.infowindow form div.fields div.field.last,#content article form div.fields div.field.last{margin-right:0;}
+.infowindow form div.fields div.field:last-child,#content article form div.fields div.field:last-child{margin-right:0;}
+.infowindow form div.field,#content article form div.field{position:relative;float:left;margin-bottom:23px;}
+.infowindow form div.field.last,#content article form div.field.last{margin:0;}
+.infowindow form div.field:last-child,#content article form div.field:last-child{margin:0;}
+.infowindow form div.field h3 span,#content article form div.field h3 span{float:right;margin-right:1px;font-weight:normal;font-style:italic;font-size:13px;color:#cccccc;text-transform:none;text-shadow:none;}
+.infowindow form div.field textarea,#content article form div.field textarea{width:560px;height:122px;margin:0;padding:10px;border:none;overflow:auto;font-size:13px;background:url("../../img/textarea_big_bkg.png") no-repeat;font-family:"Arial","Helvetica",Sans-Serif;resize:none;}
+.infowindow form div.field textarea:focus,#content article form div.field textarea:focus{outline:none;}
+.infowindow form div.field span.input_text,#content article form div.field span.input_text{float:left;height:31px;padding:0 0 0 5px;background:url("../../img/input_bkg.png") no-repeat left -99px;}
+.infowindow form div.field.error span.input_text,.infowindow form div.field span.input_text.error,#content article form div.field.error span.input_text,#content article form div.field span.input_text.error{background-position:left -130px;}
+.infowindow form div.field.error span.input_text input[type="text"],.infowindow form div.field.error span.input_text input[type="password"],.infowindow form div.field span.input_text.error input[type="text"],.infowindow form div.field span.input_text.error input[type="password"],#content article form div.field.error span.input_text input[type="text"],#content article form div.field.error span.input_text input[type="password"],#content article form div.field span.input_text.error input[type="text"],#content article form div.field span.input_text.error input[type="password"]{background-position:right -161px;color:#ff3300;}
+.infowindow form div.field span.error,#content article form div.field span.error{float:right;color:#ff3300;font-style:normal;font-weight:normal;}
+.infowindow form div.field input[type="text"],.infowindow form div.field input[type="password"],#content article form div.field input[type="text"],#content article form div.field input[type="password"]{-webkit-transition:color 0.3s ease-in-out;-moz-transition:color 0.3s ease-in-out;-o-transition:color 0.3s ease-in-out;-ms-transition:color 0.3s ease-in-out;transition:color 0.3s ease-in-out;float:left;width:270px;height:31px;margin:0;padding:0 10px 0 3px;background:url("../../img/input_bkg.png") no-repeat right top;font-family:"Arial","Helvetica",Sans-Serif;font-size:13px;color:#333333;border:none;resize:none;}
+.infowindow form div.field input[type="text"]:focus,.infowindow form div.field input[type="password"]:focus,#content article form div.field input[type="text"]:focus,#content article form div.field input[type="password"]:focus{outline:none;}

@@ -1,0 +1,10 @@
+footer{position:relative;height:200px;background:url("../../img/footer/footer_bkg.jpg") repeat-x;text-align:center;}
+footer .content{position:absolute;left:50%;right:50%;width:948px;margin-left:-512px;padding:24px 0 64px 76px;text-align:left;}
+footer ul{display:block;float:left;width:278px;margin:0 38px 36px 0;}
+footer ul.first{clear:left;}
+footer ul li{font-family:"Arial","Helvetica",Sans-Serif;font-size:15px;line-height:21px;}
+footer ul li.no_title{margin-top:27px;}
+footer ul li p{font-size:15px;color:black;opacity:.4;margin-bottom:5px;line-height:17px;}
+footer ul li p a{display:block;color:black;font-size:15px;font-weight:bold;opacity:1;}
+footer ul li a{color:black;opacity:.4;}
+footer ul li h3{margin-bottom:5px;font-family:"DINOT-Regular",Sans-Serif;font-size:13px;color:white;}
