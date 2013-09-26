@@ -95,6 +95,6 @@ if ( $result[node]->field_start_date) {
 	<p><?php print $result[node]->field_city['und'][0]['value'].', '; print $result[node]->field_venuecountry['und'][0]['value'] ; ?></p>
 	<?php endif ?>
 	<div class="footer">
-		<p class="date"><?php if ( $result['type'] != 'Event IMS' ) { print ($display_date) ; } else { print $ev_start_date ; } ?></p
+		<p class="date"><?php if ( $result['type'] != 'Event IMS' ) { print ($display_date) ; } else { print $ev_start_date ; } ?></p>
 	</div>
 </div>
