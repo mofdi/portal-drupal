@@ -38,7 +38,7 @@
 		<header></header>
 		<div class="content">
 			<div class="header">
-				<div class="left"><h2>Archive of all GBIF events</h2></div>
+				<div class="left"><h2> Past events relevant to the GBIF community</h2></div>
 				<div class="right"></div>
 			</div>
 			<div class="left">

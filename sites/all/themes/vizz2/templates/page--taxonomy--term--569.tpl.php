@@ -82,7 +82,7 @@
 					</div>
 				</div>
 				<?php endforeach ?>
-			<a href="<?php print $base_url?>/newsroom/archive/allevents" class="candy_white_button more_news next lft"><span>More GBIF events</span></a>
+			<a href="<?php print $base_url?>/newsroom/archive/allevents" class="candy_white_button more_news next lft"><span>Past events</span></a>
 			</div>
 
 		</div>

@@ -146,7 +146,7 @@
             <?php } ?>
             <?php if (! empty ( $node->field_venuecountry["und"][0]["value"] )) { ?>		
                 <h3><?php echo t('Venue'); ?></h3>
-                <p><?php print render($content['field_city']).', '; print render($content['field_venuecountry']);  ?></p>
+                <p><?php print render($content['field_venue']).', '; print render($content['field_city']).', '; print render($content['field_venuecountry']);  ?></p>
             <?php } ?>
             <?php if (! empty ( $node->field_status["und"][0]["value"] )) { ?>		
                 <h3><?php echo t('Status'); ?></h3>
