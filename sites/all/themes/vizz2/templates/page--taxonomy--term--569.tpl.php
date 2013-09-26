@@ -10,7 +10,7 @@
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
 	
 	$results = array() ;
-	$view = views_get_view_result('viewallevents');
+	$view = views_get_view_result('viewallevents','page_1');
 
 	foreach ($view as $key => $vnode) {
 		$nid = $vnode->nid  ;
@@ -70,13 +70,13 @@
 		<header></header>
 		<div class="content">
 		<div class="header">
-			<div class="left"><h2>Latest GBIF Events</h2></div>
+			<div class="left"><h2>Upcoming Events</h2></div>
 		</div>
 			<div class="left">
 				<?php for ( $td = 0 ; $td < 5 ; $td++ ) : ?>
 				<div class="result">
 					<h2><a href="<?php print $base_url.'/page/'.$results[$td]->nid ?>"><?php print $results[$td]->title ?></a></h2>
-					<p><?php print $results[$td]->body['und'][0]['summary'] ?></p>
+					<p><?php print $results[$td]->field_city['und'][0]['value'] ?>, <?php print $results[$td]->field_venuecountry['und'][0]['value'] ?></p>
 					<div class="footer">
 						<p class="date"><?php { print( $results[$td]->field_dates['und'][0]['value']) ; } ?></p>
 					</div>

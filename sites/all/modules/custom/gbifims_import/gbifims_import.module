@@ -634,7 +634,7 @@ if ($EventDetails_row->getField('NumberParticipants') != "")
 if ($NoPeople != True) { 
 	$participants .= "<ul>";
 	foreach($ListPeople_result->getRecords() as $ListPeople_row){ 
-		$participants .= "<li><div Title=".$ListPeople_row->getField('Notes')."><a href=\"http://www.gbif.org/\">".$ListPeople_row->getField('WEVE_Event_ContactEventEventroleParticipant_Contact::Name_Abv__lct')."</a> (".$ListPeople_row->getField('WEVE_Event_ContactEventEventroleParticipant_Eventrole::Peoplerole').")</div></li>";
+		$participants .= "<li><div Title=".$ListPeople_row->getField('Notes').">".$ListPeople_row->getField('WEVE_Event_ContactEventEventroleParticipant_Contact::Name_Abv__lct')."(".$ListPeople_row->getField('WEVE_Event_ContactEventEventroleParticipant_Eventrole::Peoplerole').")</div></li>";
 	}
 	$participants .= "</ul>";
 	

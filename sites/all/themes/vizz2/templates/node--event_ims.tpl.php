@@ -92,7 +92,7 @@
 <?php if ( $view_mode == 'teaser' OR $view_mode == 'teaser_nt' ): ?>
 <div class="result">
 	<h2><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
-	<p><?php print (render ($body['und'][0]['summary']));?></p>
+	<p><?php print( $field_city['und'][0]['value']).', '; print( $field_venuecountry['und'][0]['value'] ) ?></p>
 	<?php if ( $view_mode == 'teaser' ): ?>
 	<?php endif ?>
 	<div class="footer">
@@ -144,9 +144,9 @@
                 <h3><?php echo t('Dates'); ?></h3>
                 <p><?php print render($content['field_dates']); ?></p>
             <?php } ?>
-            <?php if (! empty ( $node->field_venue["und"][0]["value"] )) { ?>		
+            <?php if (! empty ( $node->field_venuecountry["und"][0]["value"] )) { ?>		
                 <h3><?php echo t('Venue'); ?></h3>
-                <p><?php print render($content['field_venue']); ?></p>
+                <p><?php print render($content['field_city']).', '; print render($content['field_venuecountry']);  ?></p>
             <?php } ?>
             <?php if (! empty ( $node->field_status["und"][0]["value"] )) { ?>		
                 <h3><?php echo t('Status'); ?></h3>

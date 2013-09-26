@@ -6,15 +6,6 @@ global $base_url ;
 global $base_path ;
 $dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
 
-$results = array() ;
-$view = views_get_view_result('newsarticles');
-foreach ($view as $key => $vnode) {
-	$nid = $vnode->nid  ;
-	$anode = node_load( $nid ) ;
-	$results[$key] = $anode ;
-	// $results[$nid]['fields'] = field_attach_view('node', $anode,'full' ) ; 
-	// print render ( $result[$nid]->field_featured  ) ; 
-}
 // dpm($page);  print $messages ;
 ?>
 <body class="search">

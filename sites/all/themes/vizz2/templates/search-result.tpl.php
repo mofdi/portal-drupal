@@ -67,6 +67,10 @@ if ( $info_split['date'] ) {
 	$date = DateTime::createFromFormat($cur_format, $info_split['date']);
 	$display_date = $date->format('F dS, Y') . "\n";
 }
+if ( $result[node]->field_start_date) {
+	$ev_start_date = date( 'F dS, Y', $result[node]->field_start_date['und'][0]['value']) ;
+}
+
 ?>    
 <div class="result">
 	<h3><?php switch ( $result['type'] ) { // :-s
@@ -85,11 +89,11 @@ if ( $info_split['date'] ) {
 		}
 		?></h3>
 	<h2><a href="<?php print $url; ?>"><?php print $title; ?></a></h2>
-	<?php if ($snippet): ?>
+	<?php if ($snippet AND $result['type'] != 'Event IMS'): ?>
 	<p><?php print $snippet; ?></p>
 	<?php endif; ?>
 
 	<div class="footer">
-		<p class="date"><?php print $display_date ; ?></p>
+		<p class="date"><?php if ( $result['type'] != 'Event IMS' ) { print ($display_date) ; } else { print $ev_start_date ; } ?></p
 	</div>
 </div>
