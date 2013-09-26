@@ -114,8 +114,8 @@ function gfxr_node_view($node, $view_mode ) {
 						'field_city',
 						'title') as $field) 
 					$node->content[$field]=array(); 
- 		$node->title='';
-		return $node ;
+ 		$node->title=''; 
+		return $node ; // 5.3 vs 5.4?! 
 	}
 
 }
