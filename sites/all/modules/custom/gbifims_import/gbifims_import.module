@@ -232,7 +232,7 @@ switch ($_GET['ot'])
 	default:
 		//
 		// generic process. It verfies the current list against the IMS
-		$MaxEventRecordsToUpdate = 50;
+		$MaxEventRecordsToUpdate = 25;
 		switch ($_GET['rt'])
 		{
 			case 'e':
@@ -318,14 +318,13 @@ switch ($_GET['ot'])
 						case "2":
 							// Element exists in drupal and Drupal is older, needs to be updated
 							// echo "case2 ";
-							$array_UrlsToCall[$key] = $base_url."gbifims_import/?ot=u&rt=e&ridi=".$key."&ridd=".$array_ListPublicEvents[$key][2];
-							echo $array_UrlsToCall[$key];
+							$array_UrlsToCall[$key] = $base_url."/gbifims_import/?ot=u&rt=e&ridi=".$key."&ridd=".$array_ListPublicEvents[$key][2];
 							$NumberUpdates += 1;				
 							break;			
 						case "3":
 							// Element is no longer available from FileMaker, so we marke for 'deletion' (=hide)
 							// echo "case3 ";
-							$array_UrlsToCall[$key] = $base_url."gbifims_import/?ot=d&rt=e&ridd=".$array_ListPublicEvents[$key][2];
+							$array_UrlsToCall[$key] = $base_url."/gbifims_import/?ot=d&rt=e&ridd=".$array_ListPublicEvents[$key][2];
 							$NumberDeletions += 1;				
 							break;			
 	
@@ -634,7 +633,7 @@ if ($EventDetails_row->getField('NumberParticipants') != "")
 if ($NoPeople != True) { 
 	$participants .= "<ul>";
 	foreach($ListPeople_result->getRecords() as $ListPeople_row){ 
-		$participants .= "<li><div Title=".$ListPeople_row->getField('Notes').">".$ListPeople_row->getField('WEVE_Event_ContactEventEventroleParticipant_Contact::Name_Abv__lct')."(".$ListPeople_row->getField('WEVE_Event_ContactEventEventroleParticipant_Eventrole::Peoplerole').")</div></li>";
+		$participants .= "<li><span Title=".$ListPeople_row->getField('Notes').">".$ListPeople_row->getField('WEVE_Event_ContactEventEventroleParticipant_Contact::Name_Abv__lct')."(".$ListPeople_row->getField('WEVE_Event_ContactEventEventroleParticipant_Eventrole::Peoplerole').")</span></li>";
 	}
 	$participants .= "</ul>";
 	
