@@ -919,7 +919,7 @@ echo "            <li><a href='$dataportal_base_url/country'>Explore by country<
 echo "            <li class='divider'></li>" ;
 echo "            <li><a href='$base_url/publishingdata/summary'>Publishing data</a></li> " ;
 echo "            <li><a href='$base_url/usingdata/summary'>Using Data</a></li> " ;
-echo "            <li><a href='$base_url/infrastructure/summary'>Infrastructure</a></li> " ;
+echo "            <li><a href='$dataportal_base_url/infrastructure/summary'>Infrastructure</a></li> " ;
 echo '          </ul>
         </div>
 
