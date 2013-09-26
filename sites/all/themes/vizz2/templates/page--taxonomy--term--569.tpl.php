@@ -73,15 +73,15 @@
 			<div class="left"><h2>Upcoming Events</h2></div>
 		</div>
 			<div class="left">
-				<?php for ( $td = 0 ; $td < 5 ; $td++ ) : ?>
+				<?php foreach ( $results as $result) : ?>
 				<div class="result">
-					<h2><a href="<?php print $base_url.'/page/'.$results[$td]->nid ?>"><?php print $results[$td]->title ?></a></h2>
-					<p><?php print $results[$td]->field_city['und'][0]['value'] ?>, <?php print $results[$td]->field_venuecountry['und'][0]['value'] ?></p>
+					<h2><a href="<?php print $base_url.'/page/'.$result->nid ?>"><?php print $result->title ?></a></h2>
+					<p><?php print $result->field_city['und'][0]['value'] ?>, <?php print $result->field_venuecountry['und'][0]['value'] ?></p>
 					<div class="footer">
-						<p class="date"><?php { print( $results[$td]->field_dates['und'][0]['value']) ; } ?></p>
+						<p class="date"><?php { print( $result->field_dates['und'][0]['value']) ; } ?></p>
 					</div>
 				</div>
-				<?php endfor ?>
+				<?php endforeach ?>
 			<a href="<?php print $base_url?>/newsroom/archive/allevents" class="candy_white_button more_news next lft"><span>More GBIF events</span></a>
 			</div>
 
