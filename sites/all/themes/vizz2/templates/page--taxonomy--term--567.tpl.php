@@ -148,4 +148,6 @@
 	<footer></footer>
     </article>
   </div>
+<?php get_footer($base_url) ?>		
+<?php get_bottom_js($base_url) ?>  
 </body>

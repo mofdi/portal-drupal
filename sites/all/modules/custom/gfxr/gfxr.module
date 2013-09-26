@@ -88,3 +88,14 @@ function gfxr_entity_info_alter(&$entity_info) {
 		'custom settings' => TRUE,
 	);
 }
+
+/**
+ * Implements hook_search_api_index_items_alter().
+ *
+ * Remove from the index event_ims objects which are
+ * older than the moment of indexing. 
+ *
+ *
+ */
+
+
