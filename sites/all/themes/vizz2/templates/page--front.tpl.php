@@ -188,7 +188,7 @@
 				<div class="month"><?php print (date ('M',$events[$td]->field_start_date['und'][0]['value']) )?></div>
 				<strong><?php print (date ('d',$events[$td]->field_start_date['und'][0]['value']) )?></strong>
 				</div>
-				<div class="location"><a href="<?php print $base_url.'/page/'.$events[$td]->nid ?>"><?php print ( smart_trim($events[$td]->title, 55, $ending='...', $exact=false,$considerHtml = false)) ?></a></div>
+				<div class="location"><a title="<?php print $events[$td]->title ;?>" href="<?php print $base_url.'/page/'.$events[$td]->nid ?>"><?php print ( smart_trim($events[$td]->title, 55, $ending='...', $exact=false,$considerHtml = false)) ?></a></div>
 			</li>
 		<?php endfor ?>
         </ul>
