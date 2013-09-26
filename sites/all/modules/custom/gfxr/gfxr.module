@@ -100,7 +100,20 @@ function gfxr_entity_info_alter(&$entity_info) {
  */
 function gfxr_node_view($node, $view_mode ) {
 	if ( $node->type == 'event_ims' AND $node->field_start_date['und'][0]['value'] < time() AND $view_mode == 'search_index' ) {
-		foreach ( array ('body','field_audience','field_contact','field_venuecountry','field_venue','field_country','field_status','field_resources','field_participants','field_start_date','field_dates','field_city','title','') as $field) $node->content[$field]=array(); 
+		foreach ( array ('body',
+						'field_audience',
+						'field_contact',
+						'field_venuecountry',
+						'field_venue',
+						'field_country',
+						'field_status',
+						'field_resources',
+						'field_participants',
+						'field_start_date',
+						'field_dates',
+						'field_city',
+						'title') as $field) 
+					$node->content[$field]=array(); 
  		$node->title='';
 		return $node ;
 	}
