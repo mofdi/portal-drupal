@@ -46,16 +46,14 @@
 			<?php print $pager?>
 			</div>
 			<div class="right">
-				<div class="refine">
-					<ul id="more_links">
-						<li><a href="<?php print $base_url ?>/search/node/africa">Africa</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/asia">Asia</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/europe">Europe</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/latinamerica">Latin America</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/northamerica">North America</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/oceania">Oceania</a></li>
-					</ul>
-				</div>
+        <ul class="no_bullets">
+          <li><a href="<?php print $base_url ?>/search/node/africa">Africa</a></li>
+          <li><a href="<?php print $base_url ?>/search/node/asia">Asia</a></li>
+          <li><a href="<?php print $base_url ?>/search/node/europe">Europe</a></li>
+          <li><a href="<?php print $base_url ?>/search/node/latinamerica">Latin America</a></li>
+          <li><a href="<?php print $base_url ?>/search/node/northamerica">North America</a></li>
+          <li><a href="<?php print $base_url ?>/search/node/oceania">Oceania</a></li>
+        </ul>
 			</div>
 		</div>
 		<footer></footer>

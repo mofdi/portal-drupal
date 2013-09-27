@@ -79,16 +79,14 @@ foreach ($view as $key => $vnode) {
 			<a href="<?php print $base_url?>/newsroom/archive/allnewsarticles" class="candy_white_button more_news next lft"><span>More GBIF news</span></a>
 			</div>
 			<div class="right">
-				<div class="refine">
-					<ul id="more_links">
-						<li><a href="<?php print $base_url ?>/search/node/africa">Africa</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/asia">Asia</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/europe">Europe</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/latinamerica">Latin America</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/northamerica">North America</a></li>
-						<li><a href="<?php print $base_url ?>/search/node/oceania">Oceania</a></li>
-					</ul>
-				</div>
+        <ul class="no_bullets">
+          <li><a href="<?php print $base_url ?>/search/node/africa">Africa</a></li>
+          <li><a href="<?php print $base_url ?>/search/node/asia">Asia</a></li>
+          <li><a href="<?php print $base_url ?>/search/node/europe">Europe</a></li>
+          <li><a href="<?php print $base_url ?>/search/node/latinamerica">Latin America</a></li>
+          <li><a href="<?php print $base_url ?>/search/node/northamerica">North America</a></li>
+          <li><a href="<?php print $base_url ?>/search/node/oceania">Oceania</a></li>
+        </ul>
 			</div>
 		</div>
 		<footer></footer>

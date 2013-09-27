@@ -46,16 +46,14 @@
 			<?php print $pager?>
 			</div>
 			<div class="right">
-				<div class="refine">
-					<ul id="more_links">
-						<li><a href="<?php print $base_url ?>/taxonomy/term/635">Invasives</a></li>
-						<li><a href="<?php print $base_url ?>/taxonomy/term/639">Climate change</a></li>
-						<li><a href="<?php print $base_url ?>/taxonomy/term/638">Conservation</a></li>					
-						<li><a href="<?php print $base_url ?>/taxonomy/term/636">Agriculture</a></li>
-						<li><a href="<?php print $base_url ?>/taxonomy/term/637">Human health</a></li>
-						<li><a href="<?php print $base_url ?>/taxonomy/term/640">Species distributions</a></li>
-					</ul>
-				</div>
+        <ul class="no_bullets">
+          <li><a href="<?php print $base_url ?>/taxonomy/term/635">Invasives</a></li>
+          <li><a href="<?php print $base_url ?>/taxonomy/term/639">Climate change</a></li>
+          <li><a href="<?php print $base_url ?>/taxonomy/term/638">Conservation</a></li>
+          <li><a href="<?php print $base_url ?>/taxonomy/term/636">Agriculture</a></li>
+          <li><a href="<?php print $base_url ?>/taxonomy/term/637">Human health</a></li>
+          <li><a href="<?php print $base_url ?>/taxonomy/term/640">Species distributions</a></li>
+        </ul>
 			</div>
 		</div>
 		<footer></footer>

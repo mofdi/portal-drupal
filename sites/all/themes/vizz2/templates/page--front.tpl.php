@@ -120,9 +120,9 @@
 
       <div class="header">
         <div class="left">
-          <h1>Latest GBIF news</h1>
+          <h2>Latest GBIF news</h2>
         </div>
-        <div class="right">
+        <div class="right seeall">
           Go to <a href="<?php print $base_url?>/newsroom/summary">GBIF Newsroom</a>
         </div>
       </div>
@@ -207,9 +207,9 @@
     <div class="content">
       <div class="header">
         <div class="left">
-          <h1>Featured GBIF data use</h1>
+          <h2>Featured GBIF data use</h2>
         </div>
-        <div class="right">
+        <div class="right seeall">
           See all <a href="<?php print $base_url?>/newsroom/uses">GBIF data use stories</a>
         </div>
       </div>
