@@ -5,7 +5,6 @@
 * @ingroup GBIF
 */
 
-global $base_url ;
 
 /**
 * Implements hook_menu().
@@ -31,22 +30,24 @@ function gfxr_menu() {
  * Implements hook_token_info().
  */
 function gfxr_token_info() {
-  $types['gfxr'] = array(
-    'name' => t("GBIF Fixer tokens"),
-    'description' => t("Tokens for various local fixes"),
-  );
-  
-  $gfxr['baseurl'] = array(
-    'name' => t("$base_url"),
-    'description' => t("Emit $base_url to be used inside large text fields"),
-  );
-  
-  return array(
-    'types' => $types,
-    'tokens' => array(
-      'gfxr' => $gfxr,
-    ),
-  );
+	global $base_url ;
+
+	$types['gfxr'] = array(
+		'name' => t("GBIF Fixer tokens"),
+		'description' => t("Tokens for various local fixes"),
+	);
+
+	$gfxr['baseurl'] = array(
+		'name' => t("$base_url"),
+		'description' => t("Emit $base_url to be used inside large text fields"),
+	);
+
+	return array(
+		'types' => $types,
+		'tokens' => array(
+		'gfxr' => $gfxr,
+	),
+	);
 }
 
 /**

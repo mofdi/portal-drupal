@@ -65,14 +65,12 @@ function gbifims_import_menu() {
 */
 function _gbifims_import_page() {
 
-global $base_url;
-
 /**
 * Links with the FileMaker Studio and the definition of the database connection
 * We also set all the variables that we will use later
 */
 
-require_once(dirname(__FILE__).'/Connections/IMS_RO.php'); 
+require_once(dirname(__FILE__).'\Connections\IMS_RO.php'); 
 $ridi = $_GET['ridi'];
 $ridd = $_GET['ridd'];
 
@@ -177,7 +175,6 @@ switch ($_GET['ot'])
 				$newnode->field_orc_language["und"][0]["value"] = $array_resource_details["Language"];
 				$newnode->field_resource_type["und"][0]["value"] = $array_resource_details["ResourceType"];
 				$newnode->field_version_selector["und"][0]["value"] = $array_resource_details["VersionSelector"];								
-				
 	//			if (!empty($array_resource_details["region"])) {$newnode->field_regions["und"][] = array('tid' => $array_resource_details["region"],);}
 	//			if (!empty($array_resource_details["relatedparticipants"])) {$newnode->field_country["und"] = $array_resource_details["relatedparticipants"];}	
 				
@@ -195,13 +192,8 @@ switch ($_GET['ot'])
 					'alt' => $newnode->title." thumbnail",
 					'title' => $newnode->title." thumbnail",
 				);
-				
-			    // Try to avoid filling up one dir only, add some minimalistic folder sep.
-			    $path_add = date('Y-F',$newnode->created) ;
-			    drupal_mkdir( drupal_realpath( 'public://orc/'.$path_add ) );
-			    
-			    // ... and file_move instead of file_copy so that we keep the temp clean.
-				$file = file_move($file, 'public://orc/'.$path_add.'/' );
+			    // We save the file to the root of the files directory.
+				$file = file_copy($file, 'public://');
 				$newnode->field_orc_resource_thumbnail[LANGUAGE_NONE][0] = (array)$file;			
 
 				if ($newnode = node_submit($newnode)) {
@@ -209,7 +201,6 @@ switch ($_GET['ot'])
 					// added correctly
 				} else {
 					// added incorrectly
-					// OnError Resume Next (TM) ;-)
 				}				
 			break; // End of Creating Resource
 		} // End of switch depending on the type of resource
@@ -469,7 +460,7 @@ switch ($_GET['ot'])
 				foreach ($array_ListPublicEvents as $key => $element_ListPublicEvents)	{
 					switch ($array_ListPublicEvents[$key][1]) {
 						case "0":
-							$array_UrlsToCall[$key] = $base_url."/gbifims_import/?ot=c&rt=e&ridi=".$key;
+							$array_UrlsToCall[$key] = "http://localhost/gbif-portal/"."gbifims_import/?ot=c&rt=e&ridi=".$key;
 							$NumberAdditions = $NumberAdditions + 1;
 							break;
 						case "1":
@@ -480,14 +471,14 @@ switch ($_GET['ot'])
 						case "2":
 							// Element exists in drupal and Drupal is older, needs to be updated
 							// echo "case2 ";
-							$array_UrlsToCall[$key] = $base_url."/gbifims_import/?ot=u&rt=e&ridi=".$key."&ridd=".$array_ListPublicEvents[$key][2];
+							$array_UrlsToCall[$key] = "http://localhost/gbif-portal/"."gbifims_import/?ot=u&rt=e&ridi=".$key."&ridd=".$array_ListPublicEvents[$key][2];
 							echo $array_UrlsToCall[$key];
 							$NumberUpdates += 1;				
 							break;			
 						case "3":
 							// Element is no longer available from FileMaker, so we marke for 'deletion' (=hide)
 							// echo "case3 ";
-							$array_UrlsToCall[$key] = $base_url."/gbifims_import/?ot=d&rt=e&ridd=".$array_ListPublicEvents[$key][2];
+							$array_UrlsToCall[$key] = "http://localhost/gbif-portal/"."gbifims_import/?ot=d&rt=e&ridd=".$array_ListPublicEvents[$key][2];
 							$NumberDeletions += 1;				
 							break;			
 	
@@ -587,6 +578,7 @@ switch ($_GET['ot'])
 				  ->entityCondition('bundle', 'resource_ims');
 				$results = $query->execute();
 				$array_ListResourcesDrupal = node_load_multiple(array_keys($results['node']));
+				
 				//
 				// We check the dates of last update from us and the IMS. If it's more recent in the IMS, we mark for update
 				//
@@ -626,7 +618,7 @@ switch ($_GET['ot'])
 				foreach ($array_ListPublicResources as $key => $element_ListPublicResources)	{
 					switch ($array_ListPublicResources[$key][1]) {
 						case "0":
-							$array_UrlsToCall[$key] = $base_url."/gbifims_import/?ot=c&rt=r&ridi=".$key;
+							$array_UrlsToCall[$key] = "http://localhost/gbif-portal/"."gbifims_import/?ot=c&rt=r&ridi=".$key;
 							$NumberAdditions = $NumberAdditions + 1;
 							break;
 						case "1":
@@ -637,14 +629,14 @@ switch ($_GET['ot'])
 						case "2":
 							// Element exists in drupal and Drupal is older, needs to be updated
 							// echo "case2 ";
-							$array_UrlsToCall[$key] = $base_url."/gbifims_import/?ot=u&rt=r&ridi=".$key."&ridd=".$array_ListPublicResources[$key][2];
+							$array_UrlsToCall[$key] = "http://localhost/gbif-portal/"."gbifims_import/?ot=u&rt=r&ridi=".$key."&ridd=".$array_ListPublicResources[$key][2];
 							echo $array_UrlsToCall[$key];
 							$NumberUpdates += 1;				
 							break;			
 						case "3":
 							// Element is no longer available from FileMaker, so we marke for 'deletion' (=hide)
 							// echo "case3 ";
-							$array_UrlsToCall[$key] = $base_url."/gbifims_import/?ot=d&rt=r&ridd=".$array_ListPublicResources[$key][2];
+							$array_UrlsToCall[$key] = "http://localhost/gbif-portal/"."gbifims_import/?ot=d&rt=r&ridd=".$array_ListPublicResources[$key][2];
 							$NumberDeletions += 1;				
 							break;			
 	
@@ -717,7 +709,7 @@ switch ($_GET['ot'])
 				//
 				$page_array['gbifims_import_arguments'] = array(
 					  '#title' => t('GBIF IMS data import'),
-					  '#markup' => "<p>".t('This module allows to synchronize/import information from the GBIF Information Management System to its website.')."<br />".t('Please use one of the links abelow if you want to launch the process manually:')."<br />&nbsp;</p>"."<ul><li><a href=\"".$base_url."/gbifims_import/?rt=e\">".t('Synchronize events')."</a></li><li><a href=\"".$base_url."/gbifims_import/?rt=r\">".t('Synchronize resources')."</a></li></ul><p>&nbsp;</p>",);
+					  '#markup' => "<p>".t('This module allows to synchronize/import information from the GBIF Information Management System to its website.')."<br />".t('Please use one of the links abelow if you want to launch the process manually:')."<br />&nbsp;</p>"."<ul><li><a href=\"http://localhost/gbif-portal/gbifims_import/?rt=e\">".t('Synchronize events')."</a></li><li><a href=\"http://localhost/gbif-portal/gbifims_import/?rt=r\">".t('Synchronize resources')."</a></li></ul><p>&nbsp;</p>",);
 				return $page_array;	
 			break;
 			
@@ -1023,7 +1015,7 @@ if ($EventDetails_row->getField('NumberParticipants') != "")
 if ($NoPeople != True) { 
 	$participants .= "<ul>";
 	foreach($ListPeople_result->getRecords() as $ListPeople_row){ 
-		$participants .= "<li><span Title=".$ListPeople_row->getField('Notes').">".$ListPeople_row->getField('WEVE_Event_ContactEventEventroleParticipant_Contact::Name_Abv__lct')." (".$ListPeople_row->getField('WEVE_Event_ContactEventEventroleParticipant_Eventrole::Peoplerole').")</span></li>";
+		$participants .= "<li><div Title=".$ListPeople_row->getField('Notes')."><a href=\"http://www.gbif.org/\">".$ListPeople_row->getField('WEVE_Event_ContactEventEventroleParticipant_Contact::Name_Abv__lct')."</a> (".$ListPeople_row->getField('WEVE_Event_ContactEventEventroleParticipant_Eventrole::Peoplerole').")</div></li>";
 	}
 	$participants .= "</ul>";
 	
@@ -1081,12 +1073,9 @@ function retrieve_resource_details ($resource_id, $IMS_RO) {
 $Image_URL = "http://fms.gbif.org:8020/SuperContainer/RawData/THMB/".substr($resource_id,0,2)."/".$resource_id."?width=150&username=zordesign&password=GBIF2010";
 
 $VersionSelector = getVersionSelector($ResourceDetails_row->getField('__kp_ID'), $IMS_RO);
-		
-	$array_resource_details = array ("__kp_ID" => $ResourceDetails_row->getField('__kp_ID'), "Name" => htmlspecialchars_decode($ResourceDetails_row->getField('Title_Text')), "Description" => htmlspecialchars_decode($ResourceDetails_row->getField('Description')), "Author" => htmlspecialchars_decode($ResourceDetails_row->getField('Author')), "AlternativeTitle" => htmlspecialchars_decode($ResourceDetails_row->getField('AlternativeTitle')), "Publisher" => htmlspecialchars_decode($ResourceDetails_row->getField('Publisher')), "Audience" => htmlspecialchars_decode($ResourceDetails_row->getField('Audience')), "Abstract" => htmlspecialchars_decode($ResourceDetails_row->getField('Abstract')),  "BibliographicCitation" => htmlspecialchars_decode($ResourceDetails_row->getField('BibliographicCitation')),  "Contributor" => htmlspecialchars_decode($ResourceDetails_row->getField('Contributor')),  "Rights" => htmlspecialchars_decode($ResourceDetails_row->getField('Rights')),  "RightsHolder" => htmlspecialchars_decode($ResourceDetails_row->getField('RightsHolder')), "NumDownloads" => $ResourceDetails_row->getField('NumDownloads'), "Featured" => $ResourceDetails_row->getField('Featured'), "ShortListed" => $ResourceDetails_row->getField('ShortListed'), "image_url" => $Image_URL, "Size_Text" => htmlspecialchars_decode($ResourceDetails_row->getField('Size_Text')), "ResourceType" => htmlspecialchars_decode($ResourceDetails_row->getField('_kf_TypeID')), "Language" => htmlspecialchars_decode($ResourceDetails_row->getField('WDOCS_File_Language::Language')), "VersionSelector" => getVersionSelector($ResourceDetails_row->getField('__kp_ID'), $IMS_RO), );
 
-	$DateOfPublication = strtotime ($ResourceDetails_row->getField('DateOfPublication')) ;
-	$DummyDateOfPublication = strtotime ('01/01/2001');
-	$array_resource_details [DateOfPublication] = ($DateOfPublication == '')? $DummyDateOfPublication : $DateOfPublication ; 
+	$array_resource_details = array ("__kp_ID" => $ResourceDetails_row->getField('__kp_ID'), "Name" => htmlspecialchars_decode($ResourceDetails_row->getField('Title_Text')), "Description" => htmlspecialchars_decode($ResourceDetails_row->getField('Description')), "Author" => htmlspecialchars_decode($ResourceDetails_row->getField('Author')), "AlternativeTitle" => htmlspecialchars_decode($ResourceDetails_row->getField('AlternativeTitle')), "Publisher" => htmlspecialchars_decode($ResourceDetails_row->getField('Publisher')), "Audience" => htmlspecialchars_decode($ResourceDetails_row->getField('Audience')), "Abstract" => htmlspecialchars_decode($ResourceDetails_row->getField('Abstract')),  "BibliographicCitation" => htmlspecialchars_decode($ResourceDetails_row->getField('BibliographicCitation')),  "Contributor" => htmlspecialchars_decode($ResourceDetails_row->getField('Contributor')),  "Rights" => htmlspecialchars_decode($ResourceDetails_row->getField('Rights')),  "RightsHolder" => htmlspecialchars_decode($ResourceDetails_row->getField('RightsHolder')), "NumDownloads" => $ResourceDetails_row->getField('NumDownloads'), "Featured" => $ResourceDetails_row->getField('Featured'), "ShortListed" => $ResourceDetails_row->getField('ShortListed'), "DateOfPublication" => strtotime($ResourceDetails_row->getField('DateOfPublication')),  "image_url" => $Image_URL, "Size_Text" => htmlspecialchars_decode($ResourceDetails_row->getField('Size_Text')), "ResourceType" => htmlspecialchars_decode($ResourceDetails_row->getField('_kf_TypeID')), "Language" => htmlspecialchars_decode($ResourceDetails_row->getField('WDOCS_File_Language::Language')), "VersionSelector" => getVersionSelector($ResourceDetails_row->getField('__kp_ID'), $IMS_RO), );
+
 	return $array_resource_details;
 
 
