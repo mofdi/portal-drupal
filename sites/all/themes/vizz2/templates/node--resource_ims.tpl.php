@@ -182,7 +182,7 @@
 		
 		<?php if (! empty ( $node->field_orc_resource_thumbnail )) { ?>		
 		<?php  $tags['field_orc_resource_thumbnail'][0]['#item']['attributes']['css'] = 'mainImage' ; print render ( $tags['field_orc_resource_thumbnail']  ) ; ?>
-		<?  } ?>
+		<?php  } ?>
 		<!-- to be removed when proper CSS is in place !-->           
 		<br />&nbsp;<br />      
 
