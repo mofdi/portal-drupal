@@ -74,7 +74,7 @@ function _orc_page() {
 		if (!empty($entities['node'])) { // yes, valid node
 
 			$node = node_load(array_shift(array_keys($entities['node'])));
-			$url = 'page/'.$node->nid ;
+			$url = 'resources/'.$node->nid ;
 
 		} else { 		
 			// The id is not registered or not visible. We show a warning message.
