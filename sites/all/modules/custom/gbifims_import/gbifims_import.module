@@ -182,7 +182,7 @@ switch ($_GET['ot'])
 	//			if (!empty($array_resource_details["relatedparticipants"])) {$newnode->field_country["und"] = $array_resource_details["relatedparticipants"];}	
 				
 				// Create the file object
-				$image =  ($array_resource_details["image_url"]);
+				$image = file_get_contents($array_resource_details["image_url"]);
 				$drupal_file = file_save_data($image, 'public://temp/orc_'.$ridi.'.jpg', FILE_EXISTS_REPLACE);
 				$filepath = drupal_realpath('public://temp/orc_'.$ridi.'.jpg');
 				// Create managed File object and associate with Image field.
