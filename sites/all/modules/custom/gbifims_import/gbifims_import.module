@@ -182,7 +182,7 @@ switch ($_GET['ot'])
 	//			if (!empty($array_resource_details["relatedparticipants"])) {$newnode->field_country["und"] = $array_resource_details["relatedparticipants"];}	
 				
 				// Create the file object
-				$image = file_get_contents($array_resource_details["image_url"]);
+				$image =  ($array_resource_details["image_url"]);
 				$drupal_file = file_save_data($image, 'public://temp/orc_'.$ridi.'.jpg', FILE_EXISTS_REPLACE);
 				$filepath = drupal_realpath('public://temp/orc_'.$ridi.'.jpg');
 				// Create managed File object and associate with Image field.
@@ -198,10 +198,10 @@ switch ($_GET['ot'])
 				
 			    // Try to avoid filling up one dir only, add some minimalistic folder sep.
 			    $path_add = date('Y-F',$newnode->created) ;
-			    drupal_mkdir( drupal_realpath( 'public://orc/'.$path_add ) );
+			    drupal_mkdir( drupal_realpath( 'public://orc/').$path_add );
 			    
 			    // ... and file_move instead of file_copy so that we keep the temp clean.
-				$file = file_move($file, 'public://orc/'.$path_add.'/' );
+				$file = file_move($file, 'public://orc/'.$path_add.'/',FILE_EXISTS_REPLACE );
 				$newnode->field_orc_resource_thumbnail[LANGUAGE_NONE][0] = (array)$file;			
 
 				if ($newnode = node_submit($newnode)) {
