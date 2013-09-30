@@ -53,7 +53,7 @@
 		<div class="content">
 			<div class="header">
 				<?php if ( $results_exist ) : ?>
-				<div class="left"><h2><?php print $search_totals; ?></h2><a href="<?php echo $base_url.'/taxonomy/term/'.$page['content']['system_main']['term_heading']['term']['#term']->tid?>/feed"><img src="<?php echo $base_url?>/sites/all/themes/vizz2/img/feed-icon-14x14.png"></a></div>
+				<div class="left"><h2><?php print $search_totals; ?></h2><a href="<?php echo $base_url.'/taxonomy/term/'.$page['content']['system_main']['term_heading']['term']['#term']->tid?>/feed"><img src="<?php echo $dataportal_base_url?>/img/icons/rss-feed.gif"/></a></div>
 				<?php else : ?>
 				<div class="left"><h2><?php print t('Your search yielded no results');?></h2></div>
 				<?php endif; ?>
