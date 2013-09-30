@@ -1011,29 +1011,31 @@ echo "<footer>
  <div class='footer'>
   <ul>
 		<li><h3>JOIN THE COMMUNITY</h3></li>
-		<li><a class='' href='http://community.gbif.org/'>Join GBIF Community Site</a></li>
-		<li><a class='' href='$base_url/newsroom/summary/#signup'>Sign up to GBits newsletter</a></li>
-		<li><a class='' href='$base_url/resources/summary'>GBIF Online Resource Centre</a></li>
+		<li><a href='http://community.gbif.org/'>Join GBIF Community Site</a></li>
+		<li><a href='$base_url/newsroom/summary/#signup'>Sign up to GBits newsletter</a></li>
+		<li><a href='$base_url/resources/summary'>GBIF Online Resource Centre</a></li>
 	</ul>
 	<ul>
 		<li><h3>WHO’S PARTICIPATING</h3></li>
-		<li><a class='' href='$base_url/participation/list#voting'>Countries</a></li>
-		<li><a class='' href='$base_url/participation/list#other'/'>Organizations</a></li>
-		<li class='last'><a class='' href='$base_url/publisher/search'>Data publishers</a></li>
+		<li><a href='$dataportal_base_url/participation/list#voting'>Countries</a></li>
+		<li><a href='$dataportal_base_url/participation/list#other'/'>Organizations</a></li>
+		<li><a href='$dataportal_base_url/publisher/search'>Data publishers</a></li>
 	</ul>
 	<ul>
 		<li><h3>KEY DOCUMENTS</h3></li>
-		<li><a class='' href='$base_url/agreement/use'>Data use agreement</a></li>
-		<li><a class='' href='$base_url/agreement/sharing'>Data sharing agreement</a></li>
-		<li><a class='' href='$base_url/orc/?doc_id=2955&l=en'>Memorandum of Understanding</a></li>
-		<li><a class='' href='$base_url/orc/?doc_id=5304'>Annual Report</a></li>
-		<li><a class='' href='$base_url/orc/?doc_id=2792&l=en'>GBIF Strategic Plan</a></li>
-		<li><a class='' href='$base_url/orc/?doc_id=4394&l=en'>GBIF Work Programme</a></li>
+		<li><a href='$base_url/agreement/use'>Data use agreement</a></li>
+		<li><a href='$base_url/agreement/sharing'>Data sharing agreement</a></li>
+		<li><a href='$base_url/orc/?doc_id=2955&l=en'>Memorandum of Understanding</a></li>
+		<li><a href='$base_url/orc/?doc_id=5304'>Annual Report</a></li>
+		<li><a href='$base_url/orc/?doc_id=2792&l=en'>GBIF Strategic Plan</a></li>
+		<li><a href='$base_url/orc/?doc_id=4394&l=en'>GBIF Work Programme</a></li>
 	</ul>
 	<ul class='last'>
 		<li><h3>FOR DEVELOPERS</h3></li>
-		<li><a href='/developer'>Portal API</a></li>
+		<li><a href='$dataportal_base_url/developer'>Portal API</a></li>
 		<li><a href='http://gbif.blogspot.com'>Developer blog</a></li>
+    <li><a href='$dataportal_base_url/infrastructure/tools'>Tools</a></li>
+
 		<li><a href='http://tools.gbif.org'>Tools</a></li>
 	</ul>
  </div>
