@@ -45,7 +45,7 @@
     <header></header>
     <div class="content">
 
-      <h1>403 Frobidden</h1>
+      <h1>403 Forbidden</h1>
       <p><?php print render($page['content']); ?><p>
       <p>We are sorry, but the requested page is not accesible.</p>
 
