@@ -142,6 +142,16 @@ switch ($_GET['ot'])
 				//
 				// Get the values from the database into an array
 				$array_resource_details = retrieve_resource_details ($ridi, $IMS_RO);
+
+				// prepare a valid date value; account for FM NULL fields (which are returned as strings!)
+				// 978303600 = 01 JAN 2001
+				$tmp = empty($array_resource_details["DateOfPublication"]) ? '978303600' : $array_resource_details["DateOfPublication"] ;
+				$FM_format = 'U';
+				$date = DateTime::createFromFormat($FM_format, $tmp);
+				$UDOPublication = $date->format('U') ; // U = format as Unix timestamp
+				$DOPublication = $date->format('Y-m-d H:i:s e') ; // later on, node_submit will use strtotime() and for that you need "e" or your results will be skewed by TZ
+				
+				
 				//
 				// assigning values
 				//
@@ -154,16 +164,16 @@ switch ($_GET['ot'])
 				$newnode->body["und"][0]["summary"] = substr($array_resource_details["Description"],0,200)."...";
 				$newnode->uid = 64;
 				$newnode->status = 1;
-				$newnode->created = time();
-				$newnode->changed = $newnode->created;
+				// $newnode->created is useless if you avoid node_submit()! You need to change $node-date ;
+				$newnode->date = $DOPublication ;
 				$newnode->comment = 2;
-				$newnode->promote = 1;
+				$newnode->promote = 0;
 				$newnode->sticky = 0;
 				$newnode->field_orc_original_ims_id["und"][0]["value"] = $ridi;
 				$newnode->field_authors["und"][0]["value"] = $array_resource_details["Author"];
 				$newnode->field_alternative_title["und"][0]["value"] = $array_resource_details["AlternativeTitle"];
 				$newnode->field_publisher["und"][0]["value"] = $array_resource_details["Publisher"];
-				$newnode->field_publishing_date["und"][0]["value"] = $array_resource_details["DateOfPublication"];
+				$newnode->field_publishing_date["und"][0]["value"] = $UDOPublication ;
 				$newnode->field_target_audience["und"][0]["value"] = $array_resource_details["Audience"];			
 				$newnode->field_abstract["und"][0]["value"] = $array_resource_details["Abstract"];
 				$newnode->field_bibliographic_citation["und"][0]["value"] = $array_resource_details["BibliographicCitation"];
@@ -174,17 +184,10 @@ switch ($_GET['ot'])
 				$newnode->field_size_text["und"][0]["value"] = $array_resource_details["Size_Text"];								
 				
 				$orc_featured = $array_resource_details["Featured"];
-				if ( $orc_featured != '1' AND $orc_featured != '0') {
-					$newnode->field_orc_featured["und"][0]["value"] = 0 ;
-				} else { 
-					$newnode->field_orc_featured["und"][0]["value"] = (int)$orc_featured ;
-				}
+				$newnode->field_orc_featured["und"][0]["value"] = ($orc_featured =='') ? 0 : (int)$orc_featured ;
 				
 				$orc_short_listed = $array_resource_details["ShortListed"];
 				$newnode->field_orc_short_listed["und"][0]["value"] = ($orc_short_listed =='') ? 0 : (int)$orc_short_listed ;
-				
-				
-				
 				
 				$newnode->field_orc_language["und"][0]["value"] = $array_resource_details["Language"];
 				$newnode->field_resource_type["und"][0]["value"] = $array_resource_details["ResourceType"];
@@ -195,25 +198,20 @@ switch ($_GET['ot'])
 				
 				// Create the file object
 				$image = file_get_contents($array_resource_details["image_url"]);
-				$drupal_file = file_save_data($image, 'public://temp/orc_'.$ridi.'.jpg', FILE_EXISTS_REPLACE);
-				$filepath = drupal_realpath('public://temp/orc_'.$ridi.'.jpg');
-				// Create managed File object and associate with Image field.
-				$file = (object) array(
-				    'uid' => 1,
-				    'uri' => $filepath,
-				    'filemime' => file_get_mimetype($filepath),
-				    'status' => 1,
-					'display' => 1,
-					'alt' => $newnode->title." thumbnail",
-					'title' => $newnode->title." thumbnail",
-				);
+				$dir = drupal_mkdir('public://orc_temp/');
+				$filename = 'public://orc_temp/orc_'.$ridi.'.jpg' ;
+
+				$file = file_save_data($image, $filename , FILE_EXISTS_REPLACE);
+
+				$filepath = drupal_realpath( $filename );
+
+				$file->uid = 1 ;
+				$file->status = 1 ;
+				$file->display = 1 ;
+				$file->alt = $newnode->title." thumbnail" ;
+				$file->title = $newnode->title." thumbnail" ;
+				$file->filepath = $filepath ;
 				
-			    // Try to avoid filling up one dir only, add some minimalistic folder sep.
-			    $path_add = date('Y-F',$newnode->created) ;
-			    drupal_mkdir( drupal_realpath( 'public://orc/').$path_add );
-			    
-			    // ... and file_move instead of file_copy so that we keep the temp clean.
-				$file = file_move($file, 'public://orc/'.$path_add.'/',FILE_EXISTS_REPLACE );
 				$newnode->field_orc_resource_thumbnail[LANGUAGE_NONE][0] = (array)$file;			
 
 				if ($newnode = node_submit($newnode)) {
@@ -522,18 +520,14 @@ switch ($_GET['ot'])
 							$dummycounter += 1;						
 							}
 					}
-//					If ($dummycounter == $MaxEventRecordsToUpdate)
-//						{
-//						$curl_array["extra"] = "http://localhost/gbif-portal/gbifims_import/?rt=e";
-//						curl_setopt($curl_array["extra"], CURLOPT_CONNECTTIMEOUT, 15); //Only send the data, don't wait.
-//						curl_setopt($curl_array["extra"], CURLOPT_TIMEOUT, 15);
-//						curl_multi_add_handle($mh, $curl_array["extra"]);
-//						}
+
 					$running = NULL;
+
 					do {
 						usleep(10000);
 						curl_multi_exec($mh,$running);
 					} while($running > 0);
+					
 					$dummycounter = 0;
 					foreach($array_UrlsToCall as $i => $url){					
 						If ($dummycounter < $MaxEventRecordsToUpdate)
@@ -543,11 +537,7 @@ switch ($_GET['ot'])
 							$dummycounter += 1;
 							} 
 					}
-//					If ($dummycounter == $MaxEventRecordsToUpdate)
-//						{
-//						curl_multi_remove_handle($mh, $curl_array["extra"]);
-//						// curl_close($curl_array["extra"]);
-//						}
+
 				curl_multi_close($mh);       
 					
 				//
@@ -666,33 +656,28 @@ switch ($_GET['ot'])
 					//
 					// Now we call all the pages that perform the actual operations
 					//
-					$mh = curl_multi_init(); 				
+/*					$mh = curl_multi_init(); 				
 					$curl_array = array();
 					$dummycounter = 0;
-					foreach($array_UrlsToCall as $i => $url)
-					{
-						If ($dummycounter < $MaxResourceRecordsToUpdate)
-							{
+					foreach($array_UrlsToCall as $i => $url) {
+						If ($dummycounter < $MaxResourceRecordsToUpdate) {
 							$curl_array[$i] = curl_init($url);
 							curl_setopt($curl_array[$i], CURLOPT_CONNECTTIMEOUT, 15); //Only send the data, don't wait.
 							curl_setopt($curl_array[$i], CURLOPT_TIMEOUT, 15);
 							curl_multi_add_handle($mh, $curl_array[$i]);
 							$dummycounter += 1;						
-							}
+						}
 					}
-//					If ($dummycounter == $MaxResourceRecordsToUpdate)
-//						{
-//						$curl_array["extra"] = "http://localhost/gbif-portal/gbifims_import/?rt=r";
-//						curl_setopt($curl_array["extra"], CURLOPT_CONNECTTIMEOUT, 15); //Only send the data, don't wait.
-//						curl_setopt($curl_array["extra"], CURLOPT_TIMEOUT, 15);
-//						curl_multi_add_handle($mh, $curl_array["extra"]);
-//						}
+					
 					$running = NULL;
+					
 					do {
 						usleep(10000);
 						curl_multi_exec($mh,$running);
 					} while($running > 0);
+					
 					$dummycounter = 0;
+					
 					foreach($array_UrlsToCall as $i => $url){					
 						If ($dummycounter < $MaxResourceRecordsToUpdate)
 							{
@@ -701,14 +686,19 @@ switch ($_GET['ot'])
 							$dummycounter += 1;
 							} 
 					}
-//					If ($dummycounter == $MaxResourceRecordsToUpdate)
-//						{
-//						curl_multi_remove_handle($mh, $curl_array["extra"]);
-//						// curl_close($curl_array["extra"]);
-//						}
-				curl_multi_close($mh);       
+
+				curl_multi_close($mh);       */
 		
-				
+				foreach($array_UrlsToCall as $i => $url) {
+					If ($dummycounter < $MaxResourceRecordsToUpdate) {
+						$ch = curl_init($url);
+						curl_setopt($curl_array[$i], CURLOPT_CONNECTTIMEOUT, 5); 
+						curl_setopt($curl_array[$i], CURLOPT_TIMEOUT, 5);
+						curl_exec( $ch ) ;
+						curl_close ( $ch ) ;
+						$dummycounter += 1;						
+					}
+				}
 				
 				//
 				// Build the output array

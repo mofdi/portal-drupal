@@ -65,38 +65,36 @@
 if ( $info_split['date'] ) {
 	$cur_format = 'd/m/Y - g:ia';
 	$date = DateTime::createFromFormat($cur_format, $info_split['date']);
-	$display_date = $date->format('F dS, Y') . "\n";
+	$display_date = $date->format('F jS, Y') . "\n";
 }
-if ( $result[node]->field_start_date) {
-	$ev_start_date = date( 'F dS, Y', $result[node]->field_start_date['und'][0]['value']) ;
-}
+
+switch ( $result['type'] ) { // :-s
+	case 'News Article' : 
+		$type = 'News item' ;
+		break ;
+	case 'Uses of Data Article' :
+		$type = 'Featured data use' ;
+		break ;
+	case 'Event IMS' :
+		$type = 'GBIF Event' ;
+		$snippet = $result[node]->field_city['und'][0]['value'].', '.$result[node]->field_venuecountry['und'][0]['value'] ;
+		$display_date = date( 'F jS, Y', $result[node]->field_start_date['und'][0]['value']) ; 
+		break ;
+	case 'Resource IMS' :
+		$type = 'Resource' ;
+		$display_date = date( 'F jS, Y', $result[node]->created) ; 
+		break ;
+	default :
+		$type = 'Information page';
+	}
+
 
 ?>    
 <div class="result">
-	<h3><?php switch ( $result['type'] ) { // :-s
-		case 'News Article' : 
-			print ('News item') ;
-			break ;
-		case 'Uses of Data Article' :
-			print ('Featured data use') ;
-			break ;
-		case 'Event IMS' :
-			print ('GBIF Event') ;
-			break ;
-		case 'Resource IMS' :
-			print ('Resource') ;
-			break ;
-		default :
-			print ('Information page');
-		}
-		?></h3>
+	<h3><?php print $type ?></h3>
 	<h2><a href="<?php print $url; ?>"><?php print $title; ?></a></h2>
-	<?php if ($snippet AND $result['type'] != 'Event IMS'): ?>
 	<p><?php print $snippet; ?></p>
-	<?php elseif ($snippet AND $result['type'] == 'Event IMS'): ?>
-	<p><?php print $result[node]->field_city['und'][0]['value'].', '; print $result[node]->field_venuecountry['und'][0]['value'] ; ?></p>
-	<?php endif ?>
 	<div class="footer">
-		<p class="date"><?php if ( $result['type'] != 'Event IMS' ) { print ($display_date) ; } else { print $ev_start_date ; } ?></p>
+		<p class="date"><?php print $display_date?></p>
 	</div>
 </div>

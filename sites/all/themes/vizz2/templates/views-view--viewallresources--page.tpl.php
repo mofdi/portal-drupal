@@ -38,7 +38,7 @@
 		<header></header>
 		<div class="content">
 			<div class="header">
-				<div class="left"><h2>Online Resource Center items</h2></div>
+				<div class="left"><h2>Complete list of GBIF Resources</h2></div>
 				<div class="right"></div>
 			</div>
 			<div class="left">

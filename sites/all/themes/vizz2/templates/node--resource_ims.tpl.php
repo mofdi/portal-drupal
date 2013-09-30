@@ -96,7 +96,7 @@
 	<?php if ( $view_mode == 'teaser' ): ?>
 	<?php endif ?>
 	<div class="footer">
-		<p class="date"><?php print ($node->field_dates['und'][0][value]); ?></p>
+		<p class="date"><?php print (render( format_date($node->created, 'custom', 'F jS, Y '))); ?></p>
 	</div>
 </div>
 
@@ -115,10 +115,9 @@
 				<p><?php print htmlspecialchars_decode($node->field_alternative_title["und"][0]["value"]); ?></p>
 			<?php } ?>                
 		</div>
-		<div class="right">
+		<div class="right db">
 		<!-- Download button? !-->         
-		<a class="candy_blue_button download_button" href="http://imsgbif.gbif.org/CMS_ORC/?doc_id=<?php echo $node->field_orc_original_ims_id["und"][0]["value"]; ?>&download=1"><span><?php echo t('Download') ;?><?php if (render($content['field_size_text']) != " ") { echo " (".substr(render($content['field_size_text']),0,-1).")"; } ?></span></a>
-		<p><?php echo render($content['field_number_downloads']).t(' downloads'); ?></p>            
+
 		</div>
 	</div>
 		<div class="left">				
@@ -183,42 +182,6 @@
 		<?php if (! empty ( $node->field_orc_resource_thumbnail )) { ?>		
 		<?php  $tags['field_orc_resource_thumbnail'][0]['#item']['attributes']['css'] = 'mainImage' ; print render ( field_view_field('node', $node, 'field_orc_resource_thumbnail') ); ?>
 		<?php  } ?>
-		<!-- to be removed when proper CSS is in place !-->           
-		<br />&nbsp;<br />      
-
-			<?php if (render($content['field_version_selector']) != " ") { ?>
-			<h3><?php echo t('Related resources'); ?></h3>
-			<div><?php print htmlspecialchars_decode(render($content['field_version_selector'])); ?></div>
-			<?php } ?>
-
-		<!-- to be removed when proper CSS is in place !-->           
-		<br />&nbsp;<br />
-		<!-- to be removed when proper CSS is in place !-->	            
-		<h3><?php echo t('Sharing options'); ?></h3>
-		<!-- to be removed when proper CSS is in place !-->	            
-		<div style="display: block;" title="<?php echo t('QRCode_label. Scan this QR code and download this resource to your mobile device!'); ?>" class="QRCode"><img src="http://qrcode.kaywa.com/img.php?s=8&d=http%3A%2F%2Fwww.gbif.org%2Forc%2F%3Fdoc_id%3D<?php echo $node->field_orc_original_ims_id["und"][0]["value"]; ?>" alt="QRCode" width="100"/></div>  
-
-		<!-- to be removed when proper CSS is in place !-->           
-		<br />&nbsp;<br />
-		<!-- to be removed when proper CSS is in place !-->	    
-
-		<!-- AddThis Button BEGIN -->
-		<div class="addthis_toolbox addthis_default_style ">
-		<a href="http://www.addthis.com/bookmark.php?v=250&amp;username=xa-4d30f02d11d16f6f" class="addthis_button_compact"><?php echo t('Share resource'); ?></a>
-		</div>
-		<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=xa-4d30f02d11d16f6f"></script>
-		<!-- AddThis Button END -->		
-
-		<!-- to be removed when proper CSS is in place !-->           
-		<br />
-		<!-- to be removed when proper CSS is in place !-->	  
-		
-		<div class="dcview">
-		<a class="dclink" href="<?php echo $ims_orc_url . 'index.php?doc_id='.$node->field_orc_original_ims_id["und"][0]["value"].'&dc=1' ?>" target="_blank">     
-		<img width="16px" src="<?php echo $ims_orc_url ; ?>templates/images/dc_bt.png" />
-		<?php echo t('Dublin Core view'); ?>
-			</a>
-		</div>
 		<?php if ((! empty ( $node->field_regions )) OR (! empty ( $node->field_country )) OR(! empty ( $node->field_regions ))){ ?>		
 			<h3><?php echo t('Tags'); ?></h3>
 			<p>

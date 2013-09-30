@@ -12,8 +12,18 @@
 	global $base_url ;
 	global $base_path ;
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
-					
+
+	$fnode = reset($page['content']['system_main']['nodes'] ) ; 
+	if ( array_key_exists ('#bundle', $fnode) AND $fnode['#bundle'] == 'resource_ims') {
+		$is_rims = TRUE ;
+		$keys = array_keys ($page['content']['system_main']['nodes']);
+		$nid = $keys[0];
+		$fnode = node_load( $nid ) ;
+	
+	}
+
 ?>
+
 <body class="newsroom">
 <header>
   <div id="top">
@@ -50,9 +60,21 @@
 		<div class="content">
 			<h1><?php print $taxon->name ?></h1>
 			<h3><?php print $taxon->description ?></h3>
+			<?php if ( $is_rims ) : ?>
+			<div class="box">
+				<div class="content">
+					<ul>
+						<li class="single last"><h4><?php echo $fnode->field_number_downloads['und'][0]['value']; ?></h4>downloads</li>
+					</ul>
+					<a href="http://imsgbif.gbif.org/CMS_ORC/?doc_id=<?php echo $fnode->field_orc_original_ims_id['und'][0]['value']; ?>&download=1" title="" class="candy_blue_button">
+						<span>Download<?php if ($fnode->field_size_text != " ") { echo " (".$fnode->field_size_text['und'][0]['value'].")"; } ?></span>
+					</a>
+				</div>
+			</div>
+			<?php endif ?>
 		</div>
 	</div>
-		<?php print render($page['sidebar_first']); ?>
+	<?php print render($page['sidebar_first']); ?>
 </header>
 <div id="content"><!-- page.tpl -->
 	<?php print render($page['content']); ?>
