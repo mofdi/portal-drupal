@@ -170,13 +170,22 @@ switch ($_GET['ot'])
 				$newnode->field_contributors["und"][0]["value"] = $array_resource_details["Contributor"];
 				$newnode->field_rights["und"][0]["value"] = $array_resource_details["Rights"];
 				$newnode->field_rights_holder["und"][0]["value"] = $array_resource_details["RightsHolder"];
-				$newnode->field_number_downloads["und"][0]["value"] = $array_resource_details["NumDownloads"];
+				$newnode->field_number_downloads["und"][0]["value"] = (int)$array_resource_details["NumDownloads"];
 				$newnode->field_size_text["und"][0]["value"] = $array_resource_details["Size_Text"];								
 				
 				$orc_featured = $array_resource_details["Featured"];
-				$newnode->field_orc_featured["und"][0]["value"] = ( $orc_featured == '') ? 0 : $orc_featured ;
+				if ( $orc_featured != '1' AND $orc_featured != '0') {
+					$newnode->field_orc_featured["und"][0]["value"] = 0 ;
+				} else { 
+					$newnode->field_orc_featured["und"][0]["value"] = (int)$orc_featured ;
+				}
 				
-				$newnode->field_orc_short_listed["und"][0]["value"] = $array_resource_details["ShortListed"];
+				$orc_short_listed = $array_resource_details["ShortListed"];
+				$newnode->field_orc_short_listed["und"][0]["value"] = ($orc_short_listed =='') ? 0 : (int)$orc_short_listed ;
+				
+				
+				
+				
 				$newnode->field_orc_language["und"][0]["value"] = $array_resource_details["Language"];
 				$newnode->field_resource_type["und"][0]["value"] = $array_resource_details["ResourceType"];
 				$newnode->field_version_selector["und"][0]["value"] = $array_resource_details["VersionSelector"];								
