@@ -1035,8 +1035,6 @@ echo "<footer>
 		<li><a href='$dataportal_base_url/developer'>Portal API</a></li>
 		<li><a href='http://gbif.blogspot.com'>Developer blog</a></li>
     <li><a href='$dataportal_base_url/infrastructure/tools'>Tools</a></li>
-
-		<li><a href='http://tools.gbif.org'>Tools</a></li>
 	</ul>
  </div>
 </div>
