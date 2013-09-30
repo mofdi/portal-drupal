@@ -83,7 +83,9 @@ if ( $result[node]->field_start_date) {
 		case 'Event IMS' :
 			print ('GBIF Event') ;
 			break ;
-			
+		case 'Resource IMS' :
+			print ('Resource') ;
+			break ;
 		default :
 			print ('Information page');
 		}

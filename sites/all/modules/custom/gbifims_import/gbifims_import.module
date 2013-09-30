@@ -172,7 +172,10 @@ switch ($_GET['ot'])
 				$newnode->field_rights_holder["und"][0]["value"] = $array_resource_details["RightsHolder"];
 				$newnode->field_number_downloads["und"][0]["value"] = $array_resource_details["NumDownloads"];
 				$newnode->field_size_text["und"][0]["value"] = $array_resource_details["Size_Text"];								
-				$newnode->field_orc_featured["und"][0]["value"] = $array_resource_details["Featured"];
+				
+				$orc_featured = $array_resource_details["Featured"];
+				$newnode->field_orc_featured["und"][0]["value"] = ( $orc_featured == '') ? 0 : $orc_featured ;
+				
 				$newnode->field_orc_short_listed["und"][0]["value"] = $array_resource_details["ShortListed"];
 				$newnode->field_orc_language["und"][0]["value"] = $array_resource_details["Language"];
 				$newnode->field_resource_type["und"][0]["value"] = $array_resource_details["ResourceType"];
