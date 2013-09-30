@@ -220,7 +220,8 @@ switch ($_GET['ot'])
 				} else {
 					// added incorrectly
 					// OnError Resume Next (TM) ;-)
-				}				
+				}
+
 			break; // End of Creating Resource
 		} // End of switch depending on the type of resource
 	break;
@@ -326,20 +327,20 @@ switch ($_GET['ot'])
 				
 				// Create the file object
 				$image = file_get_contents($array_resource_details["image_url"]);
-				$drupal_file = file_save_data($image, 'public://temp/orc_'.$ridi.'.jpg', FILE_EXISTS_REPLACE);
-				$filepath = drupal_realpath('public://temp/orc_'.$ridi.'.jpg');
-				// Create managed File object and associate with Image field.
-				$file = (object) array(
-				    'uid' => 1,
-				    'uri' => $filepath,
-				    'filemime' => file_get_mimetype($filepath),
-				    'status' => 1,
-					'display' => 1,
-					'alt' => $newnode->title." thumbnail",
-					'title' => $newnode->title." thumbnail",
-				);
-			    // We save the file to the root of the files directory.
-				$file = file_copy($file, 'public://');
+				$dir = drupal_mkdir('public://orc_temp/');
+				$filename = 'public://orc_temp/orc_'.$ridi.'.jpg' ;
+
+				$file = file_save_data($image, $filename , FILE_EXISTS_REPLACE);
+
+				$filepath = drupal_realpath( $filename );
+
+				$file->uid = 1 ;
+				$file->status = 1 ;
+				$file->display = 1 ;
+				$file->alt = $newnode->title." thumbnail" ;
+				$file->title = $newnode->title." thumbnail" ;
+				$file->filepath = $filepath ;
+
 				$newnode->field_orc_resource_thumbnail[LANGUAGE_NONE][0] = (array)$file;			
 
 				if ($newnode = node_submit($newnode)) {
