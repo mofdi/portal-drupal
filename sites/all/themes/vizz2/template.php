@@ -1108,7 +1108,7 @@ function get_bottom_js ($base_url) {
 	echo '  <!-- end scripts-->
 
   <!--[if lt IE 7 ]>
-  <script src="/portal-web-dynamic/js/libs/dd_belatedpng.js"></script>
+  <script src="$dataportal_base_url/js/libs/dd_belatedpng.js"></script>
   <script>DD_belatedPNG
     .fix("img, .png_bg"); // Fix any <img> or .png_bg bg-images. Also, please read goo.gl/mZiyb </script>
   <![endif]-->
