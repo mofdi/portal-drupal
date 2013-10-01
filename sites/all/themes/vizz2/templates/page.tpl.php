@@ -19,7 +19,9 @@
 		$keys = array_keys ($page['content']['system_main']['nodes']);
 		$nid = $keys[0];
 		$fnode = node_load( $nid ) ;
-	
+		var_dump('-|'.$fnode->field_size_text['und'][0]['value'].'|-');
+		$dlsize = ( $fnode->field_size_text['und'][0]['value'] !='') ? ' ('.$fnode->field_size_text['und'][0]['value'].')' : '' ;
+		
 	}
 
 ?>
@@ -67,7 +69,7 @@
 						<li class="single last"><h4><?php echo $fnode->field_number_downloads['und'][0]['value']; ?></h4>downloads</li>
 					</ul>
 					<a href="http://imsgbif.gbif.org/CMS_ORC/?doc_id=<?php echo $fnode->field_orc_original_ims_id['und'][0]['value']; ?>&download=1" title="" class="candy_blue_button">
-						<span>Download<?php if ($fnode->field_size_text != " ") { echo " (".$fnode->field_size_text['und'][0]['value'].")"; } ?></span>
+						<span>Download<?php print $dlsize ?></span>
 					</a>
 				</div>
 			</div>

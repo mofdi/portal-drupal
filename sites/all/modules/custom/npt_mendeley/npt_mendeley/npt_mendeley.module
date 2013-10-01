@@ -309,6 +309,55 @@ function npt_mendeley_full_list($gbif_cat_type = 'usecases', $machine_name = '',
 }
 
 /**
+ * hook_token_info()
+ * Declare the type of tokens we support
+ *
+ **/
+function npt_mendeley_token_info() {
+	global $base_url ;
+
+	$types['nptmy'] = array(
+		'name' => t("npt_mendeley tokens"),
+		'description' => t("Tokens for various mendeley listings"),
+		);
+
+	foreach ( array ('datapaper','usecases','climate','conservation','agriculture','humanhealth','invasive','distribution') as $type ) {
+		$npt_mendeley[ $type ] = array(
+			'name' => t($type),
+			'description' => t('Description for npt_mendeley token:'.$type),
+			);
+	}
+	
+	return array(
+		'types' => $types,
+		'tokens' => array(
+			'npt_mendeley' => $npt_mendeley,
+			),
+		);
+}
+
+/**
+ * hook_tokens().
+ * Run the actual tokens replacement;
+ *
+ */
+function npt_mendeley_tokens($type, $tokens, array $data = array(), array $options = array()) {
+
+	$replacements = array();
+  
+	if ($type == 'nptmy') {
+		foreach ($tokens as $name => $original) {
+			$replacements[$original] = _npt_mendeley_list_documents('gbif_used', $name, 'block') ;
+		}
+	}
+  
+	return $replacements;
+}
+
+ 
+ 
+
+/**
  * Generate the list of documents for display, as block, page or json.
  * @todo Forename of authors with dash or multiple words
  * @todo Be careful that the most recent 3 in the block rendering
