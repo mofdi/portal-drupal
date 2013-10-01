@@ -385,7 +385,7 @@ function _npt_mendeley_list_documents($gbif_cat_type, $machine_name, $render) {
         $$machine_name = array_slice($$machine_name, 0, 3);
       }
       
-      $content = '<article>';
+      $content = '';
       
       if ($render == 'block') {
         $content .= '<p>';
@@ -480,7 +480,7 @@ function _npt_mendeley_list_documents($gbif_cat_type, $machine_name, $render) {
         $content .= t('There is so far no publication in this category.');
       }
       $content .= '</p>';
-      $content .= '</article>';
+      $content .= '';
     }
   }
   return $content;

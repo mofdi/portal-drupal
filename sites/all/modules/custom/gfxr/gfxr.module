@@ -139,8 +139,10 @@ function gfxr_node_view($node, $view_mode ) {
 function workshop() {
 
 
+
 	print_r( token_replace( '[nptmy:agriculture]' )) ;
 
 
+	echo "bau!" ;
 
 }
