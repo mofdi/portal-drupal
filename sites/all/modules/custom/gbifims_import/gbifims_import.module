@@ -592,6 +592,8 @@ switch ($_GET['ot'])
 					$ListPublicResources_find->AddFindCriterion($key,$value);
 				}
 				
+				$ListPublicResources_find->AddSortRule('DateOfPublication',1,FILEMAKER_SORT_DESCEND ) ;
+				
 				fmsSetPage($ListPublicResources_find,'ListPublicResources',100000); 
 				
 				$ListPublicResources_result = $ListPublicResources_find->execute(); 
