@@ -388,7 +388,7 @@ function _npt_mendeley_list_documents($gbif_cat_type, $machine_name, $render) {
       $content = '';
       
       if ($render == 'block') {
-        $content .= '<p>';
+        $content .= '<p style="font-weight: bold">';
         $content .= $tag_set['desc'] . '</p><p>';
       } else {
         $content .= '<h5>' . $tag_set['desc'] . '</h5>';
