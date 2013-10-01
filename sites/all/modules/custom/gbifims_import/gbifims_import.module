@@ -400,7 +400,7 @@ switch ($_GET['ot'])
 		//
 		// generic process. It verfies the current list against the IMS
 		$MaxEventRecordsToUpdate = 25;
-		$MaxResourceRecordsToUpdate = 10;
+		$MaxResourceRecordsToUpdate = 20;
 		switch ($_GET['rt'])
 		{
 			case 'e':
