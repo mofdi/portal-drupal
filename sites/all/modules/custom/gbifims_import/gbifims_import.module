@@ -149,8 +149,7 @@ switch ($_GET['ot'])
 				$FM_format = 'U';
 				$date = DateTime::createFromFormat($FM_format, $tmp);
 				$UDOPublication = $date->format('U') ; // U = format as Unix timestamp
-				$DOPublication = $date->format('Y-m-d H:i:s e') ; // later on, node_submit will use strtotime() and for that you need "e" or your results will be skewed by TZ
-				
+				$DOPublication = $date->format('Y-m-d H:i:s e') ; // later on, node_submit will use strtotime(), that's why you need "e" or your results will be skewed by TZ
 				
 				//
 				// assigning values
@@ -291,65 +290,71 @@ switch ($_GET['ot'])
 			// assigning values
 			//
 				$newnode = node_load($ridd);
-				// $newnode->type = "resource_ims";
-				// $newnode->language = "und";
-				$newnode->name = $array_resource_details["Name"];
-				$newnode->title = $newnode->name;
-				$newnode->body["und"][0]["value"] = $array_resource_details["Description"];
-				$newnode->body["und"][0]["summary"] = substr($array_resource_details["Description"],0,200)."...";
-				$newnode->uid = 64;
-				$newnode->status = 1;
-				// $newnode->created = time();
-				$newnode->changed = time();
-				$newnode->comment = 2;
-				$newnode->promote = 1;
-				$newnode->sticky = 0;
-				// $newnode->field_orc_original_ims_id["und"][0]["value"] = $ridi;
-				$newnode->field_authors["und"][0]["value"] = $array_resource_details["Author"];
-				$newnode->field_alternative_title["und"][0]["value"] = $array_resource_details["AlternativeTitle"];
-				$newnode->field_publisher["und"][0]["value"] = $array_resource_details["Publisher"];
-				$newnode->field_publishing_date["und"][0]["value"] = $array_resource_details["DateOfPublication"];
-				$newnode->field_target_audience["und"][0]["value"] = $array_resource_details["Audience"];			
-				$newnode->field_abstract["und"][0]["value"] = $array_resource_details["Abstract"];
-				$newnode->field_bibliographic_citation["und"][0]["value"] = $array_resource_details["BibliographicCitation"];
-				$newnode->field_contributors["und"][0]["value"] = $array_resource_details["Contributor"];
-				$newnode->field_rights["und"][0]["value"] = $array_resource_details["Rights"];
-				$newnode->field_rights_holder["und"][0]["value"] = $array_resource_details["RightsHolder"];
-				$newnode->field_number_downloads["und"][0]["value"] = $array_resource_details["NumDownloads"];
-				$newnode->field_size_text["und"][0]["value"] = $array_resource_details["Size_Text"];												
-				$newnode->field_orc_featured["und"][0]["value"] = $array_resource_details["Featured"];
-				$newnode->field_orc_short_listed["und"][0]["value"] = $array_resource_details["ShortListed"];
-				$newnode->field_orc_language["und"][0]["value"] = $array_resource_details["Language"];
-				$newnode->field_resource_type["und"][0]["value"] = $array_resource_details["ResourceType"];
-				$newnode->field_version_selector["und"][0]["value"] = $array_resource_details["VersionSelector"];												
-	//			if (!empty($array_resource_details["region"])) {$newnode->field_regions["und"][] = array('tid' => $array_resource_details["region"],);}
-	//			if (!empty($array_resource_details["relatedparticipants"])) {$newnode->field_country["und"] = $array_resource_details["relatedparticipants"];}	
 				
-				// Create the file object
-				$image = file_get_contents($array_resource_details["image_url"]);
-				$dir = drupal_mkdir('public://orc_temp/');
-				$filename = 'public://orc_temp/orc_'.$ridi.'.jpg' ;
+				if ( $newnode ) { // because nobody guarantees that you can load it
+					$newnode->name = $array_resource_details["Name"];
+					$newnode->title = $newnode->name;
+					$newnode->body["und"][0]["value"] = $array_resource_details["Description"];
+					$newnode->body["und"][0]["summary"] = substr($array_resource_details["Description"],0,200)."...";
+					$newnode->uid = 64;
+					$newnode->status = 1;
+					// $newnode->created = time();
+					$newnode->changed = time();
+					$newnode->comment = 2;
+					$newnode->promote = 1;
+					$newnode->sticky = 0;
+					// $newnode->field_orc_original_ims_id["und"][0]["value"] = $ridi;
+					$newnode->field_authors["und"][0]["value"] = $array_resource_details["Author"];
+					$newnode->field_alternative_title["und"][0]["value"] = $array_resource_details["AlternativeTitle"];
+					$newnode->field_publisher["und"][0]["value"] = $array_resource_details["Publisher"];
+					$newnode->field_publishing_date["und"][0]["value"] = $array_resource_details["DateOfPublication"];
+					$newnode->field_target_audience["und"][0]["value"] = $array_resource_details["Audience"];			
+					$newnode->field_abstract["und"][0]["value"] = $array_resource_details["Abstract"];
+					$newnode->field_bibliographic_citation["und"][0]["value"] = $array_resource_details["BibliographicCitation"];
+					$newnode->field_contributors["und"][0]["value"] = $array_resource_details["Contributor"];
+					$newnode->field_rights["und"][0]["value"] = $array_resource_details["Rights"];
+					$newnode->field_rights_holder["und"][0]["value"] = $array_resource_details["RightsHolder"];
+					$newnode->field_number_downloads["und"][0]["value"] = $array_resource_details["NumDownloads"];
+					$newnode->field_size_text["und"][0]["value"] = $array_resource_details["Size_Text"];												
+					
+					$orc_featured = $array_resource_details["Featured"];
+					$newnode->field_orc_featured["und"][0]["value"] = ($orc_featured =='') ? 0 : (int)$orc_featured ;
+					
+					$orc_short_listed = $array_resource_details["ShortListed"];
+					$newnode->field_orc_short_listed["und"][0]["value"] = ($orc_short_listed =='') ? 0 : (int)$orc_short_listed ;
 
-				$file = file_save_data($image, $filename , FILE_EXISTS_REPLACE);
+					$newnode->field_orc_language["und"][0]["value"] = $array_resource_details["Language"];
+					$newnode->field_resource_type["und"][0]["value"] = $array_resource_details["ResourceType"];
+					$newnode->field_version_selector["und"][0]["value"] = $array_resource_details["VersionSelector"];												
+		//			if (!empty($array_resource_details["region"])) {$newnode->field_regions["und"][] = array('tid' => $array_resource_details["region"],);}
+		//			if (!empty($array_resource_details["relatedparticipants"])) {$newnode->field_country["und"] = $array_resource_details["relatedparticipants"];}	
+					
+					// Create the file object
+					$image = file_get_contents($array_resource_details["image_url"]);
+					$dir = drupal_mkdir('public://orc_temp/');
+					$filename = 'public://orc_temp/orc_'.$ridi.'.jpg' ;
 
-				$filepath = drupal_realpath( $filename );
+					$file = file_save_data($image, $filename , FILE_EXISTS_REPLACE);
 
-				$file->uid = 1 ;
-				$file->status = 1 ;
-				$file->display = 1 ;
-				$file->alt = $newnode->title." thumbnail" ;
-				$file->title = $newnode->title." thumbnail" ;
-				$file->filepath = $filepath ;
+					$filepath = drupal_realpath( $filename );
 
-				$newnode->field_orc_resource_thumbnail[LANGUAGE_NONE][0] = (array)$file;			
+					$file->uid = 1 ;
+					$file->status = 1 ;
+					$file->display = 1 ;
+					$file->alt = $newnode->title." thumbnail" ;
+					$file->title = $newnode->title." thumbnail" ;
+					$file->filepath = $filepath ;
 
-				if ($newnode = node_submit($newnode)) {
-					node_save($newnode);
-					node_load(FALSE, NULL, TRUE);					
-					// added correctly
-				} else {
-					// added incorrectly
-				}				
+					$newnode->field_orc_resource_thumbnail[LANGUAGE_NONE][0] = (array)$file;			
+
+					if ($newnode = node_submit($newnode)) {
+						node_save($newnode);
+						node_load(FALSE, NULL, TRUE);					
+						// added correctly
+					} else {
+						// added incorrectly
+					}
+				} 
 		break;	// end of updating a resource
 		} // End of switch depending on the type of resource
 	break;
@@ -507,6 +512,11 @@ switch ($_GET['ot'])
 					//
 					// Now we call all the pages that perform the actual operations
 					//
+					
+/*					
+					Code like this makes the Airbus crash. :-|
+					Unless you switch to MyISAM or you do heavy tunning of Inno, this 
+					will fail in oh so many ways
 					$mh = curl_multi_init(); 				
 					$curl_array = array();
 					$dummycounter = 0;
@@ -534,13 +544,27 @@ switch ($_GET['ot'])
 						If ($dummycounter < $MaxEventRecordsToUpdate)
 							{
 							curl_multi_remove_handle($mh, $curl_array[$i]);
-							curl_close($curl_array[$i]);
+							curl_close($curhttp://dd.gbif.org/gbifims_import/?ot=c&rt=r&ridi=2819l_array[$i]);
 							$dummycounter += 1;
 							} 
 					}
 
 				curl_multi_close($mh);       
-					
+*/
+
+				foreach($array_UrlsToCall as $i => $url) {
+					If ($dummycounter < $MaxResourceRecordsToUpdate) {
+						$ch = curl_init($url);
+						curl_setopt($curl_array[$i], CURLOPT_CONNECTTIMEOUT, 5); 
+						curl_setopt($curl_array[$i], CURLOPT_TIMEOUT, 5);
+						curl_exec( $ch ) ;
+						curl_close ( $ch ) ;
+						$dummycounter += 1;						
+					}
+				}
+
+				
+				
 				//
 				// Build the output array
 				//		
