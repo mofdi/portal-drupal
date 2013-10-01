@@ -964,7 +964,7 @@ echo "        <div class='about'>
           <ul> " ;
 echo "            <li><a href='$base_url/whatisgbif'>What is GBIF?</a></li> " ;
 echo "            <li><a href='$base_url/resources/keyinformation'>Key information</a></li> " ;
-echo "            <li><a href='$base_url/governance/summary'>Governance</a></li> " ;
+echo "            <li><a href='$base_url/governance/governingboard'>Governance</a></li> " ;
 echo "            <li><a href='$base_url/whoweworkwith'>Who we work with</a></li> " ;
 echo "            <li><a href='$base_url/contact/contactus'>Contact</a></li> " ;
 echo '          </ul>
