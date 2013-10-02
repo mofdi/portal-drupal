@@ -28,7 +28,7 @@ $dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) 
       <div id="logo">
         <a href="<?php print $base_url;?>/" class="logo"><img src="<?php print $dataportal_base_url;?>/img/header/logo.png"/></a>
 
-        <h1><a href="<?php print $base_url;?>/newsroom/summary" title="GBIF.ORG">GBIF.ORG</a></h1>
+        <h1><a href="<?php print $base_url;?>" title="GBIF.ORG">GBIF.ORG</a></h1>
         <span>Free and open access to biodiversity data</span>
       </div>
 

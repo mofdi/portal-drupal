@@ -70,7 +70,7 @@
         <li>
 			<h3>Sharing biodiversity <br/>data for re-use</h3>
         <ul>
-          <li><a href="<?php echo $base_url?>/whatisgbif">What is GBIF?</a></li>
+          <li><a href="<?php echo $base_url?>/whatisgbif">Learn about GBIF</a></li>
           <li><a href="<?php echo $base_url?>/publishingdata/summary">Publish your data through GBIF</a></li>
           <li><a href="<?php echo $base_url?>/infrastructure/summary">Technical infrastructure</a></li>
         </ul>
@@ -89,7 +89,7 @@
         <h3>Collaborating as a <br/> global community</h3>
         <ul>
           <li><a href="<?php echo $base_url?>/participation/list">Current Participants</a></li>
-          <li><a href="<?php echo $base_url?>/governance/finance">Who funds GBIF?</a></li>
+          <li><a href="<?php echo $base_url?>/governance/finance">How GBIF is funded</a></li>
           <li><a href="<?php echo $base_url?>/capacityenhancement/summary">Enhancing capacity</a></li>
         </ul>
         </li>
