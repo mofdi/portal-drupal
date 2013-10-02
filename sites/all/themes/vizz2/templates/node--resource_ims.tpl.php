@@ -180,11 +180,11 @@
 		<?php } ?>  
 		
 		<?php if (! empty ( $node->field_orc_resource_thumbnail )) { ?>
-		<a href="http://imsgbif.gbif.org/CMS_ORC/?doc_id=<?php echo $fnode->field_orc_original_ims_id['und'][0]['value']; ?>&download=1" title="">
+		<a href="http://imsgbif.gbif.org/CMS_ORC/?doc_id=<?php echo $node->field_orc_original_ims_id['und'][0]['value']; ?>&download=1" title="">
 		<?php  $tags['field_orc_resource_thumbnail'][0]['#item']['attributes']['css'] = 'mainImage' ; print render ( field_view_field('node', $node, 'field_orc_resource_thumbnail') ); ?>
 		</a>
 		<?php  } ?>
-		<p><a href="http://imsgbif.gbif.org/CMS_ORC/?doc_id=<?php echo $fnode->field_orc_original_ims_id['und'][0]['value']; ?>&download=1" title=""><span>Download<?php print $dlsize ?></span></a></p>
+		<p><a href="http://imsgbif.gbif.org/CMS_ORC/?doc_id=<?php echo $node->field_orc_original_ims_id['und'][0]['value']; ?>&download=1" title=""><span>Download<?php print $dlsize ?></span></a></p>
 
 		<?php if ((! empty ( $node->field_regions )) OR (! empty ( $node->field_country )) OR(! empty ( $node->field_regions ))){ ?>		
 			<h3><?php echo t('Tags'); ?></h3>
