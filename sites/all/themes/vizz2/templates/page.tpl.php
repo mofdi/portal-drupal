@@ -19,7 +19,6 @@
 		$keys = array_keys ($page['content']['system_main']['nodes']);
 		$nid = $keys[0];
 		$fnode = node_load( $nid ) ;
-		var_dump('-|'.$fnode->field_size_text['und'][0]['value'].'|-');
 		$dlsize = ( $fnode->field_size_text['und'][0]['value'] !='') ? ' ('.$fnode->field_size_text['und'][0]['value'].')' : '' ;
 		
 	}

@@ -698,7 +698,7 @@ function vizz2_pager($variables) {
 	$element = $variables['element'];
 	$parameters = $variables['parameters'];
 	// attempt to accont for the theme's page width
-	$quantity = ( $variables['quantity'] < 7) ? $variables['quantity'] : 7 ;
+	$quantity = ( $variables['quantity'] < 6) ? $variables['quantity'] : 6 ;
 	global $pager_page_array, $pager_total;
 
 	// Calculate various markers within this pager piece:

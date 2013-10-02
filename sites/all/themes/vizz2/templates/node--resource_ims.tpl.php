@@ -96,7 +96,7 @@
 	<?php if ( $view_mode == 'teaser' ): ?>
 	<?php endif ?>
 	<div class="footer">
-		<p class="date"><?php print (render( format_date($node->created, 'custom', 'F jS, Y '))); ?></p>
+		<p class="date"><?php print (render( format_date($node->field_publishing_date['und'][0]['value'], 'custom', 'F jS, Y '))); ?></p>
 	</div>
 </div>
 

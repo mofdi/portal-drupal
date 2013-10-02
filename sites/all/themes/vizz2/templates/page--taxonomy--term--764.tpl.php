@@ -77,7 +77,7 @@
 					<h2><a href="<?php print $base_url.'/resources/'.$results[$td]->nid ?>"><?php print $results[$td]->title ?></a></h2>
 					<p><?php print $results[$td]->body['und'][0]['summary'] ?></p>
 					<div class="footer">
-						<p class="date"><?php print( render ( format_date($results[$td]->created, 'custom', 'F jS, Y '))) ;  ?></p>
+						<p class="date"><?php print( render ( format_date($results[$td]->field_publishing_date['und'][0]['value'], 'custom', 'F jS, Y '))) ;  ?></p>
 					</div>
 				</div>
 				<?php endfor ?>
