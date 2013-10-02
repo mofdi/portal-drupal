@@ -68,29 +68,29 @@
 
       <ul>
         <li>
-			<h3>Sharing biodiversity data for re-use</h3>
+			<h3>Sharing biodiversity <br/>data for re-use</h3>
         <ul>
-          <li><a href="#">Why publish your data?</a></li>
-          <li><a href="#">How to publish your data</a></li>
-          <li><a href="#">Data papers</a></li>
+          <li><a href="<?php echo $base_url?>/whatisgbif">What is GBIF?</a></li>
+          <li><a href="<?php echo $base_url?>/publishingdata/summary">Publish your data through GBIF</a></li>
+          <li><a href="<?php echo $base_url?>/infrastructure/summary">Technical infrastructure</a></li>
         </ul>
         </li>
 
         <li>
         <h3>Providing evidence for research and decisions</h3>
         <ul>
-          <li><a href="#">How to use data from GBIF </a></li>
-          <li><a href="#">Who’s using data from GBIF?</a></li>
-          <li><a href="#">GBIF and biodiversity targets</a></li>
+          <li><a href="<?php echo $base_url?>/usingdata/summary">Using data through GBIF</a></li>
+          <li><a href="<?php echo $base_url?>/usingdata/sciencerelevance">Enabling biodiversity science</a></li>
+          <li><a href="<?php echo $base_url?>/usingdata/policyrelevance">Supporting global targets</a></li>
         </ul>
         </li>
 
         <li>
-        <h3>Collaborating as a global community</h3>
+        <h3>Collaborating as a <br/> global community</h3>
         <ul>
-          <li><a href="#">Who funds GBIF?</a></li>
-          <li><a href="#">Why join GBIF?</a></li>
-          <li><a href="#">Regional collaboration</a></li>
+          <li><a href="<?php echo $base_url?>/participation/list">Current Participants</a></li>
+          <li><a href="<?php echo $base_url?>/governance/finance">Who funds GBIF?</a></li>
+          <li><a href="<?php echo $base_url?>/capacityenhancement/summary">Enhancing capacity</a></li>
         </ul>
         </li>
 
