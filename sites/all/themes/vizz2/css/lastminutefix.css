@@ -20,7 +20,13 @@ margin: 0 -5px 0 -5px ;
 margin: 0 0 0 10px ;	
 }
 
+.mendeley_li {
+list-style: none ;	
+}
 
+#content article .content > ul.mendeley_ul {
+margin: 0px 0px 0px 0px;	
+}
 
 
 

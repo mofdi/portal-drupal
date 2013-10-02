@@ -57,7 +57,7 @@
   <!-- we have issues with firefox, not only IE: http://dev.gbif.org/issues/browse/POR-412 -->  
   <script type="text/javascript" src="<?php print ($dataportal_base_url); ?>/js/vendor/css_browser_selector.js"></script>
 
-	<link rel="stylesheet" href="<?php print ($base_url); ?>/sites/all/themes/vizz2/css/lastminutefix.css">	
+  <link rel="stylesheet" href="<?php print ($base_url); ?>/sites/all/themes/vizz2/css/lastminutefix.css">	
 	  
 </head>
 	<?php print $page_top ; ?>
