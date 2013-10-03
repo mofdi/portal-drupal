@@ -316,133 +316,176 @@ function npt_mendeley_full_list($gbif_cat_type = 'usecases', $machine_name = '',
  */
 function _npt_mendeley_list_documents($gbif_cat_type, $machine_name, $render) {
 
-  global $base_url;
-  
-  $tag_sets = variable_get('npt_mendeley_tags');
-  
-  foreach ($tag_sets as $tag_set) {
-    if ($machine_name == $tag_set['machine_name']) {
-      if ($gbif_cat_type == 'country') {
-        $$machine_name = json_decode(file_get_contents(file_build_uri('npt_mendeley/countries/' . $machine_name . '.json')));
-      }
-      elseif ($gbif_cat_type == 'gbif_used') {
-        $$machine_name = json_decode(file_get_contents(file_build_uri('npt_mendeley/' . $machine_name . '.json')));
-      }
-      $doc_count = count($$machine_name);
-      
-      // If there are more then 3 documents, we only keep the recent 3
-      // for block view.
-      if ($doc_count > 0 && $render == 'block') {
-        $$machine_name = array_slice($$machine_name, 0, 3);
-      }
-      
-      // If $render == 'raw', then instead of HTML output, we give the raw array.
-      if ($render == 'raw') {
-        $content = $$machine_name;
-      }
-      elseif ($render <> 'raw') {
-        $content = '';
+	global $base_url;
 
-        if ($render == 'block') {
-          $content .= '<p class="mendeley_bold">';
-          $content .= $tag_set['desc'] . '</p><p>';
-        } else {
-          // $content .= '<h5>' . $tag_set['desc'] . '</h5>';
-          $content .= '<p>';
-        }
+	$tag_sets = variable_get('npt_mendeley_tags');
 
-        if ($doc_count > 0) {
-          if ($doc_count >= 3 && $render == 'block') {
-            $content .= t('Most recent 3 publications in this category:');
-          } else {
-            $content .= format_plural($doc_count,
-              '1 publication in this category:',
-              '@count publications in this category:');          
-          }
+	foreach ($tag_sets as $tag_set) {
+		if ($machine_name == $tag_set['machine_name']) {
+			if ($gbif_cat_type == 'country') {
+				$$machine_name = json_decode(file_get_contents(file_build_uri('npt_mendeley/countries/' . $machine_name . '.json')));
+			}
+			elseif ($gbif_cat_type == 'gbif_used') {
+				$$machine_name = json_decode(file_get_contents(file_build_uri('npt_mendeley/' . $machine_name . '.json')));
+			}
+			$doc_count = count($$machine_name);
+				
+			// If there are more then 3 documents, we only keep the recent 3
+			// for block view.
+			if ($doc_count > 0 && $render == 'block') {
+				$$machine_name = array_slice($$machine_name, 0, 3);
+			}
+				
+			// If $render == 'raw', then instead of HTML output, we give the raw array.
+			if ($render == 'raw') {
+				$content = $$machine_name;
+			} elseif ($render <> 'raw') {
+				$content = '';
 
-          if ($render == 'page') {
-            // Add pagination.
-            $pagination = '<div class="pagination">';
-            $pagination .= '<a href="#" class="first" data-action="first">&laquo;</a>';
-            $pagination .= '<a href="#" class="previous" data-action="previous">&lsaquo;</a>';
-            $pagination .= '<input type="text" readonly="readonly" data-max-page="30" />';
-            $pagination .= '<a href="#" class="next" data-action="next">&rsaquo;</a>';
-            $pagination .= '<a href="#" class="last" data-action="last">&raquo;</a>';
-            $pagination .= '</div>';
+				if ($render == 'block') {
+					$content .= '<p class="mendeley_bold">';
+					$content .= $tag_set['desc'] . '</p><p>';
+				} else {
+					// $content .= '<h5>' . $tag_set['desc'] . '</h5>';
+					$content .= '<p>';
+				}
 
-            $content .= $pagination;
-          }
+				if ($doc_count > 0) {
+					if ($doc_count >= 3 && $render == 'block') {
+						$content .= t('Most recent 3 publications in this category:');
+					} else {
+					$content .= format_plural($doc_count,
+					'1 publication in this category:',
+					'@count publications in this category:');
+					}
+				}
 
-          // Start the list.
-          $list_item = '<ul class="mendeley_ul" id="mendeley-citation">';
-          foreach ($$machine_name as $k => $doc) {
-            foreach ($doc as $key => $value) {
-              $$key = (isset($key)) ? $value : NULL;
-            }
-            $num = $k + 1;
-            $list_item .= '<li class="mendeley_li" id="citation-' . $num . '">';
+				if ($render == 'page') {
+				// Add pagination.
+				$pagination = '<div class="pagination">';
+				$pagination .= '<a href="#" class="first" data-action="first">&laquo;</a>';
+				$pagination .= '<a href="#" class="previous" data-action="previous">&lsaquo;</a>';
+				$pagination .= '<input type="text" readonly="readonly" data-max-page="30" />';
+				$pagination .= '<a href="#" class="next" data-action="next">&rsaquo;</a>';
+				$pagination .= '<a href="#" class="last" data-action="last">&raquo;</a>';
+				$pagination .= '</div>';
 
-            // Title first
-            $list_item .= (isset($url)) ? '<strong>' . l($title, $url) . '. </strong>' : '<strong>' . $title . '. </strong>';
+				$content .= $pagination; 
+				} 
 
-            // Author
-            $author_count = count($authors);
-            if ($author_count >= 3) {
-              $list_item .= $authors[0]->surname . ', ' . substr($authors[0]->forename, 0, 1) . '. ';
-              $list_item .= 'et al. ';
-            }
-            else {
-              foreach ($authors as $i => $author) {
-                $list_item .= $author->surname . ', ' . substr($author->forename, 0, 1) . '.';
-                if ($i < $author_count - 1) $list_item .= ', ';          
-              }
-            }
+				// Start the list.
+				if ($render == 'page') {
+					$list_item .= "<div id='mendeley-citation'>";
+					foreach ($$machine_name as $k => $doc) {
+						foreach ($doc as $key => $value) {
+							$$key = (isset($key)) ? $value : NULL;
+						}
+						$num = $k + 1;
+						$list_item .='<div class="result" id="citation-'.$num.'">' ;
+						
+						// Title first
+						$list_item .= (isset($url)) ? '<h2>' . l($title, $url).'</h2>' : '<h2>'. $title . '. </h2>';
 
-            // This line is pending because of faulty mendeley call.
-            $list_item .= (isset($publication_outlet)) ? ' <em>' . $publication_outlet . '</em>, ' : '';
+						// Author
+						$author_count = count($authors);
+						if ($author_count >= 3) {
+							$list_item .= '<p>'.$authors[0]->surname . ', ' . substr($authors[0]->forename, 0, 1) . '. ';
+							$list_item .= 'et al. </p>';
+						}
+						else {
+							$list_item .= '<p>' ;
+							foreach ($authors as $i => $author) {
+								$list_item .= $author->surname . ', ' . substr($author->forename, 0, 1) . '.';
+								if ($i < $author_count - 1) $list_item .= ', ';          
+							}
+							$list_item .= '</p>' ;
+						}
+						$list_item .= '<div class="footer"><p class="date">' ;
+						// This line is pending because of faulty mendeley call.
+						$list_item .= (isset($publication_outlet)) ? ' <em>' . $publication_outlet . '</em>, ' : '';
 
-            // Volume, issue and page.
-            $list_item .= (isset($volume)) ? 'Volume: ' . $volume : '';
-            $list_item .= (isset($issue)) ? '(' . $issue . '), ' : '';
-            $list_item .= (isset($page)) ? 'p.' . $page . '. ' : '';
+						// Volume, issue and page.
+						$list_item .= (isset($volume)) ? 'Volume: ' . $volume : '';
+						$list_item .= (isset($issue)) ? '(' . $issue . '), ' : '';
+						$list_item .= (isset($page)) ? 'p.' . $page . '. ' : '';
 
-            // Year, title and the rest
-            $list_item .= (isset($year)) ? '(' . $year . ')' : '';
+						// Year, title and the rest
+						$list_item .= (isset($year)) ? '(' . $year . ')' : '';
+						
+						$list_item .= '</p></div>' ; 
+						$list_item .= '</div>' ; 
+					}
 
-            $list_item .= '</li>';
-          }
-          $list_item .= '</ul>';
+ 					$list_item .= '</div>';
+					$content .= $list_item;
+					
+					if ($doc_count === 0) {
+						$content .= t('There is so far no publication in this category.');
+					}
+				} else {
+					$list_item = '<ul class="mendeley_ul" id="mendeley-citation">';
+					foreach ($$machine_name as $k => $doc) {
+						foreach ($doc as $key => $value) {
+							$$key = (isset($key)) ? $value : NULL;
+						}
+						$num = $k + 1;
+						$list_item .= '<li class="mendeley_li" id="citation-' . $num . '">';
 
-          $content .= $list_item;
+						// Title first
+						$list_item .= (isset($url)) ? '<strong>' . l($title, $url) . '. </strong>' : '<strong>' . $title . '. </strong>';
 
-          // Provide 'see more' link to the page render.
-          if ($doc_count > 3 && $render == 'block') {
-            global $base_url;
-            if ($gbif_cat_type == 'gbif_used') {
-              $content .= l('see more...', $base_url . '/mendeley/' . $machine_name);
-            } else {
-              $content .= l('see more...', $base_url . '/mendeley/' . $gbif_cat_type . '/' . $machine_name);
-            }
-          }
-          elseif ($doc_count <= 3 && $render == 'block') {
-            if ($gbif_cat_type == 'gbif_used') {
-              $content .= l('see page view...', $base_url . '/mendeley/' . $machine_name);
-            } else {
-              $content .= l('see page view...', $base_url . '/mendeley/' . $gbif_cat_type . '/' . $machine_name);
-            }
-          }
-        }
-        elseif ($doc_count === 0) {
-          $content .= t('There is so far no publication in this category.');
-        }
-        $content .= '</p>';
-        $content .= '';        
-      }
-    }
-  }
-  return $content;
+						// Author
+						$author_count = count($authors);
+						if ($author_count >= 3) {
+							$list_item .= $authors[0]->surname . ', ' . substr($authors[0]->forename, 0, 1) . '. ';
+							$list_item .= 'et al. ';
+						}
+						else {
+							foreach ($authors as $i => $author) {
+							$list_item .= $author->surname . ', ' . substr($author->forename, 0, 1) . '.';
+							if ($i < $author_count - 1) $list_item .= ', ';          
+							}
+						}
+
+						// This line is pending because of faulty mendeley call.
+						$list_item .= (isset($publication_outlet)) ? ' <em>' . $publication_outlet . '</em>, ' : '';
+
+						// Volume, issue and page.
+						$list_item .= (isset($volume)) ? 'Volume: ' . $volume : '';
+						$list_item .= (isset($issue)) ? '(' . $issue . '), ' : '';
+						$list_item .= (isset($page)) ? 'p.' . $page . '. ' : '';
+
+						// Year, title and the rest
+						$list_item .= (isset($year)) ? '(' . $year . ')' : '';
+
+						$list_item .= '</li>';
+					}
+					$list_item .= '</ul>';
+
+					$content .= $list_item;
+
+					// Provide 'see more' link to the page render.
+					if ($doc_count > 3 && $render == 'block') {
+						global $base_url;
+						if ($gbif_cat_type == 'gbif_used') {
+							$content .= l('see more...', $base_url . '/mendeley/' . $machine_name);
+						} else {
+							$content .= l('see more...', $base_url . '/mendeley/' . $gbif_cat_type . '/' . $machine_name);
+						}
+					} elseif ($doc_count <= 3 && $render == 'block') {
+						if ($gbif_cat_type == 'gbif_used') {
+							$content .= l('see page view...', $base_url . '/mendeley/' . $machine_name);
+						} else {
+							$content .= l('see page view...', $base_url . '/mendeley/' . $gbif_cat_type . '/' . $machine_name);
+						}
+						$content .= '';
+					}
+				}
+			}
+		}
+	}
+	return $content;
 }
-
 
 /**
  * Ensure a local digest of citations from the GBIF Public Library on Mendeley.

@@ -65,34 +65,32 @@ foreach ($view as $key => $vnode) {
 	</div>
 </header>
 <div id="content">
-<article class="detail">
-	<header></header>
-	<div class="content">
-		<div class="header">
+	<article class="results">
+		<header></header>
+		<div class="content">
+			<div class="header">
+				<div class="left">
+					<?php if ($title): ?>
+						<h2><?php print $title; ?></h2>
+					<?php endif; ?>
+				</div>
+			</div>
 			<div class="left">
-				<?php if ($title): ?>
-					<h2><?php print $title; ?></h2>
-				<?php endif; ?>
+			<?php $type = arg(1) ; $res .= substr ($res,0,60) ; $res = preg_replace('/[^\x20-\x7E]/','', $type); 
+
+			if ( $res ) {
+					$block = module_invoke('npt_mendeley','full_list',$res);
+				} else {
+					$block = module_invoke('npt_mendeley','full_list','usecases');
+				}
+				print($block);
+				?>
 			</div>
 		</div>
-		<div class="full">
-		<?php $type = arg(1) ; $res .= substr (0,60) ; $res = preg_replace('/[^\x20-\x7E]/','', $type); 
 
-		if ( $res ) {
-				$block = module_invoke('npt_mendeley','full_list',$res);
-			} else {
-				$block = module_invoke('npt_mendeley','full_list','usecases');
-			}
- 			print($block);
-			?>
-		</div>
-	</div>
-
-	<footer></footer>
-</article>
-
+		<footer></footer>
+	</article>
 </div>
-		
 <?php get_footer($base_url) ?>
 <?php get_bottom_js($base_url) ?>		
 </body>
