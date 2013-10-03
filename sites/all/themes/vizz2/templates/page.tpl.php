@@ -25,7 +25,7 @@
 
 ?>
 
-<body class="newsroom">
+<body class="">
 <header>
   <div id="top">
     <div class="content">

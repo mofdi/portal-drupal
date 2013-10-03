@@ -53,7 +53,7 @@ foreach ($view as $key => $vnode) {
 		<div class="content">
 		<?php $taxon = get_title_data() ; ?>
 		<h1>Peer-reviewed publications</h1>
-		<h3>(via <a href="http://www.mendeley.com">Mendeley</a>)</h3>
+		<h3>(via <a href="http://www.mendeley.com/groups/1068301/gbif-public-library/">Mendeley</a>)</h3>
 		</div>
 	</div>
 	<div id="tabs">
