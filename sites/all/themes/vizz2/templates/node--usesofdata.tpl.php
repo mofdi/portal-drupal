@@ -121,7 +121,7 @@
 			<div class="left">
 				<h3>Featured Data Use</h3>
 				<?php if ($title): ?>
-					<h1><?php print $title; ?></h1>
+					<h2><?php print $title; ?></h2>
 				<?php endif; ?>
 			</div>
 		</div>
