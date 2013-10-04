@@ -2,7 +2,7 @@
 
   $(document).ready(function() {
     
-    $("div.pagination").hide();
+    $("ul.numbered-pagination").hide();
     var recordsPerPage = 20;
     var totalNumRecords = $("#mendeley-citation").children().length;
 
@@ -12,7 +12,7 @@
 
     function pagination(recordsPerPage, totalNumRecords){
       //Show the pagination controls
-      $(".pagination").show();
+      $(".numbered-pagination").show();
 
       //loop through all of the divs and hide them by default.
       for (var i = 1; i <= totalNumRecords; i++) {
@@ -28,7 +28,7 @@
       var maxPages = Math.ceil(totalNumRecords/recordsPerPage);
       var pathname = window.location.pathname;   
 
-      $('.pagination').jqPagination({
+      $('.numbered-pagination').jqPagination({
         link_string  : '/?page={page_number}',
         max_page     : maxPages,
         paged        : function(page) { 

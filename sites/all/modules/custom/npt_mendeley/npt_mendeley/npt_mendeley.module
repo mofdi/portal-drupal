@@ -359,20 +359,6 @@ function _npt_mendeley_list_documents($gbif_cat_type, $machine_name, $render) {
 					'@count publications in this category:');
 					}
 				}
-
-				if ($render == 'page') {
-				// Add pagination.
-				$pagination = '<div class="pagination">';
-				$pagination .= '<a href="#" class="first" data-action="first">&laquo;</a>';
-				$pagination .= '<a href="#" class="previous" data-action="previous">&lsaquo;</a>';
-				$pagination .= '<input type="text" readonly="readonly" data-max-page="30" />';
-				$pagination .= '<a href="#" class="next" data-action="next">&rsaquo;</a>';
-				$pagination .= '<a href="#" class="last" data-action="last">&raquo;</a>';
-				$pagination .= '</div>';
-
-				$content .= $pagination; 
-				} 
-
 				// Start the list.
 				if ($render == 'page') {
 					$list_item .= "<div id='mendeley-citation'>";
@@ -417,7 +403,18 @@ function _npt_mendeley_list_documents($gbif_cat_type, $machine_name, $render) {
 					}
 
  					$list_item .= '</div>';
+ 					
 					$content .= $list_item;
+									// Add pagination.
+					$pagination = '<ul class="numbered-pagination">';
+					$pagination .= '<li class="first"><a href="#" class="first" data-action="first">First</a></li>';
+					$pagination .= '<li><a href="#" class="previous" data-action="previous">&lsaquo;</a></li>';
+					$pagination .= '<input class="mendeley_pager" type="text" readonly="readonly" data-max-page="30" />';
+					$pagination .= '<li><a href="#" class="next" data-action="next">&rsaquo;</a></li>';
+					$pagination .= '<li class="last"><a href="#" class="last" data-action="last">Last</a></li>';
+					$pagination .= '</ul>';
+
+					$content .= $pagination; 
 					
 					if ($doc_count === 0) {
 						$content .= t('There is so far no publication in this category.');
