@@ -193,7 +193,7 @@
 		<header></header>
 		<div class="content">
 			<h3>NEXT FEATURED DATA USE</h3>
-			<?php print pn_node($node, 'p'); ?>
+			<h3 class="pn_node"><?php print pn_node($node, 'p'); ?></h3>
 		</div>
 		<footer></footer>
 	</article>

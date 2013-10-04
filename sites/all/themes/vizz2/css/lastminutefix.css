@@ -41,3 +41,13 @@ input.mendeley_pager {
 }
 
 
+#content article .content h3 a {
+	font-size: 17px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: bold;
+	height: 20px;
+	color: #0099CC;
+	text-decoration: none;
+	text-transform: none;
+}

@@ -568,7 +568,7 @@ function pn_node($node, $mode = 'n') {
 				}
 			default:
 				// ... theme? What theme?! :-)
-				$link_text = '<h1>'.$n_node->title.'</h1>' ;
+				$link_text = $n_node->title ;
 				$html = l($link_text, "page/$n_nid", array('html' => TRUE));
 				return $html;
 		}
@@ -975,11 +975,11 @@ echo '          </ul>
 echo'	<li class="search">';
 
 if ( $w_search ) {
-
+	$search_form = drupal_get_form('search_form') ; 
 	echo '     <form action="/search/node" method="post" id="search-form">' ;
 	print "<span class='input_text'><input id='edit-keys'  type='text' name='keys' value='{$search_form['basic']['keys']['#default_value']}' autocomplete='off' placeholder='News and articles'/></span>" ;
-	print "<input type='hidden' name='form_build_id' value='{$search_form['#build_id']}' ";
-	print "<input type='hidden' name='form_token' value='{$search_form['form_token']['#default_value']}'" ;
+	print "<input type='hidden' name='form_build_id' value='{$search_form['#build_id']}' />";
+	print "<input type='hidden' name='form_token' value='{$search_form['form_token']['#default_value']}' />" ;
 	echo '<input type="hidden" name="form_id" value="search_form" />' ;
 	echo '<input type="hidden" id="edit-submit" name="op" value="Search" class="form-submit" />' ;
 	echo '	</form> ';
