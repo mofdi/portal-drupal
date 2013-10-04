@@ -129,9 +129,9 @@ switch ($_GET['ot'])
 				if (!empty($array_event_details["relatedparticipants"])) {$newnode->field_country["und"] = $array_event_details["relatedparticipants"];}	
 				if ($newnode = node_submit($newnode)) {
 					node_save($newnode);
-					// added correctly
+
 				} else {
-					// added incorrectly
+					// echo "error!";
 				}
 			break; // End of Creating event
 			
@@ -366,7 +366,7 @@ switch ($_GET['ot'])
 		switch ($_GET['rt'])
 		{
 		case 'e':
-			// 
+			// http://dd.gbif.org/gbifims_import/error.php?errorCode=401&errorMsg=No+records+match+the+request
 			// Delete an event (= mark as hidden)
 			//		
 			$newnode = node_load($ridd);
@@ -417,13 +417,13 @@ switch ($_GET['ot'])
 					$ListPublicEvents_find->AddFindCriterion($key,$value);
 				}
 				
-				fmsSetPage($ListPublicEvents_find,'ListPublicEvents',10000); 
+				// fmsSetPage($ListPublicEvents_find,'ListPublicEvents',10000); 
 				
 				$ListPublicEvents_result = $ListPublicEvents_find->execute(); 
 				
 				if(FileMaker::isError($ListPublicEvents_result)) fmsTrapError($ListPublicEvents_result,"error.php"); 
 				
-				fmsSetLastPage($ListPublicEvents_result,'ListPublicEvents',10000); 
+				// fmsSetLastPage($ListPublicEvents_result,'ListPublicEvents',10000); 
 				
 				$ListPublicEvents_row = current($ListPublicEvents_result->getRecords());
 				
@@ -554,9 +554,10 @@ switch ($_GET['ot'])
 
 				foreach($array_UrlsToCall as $i => $url) {
 					If ($dummycounter < $MaxResourceRecordsToUpdate) {
+					var_dump($url);
 						$ch = curl_init($url);
-						curl_setopt($curl_array[$i], CURLOPT_CONNECTTIMEOUT, 5); 
-						curl_setopt($curl_array[$i], CURLOPT_TIMEOUT, 5);
+						curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5); 
+						curl_setopt( $ch, CURLOPT_TIMEOUT, 5);
 						curl_exec( $ch ) ;
 						curl_close ( $ch ) ;
 						$dummycounter += 1;						
@@ -761,6 +762,7 @@ switch ($_GET['ot'])
 
 function retrieve_event_details ($event_id, $IMS_RO) {
 
+
 //
 // LINK FIRST DATASET: EVENT DETAILS
 //
@@ -792,7 +794,8 @@ function retrieve_event_details ($event_id, $IMS_RO) {
 	$EventDetails__WEVEEventEventstatus_portal = fmsRelatedRecord($EventDetails_row, 'WEVE_Event_Eventstatus');
 	$EventDetails__WEVEEventCityCountry_portal = fmsRelatedRecord($EventDetails_row, 'WEVE_Event_City_Country');
 	$EventDetails__WEventsEventsAccessCategories_portal = fmsRelatedRecord($EventDetails_row, 'W_Events_EventsAccessCategories');
-	
+
+
 //
 //// LIST PEOPLE
 //
@@ -835,6 +838,8 @@ $ListResources_findCriterions = array('_kf_EventID'=>$EventDetails_row->getField
 foreach($ListResources_findCriterions as $key=>$value) {
 	$ListResources_find->AddFindCriterion($key,$value);
 }
+
+
 // This section is hidden, unless a get variable is given a specific value (displays only public items)
 if ($_GET['secret'] != '1') 
 	{
@@ -876,7 +881,7 @@ $ListCountries_result = $ListCountries_find->execute();
 
 if(FileMaker::isError($ListCountries_result)) 
 {
-	$ListCountriesString = "";
+	$ListCountriesString = '';
 
 } else {
 	
@@ -929,7 +934,7 @@ if(FileMaker::isError($ListCountries_result))
 		}
 	}
 }
-
+	
 //
 //// LIST OF PARTICIPANTS OFFICIALLY LINKED TO THE EVENT
 //
@@ -944,22 +949,24 @@ fmsSetPage($ListRelatedCountries_find,'ListRelatedCountries',1000);
 
 $ListRelatedCountries_result = $ListRelatedCountries_find->execute(); 
 
-if(FileMaker::isError($ListRelatedCountries_result)) fmsTrapError($ListRelatedCountries_result,"error.php"); 
+if(FileMaker::isError($ListRelatedCountries_result)) {
+	$ArrayRelatedParticipants = '';
+} else {
 
-fmsSetLastPage($ListRelatedCountries_result,'ListRelatedCountries',1000); 
+	fmsSetLastPage($ListRelatedCountries_result,'ListRelatedCountries',1000); 
 
-$ListRelatedCountries_row = current($ListRelatedCountries_result->getRecords());
+	$ListRelatedCountries_row = current($ListRelatedCountries_result->getRecords());
 
-$ListRelatedCountries__WEVPEventParticipantEvent_portal = fmsRelatedRecord($ListRelatedCountries_row, 'WEVP_EventParticipant_Event');
-$ListRelatedCountries__WEVPEventParticipantParticipant_portal = fmsRelatedRecord($ListRelatedCountries_row, 'WEVP_EventParticipant_Participant');
-$ListRelatedCountries__WEVPEventParticipantParticipantCountry_portal = fmsRelatedRecord($ListRelatedCountries_row, 'WEVP_EventParticipant_Participant_Country');
+	$ListRelatedCountries__WEVPEventParticipantEvent_portal = fmsRelatedRecord($ListRelatedCountries_row, 'WEVP_EventParticipant_Event');
+	$ListRelatedCountries__WEVPEventParticipantParticipant_portal = fmsRelatedRecord($ListRelatedCountries_row, 'WEVP_EventParticipant_Participant');
+	$ListRelatedCountries__WEVPEventParticipantParticipantCountry_portal = fmsRelatedRecord($ListRelatedCountries_row, 'WEVP_EventParticipant_Participant_Country');
 
-foreach($ListRelatedCountries_result->getRecords() as $ListRelatedCountries_row){ 
-	if ($ListRelatedCountries_row->getField('WEVP_EventParticipant_Participant_Country::_kf_Drupal_tid') != "") {
-		$ArrayRelatedParticipants[] = array("tid"=>$ListRelatedCountries_row->getField('WEVP_EventParticipant_Participant_Country::_kf_Drupal_tid'),);
+	foreach($ListRelatedCountries_result->getRecords() as $ListRelatedCountries_row){ 
+		if ($ListRelatedCountries_row->getField('WEVP_EventParticipant_Participant_Country::_kf_Drupal_tid') != "") {
+			$ArrayRelatedParticipants[] = array("tid"=>$ListRelatedCountries_row->getField('WEVP_EventParticipant_Participant_Country::_kf_Drupal_tid'),);
+		}
 	}
 }
-
 
 //
 //// LIST OF KEYWORDS WITH MATCHING ELEMENTS IN DRUPAL
