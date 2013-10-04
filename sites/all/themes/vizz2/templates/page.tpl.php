@@ -58,16 +58,7 @@
 			<h1><?php print $taxon->name ?></h1>
 			<h3><?php print $taxon->description ?></h3>
 			<?php if ( $is_rims ) : ?>
-			<div class="box">
-				<div class="content">
-					<ul>
-						<li class="single last"><h4><?php echo $fnode->field_number_downloads['und'][0]['value']; ?></h4>downloads</li>
-					</ul>
-					<a href="http://imsgbif.gbif.org/CMS_ORC/?doc_id=<?php echo $fnode->field_orc_original_ims_id['und'][0]['value']; ?>&download=1" title="" class="candy_blue_button">
-						<span>Download<?php print $dlsize ?></span>
-					</a>
-				</div>
-			</div>
+
 			<?php endif ?>
 		</div>
 	</div>
