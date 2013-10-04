@@ -39,12 +39,7 @@
         <li><a href="<?php echo $dataportal_base_url?>/publisher/search"><strong id="countPublishers">?</strong> Data publishers</a></li>
       </ul>
     </div>
-
-		<a class="disclaimerToggle" href="/portal/disclaimer">
-		<img src="<?php echo $dataportal_base_url?>/img/beta.gif">
-		</a>
 	<?php get_nav($base_url) ?>
-
     </div>
   </div>
   <!-- /top -->

@@ -40,10 +40,6 @@ foreach ($view as $key => $vnode) {
         <h1><a href="<?php print $base_url;?>" title="GBIF.ORG">GBIF.ORG</a></h1>
         <span>Free and open access to biodiversity data</span>
       </div>
-
-		<a class="disclaimerToggle" href="/portal/disclaimer">
-		<img src="<?php echo $dataportal_base_url?>/img/beta.gif">
-		</a>
 	<?php get_nav($base_url) ?>
     </div>
   </div>
