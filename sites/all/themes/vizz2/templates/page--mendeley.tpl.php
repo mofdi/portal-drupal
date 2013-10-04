@@ -61,7 +61,7 @@ foreach ($view as $key => $vnode) {
 	</div>
 </header>
 <div id="content">
-	<article class="results">
+	<article class="results light_pane">
 		<header></header>
 		<div class="content">
 			<div class="header">
@@ -70,6 +70,7 @@ foreach ($view as $key => $vnode) {
 						<h2><?php print $title; ?></h2>
 					<?php endif; ?>
 				</div>
+				<div class="right"><h3>Other categories</h3></div>
 			</div>
 			<div class="left">
 			<?php $type = arg(1) ; $res .= substr ($res,0,60) ; $res = preg_replace('/[^\x20-\x7E]/','', $type); 
@@ -82,6 +83,16 @@ foreach ($view as $key => $vnode) {
 				print($block);
 				?>
 			</div>
+			<div class="right">
+			<ul class="no_bullets">
+			<li><a href="<?php print ($base_url) ?>/mendeley/agriculture">Food and farming</a></li>
+			<li><a href="<?php print ($base_url) ?>/mendeley/invasive">Invasive alien species</a></li>
+			<li><a href="<?php print ($base_url) ?>/mendeley/climate">Climate change</a></li>
+			<li><a href="<?php print ($base_url) ?>/mendeley/conservation">Conservation</a></li>
+			<li><a href="<?php print ($base_url) ?>/mendeley/humanhealth">Human health</a></li>
+			<li><a href="<?php print ($base_url) ?>/mendeley/distribution">Species distribution</a></li>
+			</ul>
+		</div>
 		</div>
 
 		<footer></footer>
