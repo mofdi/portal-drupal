@@ -102,7 +102,7 @@
 		<div class="header">
 			<div class="left full">
 				<?php if ($title): ?>
-					<h1><?php print $title; ?></h1>
+					<h2><?php print $title; ?></h2>
 				<?php endif; ?>
 			</div>
 		</div>
@@ -126,7 +126,7 @@
 			<div class="header">
 				<div class="left">
 				<?php if ( ! empty ( $cchunk->field_title['und']['0']['value'] ) ) { ?>
-					<h1><?php print $cchunk->field_title['und']['0']['value'] ; ?></h1>
+					<h2><?php print $cchunk->field_title['und']['0']['value'] ; ?></h2>
 				<?php } ?>
 				</div>
 			</div>

@@ -109,7 +109,7 @@
 		<div class="left">
 			<h3><?php echo t('Resource details'); ?></h3>
 			<?php if ($title): ?>
-				<h1><?php print htmlspecialchars_decode($title); ?></h1>
+				<h2><?php print htmlspecialchars_decode($title); ?></h2>
 			<?php endif; ?>
 			<?php if ((! empty ( $node->field_alternative_title["und"][0]["value"] )) && ($node->field_alternative_title["und"][0]["value"] != $title)) { ?>		
 				<p><?php print htmlspecialchars_decode($node->field_alternative_title["und"][0]["value"]); ?></p>
