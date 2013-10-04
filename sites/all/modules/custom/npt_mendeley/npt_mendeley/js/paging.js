@@ -3,7 +3,7 @@
   $(document).ready(function() {
     
     $("ul.numbered-pagination").hide();
-    var recordsPerPage = 20;
+    var recordsPerPage = 10;
     var totalNumRecords = $("#mendeley-citation").children().length;
 
     if (recordsPerPage < totalNumRecords) {
