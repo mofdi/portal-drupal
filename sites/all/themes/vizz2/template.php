@@ -1023,8 +1023,9 @@ echo "<footer>
 	</ul>
 	<ul>
 		<li><h3>KEY DOCUMENTS</h3></li>
-		<li><a href='$base_url/agreement/use'>Data use agreement</a></li>
-		<li><a href='$base_url/agreement/sharing'>Data sharing agreement</a></li>
+		<li><a href='$base_url/disclaimer'>Disclaimer</a></li>
+		<li><a href='$base_url/disclaimer/datause'>Data use agreement</a></li>
+		<li><a href='$base_url/disclaimer/datasharing'>Data sharing agreement</a></li>
 		<li><a href='$base_url/orc/?doc_id=2955&l=en'>Memorandum of Understanding</a></li>
 		<li><a href='$base_url/orc/?doc_id=5304'>Annual Report</a></li>
 		<li><a href='$base_url/orc/?doc_id=2792&l=en'>GBIF Strategic Plan</a></li>
