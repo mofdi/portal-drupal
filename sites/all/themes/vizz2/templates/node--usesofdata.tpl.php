@@ -179,16 +179,16 @@
 		</div>
 		<?php endif ?>
 		<?php if ( !empty ( $node->field_relatedgbifresources ) ) : ?>
-		<div class="related footer">
+		<div class="left citation">
 			<h3>RELATED GBIF RESOURCES</h3>
 			<?php print ( render ( field_view_field ('node', $node, 'field_relatedgbifresources') ) ) ;	?>
 		</div>
 		<?php endif ?>
     </div>
-<?php if ( empty ( $node->field_relatedgbifresources ) ) : ?>
-		<footer></footer>
-<?php endif ?>
-	</article>
+
+	<footer></footer>
+
+</article>
 	<article class="next_news">
 		<header></header>
 		<div class="content">
