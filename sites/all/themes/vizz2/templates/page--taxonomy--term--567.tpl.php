@@ -8,7 +8,7 @@
 	global $base_url ;
 	global $base_path ;
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
-	
+// newsroom/uses	
 ?>
 <body class="newsroom">
 <header>
@@ -53,33 +53,18 @@
 
 
   <div id="content">
-
-
-    <article class="detail">
-
-      <header></header>
-
-      <div class="content">
-
-        <div class="header">
-
-          <div class="left">
-
-            <h1>Featured uses of data accessed through GBIF</h1>
-
-          </div>
-
-        </div>
-
-        <div class="usesMap">
-
-          <img src="<?php print $base_url ; ?>/sites/default/files/mapdummy.jpg"></img>
-
-        </div>
-
-      </div>
-
-    </article>
+	<article class="detail">
+		<header></header>
+		<div class="content">
+			<div class="header">
+				<div class="full">
+					<h2>Featured uses of data accessed through GBIF</h2>
+					<p>  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pulvinar nisl in sapien sagittis tempus. Phasellus suscipit arcu eget lobortis consequat. Nam non accumsan mauris, a venenatis tortor. Praesent ac sodales tellus. Maecenas eget viverra massa. Sed vestibulum dui ut urna eleifend, ac tempus odio malesuada. Aenean euismod, sem eu malesuada rutrum, mauris libero posuere tortor, quis mollis purus quam ac lacus. Nullam pulvinar justo nunc, non rhoncus nisl mattis et. Ut consequat hendrerit sagittis. Etiam eu libero ut orci dignissim tristique. </p>
+				</div>
+			</div>
+		</div>
+	<footer></footer>
+	</article>
 
     <article class="data-use-news">
 
