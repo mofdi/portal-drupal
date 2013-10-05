@@ -271,12 +271,15 @@ switch ($_GET['ot'])
 			$newnode->field_start_date["und"][0]["date_type"] = "datestamp";			
 			if (!empty($array_event_details["region"])) {$newnode->field_regions["und"][] = array('tid' => $array_event_details["region"],);}
 			if (!empty($array_event_details["relatedparticipants"])) {$newnode->field_country["und"] = $array_event_details["relatedparticipants"];}	
+
 			if ($newnode = node_submit($newnode)) {
 				node_save($newnode);
 				node_load(FALSE, NULL, TRUE);
-				// drupal_set_message(t("Node ".$node->title." added correctly"));
+				// drupal_set_message(t("Node ".$node->title." updated correctly"));
+				//var_dump($newnode);
+				
 			} else {
-				// drupal_set_message(t("Node ".$node->title." added incorrectly"), "error");
+				// drupal_set_message(t("Node ".$node->title." update error"), "error");
 			}
 			
 		break; // end of updating an event
@@ -417,13 +420,13 @@ switch ($_GET['ot'])
 					$ListPublicEvents_find->AddFindCriterion($key,$value);
 				}
 				
-				// fmsSetPage($ListPublicEvents_find,'ListPublicEvents',10000); 
+				fmsSetPage($ListPublicEvents_find,'ListPublicEvents',10000); 
 				
 				$ListPublicEvents_result = $ListPublicEvents_find->execute(); 
 				
 				if(FileMaker::isError($ListPublicEvents_result)) fmsTrapError($ListPublicEvents_result,"error.php"); 
 				
-				// fmsSetLastPage($ListPublicEvents_result,'ListPublicEvents',10000); 
+				fmsSetLastPage($ListPublicEvents_result,'ListPublicEvents',10000); 
 				
 				$ListPublicEvents_row = current($ListPublicEvents_result->getRecords());
 				
@@ -452,8 +455,10 @@ switch ($_GET['ot'])
 			
 				foreach ($array_ListEventsDrupal as $key => $element_ListEventsDrupal){
 					$ims_id_to_check = $array_ListEventsDrupal[$key]->field_original_ims_id["und"][0]["value"];
+					
 					$time_ims = strtotime( $array_ListPublicEvents[$ims_id_to_check][0] );
 					$time_drupal = $array_ListEventsDrupal[$key]->changed;
+					
 					If ($time_ims == null) 
 					{
 						// it does not exist in the ims, delete (=hide)
@@ -554,7 +559,7 @@ switch ($_GET['ot'])
 
 				foreach($array_UrlsToCall as $i => $url) {
 					If ($dummycounter < $MaxResourceRecordsToUpdate) {
-					var_dump($url);
+					// var_dump($url);
 						$ch = curl_init($url);
 						curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5); 
 						curl_setopt( $ch, CURLOPT_TIMEOUT, 5);
