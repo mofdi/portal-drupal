@@ -91,6 +91,7 @@ foreach ($view as $key => $vnode) {
 			<li><a href="<?php print ($base_url) ?>/mendeley/conservation">Conservation</a></li>
 			<li><a href="<?php print ($base_url) ?>/mendeley/humanhealth">Human health</a></li>
 			<li><a href="<?php print ($base_url) ?>/mendeley/distribution">Species distribution</a></li>
+			<li><a href="<?php print ($base_url) ?>/mendeley/datapaper">Data papers</a></li>
 			</ul>
 		</div>
 		</div>
