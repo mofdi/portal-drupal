@@ -59,7 +59,8 @@
 			<div class="header">
 				<div class="full">
 					<h2>Featured uses of data accessed through GBIF</h2>
-					<p>  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pulvinar nisl in sapien sagittis tempus. Phasellus suscipit arcu eget lobortis consequat. Nam non accumsan mauris, a venenatis tortor. Praesent ac sodales tellus. Maecenas eget viverra massa. Sed vestibulum dui ut urna eleifend, ac tempus odio malesuada. Aenean euismod, sem eu malesuada rutrum, mauris libero posuere tortor, quis mollis purus quam ac lacus. Nullam pulvinar justo nunc, non rhoncus nisl mattis et. Ut consequat hendrerit sagittis. Etiam eu libero ut orci dignissim tristique. </p>
+					<p>These are selected examples from the growing body of peer-reviewed research making use of GBIF-mediated data, including descriptions of what types of data were used and how they contributed to the study. Click on 'Related GBIF resources' at the bottom of each example page to see the types of filters available to access data through this portal. </p>
+					<p>You can find out more about using data through GBIF <a href="<?php echo $base_url?>/usingdata/summary">here</a>, and you can also access a <a href="<?php echo $base_url?>/mendeley/usecases">full list of papers citing use of GBIF</a>, extracted from the <a href="http://www.mendeley.com/groups/1068301/gbif-public-library/">Mendeley GBIF Public Library</a>. </p>
 				</div>
 			</div>
 		</div>
