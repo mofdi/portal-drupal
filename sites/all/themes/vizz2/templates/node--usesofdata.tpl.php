@@ -97,7 +97,6 @@
 	<?php endif ?>
 	<h2><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
 	<p><?php print ($body[0]['summary']); ?></p>
-	<?php if ( $view_mode == 'teaser' ): ?>
 	<p>	Also tagged: 
 		<?php 
 		foreach ( array('field_capacity','field_country','field_regions','field_organizations') as $field ) { 
@@ -105,7 +104,6 @@
 			
 		} ?>
 	</p>
-	<?php endif ?>
 	<div class="footer">
 		<p class="date"><?php print( date('F jS, Y',$created) ) . "\n"; ; ?></p>
 	</div>

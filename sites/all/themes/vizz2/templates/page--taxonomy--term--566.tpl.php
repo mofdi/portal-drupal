@@ -12,8 +12,6 @@ foreach ($view as $key => $vnode) {
 	$nid = $vnode->nid  ;
 	$anode = node_load( $nid ) ;
 	$results[$key] = $anode ;
-	// $results[$nid]['fields'] = field_attach_view('node', $anode,'full' ) ; 
-	// print render ( $result[$nid]->field_featured  ) ; 
 }
 // dpm($page);  print $messages ;
 ?>
@@ -76,12 +74,12 @@ foreach ($view as $key => $vnode) {
 			</div>
 			<div class="right">
         <ul class="no_bullets">
-          <li><a href="<?php print $base_url ?>/search/node/africa">Africa</a></li>
-          <li><a href="<?php print $base_url ?>/search/node/asia">Asia</a></li>
-          <li><a href="<?php print $base_url ?>/search/node/europe">Europe</a></li>
-          <li><a href="<?php print $base_url ?>/search/node/latinamerica">Latin America</a></li>
-          <li><a href="<?php print $base_url ?>/search/node/northamerica">North America</a></li>
-          <li><a href="<?php print $base_url ?>/search/node/oceania">Oceania</a></li>
+			<li><a href="<?php print $base_url ?>/newsroom/archive/allnewsarticles/Africa">Africa</a></li>
+			<li><a href="<?php print $base_url ?>/newsroom/archive/allnewsarticles/Asia">Asia</a></li>
+			<li><a href="<?php print $base_url ?>/newsroom/archive/allnewsarticles/Europe">Europe</a></li>
+			<li><a href="<?php print $base_url ?>/newsroom/archive/allnewsarticles/Latin America">Latin America</a></li>
+			<li><a href="<?php print $base_url ?>/newsroom/archive/allnewsarticles/North America">North America</a></li>
+			<li><a href="<?php print $base_url ?>/newsroom/archive/allnewsarticles/Oceania">Oceania</a></li>
         </ul>
 			</div>
 		</div>
