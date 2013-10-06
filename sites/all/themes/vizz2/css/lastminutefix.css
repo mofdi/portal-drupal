@@ -2,14 +2,13 @@
 #search_placeholder { width:179px ; display: inline-block }
 
 a.candy_blue_button span input {
-
-border: none;
-background: none;
-font-size: 15px;
-color: white;
-text-shadow: 0px -1px rgb(0, 121,162);
-font-weight: bold;
-margin: 0 -5px 0 -5px ;
+	border: none;
+	background: none;
+	font-size: 15px;
+	color: white;
+	text-shadow: 0px -1px rgb(0, 121,162);
+	font-weight: bold;
+	margin: 0 -5px 0 -5px ;
 }
 
 .candy_white_button.lft { 
@@ -17,7 +16,7 @@ margin: 0 -5px 0 -5px ;
 }
 
 .db {
-margin: 0 0 0 10px ;	
+	margin: 0 0 0 10px ;	
 }
 
 .mendeley_bold {
@@ -50,4 +49,8 @@ input.mendeley_pager {
 	color: #0099CC;
 	text-decoration: none;
 	text-transform: none;
+}
+
+#content article.featured > .content .inner ul li .title {
+	padding: 0px 0px 3px 0px;
 }
