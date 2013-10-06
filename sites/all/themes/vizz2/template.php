@@ -949,7 +949,6 @@ echo '        <div class="community">
           <ul> ' ;
 echo "            <li><a href='$base_url/participation/summary'>Participation</a></li> " ;
 echo "            <li><a href='$base_url/capacityenhancement/summary'>Capacity enhancement</a></li> " ;
-echo "            <li><a href='$base_url/networking/summary'>Networking</a></li> " ;
 echo "            <li><a href='$base_url/resources/summary'>Resources</a></li> " ;
 echo '          </ul>
         </div>
