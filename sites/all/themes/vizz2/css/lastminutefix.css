@@ -54,3 +54,8 @@ input.mendeley_pager {
 #content article.featured > .content .inner ul li .title {
 	padding: 0px 0px 3px 0px;
 }
+
+header #top nav > ul > li.search form input[type="text"] {
+	line-height: 2;
+}
+
