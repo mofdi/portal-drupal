@@ -1082,7 +1082,7 @@ function get_bottom_js ($base_url) {
 	echo "<script type='text/javascript' src='$dataportal_base_url/js/vendor/jquery-ui-1.8.17.min.js'></script> " ;
 	echo "<script type='text/javascript' src='$dataportal_base_url/js/vendor/jquery.dropkick-1.0.0.js'></script> " ;
 	echo "<script type='text/javascript' src='$dataportal_base_url/js/vendor/jquery.uniform.min.js'></script> " ;
-	echo "<script type='text/javascript' src='$dataportal_base_url/js/vendor/jquery.cookie.js'/>'></script> ";
+	echo "<script type='text/javascript' src='$dataportal_base_url/js/vendor/jquery.cookie.js'></script> ";
 	echo "<script type='text/javascript' src='$dataportal_base_url/js/vendor/mousewheel.js'></script> " ;
 	echo "<script type='text/javascript' src='$dataportal_base_url/js/vendor/jscrollpane.min.js'></script> " ;
 	echo "<script type='text/javascript' src='$dataportal_base_url/js/vendor/jquery-scrollTo-1.4.2-min.js'></script> " ;
