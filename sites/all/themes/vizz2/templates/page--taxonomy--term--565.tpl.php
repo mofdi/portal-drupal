@@ -160,7 +160,7 @@ foreach ($view as $key => $vnode) {
         <div class="right">
           <div class="subscribe"><a id="signup"></a>
             <h3>GBITS NEWSLETTER</h3>
-            <p>Download the latest issue of our bimonthly newsletter <a href="http://www.gbif.org/communications/resources/newsletters/">here</a> or keep up to date with the latest GBIF news by signing up to GBits</p>
+            <p>Download the latest issue of our bimonthly newsletter <a href="http://www.gbif.org/resources/2255">here</a> or keep up to date with the latest GBIF news by signing up to GBits</p>
 
             <form method="post" action="http://www.jangomail.com/OptIn.aspx">
               <div class="input_text">

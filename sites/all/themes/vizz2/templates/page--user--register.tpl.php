@@ -54,7 +54,7 @@
         <img src="<?php echo $dataportal_base_url?>/img/icons/notice_icon.png" />
 				<h3>Disclaimer</h3>
 				<p>Any user accounts created may be deleted; users might need to recreate their accounts in the future.
-				  By registering with GBIF you agree to abide by the terms of usage set out <a href="<?php echo $base_url?>/agreement/use">here</a>
+				  By registering with GBIF you agree to abide by the terms of usage set out <a href="<?php echo $base_url?>/disclaimer/datause">here</a>
 				</p>
 			</div>
 			<footer></footer>
@@ -78,19 +78,4 @@
 </div><!-- page.tpl -->
 <?php get_footer($base_url) ?>
 <?php get_bottom_js($base_url) ?>
-
-  <!#-- keep this javascript here so we can use the s.url tag -->
-  <script type="text/javascript">
-    $(function() {
-      $('nav ul li a.more').bindLinkPopover({
-        links:{
-          "Countries":"/portal-web-dynamic/country",
-          "GBIF Network":"/portal-web-dynamic/member",
-          "Themes":"/portal-web-dynamic/theme",
-          "Statistics":"/portal-web-dynamic/stats",
-          "About":"http://staging.gbif.org/drupal/about"
-        }
-      });
-    });
-  </script>
 </body>
