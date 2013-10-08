@@ -517,6 +517,7 @@ $result = db_query('SELECT gbifims_Participant.Name_Full, gbifims_Contact.Name_F
 					WHERE '.$where.' AND gbifims_ContactGrouproleNodeParticipant.Active = 1
 					ORDER BY gbifims_Participant.Name_Full', $ptype );
 
+
 $PList = '<table style="" class="table table-bordered table-stripped"><tbody>';
 
 foreach ( $result as $row) {
@@ -587,7 +588,10 @@ function _gbifims_get_CommitteeList( $committee ) {
 							AND gbifims_ContactGrouproleNodeParticipant.GrouproleID IN 
 										(SELECT GrouproleID FROM {gbifims_Grouprole} 
 										WHERE gbifims_Grouprole.GroupID IN (SELECT GroupID FROM {gbifims_Group} WHERE gbifims_Group.Name= :rcom)
-										AND gbifims_Grouprole.Name <> :rSS  AND gbifims_Grouprole.Name <> :rscis) ORDER BY gbifims_Grouprole.SortOrder, gbifims_Contact.GBIF_Order, Name_Last', array(':rcom'=>$committee, ':rSS'=>'Secretariat Support', ':rscis'=>'Sci-staff')) ;
+										AND gbifims_Grouprole.Name <> :rSS  AND gbifims_Grouprole.Name <> :rscis) 
+							GROUP BY Name_First
+							ORDER BY gbifims_Grouprole.SortOrder, gbifims_Contact.GBIF_Order, Name_Last', 
+									array(':rcom'=>$committee, ':rSS'=>'Secretariat Support', ':rscis'=>'Sci-staff')) ;
 
 	// hook_theme? What hook_theme... :-| 
 	$CList = '<table style="" class="table table-bordered table-stripped"><tbody>';

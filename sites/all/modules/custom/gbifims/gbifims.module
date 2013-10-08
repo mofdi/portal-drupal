@@ -81,7 +81,15 @@ function gbifims_token_info() {
 	);	
 	$gbifims['VPList'] = array(
 		'name' => t("VPList"),
-		'description' => t("Tabular listing of the BC"),
+		'description' => t("Tabular listing of GBIF voting participants"),
+	);
+	$gbifims['APList'] = array(
+		'name' => t("APList"),
+		'description' => t("Tabular listing of GBIF associate participants"),
+	);	
+	$gbifims['APOList'] = array(
+		'name' => t("APoList"),
+		'description' => t("Tabular listing of the assiciate participants organizations"),
 	);	
   return array(
     'types' => $types,
@@ -125,6 +133,12 @@ function gbifims_tokens($type, $tokens, array $data = array(), array $options = 
 			break;			
         case 'VPList':
 			$replacements[$original] = _gbifims_get_ParticipantsList('Voting Participant');
+			break;
+		case 'APList':
+			$replacements[$original] = _gbifims_get_ParticipantsList('Associate Country Participant');
+			break;
+		case 'APOList':
+			$replacements[$original] = _gbifims_get_ParticipantsList('Other Associate Participant');
 			break;
 			
       }
