@@ -134,10 +134,10 @@ function gbifims_tokens($type, $tokens, array $data = array(), array $options = 
         case 'VPList':
 			$replacements[$original] = _gbifims_get_ParticipantsList('Voting Participant');
 			break;
-		case 'APList':
+		case 'ACPList':
 			$replacements[$original] = _gbifims_get_ParticipantsList('Associate Country Participant');
 			break;
-		case 'APOList':
+		case 'OAPList':
 			$replacements[$original] = _gbifims_get_ParticipantsList('Other Associate Participant');
 			break;
 			

@@ -505,41 +505,112 @@ switch ($type) {
 		$ptype = array ();
 }
 	
-$result = db_query('SELECT gbifims_Participant.Name_Full, gbifims_Contact.Name_First, gbifims_Contact.Name_Last, c2.Name, gbifims_Contact.Name_First, 
-					gbifims_Contact.Name_Last, gbifims_Grouprole.Name, gbifims_Contact.Address, gbifims_Contact.Email, gbifims_Contact.City, gbifims_Contact.ZipCode, gbifims_Contact.Phone_Office, gbifims_Contact.Fax
+$result = db_query('SELECT gbifims_Participant.Name_Short, gbifims_Participant.Name_Full, Contacts.Name_First, Contacts.Name_Last, Contacts.CountryNameAdd, 
+						Contacts.GrouproleName, Contacts.Job_Position, Contacts.Institution, Contacts.Address, Contacts.Email, Contacts.City, Contacts.ZipCode, Contacts.Phone_Office, Contacts.Fax
 					FROM gbifims_Participant
 					LEFT JOIN gbifims_Institution ON gbifims_Participant.InstitutionID = gbifims_Institution.InstitutionID
 					LEFT JOIN gbifims_Country ON gbifims_Participant.CountryID = gbifims_Country.CountryID
-					LEFT JOIN gbifims_ContactGrouproleNodeParticipant ON gbifims_Participant.ParticipantID = gbifims_ContactGrouproleNodeParticipant.ParticipantID
-					LEFT JOIN gbifims_Contact ON gbifims_ContactGrouproleNodeParticipant.ContactID = gbifims_Contact.ContactID
-					LEFT JOIN gbifims_Country c2 ON gbifims_Contact.CountryID_Address = c2.CountryID 
-					LEFT JOIN gbifims_Grouprole ON gbifims_ContactGrouproleNodeParticipant.GrouproleID = gbifims_Grouprole.GrouproleID
-					WHERE '.$where.' AND gbifims_ContactGrouproleNodeParticipant.Active = 1
-					ORDER BY gbifims_Participant.Name_Full', $ptype );
+					LEFT JOIN ( SELECT gbifims_Participant.ParticipantId AS PId, gbifims_Contact.Name_First, gbifims_Contact.Name_Last, gbifims_ContactGrouproleNodeParticipant.Active, c2.Name AS CountryNameAdd, 
+									gbifims_Grouprole.Name AS GrouproleName, gbifims_Contact.Job_Position, gbifims_Institution.Name AS Institution, gbifims_Grouprole.SortOrder, gbifims_Contact.Address, gbifims_Contact.Email, gbifims_Contact.City, gbifims_Contact.ZipCode, gbifims_Contact.Phone_Office, gbifims_Contact.Fax
+								FROM gbifims_Participant
+								LEFT JOIN gbifims_Institution ON gbifims_Participant.InstitutionID = gbifims_Institution.InstitutionID
+								LEFT JOIN gbifims_Country ON gbifims_Participant.CountryID = gbifims_Country.CountryID
+								LEFT JOIN gbifims_ContactGrouproleNodeParticipant ON gbifims_Participant.ParticipantID = gbifims_ContactGrouproleNodeParticipant.ParticipantID
+								LEFT JOIN gbifims_Contact ON gbifims_ContactGrouproleNodeParticipant.ContactID = gbifims_Contact.ContactID
+								LEFT JOIN gbifims_Country c2 ON gbifims_Contact.CountryID_Address = c2.CountryID 
+								LEFT JOIN gbifims_Grouprole ON gbifims_ContactGrouproleNodeParticipant.GrouproleID = gbifims_Grouprole.GrouproleID
+								WHERE '.$where.'
+								AND gbifims_ContactGrouproleNodeParticipant.Active = 1
+					) AS Contacts ON gbifims_Participant.ParticipantID = Contacts.PID
+					WHERE '.$where.'
+					ORDER BY gbifims_Participant.Name_Full, Contacts.SortOrder, Contacts.Name_First', 
+					array(':ptype'=>$type)
+					);
 
+$dbrows = $result->fetchAll();
+/* Wanna build an array keyed by Name_Short; for countries short and full are the same
+	['Argentina'][0] = array (
+          'Name_Full' => 'Argentina' 
+          'Name_First' => 'Edgardo Juan' 
+          'Name_Last' => 'Romero'
+          'GrouproleName' => 'Head of delegation'
+          'Job_Position' => 'Programmer'
+          'CountryNameAdd' => 'Argentina'
+          'Address' => 'Av. Angel Gallardo 470'
+          'Email' => 'ejromero@macn.gov.ar'
+          'City' => 'Buenos Aires'
+          'ZipCode' => string '1405 '
+          'Phone_Office' => '++54 11 4982 0306' 
+          'Fax' => '++54  11  4982  5243' )
+	['Argentina'][1] = array (
+          'Name_Full' => 'Argentina'
+          'Name_First' => 'Arturo Jose'
+          'Name_Last' => 'Martinez'
+          'GrouproleName' => 'Additional delegate'
+          'CountryNameAdd' => null
+          'Address' => 'Consejo Nacional de Investigaciones Cientificas y Técnicas (CONICET)'
+          ...
+*/
 
-$PList = '<table style="" class="table table-bordered table-stripped"><tbody>';
+$resultsize = count( array_keys( $dbrows ) ); 
+$row = 0 ;
 
-foreach ( $result as $row) {
-	$PList .= "<tr><td>
-		<div class='contact'>
-			<a name='$row->Name_First,$row->Name_Last'></a>
-			<div class='contactName'>$row->Name_First $row->Name_Last</div>
-			<div style='display: none;'>
-				<div class='contactPosition'>$row->Job_Position</div>
-				<div class='contactInstitution'></div>
-				<div class='address'>
-					<span>$row->Address</span>
-					<span class='city'>$row->City</span>
-					<span class='country'>$row->Country</span>
-					<span class='email'><a href='mailto:$row->Email' title='email'>$row->Email</a></span>
-					<span class='phone'>$row->Phone_Office</span>
-					<span class='phone'>$row->Fax</span>
+while ( $row < $resultsize ) {
+	$i = 0;
+
+	do {
+		$participants[$dbrows[$row]->Name_Short][$i] = array( 'Name_Full'=>$dbrows[$row+$i]->Name_Full, 
+															'Name_First'=>$dbrows[$row+$i]->Name_First, 
+															'Name_Last'=>$dbrows[$row+$i]->Name_Last, 
+															'GrouproleName'=>$dbrows[$row+$i]->GrouproleName, 
+															'Institution'=>$dbrows[$row+$i]->Institution, 
+															'Job_Position'=>$dbrows[$row+$i]->Job_Position, 
+															'CountryNameAdd'=>$dbrows[$row+$i]->CountryNameAdd, 
+															'Address'=>$dbrows[$row+$i]->Address, 
+															'Email'=>$dbrows[$row+$i]->Email, 
+															'City'=>$dbrows[$row+$i]->City, 
+															'ZipCode'=>$dbrows[$row+$i]->ZipCode, 
+															'Phone_Office'=>$dbrows[$row+$i]->Phone_Office, 
+															'Fax'=>$dbrows[$row+$i]->Fax) ;
+		$i++;
+	} while ( $dbrows[$row]->Name_Short == $dbrows[$row+$i]->Name_Short ) ;
+
+	$row += $i ;
+
+} 
+
+$PList = '<table style="" class="table table-bordered table-stripped"><tbody><tr><th width="30%">Participant</th><th>Delegation members</th></tr>';
+
+foreach ( $participants as $p => $data ) {
+	$PList .= "<tr><td>{$p}</td><td>";
+	foreach ( $data as $d ) {
+		if ( !empty( $d['Name_First'] ) ) {
+			$PList .= " 
+			<div class='contact'>
+				<a name='{$d['Name_First']},{$d['Name_Last']}'></a>
+				<div class='contactName'>{$d['Name_First']} {$d['Name_Last']}  ({$d['GrouproleName']})</div>
+				<div style='display: none;'>
+					<div class='contactPosition'>{$d['Job_Position']}</div>
+					<div class='contactInstitution'>{$d['Institution']}</div>
+					<div class='address'>
+						<span>{$d['Address']}</span>
+						<span class='city'>{$d['City']}</span>
+						<span class='country'>{$d['Country']}</span>
+						<span class='email'><a href='mailto:{$d['Email']} title='email'>{$d['Email']}</a></span>
+						<span class='phone'>{$d['Phone_Office']}</span>
+						<span class='phone'>{$d['Fax']}</span>
+					</div>
 				</div>
 			</div>
-		</div>
-	</td><td>$row->Name</td>";
+			";
+		} else {
+ 			$PList .= "<em style='color:#D0D0D0'>No official delegation information</em> " ;
+		}
+	}
+	$PList .= '</td></tr>' ;
 }
+
+
 $PList .= '</tbody></table>' ;
 
 return $PList ;
