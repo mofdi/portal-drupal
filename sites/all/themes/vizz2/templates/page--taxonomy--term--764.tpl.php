@@ -64,6 +64,9 @@
 			<div class="left"><h2>Finding useful resources</h2></div>
 		</div>
 			<div class="left">
+			<p><em>Due to a temporary bug in our system, you may not be able to open some resources downloaded from this site. We are working as fast as we can to fix this, and apologize for the inconvenience. 
+In the meantime please contact <a href="mailto:info@gbif.org">info@gbif.org</a> with the name of the resource or document, and we will send it to you via email.
+			</em></p>
 			<p>GBIF maintains an online database of documents, manuals, tools and links useful to GBIF Participants and their biodiversity information facilities. All of these resources are available through this portal, and can be searched using the box at the top of the page. The resources added most recently to the database are shown below. </p>
 			<p>In coming months, we will develop more advanced filtering and searching facilities, building on the functions of the GBIF Online Resource Centre associated with the previous GBIF portal</p>
 			<br/><br/>
