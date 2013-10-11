@@ -174,6 +174,9 @@
 
 		</div>
 		<div class="right">
+		<p><em><span style="font-size: small">Due to a temporary bug in our system, you may not be able to open some resources downloaded from this site. We are working as fast as we can to fix this, and apologize for the inconvenience. 
+In the meantime please contact info@gbif.org with the name of the resource or document, and we will send it to you via email. 
+</span></em></p>
 
 		<?php if ($node->field_orc_featured["und"][0]["value"] == 1) { ?>		
 			<h2><?php echo t('Featured resource!'); ?></h2>
