@@ -42,8 +42,6 @@
 				<div class="right"></div>
 			</div>
 			<div class="left">
-				<p><em>Due to a temporary bug in our system, you may not be able to open some resources downloaded from this site. We are working as fast as we can to fix this, and apologize for the inconvenience. 
-In the meantime please contact <a href="mailto:info@gbif.org">info@gbif.org</a> with the name of the resource or document, and we will send it to you via email.</em></p>
 				<?php print $rows ; ?>
 				<?php print $pager?>
 			</div>
