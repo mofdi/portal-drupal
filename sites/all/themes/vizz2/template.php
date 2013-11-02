@@ -1028,7 +1028,7 @@ echo "<footer>
 		<li><a href='$base_url/orc/?doc_id=2955&l=en'>Memorandum of Understanding</a></li>
 		<li><a href='$base_url/orc/?doc_id=5304'>Annual Report</a></li>
 		<li><a href='$base_url/orc/?doc_id=2792&l=en'>GBIF Strategic Plan</a></li>
-		<li><a href='$base_url/orc/?doc_id=4394&l=en'>GBIF Work Programme</a></li>
+		<li><a href='$base_url/orc/resources/2970'>GBIF Work Programme</a></li>
 	</ul>
 	<ul class='last'>
 		<li><h3>FOR DEVELOPERS</h3></li>
