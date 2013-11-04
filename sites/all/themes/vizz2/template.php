@@ -1025,10 +1025,10 @@ echo "<footer>
 		<li><a href='$base_url/disclaimer'>Disclaimer</a></li>
 		<li><a href='$base_url/disclaimer/datause'>Data use agreement</a></li>
 		<li><a href='$base_url/disclaimer/datasharing'>Data sharing agreement</a></li>
-		<li><a href='$base_url/orc/?doc_id=2955&l=en'>Memorandum of Understanding</a></li>
-		<li><a href='$base_url/orc/?doc_id=5304'>Annual Report</a></li>
-		<li><a href='$base_url/orc/?doc_id=2792&l=en'>GBIF Strategic Plan</a></li>
-		<li><a href='$base_url/orc/resources/2970'>GBIF Work Programme</a></li>
+		<li><a href='$base_url/resources/2605'>Memorandum of Understanding</a></li>
+		<li><a href='$base_url/resources/2262'>Annual Report</a></li>
+		<li><a href='$base_url/resources/2569'>GBIF Strategic Plan</a></li>
+		<li><a href='$base_url/resources/2970'>GBIF Work Programme</a></li>
 	</ul>
 	<ul class='last'>
 		<li><h3>FOR DEVELOPERS</h3></li>
