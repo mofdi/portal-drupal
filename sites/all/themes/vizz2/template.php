@@ -366,11 +366,11 @@ function vizz2_form_alter( &$form, &$form_state, $form_id ) {
 /**
  * Implements hook_preprocess_search_results().
  * 
- * Brute force the problem of displaying the number of search 
+ * a) Brute force the problem of displaying the number of search 
  * results when using the Drupal default search engine
  * As seen here:
  * http://www.lullabot.com/blog/article/display-count-search-results-drupal-7
- *
+ * 
  */
 function vizz2_preprocess_search_results(&$vars) {
 
@@ -406,6 +406,17 @@ function vizz2_preprocess_search_results(&$vars) {
 		));
 	}
 }
+
+/**
+ * Implements hook_preprocess_search_result(). ... without an "s"
+ * 
+ * attempt to scrub the HTML out of search results snippets
+ * 
+ */
+function vizz2_preprocess_search_result(&$vars) {
+	$vars['snippet'] = strip_tags(html_entity_decode($vars['snippet']));
+}
+
 
 /**
  * Override or insert variables into the maintenance page template.
