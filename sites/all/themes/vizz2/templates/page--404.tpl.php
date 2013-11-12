@@ -5,7 +5,11 @@
 	global $base_url ;
 	global $base_path ;
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
-					
+$path = $_GET['destination'];
+$patterns = array('/:/','/&/','/=/');
+$replacements = array('','','');
+$path = check_plain(preg_replace($patterns,$replacements,$path)) ;
+
 ?>
 <body class="infobandless">
 <header>
@@ -42,6 +46,7 @@
 
       <h1>Page Not Found</h1>
       <p><?php // print render($page['content']); ?>We are sorry, but the page you requested does not exist.</p>
+      <p>You may be following an outdated link based on GBIF’s previous portal which was active until September 2013 – if so, you may find the content you are looking for here: <a href="http://www-old.gbif.org/<?php echo $path?>">http://www-old.gbif.org/<?php echo $path?></a></p>
 
     </div>
     <footer></footer>

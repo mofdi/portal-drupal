@@ -4,9 +4,9 @@ core = 7.x
 
 configure = admin/config/system/prev_next
 
-; Information added by drupal.org packaging script on 2013-05-25
+; Information added by drupal.org packaging script on 2013-10-01
 version = "7.x-1.x-dev"
 core = "7.x"
 project = "prev_next"
-datestamp = "1369450597"
+datestamp = "1380623767"
 

@@ -7,9 +7,9 @@ dependencies[] = mediafront
 dependencies[] = osmplayer
 dependencies[] = field_kaltura
 
-; Information added by drupal.org packaging script on 2013-09-10
-version = "7.x-2.1"
+; Information added by drupal.org packaging script on 2013-09-13
+version = "7.x-2.2"
 core = "7.x"
 project = "mediafront"
-datestamp = "1378855005"
+datestamp = "1379103236"
 
