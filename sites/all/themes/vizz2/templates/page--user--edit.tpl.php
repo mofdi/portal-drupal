@@ -49,7 +49,7 @@
 		<div class="content">
 			<ul>
 				<li class='selected'><a href="<?php print($base_url.'/user/'.$user->uid.'/edit') ?>" title="Summary"><span>Account</span></a></li>
-				<li><a href="<?php print($dataportal_base_url.'/user/downloads') ?>" title="Summary" title="News"><span>Downloads</span></a></li>
+				<li><a href="<?php print($dataportal_base_url.'/user/download') ?>" title="Summary" title="News"><span>Downloads</span></a></li>
 			</ul>
 		</div>
 	</div>
