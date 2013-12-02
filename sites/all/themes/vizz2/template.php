@@ -948,6 +948,7 @@ echo "            <li><a href='$base_url/newsroom/summary'>GBIF news</a></li> " 
 echo "            <li><a href='$base_url/newsroom/uses'>Featured data use</a></li> " ;
 echo "            <li><a href='$base_url/newsroom/opportunities'>Opportunities</a></li> " ;
 echo "            <li><a href='$base_url/newsroom/events'>Events</a></li> " ;
+echo "            <li><a href='$base_url/newsroom/newsletter'>Newsletter</a></li> " ;
 echo '          </ul>
         </div>
 
