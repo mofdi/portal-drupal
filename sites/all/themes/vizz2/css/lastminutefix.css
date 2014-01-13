@@ -1,6 +1,14 @@
 
 #search_placeholder { width:179px ; display: inline-block }
 
+#content article .content .left p a[href^="mailto"] { 
+	text-decoration: underline;
+	font-style: italic;
+	color: rgb(102,102,102);
+	font-size: 13px;
+}
+
+
 a.candy_blue_button span input {
 	border: none;
 	background: none;
