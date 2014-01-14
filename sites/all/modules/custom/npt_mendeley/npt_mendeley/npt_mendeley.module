@@ -301,16 +301,31 @@ function npt_mendeley_full_list($gbif_cat_type = 'usecases', $machine_name = '',
   else {
 
     // Determine the title
+    // While brute forcing the count as per POR-1621
     $tag_sets = variable_get('npt_mendeley_tags');
     foreach ($tag_sets as $tag_set) {
       if ($gbif_cat_type == 'country') {
-        if ($tag_set['machine_name'] == $machine_name) drupal_set_title('Publication: ' . $tag_set['name']);
+        if ($tag_set['machine_name'] == $machine_name) {
+			$$machine_name = json_decode(file_get_contents(file_build_uri('npt_mendeley/countries/' . $machine_name . '.json')));
+			$doc_count = count($$machine_name);
+			$title = format_plural($doc_count,
+					'1 publication in '.$tag_set['name'],
+					'@count publications in '.$tag_set['name']);
+			drupal_set_title($title);
+        }
       }
       else {
-        if ($tag_set['machine_name'] == $gbif_cat_type) drupal_set_title($tag_set['name']);
+        if ($tag_set['machine_name'] == $gbif_cat_type) {
+ 			$$machine_name = json_decode(file_get_contents(file_build_uri('npt_mendeley/' . $gbif_cat_type. '.json')));
+			$doc_count = count($$machine_name);
+			$title = format_plural($doc_count,
+				'1 publication in '.$tag_set['name'],
+				'@count publications in '.$tag_set['name']);
+			drupal_set_title($title);
+        }
       }
     }
-    
+
     // Again if the first argument appears to be machine_name, it is treated as so.
     if ($gbif_cat_type <> 'country' && $machine_name == '') {
       drupal_add_library('npt_mendeley', 'jqPagination', FALSE); 
@@ -363,16 +378,16 @@ function _npt_mendeley_list_documents($gbif_cat_type, $machine_name, $render) {
 					$content .= $tag_set['desc'] . '</p><p>';
 				} else {
 					// $content .= '<h5>' . $tag_set['desc'] . '</h5>';
-					$content .= '<p>';
+					// $content .= '<p>';
 				}
 
 				if ($doc_count > 0) {
 					if ($doc_count >= 3 && $render == 'block') {
 						$content .= t('Most recent 3 publications in this category:');
 					} else {
-					$content .= format_plural($doc_count,
-					'1 publication in this category:',
-					'@count publications in this category:');
+					// $content .= format_plural($doc_count,
+					//'1 publication in this category:',
+					//'@count publications in this category:');
 					}
 				}
 				// Start the list.
