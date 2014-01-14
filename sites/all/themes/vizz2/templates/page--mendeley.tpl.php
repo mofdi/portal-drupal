@@ -70,7 +70,7 @@ foreach ($view as $key => $vnode) {
 						<h2><?php print $title; ?></h2>
 					<?php endif; ?>
 				</div>
-				<div class="right"><h3>Other categories</h3></div>
+				<div class="right"><h3>Filter by GBIF use cases</h3></div>
 			</div>
 			<div class="left">
 			<?php $type = arg(1) ; $res .= substr ($res,0,60) ; $res = preg_replace('/[^\x20-\x7E]/','', $type); 
