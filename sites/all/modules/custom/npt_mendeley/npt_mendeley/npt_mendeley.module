@@ -309,8 +309,8 @@ function npt_mendeley_full_list($gbif_cat_type = 'usecases', $machine_name = '',
 			$$machine_name = json_decode(file_get_contents(file_build_uri('npt_mendeley/countries/' . $machine_name . '.json')));
 			$doc_count = count($$machine_name);
 			$title = format_plural($doc_count,
-					'1 publication in '.$tag_set['name'],
-					'@count publications in '.$tag_set['name']);
+					'1 publication for '.$tag_set['name'],
+					'@count publications for '.$tag_set['name']);
 			drupal_set_title($title);
         }
       }
@@ -319,8 +319,8 @@ function npt_mendeley_full_list($gbif_cat_type = 'usecases', $machine_name = '',
  			$$machine_name = json_decode(file_get_contents(file_build_uri('npt_mendeley/' . $gbif_cat_type. '.json')));
 			$doc_count = count($$machine_name);
 			$title = format_plural($doc_count,
-				'1 publication in '.$tag_set['name'],
-				'@count publications in '.$tag_set['name']);
+				'1 publication in "'.$tag_set['name'].'"',
+				'@count publications in "'.$tag_set['name']).'"';
 			drupal_set_title($title);
         }
       }
