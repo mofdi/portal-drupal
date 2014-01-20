@@ -53,7 +53,9 @@
 		<div class="content">
 			<ul>
 				<li class='selected'><a href="<?php print($base_url.'/user/'.$user->uid.'/edit') ?>" title="Summary"><span>Account</span></a></li>
+				<?php if ($logged_in) { ?>
 				<li><a href="<?php print($dataportal_base_url.'/user/download') ?>" title="Summary" title="News"><span>Downloads</span></a></li>
+				<?php } ?>
 			</ul>
 		</div>
 	</div>
@@ -79,19 +81,4 @@
 </div><!-- page.tpl -->
 <?php get_footer($base_url) ?>
 <?php get_bottom_js($base_url) ?>
-
-  <!#-- keep this javascript here so we can use the s.url tag -->
-  <script type="text/javascript">
-    $(function() {
-      $('nav ul li a.more').bindLinkPopover({
-        links:{
-          "Countries":"/portal-web-dynamic/country",
-          "GBIF Network":"/portal-web-dynamic/member",
-          "Themes":"/portal-web-dynamic/theme",
-          "Statistics":"/portal-web-dynamic/stats",
-          "About":"http://staging.gbif.org/drupal/about"
-        }
-      });
-    });
-  </script>
 </body>
