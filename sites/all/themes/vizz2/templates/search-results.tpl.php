@@ -15,8 +15,10 @@
 				<?php print $search_results; ?>
 			<?php print $pager; ?>
 			<?php else : ?>
+			<ul><li>If you are searching for species, datasets or data publishers, see options to the right of this page</li></ul>
 			<p><?php print search_help('search#noresults', drupal_help_arg()); ?></p>
 			<?php endif; ?>
+			<?php krumo($variables) ; ?>
 		</div>
 		<div class="right">
 			<p>This search result only covers the text content of the news and information pages of the GBIF portal.</p>

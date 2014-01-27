@@ -161,8 +161,8 @@ foreach ($view as $key => $vnode) {
           <div class="subscribe"><a id="signup"></a>
             <h3>GBITS NEWSLETTER</h3>
             <p>Download the latest issue of our bimonthly newsletter <a href="http://www.gbif.org/newsroom/newsletter">here</a> or keep up to date with the latest GBIF news by signing up to GBits</p>
-
-            <form method="post" action="http://www.jangomail.com/OptIn.aspx?RedirectURLSuccess=http%3A%2F%2Fwww.gbif.org/page/2998">
+            
+            <form method="post" action="http://www.jangomail.com/OptIn.aspx?RedirectURLSuccess=http%3A%2F%2Fwww.gbif.org%2Fpage%2F2998">
               <div class="input_text">
               	<input name="optinform$txtUniqueID" id="optinform_txtUniqueID" value="6f1fe36b-52ee-4ac3-a83f-98f800f3c16c" type="hidden">
 				<input name="optinform$Field0" id="optinform_Field0" type="text" placeholder="Enter your email (required)" maxlength="68" >
@@ -170,13 +170,8 @@ foreach ($view as $key => $vnode) {
 				<input name="optinform$Field5649560" id="optinform_Field5649560" type="text" placeholder="Last Name (required)" maxlength="68">
               </div>
 				<a href="#" class="candy_blue_button"><span> <input type="submit" id="optinform_btnSubscribe" name="optinform$btnSubscribe" class="form-submit" value="Subscribe" /></span></a>
-															
               </form>
-
-            
-
           </div>
-
         </div>
       </div>
 
