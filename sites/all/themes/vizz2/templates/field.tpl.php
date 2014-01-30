@@ -1,5 +1,4 @@
 <?php
-// var_dump($element['#view_mode']);
 if ( $element['#field_name'] == 'field_linkstoresearch' ) {
 	foreach ($items as $delta => $item) {
 		if ( $element['#view_mode']=='full' ) {

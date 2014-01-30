@@ -6,25 +6,9 @@ function get_gbif_drp_taxonomy( $what='vocabularies' ) {
 // OR, 
 // if you change the vocabularies make sure you change them also the terms array. 
 
-	$vocabularies = array ('science_policy'=>'Science & Policy',
-				'data'=>'Data',
-				'informatics'=>'Informatics',
-				'opportunities'=>'Opportunities',
-				'regions'=>'Regions',
-				'countries'=>'Countries',
-				'organizations'=>'Organizations',
-				'community'=>'Community',
-				'training'=>'Training',
-				'capacity'=>'Capacity',
-				'corenews' => 'Corenews',
-				) ;
+	$vocabularies = array (	'countries'=>'Countries',) ;
 
-	$terms = array ( 'science_policy' => array ( 'science'=>'Science description', 'policy'=>'Policy description', 'usecase'=>'Usecase description', ),
-					'data'=> array ( 'datapub'=>'Data publication description','dataset'=>'Data set description', ),
-					'informatics'=> array ( 'api'=>'API description', 'standards'=>'GBIF standard description', 'protocols'=>'Protocols used in GBIF description', 'infrastructure'=>'Infastrucure description', ),
-					'opportunities'=> array ( 'external_contracts'=>'External Contracts description', 'award_nominations'=>'Award Nominations description' , 'support_calls'=>'Support Calls', ),
-					'regions'=> array ('europe'=>'Europe', 'latinamerica'=>'Latin America','africa'=>'Africa','northamerica'=>'North America','asia'=>'Asia','oceania'=>'Oceania', ),
-					'countries'=> array (
+	$terms = array ( 'countries'=> array (
 									'AF'=>'Afghanistan',
 									'AL'=>'Albania',
 									'DZ'=>'Algeria',
@@ -272,11 +256,7 @@ function get_gbif_drp_taxonomy( $what='vocabularies' ) {
 									'ZM'=>'Zambia',
 									'ZW'=>'Zimbabwe',
 									),
-					'organizations'=> array ('CBOL'=>'Consortium for Barcode of Life', 'EOL'=>'Encyclopedia Of Life' ),
-					'community'=> array ( 'community1'=>'Community1 description','community2'=>'Community2 description', ),
-					'training'=> array ( 'training1'=>'training1 description', 'training2'=>'training2 description',),
-					'capacity'=> array ( 'capacity1'=>'capacity2 description', 'capacity2'=>'capacity2 description',),
-					'corenews'=> array ( 'news'=>'basic news item description', 'announcement'=>'announcement description',),
+
 				) ;
 
 	if ( $what === 'vocabularies' ) {

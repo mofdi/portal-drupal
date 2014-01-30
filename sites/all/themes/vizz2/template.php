@@ -214,9 +214,12 @@ function vizz2_preprocess_page( &$vars, $hook ) {
 		}
 	}
 // 	echo '<pre>'; var_dump($vars['theme_hook_suggestions']); echo '</pre>';
+
 }
 
+function vizz2_preprocess_taxonomy_term(&$vars){
 
+}
 
 
 function get_title_data() {
