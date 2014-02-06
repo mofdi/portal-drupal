@@ -5,8 +5,7 @@
 	global $base_url ;
 	global $base_path ;
 	$dataportal_base_url = theme_get_setting( 'vizz2_dataportal_base_url','vizz2' ) ;
-	// dpm($page['content']['system_main']['search_form']);  print $messages ;
-	$results_exist = isset( $page['content']['system_main']['search_results']['#results'] ) ? : FALSE
+	$results_exist = isset( $page['content']['system_main']['search_results']['#results'] ) ? : FALSE ;
 ?>
 <body class="search">
 <header>

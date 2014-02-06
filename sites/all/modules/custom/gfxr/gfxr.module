@@ -136,6 +136,12 @@ function gfxr_node_view($node, $view_mode ) {
 
 }
 
+/*
+function gfxr_search_preprocess ($text) {
+	return $text ;
+}
+*/
+
 function workshop() {
 	$terms = array (
 					'Afghanistan'=>'AF',

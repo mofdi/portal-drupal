@@ -149,7 +149,16 @@ function vizz2_preprocess_html(&$vars, $hook) {
 
 }
  
-  
+
+/**
+ * Override or insert variables into the page templates.
+ *
+ * @param $variables
+ *   An array of variables to pass to the theme template.
+ * @param $hook
+ *   The name of the template being rendered ("page" in this case.)
+ */
+
 function vizz2_preprocess_page( &$vars, $hook ) {
 
 	if (!empty($vars['node'])) {
@@ -215,6 +224,18 @@ function vizz2_preprocess_page( &$vars, $hook ) {
 	}
 // 	echo '<pre>'; var_dump($vars['theme_hook_suggestions']); echo '</pre>';
 
+	// Getting the search term from the search form.
+	if ( !empty ($vars['page']['content']['system_main']['search_form']['basic']['keys']['#default_value']) ) {
+		$term = trim (check_plain( $vars['page']['content']['system_main']['search_form']['basic']['keys']['#default_value'] )) ;
+		$GLOBALS['searchString'] = $term ;
+		$country = reset( taxonomy_get_term_by_name( $term,'countries' ) ) ;
+		if ( !empty( $country ) ) {
+			$GLOBALS['is_country'] = TRUE;
+			$GLOBALS['country_iso2'] = $country->field_iso2['und'][0]['value'] ;
+			var_dump($GLOBALS['searchString']);
+		}
+		
+	}
 }
 
 function vizz2_preprocess_taxonomy_term(&$vars){
@@ -408,6 +429,13 @@ function vizz2_preprocess_search_results(&$vars) {
 		  '!results_label' => format_plural($total, 'result', 'results'),
 		));
 	}
+
+	$vars['searchString'] = empty( $GLOBALS['searchString']) ? FALSE : $GLOBALS['searchString'] ;
+	
+	if ( $GLOBALS['is_country'] == TRUE ) {
+		$vars['is_country'] = TRUE ;
+		$vars['country_iso2'] = $GLOBALS['country_iso2'] ;
+	}
 }
 
 /**
@@ -437,21 +465,6 @@ function STARTERKIT_preprocess_maintenance_page(&$variables, $hook) {
   // as well, so we can just re-use those functions to do that work here.
   STARTERKIT_preprocess_html($variables, $hook);
   STARTERKIT_preprocess_page($variables, $hook);
-}
-// */
-
-
-/**
- * Override or insert variables into the page templates.
- *
- * @param $variables
- *   An array of variables to pass to the theme template.
- * @param $hook
- *   The name of the template being rendered ("page" in this case.)
- */
-/* -- Delete this line if you want to use this function
-function STARTERKIT_preprocess_page(&$variables, $hook) {
-  $variables['sample_variable'] = t('Lorem ipsum.');
 }
 // */
 

@@ -10,6 +10,7 @@
 			<?php endif; ?>
 			<div class="right"><h3>More search options</h3></div>
 		</div>
+
 		<div class="left">
 			<?php if ($search_results): ?>
 				<?php print $search_results; ?>
@@ -23,14 +24,12 @@
 			<p>This search result only covers the text content of the news and information pages of the GBIF portal.</p>
 			<p>If you want to search data content, start here:</p>
 			<ul class="no_bullets">
-			<li><a href="<?php print ($dataportal_base_url) ?>/dataset">Publishers and datasets</a></li>
-			<li><a href="<?php print ($dataportal_base_url) ?>/country">Countries</a></li>
-			<li><a href="<?php print ($dataportal_base_url) ?>/occurrence">Occurrences</a></li>
+			<li><a href="<?php print ($dataportal_base_url) ?>/dataset<?php if ( $search_results )  echo '/search?q='.$searchString ; ?>">Publishers and datasets</a></li>
+			<li><a href="<?php print ($dataportal_base_url) ?>/country<?php if ( $is_country AND $search_results )  echo '/'.$country_iso2; ?>">Countries</a></li>
+			<li><a href="<?php print ($dataportal_base_url) ?>/occurrence<?php if ( $search_results )  echo '/search?q='.$searchString ; ?>">Occurrences</a></li>
 			<li><a href="<?php print ($dataportal_base_url) ?>/species">Species</a></li>
 			</ul>
 		</div>
 	</div>
 	<footer></footer>
 </article>
-
-
