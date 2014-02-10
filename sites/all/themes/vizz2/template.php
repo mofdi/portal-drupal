@@ -1058,6 +1058,7 @@ echo "<footer>
 		<li><a href='$base_url/resources/2262'>Annual Report</a></li>
 		<li><a href='$base_url/resources/2569'>GBIF Strategic Plan</a></li>
 		<li><a href='$base_url/resources/2970'>GBIF Work Programme</a></li>
+		<li><a href='http://links.gbif.org/travel_guidelines.pdf'>GBIF Travel guidelines</a></li>
 	</ul>
 	<ul class='last'>
 		<li><h3>FOR DEVELOPERS</h3></li>
