@@ -392,7 +392,7 @@ function workshop() {
 					'Zimbabwe'=>'ZW',
 					) ;
 
-
+/*
 	foreach ( $terms as $term_machine_name => $term_ISO2 ) {
 
 		$countries = taxonomy_get_term_by_name( $term_machine_name ) ;
@@ -406,7 +406,7 @@ function workshop() {
 		}
 	}
 
-
+*/
 
 	echo "bau!" ;
 
