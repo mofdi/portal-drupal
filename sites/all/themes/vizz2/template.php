@@ -232,7 +232,6 @@ function vizz2_preprocess_page( &$vars, $hook ) {
 		if ( !empty( $country ) ) {
 			$GLOBALS['is_country'] = TRUE;
 			$GLOBALS['country_iso2'] = $country->field_iso2['und'][0]['value'] ;
-			var_dump($GLOBALS['searchString']);
 		}
 		
 	}
