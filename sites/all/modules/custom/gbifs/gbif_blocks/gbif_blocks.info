@@ -1,0 +1,6 @@
+name = GBIF Blocks
+description = A module to emit various content in blocks (so that we don't use templates for that).
+package = GBIFS
+core = 7.x
+files[] = gbif_blocks.module
+php = 5.2
