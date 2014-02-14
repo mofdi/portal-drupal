@@ -1,0 +1,44 @@
+name = GBIF Omega
+description = The refined theme for the Drupal part of GBIF Portal.
+base theme = omega
+screenshot = screenshot.png
+engine = phptemplate
+core = 7.x
+
+; ========================================
+; Stylesheets
+; ========================================
+stylesheets[all][] = css/gbifomega.normalize.css
+stylesheets[all][] = css/gbifomega.hacks.css
+stylesheets[all][] = css/gbifomega.styles.css
+stylesheets[all][] = css/gbifomega.no-query.css
+
+; ========================================
+; Scripts
+; ========================================
+scripts[] = js/gbifomega.behaviors.js
+
+; ========================================
+; Regions
+; ========================================
+; === Zone Header ===
+regions[user] = User
+; Branding region corresponds to the top & nav containers of the Vizzuality design. 
+regions[branding] = Branding
+regions[navigation] = Navigation
+
+regions[header] = Header
+regions[highlighted] = Highlighted
+regions[menu] = Menu
+regions[help] = Help
+
+; === Zone Main ===
+regions[content] = Content
+regions[sidebar_first] = First Sidebar
+regions[sidebar_second] = Second Sidebar
+
+; === Zone Footer ===
+regions[footer] = Footer
+regions[static_links] = Static Links
+regions[credits] = Credits
+
