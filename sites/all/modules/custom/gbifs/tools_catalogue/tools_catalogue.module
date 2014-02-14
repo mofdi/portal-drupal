@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Tools Catalogue feature.
+ */
+
+include_once 'tools_catalogue.features.inc';
