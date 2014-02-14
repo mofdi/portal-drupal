@@ -1,0 +1,229 @@
+<?php
+/**
+ * @file
+ * Installation of gbif_catalogue
+ * The installation will:
+ *   1) Populate all required vocabularies and their terms;
+ *   2) Establish the "resource" content type and its field settings; 
+ *   3) Create search server and index;
+ *   4) Create Facets for search;
+ *   5) Create Blocks for positioning search facets;
+ *   6) Create Views for browsing tools;
+ *   7) Import all resource from IMS;
+ */
+
+require_once(dirname(__FILE__)) . '/gbif_catalogue.module';
+
+/**
+ * Implementation of hook_requiremensts()
+ */
+function gbif_catalogue_requirements($phase) {
+  $requirements = array();
+
+  if ($phase == "runtime") {
+    // Try to load the API.
+    gbif_catalogue_load_api();
+    $requirements['gbif_catalogue']['title'] = t('GBIF Tools Catalogue');
+    
+    // Is the API available?
+    if (class_exists('FileMaker')) {
+      $requirements['gbif_catalogue']['value'] = 'FileMaker API is installed correctly';
+      $requirements['gbif_catalogue']['severity'] = REQUIREMENT_OK;
+    }
+
+    // Required API wasn't found.
+    else {
+      $requirements['gbif_catalogue']['value'] = t('FileMaker API was not found');
+
+      // Provide instructions on installing the FileMaker API for PHP.
+      $requirements['gbif_catalogue']['description'] = t('The FileMaker API for PHP is required for this module. The API comes with your copy of FileMaker server and should be placed in sites/all/libraries/filemakerapi.');
+      $requirements['gbif_catalogue']['severity'] = REQUIREMENT_ERROR;
+    }
+  }
+  return $requirements;
+}
+
+/**
+ * Implemtation of hook_install().
+ * @todo Change body title to description.
+ */
+function gbif_catalogue_install() {
+  // Populate all required vocabularies and their terms.
+  gbif_catalogue_vocabularies_create();
+  
+  // Establish the "resource" content type and its fields.
+  node_types_rebuild();
+  $types = node_type_get_types();
+  
+  // The body field.
+  node_add_body_field($types['resource'], 'Description'); // Attach body field and name it 'Description'.
+  $instance = field_read_instance('node', 'body', 'resource');
+  $instance['widget']['weight'] = 5;
+  $instance['widget']['settings']['rows'] = 5;
+  field_update_instance($instance);
+  
+  // The other fields.
+  _gbif_catalogue_create_custom_fields();
+  
+  // Hide "submitted by" by default.
+  variable_set('node_submitted_resource', 0);
+}
+
+/**
+ * Implemtation of hook_uninstall().
+ * @todo remove the tools_catalogue view.
+ */
+function gbif_catalogue_uninstall() {
+
+  // Clean up contents of the resource type.
+  $type = 'resource';
+  $sql = 'SELECT nid FROM {node} n WHERE n.type = :type';
+  $result = db_query($sql, array(':type' => $type));
+  $nodeids = array();
+  foreach ($result as $row) {
+    $nodeids[] = $row->nid;
+  }
+  node_delete_multiple($nodeids);
+  node_type_delete($type);
+
+  // Clean up the vocabularies.
+  gbif_catalogue_vocabularies_delete();
+}
+
+function _gbif_catalogue_create_custom_fields() {
+  foreach (_gbif_catalogue_installed_fields() as $field) {
+    field_create_field($field);
+  }
+  foreach (_gbif_catalogue_installed_instances() as $fieldinstance) {
+    $fieldinstance['entity_type'] = 'node';
+    $fieldinstance['bundle'] = 'resource';
+    field_create_instance($fieldinstance);
+  }
+}
+
+function _gbif_catalogue_delete_custom_fields() {
+  foreach (array_keys(_gbif_catalogue_installed_fields()) as $field) {
+    field_delete_field($field);
+  }
+  $instances = field_info_instances('node', 'resource');
+  foreach ($instances as $instance_name => $fieldinstance) {
+    field_delete_instance($fieldinstance);
+  }
+}
+
+/**
+ * Helper function to define fields.
+ */
+function _gbif_catalogue_installed_fields() {
+  $t = get_t();
+  return array(
+    'field_alternative_title' => array(
+      'field_name' => 'field_alternative_title',
+      'label' => $t('Alternative title'),
+      'type' => 'text',
+      'module' => 'gbif_catalogue',
+      'cardinality' => 1,
+      'settings' => array(
+        'max_length' => 1000,
+      ),
+    ),
+    'field_abstract' => array(
+      'field_name' => 'field_abstract',
+      'label' => $t('Abstract'),
+      'type' => 'text_long',
+      'module' => 'gbif_catalogue',
+      'translatable' => 1,
+      'cardinality' => 1,
+    ),
+    //'authors' => array(),
+    //'publisher' => array(),
+    /*
+    'applicable_data_type' => array(),
+    'development_status' => array(),
+    'extent' => array(),
+    'image' => array(),
+    'language_term' => array(),
+    'operating_system' => array(),
+    'publishing_date' => array(),
+    'purpose' => array(),
+    'resource_type_term' => array(),
+    'rights' => array(),
+    'rights_holder' => array(),
+    'standard_and_format' => array(),
+    */
+    'target_audience_term' => array(
+      'field_name' => 'target_audience_term',
+      'label' => $t('Target audience'),
+      'type' => 'taxonomy_term_reference',
+      'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+      'settings' => array(
+        'allowed_values' => array(
+          array(
+            'vocabulary' => 'orc_target_audience',
+            'parent' => 0,
+          ),
+        ),
+      ),
+    ),
+    //'tool_type' => array(),
+    //'tool_url' => array(),    
+  );
+}
+
+/**
+ * Helper function to create field instances.
+ */
+function _gbif_catalogue_installed_instances() {
+  $t = get_t();
+  return array(
+    'field_alternative_title' => array(
+      'field_name' => 'field_alternative_title',
+      'label' => $t('Alternative title'),
+      'cardinality' => 1,
+      'widget' => array(
+        'type' => 'text_textfield',
+        'settings' => array('size' => 60),
+        'weight' => 3,
+      ),
+    ),
+    //'authors' => array(),
+    //'publisher' => array(),
+    'field_abstract' => array(
+      'field_name' => 'field_abstract',
+      'label' => $t('Abstract'),
+      'type' => 'text_long',
+      'cardinality' => 1,
+      'widget' => array(
+        'type' => 'text_textarea',
+        'settings' => array('row' => 4),
+        'weight' => 9,
+      ),
+    ),
+    /*
+    'applicable_data_type' => array(),
+    'development_status' => array(),
+    'extent' => array(),
+    'image' => array(),
+    'language_term' => array(),
+    'operating_system' => array(),
+    'publishing_date' => array(),
+    'purpose' => array(),
+    'resource_type_term' => array(),
+    'rights' => array(),
+    'rights_holder' => array(),
+    'standard_and_format' => array(),
+    */
+    'target_audience_term' => array(
+      'field_name' => 'target_audience_term',
+      'label' => $t('Target audience'),
+      'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+      'widget' => array(
+        'module' => 'options',
+        'type' => 'options_buttons',
+        'weight' => 10,
+      ),
+    ),
+    //'tool_type' => array(),
+    //'tool_url' => array(),    
+  );
+}

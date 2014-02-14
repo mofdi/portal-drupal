@@ -1,0 +1,299 @@
+<?php
+/**
+ * This module packs relevant settings and procedures that sets up the
+ * GBIF Tools Catalogue, a deliverable in GBIF Work Programme.
+ * For convenience, we use gbif_catalogue as the machine name while
+ * using "GBIF Tools Catalogue" as human readables.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function gbif_catalogue_menu() {
+  $items = array();
+  $items['admin/config/gbif'] = array(
+    'title' => 'GBIF',
+    'description' => "Relevant settings that support the Drupal instance runs as the global portal CMS.",
+    'position' => 'right',
+    'weight' => -10,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer site configuration'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+  $items['admin/config/gbif/tools-catalogue'] = array(
+    'title' => 'GBIF Tools Catalogue',
+    'description' => 'Settings and configuration for the GBIF Catalogue.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('gbif_catalogue_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'gbif_catalogue.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_node_info().
+ */
+function gbif_catalogue_node_info() {
+  return array(
+    'resource' => array(
+      'name' => t('Resource'),
+      'base' => 'resource',
+      'description' => t('IMS resources which will be eventually managed natively in the Drupal system.'),
+      'has_title' => TRUE,
+      'title_label' => t('Title'),
+      'locked' => TRUE, // Unchangeable by the administrator from UI.
+    ),
+  );
+}
+
+function resource_form($node, $form_state) {
+  $type = node_type_get_type($node);
+  $form['title'] = array(
+    '#type' => 'textfield',
+    '#title' => check_plain($type->title_label),
+    '#default_value' => !empty($node->title) ? $node->title : '',
+    '#required' => TRUE,
+  );
+  return $form;
+}
+
+/**
+ * Implementation of hook_views_api().
+ */
+function gbif_catalogue_views_api() {
+  return array(
+    'api' => 3.0,
+    'path' => drupal_get_path('module', 'gbif_catalogue') . '/views'
+  );
+}
+
+/**
+ * Load FileMaker API if it's not already loaded.
+ * @return TRUE if the FileMaker API is loaded, FALSE otherwise.
+ */
+function filemaker_load_api() {
+
+  if (!class_exists('FileMaker')) {
+
+    // Try to use libraries module.
+    if (module_exists('libraries')) {
+
+      $libraries_path = drupal_get_path('module', 'libraries');
+      $libraries_include = $libraries_path . '/' . 'libraries.module';
+
+      include_once($libraries_include);
+
+      // Let's see if the FileMaker API is really available from libraries.
+      $filemaker_api = './' . libraries_get_path('filemaker') . '/FileMaker.php';
+      if (file_exists($filemaker_api)) {
+        include_once $filemaker_api;
+      }
+    }
+  }
+
+  if (!class_exists('FileMaker')) {
+    drupal_set_message(t('Can not find FileMaker API. Please place the FileMaker API at sites/all/libraries/filemakerapi/FileMaker. See README.txt for details.'), 'error');
+  }
+  
+  // Tell the caller if the FileMaker class exists.
+  return class_exists('FileMaker');
+}
+
+/**
+ * Import tools from the IMS to resource content type
+ * @todo check the result and return proper AJAX message upon
+ *       task completion or errors.
+ */
+function gbif_catalogue_import_tools() {
+  
+  // Temporary suppress "deprecated" warning of FileMaker API
+  error_reporting(E_ALL ^ E_DEPRECATED);
+  
+  // Load FileMaker api
+  filemaker_load_api();
+
+  // Load credentials
+  $IMSCredential = variable_get('ims_connection');
+
+  $IMS = new FileMaker();
+  $IMS->setProperty('database', $IMSCredential['database']);
+  $IMS->setProperty('hostspec', $IMSCredential['hostname']);
+  $IMS->setProperty('username', $IMSCredential['username']);
+  $IMS->setProperty('password', $IMSCredential['password']);
+  
+  $ListNodes_find =& $IMS->newFindCommand('WDOCS_File');
+  $ListNodes_find->addFindCriterion('_kf_TypeID', '102'); // For now only get tools
+  $ListNodes_find->addSortRule('Title_Text', 1, FILEMAKER_SORT_ASCEND);
+  $result = $ListNodes_find->execute();
+
+  // Handle error (if any)
+  if (FileMaker::isError($result)) {
+    echo "Error: " . $result->getMessage() . "\n"; 
+  }
+
+  $records = array();
+  $records['IMS'] = $result->getRecords();
+  
+  // As per POR-1797 we only preserve Title_Text and Description
+  foreach ($records['IMS'] as $value) {
+    
+    $node = new stdClass();
+    $node->type = 'resource';
+    node_object_prepare($node);
+    
+    $node->title = $value->getField('Title_Text');
+    $node->language = LANGUAGE_NONE;
+    
+    $node->body[$node->language][0]['value'] = $value->getField('Description');
+    $node->body[$node->language][0]['summary'] = text_summary($value->getField('Description'));
+    $node->body[$node->language][0]['format'] = 'filtered_html';
+    
+    $node = node_submit($node);
+    
+    node_save($node);
+    
+    // Retrieve nid to judge whether the node_save is successful.
+    if ($node->nid) {
+      $value->nid = $node->nid; 
+    }
+    
+  }
+
+  error_reporting(E_ALL);
+  
+  // Examine the result and inform via the UI
+  return t('All tools from IMS are successfully retrieved and saved.');
+}
+
+/**
+ * Helper function for defining vocabularies and their terms.
+ */
+function _gbif_catalogue_definition() {
+  // The definition set
+  $definitions = array(
+    array(
+      'name' => 'Purpose',
+      'machine_name' => 'orc_purpose',
+      'description' => '[ORC] The purpose of the tool',
+      'terms' => array('Data digitization', 'Data curation/quality', 'Data publishing', 'Data access/display', 'Data analysis'),
+      'weight' => 0,
+    ),
+    array(
+      'name' => 'Target audience',
+      'machine_name' => 'orc_target_audience',
+      'description' => '[ORC] Targeted type of audience. For example, taxonomists or modellers.',
+      'terms' => array('Data publishers', 'Data users', 'Nat. Hist. col.', 'Naturalists', 'GBIF Nodes', 'IT specialists', 'Scientists', 'Field biologists', 'Taxonomists', 'Modellers', 'Nat. resource managers', 'Practitioners', 'Software developers', 'Wider audiences'),
+      'weight' => 1,
+    ),
+    array(
+      'name' => 'Language',
+      'machine_name' => 'orc_language',
+      'description' => '[ORC] The language(s) for accessing this resource.',
+      'terms' => array('Chinese', 'English', 'French', 'Spanish'),
+      'weight' => 2,
+    ),
+    array(
+      'name' => 'Data type',
+      'machine_name' => 'orc_data_type',
+      'description' => '[ORC] Applicable data types.',
+      'terms' => array('Occurrence data', 'Names and taxonomy', 'Metadata', 'Species information', 'Multimedia data', 'Ecological data'),
+      'weight' => 3,
+    ),
+    array(
+      'name' => 'Tool type',
+      'machine_name' => 'orc_tool_type',
+      'description' => '[ORC] In which form the tool is used. For example, desktop or web based.',
+      'terms' => array('Desktop tool', 'Online tool', 'Server application', 'Web service', 'Widget', 'Tool set', 'Mobile application'),
+      'weight' => 4,
+    ),
+    array(
+      'name' => 'Development status',
+      'machine_name' => 'orc_development_status',
+      'description' => '[ORC] In which phase the development is.',
+      'terms' => array('Production ready', 'Beta', 'Alpha / prototype', 'Demo', 'In development'),
+      'weight' => 5,
+    ),
+    array(
+      'name' => 'Operating system',
+      'machine_name' => 'orc_operating_system',
+      'description' => '[ORC] On which platform the tool runs.',
+      'terms' => array('OS independent', 'MS Windows', 'Mac OS X', 'Linux', 'iOS', 'Android', 'MS Windows ME'),
+      'weight' => 6,
+    ),
+    array(
+      'name' => 'BI standard',
+      'machine_name' => 'orc_bi_standard',
+      'description' => '[ORC] Compliance of standard(s).',
+      'terms' => array('Darwin Core', 'Darwin Core Archive', 'GBIF Metadata Profile', 'ABCD', 'OGC', 'Dublin Core', 'Plinian Core', 'Audubon Core', 'DELTA', 'SDD', 'RDF', 'SHP', 'KML', 'GML', 'ISO 19115'),
+      'weight' => 7,
+    ),
+    array(
+      'name' => 'Resource type',
+      'machine_name' => 'orc_resource_type',
+      'description' => '[ORC] Resource type.',
+      'terms' => array('Data resource', 'Digital document', 'Digital file', 'Internet URL', 'Presentation', 'Tool'),
+      'weight' => 8,
+    ),
+  );
+  
+  return $definitions;  
+}
+
+function gbif_catalogue_vocabularies_create() {
+
+  $definitions = _gbif_catalogue_definition();
+
+  // Insert default vocabularies and initial terms
+  foreach ($definitions as $df) {
+    $voc = array(
+      'name' => $df['name'],
+      'machine_name' => $df['machine_name'],
+      'description' => $df['description'],
+      'hierarchy' => '0',
+      'module' => 'taxonomy',
+      'weight' => $df['weight'],
+      'rdf_mapping' => array(
+        'rdftype' => array(
+          0 => 'skos:ConceptScheme',
+        ),
+        'name' => array(
+          'predicates' => array(
+            0 => 'dc:title',
+          ),
+        ),
+        'description' => array(
+          'predicates' => array(
+            0 => 'rdfs:comment',
+          ),
+        ),
+      ),
+    );
+
+    $voc = (object)$voc;
+    taxonomy_vocabulary_save($voc);
+    unset($voc);
+
+    // Now populate terms by using the newly created vocabulary
+    $voc = taxonomy_vocabulary_machine_name_load($df['machine_name']);
+    foreach ($df['terms'] as $termname) {
+      $term = new stdClass;
+      $term->vid = $voc->vid;
+      $term->name = $termname;
+      taxonomy_term_save($term);
+    }
+  }
+  
+  return t('Vocabularies created.');
+}
+
+function gbif_catalogue_vocabularies_delete() {
+  $definitions = _gbif_catalogue_definition();
+  foreach ($definitions as $df) {
+    $voc = taxonomy_vocabulary_machine_name_load($df['machine_name']);
+    taxonomy_vocabulary_delete($voc->vid);
+  }
+  return t('Vocabularies deleted.');
+}

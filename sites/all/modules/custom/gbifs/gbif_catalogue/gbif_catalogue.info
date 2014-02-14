@@ -1,0 +1,9 @@
+name = GBIF Catalogue
+description = Add functionalities for the management of online resources and tools.
+core = 7.x
+version = 7.x-0.1
+package = GBIF
+
+configure = admin/config/gbif/tools-catalogue
+
+dependencies[] = views
