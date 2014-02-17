@@ -22,7 +22,7 @@ function gbif_catalogue_requirements($phase) {
 
   if ($phase == "runtime") {
     // Try to load the API.
-    gbif_catalogue_load_api();
+    filemaker_load_api();
     $requirements['gbif_catalogue']['title'] = t('GBIF Tools Catalogue');
     
     // Is the API available?
@@ -117,8 +117,8 @@ function _gbif_catalogue_delete_custom_fields() {
 function _gbif_catalogue_installed_fields() {
   $t = get_t();
   return array(
-    'field_alternative_title' => array(
-      'field_name' => 'field_alternative_title',
+    'field_rs_alternative_title' => array(
+      'field_name' => 'field_rs_alternative_title',
       'label' => $t('Alternative title'),
       'type' => 'text',
       'module' => 'gbif_catalogue',
@@ -127,8 +127,8 @@ function _gbif_catalogue_installed_fields() {
         'max_length' => 1000,
       ),
     ),
-    'field_abstract' => array(
-      'field_name' => 'field_abstract',
+    'field_rs_abstract' => array(
+      'field_name' => 'field_rs_abstract',
       'label' => $t('Abstract'),
       'type' => 'text_long',
       'module' => 'gbif_catalogue',
@@ -151,8 +151,8 @@ function _gbif_catalogue_installed_fields() {
     'rights_holder' => array(),
     'standard_and_format' => array(),
     */
-    'target_audience_term' => array(
-      'field_name' => 'target_audience_term',
+    'target_audience_rs_term' => array(
+      'field_name' => 'target_audience_rs_term',
       'label' => $t('Target audience'),
       'type' => 'taxonomy_term_reference',
       'cardinality' => FIELD_CARDINALITY_UNLIMITED,
@@ -176,8 +176,8 @@ function _gbif_catalogue_installed_fields() {
 function _gbif_catalogue_installed_instances() {
   $t = get_t();
   return array(
-    'field_alternative_title' => array(
-      'field_name' => 'field_alternative_title',
+    'field_rs_alternative_title' => array(
+      'field_name' => 'field_rs_alternative_title',
       'label' => $t('Alternative title'),
       'cardinality' => 1,
       'widget' => array(
@@ -188,8 +188,8 @@ function _gbif_catalogue_installed_instances() {
     ),
     //'authors' => array(),
     //'publisher' => array(),
-    'field_abstract' => array(
-      'field_name' => 'field_abstract',
+    'field_rs_abstract' => array(
+      'field_name' => 'field_rs_abstract',
       'label' => $t('Abstract'),
       'type' => 'text_long',
       'cardinality' => 1,
@@ -213,8 +213,8 @@ function _gbif_catalogue_installed_instances() {
     'rights_holder' => array(),
     'standard_and_format' => array(),
     */
-    'target_audience_term' => array(
-      'field_name' => 'target_audience_term',
+    'target_audience_rs_term' => array(
+      'field_name' => 'target_audience_rs_term',
       'label' => $t('Target audience'),
       'cardinality' => FIELD_CARDINALITY_UNLIMITED,
       'widget' => array(
