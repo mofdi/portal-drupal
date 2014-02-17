@@ -86,6 +86,10 @@ function gbif_catalogue_uninstall() {
   node_delete_multiple($nodeids);
   node_type_delete($type);
 
+  // Delete all fields associated with 'resource' content type.
+  _gbif_catalogue_delete_custom_fields();  
+  
+
   // Clean up the vocabularies.
   gbif_catalogue_vocabularies_delete();
 }
@@ -135,8 +139,22 @@ function _gbif_catalogue_installed_fields() {
       'translatable' => 1,
       'cardinality' => 1,
     ),
-    //'authors' => array(),
-    //'publisher' => array(),
+    'field_rs_authors' => array(
+      'field_name' => 'field_rs_authors',
+      'label' => $t('Author(s)'),
+      'type' => 'text_long',
+      'module' => 'gbif_catalogue',
+      'translatable' => 1,
+      'cardinality' => 1,
+    ),
+    'field_rs_publisher' => array(
+      'field_name' => 'field_rs_publisher',
+      'label' => $t('Publisher(s)'),
+      'type' => 'text_long',
+      'module' => 'gbif_catalogue',
+      'translatable' => 1,
+      'cardinality' => 1,
+    ),
     /*
     'applicable_data_type' => array(),
     'development_status' => array(),
