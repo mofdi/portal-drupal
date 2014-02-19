@@ -30,6 +30,7 @@ html {
   }
 }
 body {
+	background: @body-bg url('../images/infoband.jpg') repeat-x right 126px;
   // Fix horizontal scrolling on iOS devices.
   // http://drupal.org/node/1870076
   position: relative;
@@ -93,13 +94,13 @@ body {
 // Default navbar.
 .navbar.container {
   @media @tablet {
-    max-width: ((@container-sm - 30px));
+    max-width: ((@container-sm));
   }
   @media @normal {
-    max-width: ((@container-md - 30px));
+    max-width: ((@container-md));
   }
   @media @wide {
-    max-width: ((@container-lg - 30px));
+    max-width: ((@container-lg));
   }
   margin-top: 20px;
   > .container {
