@@ -201,6 +201,20 @@ function _gbif_catalogue_installed_fields() {
       'translatable' => 1,
       'cardinality' => 1,
     ),    
+    'term_rs_purpose' => array(
+      'field_name' => 'term_rs_purpose',
+      'label' => $t('Purpose'),
+      'type' => 'taxonomy_term_reference',
+      'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+      'settings' => array(
+        'allowed_values' => array(
+          array(
+            'vocabulary' => 'orc_purpose',
+            'parent' => 0,
+          ),
+        ),
+      ),
+    ),
     'term_rs_target_audience' => array(
       'field_name' => 'term_rs_target_audience',
       'label' => $t('Target audience'),
@@ -223,7 +237,6 @@ function _gbif_catalogue_installed_fields() {
     'development_status' => array(),
     'language_term' => array(),
     'operating_system' => array(),
-    'purpose' => array(),
     'resource_type_term' => array(),
     'standard_and_format' => array(),
     */
@@ -334,6 +347,16 @@ function _gbif_catalogue_installed_instances() {
         'weight' => 13,
       ),
     ),    
+    'term_rs_purpose' => array(
+      'field_name' => 'term_rs_purpose',
+      'label' => $t('Purpose'),
+      'cardinality' => FIELD_CARDINALITY_UNLIMITED,
+      'widget' => array(
+        'module' => 'options',
+        'type' => 'options_buttons',
+        'weight' => 14,
+      ),
+    ),
     'term_rs_target_audience' => array(
       'field_name' => 'term_rs_target_audience',
       'label' => $t('Target audience'),
@@ -341,7 +364,7 @@ function _gbif_catalogue_installed_instances() {
       'widget' => array(
         'module' => 'options',
         'type' => 'options_buttons',
-        'weight' => 14,
+        'weight' => 15,
       ),
     ),
     /*
@@ -352,7 +375,6 @@ function _gbif_catalogue_installed_instances() {
     'development_status' => array(),
     'language_term' => array(),
     'operating_system' => array(),
-    'purpose' => array(),
     'resource_type_term' => array(),
     'standard_and_format' => array(),
     */
