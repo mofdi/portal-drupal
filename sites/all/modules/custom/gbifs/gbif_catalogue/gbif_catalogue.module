@@ -125,7 +125,8 @@ function gbif_catalogue_import_tools() {
   $IMS->setProperty('password', $IMSCredential['password']);
   
   $ListNodes_find =& $IMS->newFindCommand('WDOCS_File');
-  $ListNodes_find->addFindCriterion('_kf_TypeID', '102'); // For now only get tools
+  // For now only get resources that are typed tools
+  $ListNodes_find->addFindCriterion('_kf_TypeID', '102');
   $ListNodes_find->addSortRule('Title_Text', 1, FILEMAKER_SORT_ASCEND);
   $result = $ListNodes_find->execute();
 
@@ -150,6 +151,13 @@ function gbif_catalogue_import_tools() {
     $node->body[$node->language][0]['value'] = $value->getField('Description');
     $node->body[$node->language][0]['summary'] = text_summary($value->getField('Description'));
     $node->body[$node->language][0]['format'] = 'filtered_html';
+    $node->field_rs_author[$node->language][0]['value'] = $value->getField('Author');
+    $node->field_rs_contributor[$node->language][0]['value'] = $value->getField('Contributor');
+    $node->field_rs_publisher[$node->language][0]['value'] = $value->getField('Publisher');
+    $node->field_rs_extent[$node->language][0]['value'] = $value->getField('Extend');
+    $node->field_rs_rights[$node->language][0]['value'] = $value->getField('Rights');
+    $node->field_rs_rights_holder[$node->language][0]['value'] = $value->getField('RightsHolder');
+    $node->field_rs_tool_url[$node->language][0]['url'] = $value->getField('Url');
     
     $node = node_submit($node);
     
