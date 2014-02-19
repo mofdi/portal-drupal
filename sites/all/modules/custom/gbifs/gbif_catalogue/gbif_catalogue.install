@@ -67,6 +67,8 @@ function gbif_catalogue_install() {
   
   // Hide "submitted by" by default.
   variable_set('node_submitted_resource', 0);
+  // Disable "comment" by default.
+  variable_set('comment_resource', 0);
 }
 
 /**
@@ -88,10 +90,14 @@ function gbif_catalogue_uninstall() {
 
   // Delete all fields associated with 'resource' content type.
   _gbif_catalogue_delete_custom_fields();  
-  
 
   // Clean up the vocabularies.
   gbif_catalogue_vocabularies_delete();
+
+  // Hide "submitted by" by default.
+  variable_del('node_submitted_resource', 0);
+  // Disable "comment" by default.
+  variable_del('comment_resource', 0);
 }
 
 function _gbif_catalogue_create_custom_fields() {
