@@ -11,8 +11,9 @@
 .navbar {
   position: relative;
   min-height: @navbar-height; // Ensure a navbar always shows (e.g., without a .navbar-brand in collapsed mode)
-  margin-bottom: 0px;
+  margin-bottom: 0px; 
   border: 1px solid transparent;
+  height: 97px ;
 
   // Prevent floats from breaking the navbar
   &:extend(.clearfix all);
@@ -29,6 +30,7 @@
 // styling of responsive aspects.
 
 .navbar-header {
+	margin-top: 25px;
   &:extend(.clearfix all);
 
   @media (min-width: @grid-float-breakpoint) {
@@ -99,7 +101,6 @@
   > .navbar-collapse {
     margin-right: -@navbar-padding-horizontal;
     margin-left:  -@navbar-padding-horizontal;
-
     @media (min-width: @grid-float-breakpoint) {
       margin-right: 0;
       margin-left:  0;
@@ -377,8 +378,8 @@
 
 // Default navbar
 .navbar-default {
-  background-color: @navbar-default-bg;
-  border-color: @navbar-default-border;
+  // background-color: @navbar-default-bg;
+  // border-color: @navbar-default-border;
 
   .navbar-brand {
     color: @navbar-default-brand-color;
