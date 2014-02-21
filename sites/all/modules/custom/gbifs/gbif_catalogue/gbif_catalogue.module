@@ -102,16 +102,7 @@ function filemaker_load_api() {
   return class_exists('FileMaker');
 }
 
-/**
- * Import tools from the IMS to resource content type
- * @todo check the result and return proper AJAX message upon
- *       task completion or errors.
- */
-function gbif_catalogue_import_tools() {
-  
-  // Temporary suppress "deprecated" warning of FileMaker API
-  error_reporting(E_ALL ^ E_DEPRECATED);
-  
+function ims_connection() {
   // Load FileMaker api
   filemaker_load_api();
 
@@ -123,8 +114,22 @@ function gbif_catalogue_import_tools() {
   $IMS->setProperty('hostspec', $IMSCredential['hostname']);
   $IMS->setProperty('username', $IMSCredential['username']);
   $IMS->setProperty('password', $IMSCredential['password']);
+
+  return $IMS;
+}
+
+/**
+ * Import tools from the IMS to resource content type
+ * @todo check the result and return proper AJAX message upon
+ *       task completion or errors.
+ */
+function gbif_catalogue_import_tools() {
+  // Temporary suppress "deprecated" warning of FileMaker API
+  error_reporting(E_ALL ^ E_DEPRECATED);
   
-  $ListNodes_find =& $IMS->newFindCommand('WDOCS_File');
+  $IMS = ims_connection();
+  
+  $ListNodes_find =& $IMS->newFindCommand('WDOCS_File_detail');
   // For now only get resources that are typed tools
   $ListNodes_find->addFindCriterion('_kf_TypeID', '102');
   $ListNodes_find->addSortRule('Title_Text', 1, FILEMAKER_SORT_ASCEND);
@@ -134,46 +139,95 @@ function gbif_catalogue_import_tools() {
   if (FileMaker::isError($result)) {
     echo "Error: " . $result->getMessage() . "\n"; 
   }
+  else {
+    $records = array();
+    $records['IMS'] = $result->getRecords();
 
-  $records = array();
-  $records['IMS'] = $result->getRecords();
-  
-  // As per POR-1797 we only preserve Title_Text and Description
-  foreach ($records['IMS'] as $value) {
-    
-    $node = new stdClass();
-    $node->type = 'resource';
-    node_object_prepare($node);
-    
-    $node->title = $value->getField('Title_Text');
-    $node->language = LANGUAGE_NONE;
-    
-    $node->body[$node->language][0]['value'] = $value->getField('Description');
-    $node->body[$node->language][0]['summary'] = text_summary($value->getField('Description'));
-    $node->body[$node->language][0]['format'] = 'filtered_html';
-    $node->field_rs_author[$node->language][0]['value'] = $value->getField('Author');
-    $node->field_rs_contributor[$node->language][0]['value'] = $value->getField('Contributor');
-    $node->field_rs_publisher[$node->language][0]['value'] = $value->getField('Publisher');
-    $node->field_rs_extent[$node->language][0]['value'] = $value->getField('Extend');
-    $node->field_rs_rights[$node->language][0]['value'] = $value->getField('Rights');
-    $node->field_rs_rights_holder[$node->language][0]['value'] = $value->getField('RightsHolder');
-    $node->field_rs_tool_url[$node->language][0]['url'] = $value->getField('Url');
-    
-    $node = node_submit($node);
-    
-    node_save($node);
-    
-    // Retrieve nid to judge whether the node_save is successful.
-    if ($node->nid) {
-      $value->nid = $node->nid; 
+    //$vocabularies = gbif_catalogue_ims_vocabularies();
+
+    foreach ($records['IMS'] as $record) {
+
+      $node = new stdClass();
+      $node->type = 'resource';
+      node_object_prepare($node);
+
+      $node->title = $record->getField('Title_Text');
+      $node->language = LANGUAGE_NONE;
+
+      $node->body[$node->language][0]['value'] = $record->getField('Description');
+      $node->body[$node->language][0]['summary'] = text_summary($record->getField('Description'));
+      $node->body[$node->language][0]['format'] = 'filtered_html';
+      $node->field_rs_author[$node->language][0]['value'] = $record->getField('Author');
+      $node->field_rs_contributor[$node->language][0]['value'] = $record->getField('Contributor');
+      $node->field_rs_publisher[$node->language][0]['value'] = $record->getField('Publisher');
+      $node->field_rs_extent[$node->language][0]['value'] = $record->getField('Extend');
+      $node->field_rs_rights[$node->language][0]['value'] = $record->getField('Rights');
+      $node->field_rs_rights_holder[$node->language][0]['value'] = $record->getField('RightsHolder');
+      $node->field_rs_tool_url[$node->language][0]['url'] = $record->getField('Url');
+
+      // Get related keywords
+      $keywords = array();
+      $related_set = $record->getRelatedSet('WDOCS_File_FileKeyword_Keyword');
+      if (!FileMaker::isError($related_set)) {
+        foreach ($related_set as $related_row) {
+          $key = $related_row->getField('WDOCS_File_FileKeyword_Keyword::__kp_ID');
+          $keywords[$key] = $related_row->getField('WDOCS_File_FileKeyword_Keyword::Keyword');
+        }
+        return;
+      }
+
+      $node = node_submit($node);
+
+      node_save($node);
+
+      // Retrieve nid to judge whether the node_save is successful.
+      if ($node->nid) {
+        $record->nid = $node->nid; 
+      }
+
     }
-    
   }
 
   error_reporting(E_ALL);
   
-  // Examine the result and inform via the UI
+  // Should examine the result before informing via the UI
   return t('All tools from IMS are successfully retrieved and saved.');
+}
+
+/**
+ * Vocabularies from IMS
+ */
+function gbif_catalogue_ims_vocabularies() {
+
+  $IMS = ims_connection();
+
+  $find =& $IMS->newFindCommand('__Keyword');
+  $find->addSortRule('__kp_ID', 1, FILEMAKER_SORT_ASCEND);
+  $result = $find->execute();
+  $records = $result->getRecords();
+  
+  $vocabularies = array();
+  
+  foreach ($records as $record) {
+    $unit = array();
+    $unit['__kp_ID'] = $record->getField('__kp_ID');
+      $Code1 = str_split($record->getField('Code1'), 3);
+    $unit['code_cat'] = $Code1[0];
+    $unit['code_1'] = $Code1[1];
+    $unit['Code2'] = $record->getField('Code2');
+    $unit['Keyword'] = $record->getField('Keyword');
+    $unit['Keyword_short'] = $record->getField('Keyword_short');
+    
+    $unit_mod = $unit;
+    unset($unit_mod['__kp_ID']);
+    unset($unit_mod['code_cat']);
+    unset($unit_mod['code_1']);
+    unset($unit_mod['Code2']);
+    
+    $vocabularies[$unit['code_cat']][$unit['__kp_ID']] = $unit_mod;    
+  }
+  
+  return $vocabularies;
 }
 
 /**
@@ -186,7 +240,13 @@ function _gbif_catalogue_definition() {
       'name' => 'Purpose',
       'machine_name' => 'orc_purpose',
       'description' => '[ORC] The purpose of the tool',
-      'terms' => array('Data digitization', 'Data curation/quality', 'Data publishing', 'Data access/display', 'Data analysis'),
+      'terms' => array(
+        array('name' => 'Data digitization', 'description' => '21'),
+        array('name' => 'Data curation/quality', 'description' => '127'),
+        array('name' => 'Data publishing', 'description' => '6'),
+        array('name' => 'Data access/display', 'description' => '128'),
+        array('name' => 'Data analysis', 'description' => '26'),
+      ),
       'weight' => 0,
     ),
     array(
