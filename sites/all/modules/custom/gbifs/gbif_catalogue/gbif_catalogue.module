@@ -6,6 +6,8 @@
  * using "GBIF Tools Catalogue" as human readables.
  */
 
+module_load_include('inc', 'gbif_catalogue', 'gbif_catalogue.settings');
+
 /**
  * Implements hook_menu().
  */
@@ -143,8 +145,6 @@ function gbif_catalogue_import_tools() {
     $records = array();
     $records['IMS'] = $result->getRecords();
 
-    //$vocabularies = gbif_catalogue_ims_vocabularies();
-
     foreach ($records['IMS'] as $record) {
 
       $node = new stdClass();
@@ -172,8 +172,28 @@ function gbif_catalogue_import_tools() {
         foreach ($related_set as $related_row) {
           $key = $related_row->getField('WDOCS_File_FileKeyword_Keyword::__kp_ID');
           $keywords[$key] = $related_row->getField('WDOCS_File_FileKeyword_Keyword::Keyword');
+        }
+        
+        // Match and insert the keyword to the resource.
+        $term_set = array();
+        foreach ($keywords as $ims_kp_id => $keyword) {
+          // First find the $keyword from _gbif_catalogue_definition().
+          $matched = _gbif_catalogue_search_definition($ims_kp_id);
           
-          // Match and insert the keyword to the resource.
+          // Then tag the keyword with the node being prepared.
+          if ($matched <> 'not term_rs_purpose') { // Temporarily limit the scope in purpose.
+            $term_set[$matched->field][LANGUAGE_NONE][] = array (
+              'vid' => $matched->vid,
+              'tid' => $matched->tid,
+              'name' => $matched->name,
+              'vocabulary_machine_name' => $matched->vocabulary_machine_name,
+            );
+          }
+        }
+
+        // Attach the keyword sets to the node object.
+        foreach ($term_set as $field_name => $field_setting) {
+          $node->$field_name = $field_setting;
         }
       }
 
@@ -196,7 +216,9 @@ function gbif_catalogue_import_tools() {
 }
 
 /**
- * Vocabularies from IMS
+ * Vocabularies from IMS.
+ * To be deprecated if the matching can be explicitly achieved with
+ * gbif_catalogue.settings.inc.
  */
 function gbif_catalogue_ims_vocabularies() {
 

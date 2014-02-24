@@ -143,7 +143,7 @@ function gbif_catalogue_vocabularies_create() {
     taxonomy_vocabulary_save($voc);
     unset($voc);
     
-    // Create field instances for each of the vocabularies.
+    // Create field instances of the IMS keywords for each of the vocabularies.
     $instance = array(
       'field_name' => 'field_rs_term_kp_id',
       'entity_type' => 'taxonomy_term',

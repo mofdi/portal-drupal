@@ -1,6 +1,35 @@
 <?php
 
 /**
+ * Search matched term in _gbif_catalogue_definition().
+ */
+function _gbif_catalogue_search_definition($ims_kp_id) {
+  $definitions = _gbif_catalogue_definition();
+  foreach ($definitions as $df) {
+    if ($df['field'] == 'term_rs_purpose' || $df['field'] == 'term_rs_target_audience') { // Temparily limit the scope in purpose and target audience.
+      foreach ($df['terms'] as $term) {
+        if ($term['ims_kp_id'] == $ims_kp_id) {
+          $matched_terms = taxonomy_get_term_by_name($term['name'], $df['machine_name']);
+          // Ideally there should only be one match
+          if (count($matched_terms) == 1) {
+            foreach ($matched_terms as $matched_term) {
+              $matched_term->field = $df['field'];
+              return $matched_term;
+            }
+          }
+          else {
+            return 'more matches';
+          }
+        }
+      }
+    }
+    else {
+      return 'not term_rs_purpose';
+    }
+  }
+}
+
+/**
  * Helper function for defining vocabularies and their terms.
  */
 function _gbif_catalogue_definition() {
@@ -9,6 +38,7 @@ function _gbif_catalogue_definition() {
     array(
       'name' => 'Purpose',
       'machine_name' => 'orc_purpose',
+      'field' => 'term_rs_purpose',
       'description' => '[ORC] The purpose of the tool',
       'terms' => array(
         array('ims_kp_id' => 21, 'name' => 'Data digitization'),
@@ -22,6 +52,7 @@ function _gbif_catalogue_definition() {
     array(
       'name' => 'Target audience',
       'machine_name' => 'orc_target_audience',
+      'field' => 'term_rs_target_audience',
       'description' => '[ORC] Targeted type of audience. For example, taxonomists or modellers.',
       'terms' => array(
         array('ims_kp_id' => 161, 'name' => 'Data publishers'),
