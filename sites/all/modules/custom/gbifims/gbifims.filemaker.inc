@@ -710,9 +710,9 @@ function _gbifims_get_NCList( ) {
 								AND gbifims_Contact.CountryID_Address = gbifims_Country.CountryID
 								AND gbifims_ContactGrouproleNodeParticipant.Active = 1  
 								AND gbifims_Group.Name = :nc
-								AND ( gbifims_Grouprole.Name = :nm OR gbifims_Grouprole.Name = :chair OR gbifims_Grouprole.Name = :vc)
+								AND ( gbifims_Grouprole.Name = :nm OR gbifims_Grouprole.Name = :chair OR gbifims_Grouprole.Name = :vc OR gbifims_Grouprole.Name = :fstvc OR gbifims_Grouprole.Name = :sndvc OR gbifims_Grouprole.Name = :trdvc)
 								AND gbifims_Grouprole.Name <> :rSS
-							ORDER BY gbifims_Grouprole.SortOrder, gbifims_Participant.Name_Short', array(':nc'=>'Nodes Committee', 'nm'=>'Node Manager', ':chair'=>'Chair', ':vc'=>'Vice Chair',':rSS'=>'Secretariat Support')) ;
+							ORDER BY gbifims_Grouprole.SortOrder, gbifims_Participant.Name_Short', array(':nc'=>'Nodes Committee', 'nm'=>'Node Manager', ':chair'=>'Chair', ':vc'=>'Vice Chair',':fstvc'=>'1st Vice Chair',':sndvc'=>'2nd Vice Chair',':trdvc'=>'3rd Vice Chair',':rSS'=>'Secretariat Support')) ;
 	// hook_theme? What hook_theme... :-| 
 	$CList = '<table style="" class="table table-bordered table-stripped"><tbody>';
 	// <thead><tr><th colspan="2" >'.$options[1].'</th><tr></thead>
