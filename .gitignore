@@ -9,3 +9,4 @@ sites/*/private
 .buildpath
 .project
 .settings
+sites/default/global.settings.inc

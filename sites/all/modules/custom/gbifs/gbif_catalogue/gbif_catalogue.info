@@ -8,3 +8,4 @@ configure = admin/config/gbif/tools-catalogue
 
 dependencies[] = views
 dependencies[] = link
+dependencies[] = search
