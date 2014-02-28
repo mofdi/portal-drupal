@@ -12,7 +12,7 @@
   position: relative;
   min-height: @navbar-height; // Ensure a navbar always shows (e.g., without a .navbar-brand in collapsed mode)
   margin-bottom: 0px; 
-  border: 1px solid transparent;
+  border: 1px solid red;
   height: 97px ;
 
   // Prevent floats from breaking the navbar
@@ -220,6 +220,7 @@
   margin: (@navbar-padding-vertical / 2) -@navbar-padding-horizontal;
 
   > li > a {
+	display: inline ;
     padding-top:    10px;
     padding-bottom: 10px;
     line-height: @line-height-computed;

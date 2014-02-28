@@ -294,7 +294,7 @@
 //## Define your custom responsive grid.
 
 //** Number of columns in the grid.
-@grid-columns:              12;
+@grid-columns:              48;
 //** Padding between columns. Gets divided in half for the left and right.
 @grid-gutter-width:         30px;
 // Navbar collapse
@@ -820,11 +820,13 @@
 @container-sm:                 @container-tablet;
 
 // Medium screen / desktop
-@container-desktop:            ((940px + @grid-gutter-width));
+// ! @container-desktop:            ((940px + @grid-gutter-width));
+@container-desktop:            ((894px + @grid-gutter-width));
 //** For `@screen-md-min` and up.
 @container-md:                 @container-desktop;
 
 // Large screen / wide desktop
-@container-large-desktop:      ((1140px + @grid-gutter-width));
+// ! @container-large-desktop:      ((1140px + @grid-gutter-width));
+@container-large-desktop:      ((894px + @grid-gutter-width));
 //** For `@screen-lg-min` and up.
 @container-lg:                 @container-large-desktop;
