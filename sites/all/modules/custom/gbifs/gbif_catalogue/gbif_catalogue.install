@@ -86,10 +86,9 @@ function gbif_catalogue_install() {
     'admin_menu',
     'admin_menu_toolbar'
   ));
-  
-  module_invoke_all('default_search_api_index');
-  
-  cache_clear_all();
+
+  _gbif_catalogue_search_view_create();
+
 }
 
 /**
