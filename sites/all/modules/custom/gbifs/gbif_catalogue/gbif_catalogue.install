@@ -78,6 +78,18 @@ function gbif_catalogue_install() {
 
   gbif_catalogue_import_tools();
   
+  // Make it easier for administration
+  module_disable(array(
+    'toolbar',
+  ));
+  module_enable(array(
+    'admin_menu',
+    'admin_menu_toolbar'
+  ));
+  
+  module_invoke_all('default_search_api_index');
+  
+  cache_clear_all();
 }
 
 /**
@@ -113,6 +125,18 @@ function gbif_catalogue_uninstall() {
     'bvng'
   ));
   variable_set('theme_default', 'vizz2');
+  
+  // Revert the admin menu.
+  module_disable(array(
+    'admin_menu',
+    'admin_menu_toolbar'
+  ));
+  module_enable(array(
+    'toolbar',
+  ));
+
+  cache_clear_all();
+  
 }
 
 function gbif_catalogue_vocabularies_create() {

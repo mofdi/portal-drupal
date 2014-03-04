@@ -1,12 +1,14 @@
 # Ignore configuration files that may contain sensitive information.
 sites/*/settings*.php
+sites/default/global.settings.inc
 
 # Ignore paths that contain user-generated content.
 sites/*/files
 sites/*/private
 
+# Ignore files only relevant for development environment.
 .htaccess
 .buildpath
 .project
 .settings
-sites/default/global.settings.inc
+dummy.php
