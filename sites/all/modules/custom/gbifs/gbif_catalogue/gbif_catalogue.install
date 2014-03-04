@@ -75,6 +75,8 @@ function gbif_catalogue_install() {
     'bvng'
   ));
   variable_set('theme_default', 'bvng');
+
+  gbif_catalogue_import_tools();
   
 }
 

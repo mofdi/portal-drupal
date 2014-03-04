@@ -50,6 +50,17 @@ function gbif_catalogue_settings_form() {
       'effect' => 'fade',
     ),
   );
+  $form['gbif_catalogue_contents']['peep'] = array(
+    '#type' => 'submit',
+    '#value' => t('Peep (for debugging purpose)'),
+    '#prefix' => '<div id="peep">',
+    '#suffix' => '<div id="peep-wrapper"></div></div>',
+    '#ajax' => array(
+      'callback' => 'gbif_catalogue_peep',
+      'wrapper' => 'peep-wrapper',
+      'effect' => 'fade',
+    ),
+  );
   return system_settings_form($form);
 }
 
