@@ -11,11 +11,11 @@ function gbif_catalogue_views_default_views() {
 
   // List of tools
   $view = new view();
-  $view->name = 'tools_catalogue';
+  $view->name = 'tools_catalogue_old';
   $view->description = '';
   $view->tag = 'default';
   $view->base_table = 'node';
-  $view->human_name = 'Tools Catalogue';
+  $view->human_name = 'Tools Catalogue Old';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */

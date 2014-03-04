@@ -284,6 +284,8 @@ function gbif_catalogue_import_tools() {
 
   error_reporting(E_ALL);
   
+  drupal_run_cron();
+  
   // Should examine the result before informing via the UI
   return t('All tools from IMS are successfully retrieved and saved.');
 }
