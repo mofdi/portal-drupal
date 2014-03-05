@@ -621,5 +621,4 @@ function gbif_catalogue_facetapi_default_facet_settings() {
   $export['search_api@default_node_index:block:type'] = $facet;
 
   return $export;
-  
 }
