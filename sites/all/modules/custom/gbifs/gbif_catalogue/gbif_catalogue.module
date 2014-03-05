@@ -158,6 +158,73 @@ function bvng_focused_search_validate($form, &$form_state) {
   }
 }
 
+function _gbif_catalogue_search_view_create() {
+  
+  // Update default node index with fields
+  $id = 'default_node_index';
+  $index = search_api_index_load($id);
+  $values = array(
+    'name' => 'Default node index',
+    'enabled' => '1',
+    'description' => 'An automatically created search index for indexing node data. Might be configured to specific needs.',
+    'server' => 'default_search_database',
+    'read_only' => 0,
+    'options' => array(
+      'index_directly' => 1,
+      'cron_limit' => '100'
+    ),
+    'actions' => array(),
+  );
+  $values['options'] += $index->options;
+  $additional_fields = array(
+    'field_rs_alternative_title' => array('type' => 'text'),
+    'field_rs_abstract' => array('type' => 'text'),
+    'field_rs_author' => array('type' => 'text'),
+    'field_rs_contributor' => array('type' => 'text'),
+    'field_rs_publisher' => array('type' => 'text'),
+    'field_rs_extent' => array('type' => 'text'),
+    'field_rs_rights' => array('type' => 'text'),
+    'field_rs_rights_holder' => array('type' => 'text'),
+    'term_rs_purpose' => array('type' => "list<integer>", 'entity_type' => 'taxonomy_term'),
+    'term_rs_target_audience' => array('type' => "list<integer>", 'entity_type' => 'taxonomy_term'),
+    'body:summary' => array('type' => 'text'),
+  );
+  $values['options']['fields'] += $additional_fields;
+  $index->update($values);
+  $index = search_api_index_load($id);
+  $index->clear();
+  search_api_index_items($index, -1);
+
+  // Create search facets
+  $searcher = 'search_api@default_node_index';
+  $realm_name = 'block';
+  $adapter = facetapi_adapter_load($searcher);
+  $realm = facetapi_realm_load($realm_name);
+  $facet_info = facetapi_get_facet_info($searcher);
+  $enabled_facets = array('term_rs_purpose', 'term_rs_target_audience');
+  
+  foreach ($facet_info as $facet_name => $facet) {
+    $status = in_array($facet_name, $enabled_facets) ? 1 : 0;
+    $weight = 0;
+    facetapi_save_facet_status($adapter, $realm, $facet, $status, $weight, TRUE);
+  }
+
+  // Update index and flush the cache
+  drupal_cron_run();
+
+  // Position facet blocks
+  db_update('block')
+    ->fields(array(
+      'visibility' => 1,
+      'pages' => 'resources/tools',
+      'region' => 'sidebar_second',
+      'status' => 1,
+    ))
+    ->condition('module', 'facetapi')
+    ->condition('theme', 'bvng')
+    ->execute();
+
+}
 
 function gbif_catalogue_peep() {
   // Position facet blocks
@@ -306,74 +373,6 @@ function gbif_catalogue_default_search_api_server() {
     'rdf_mapping' => array(),
   ));
   return $defaults;
-}
-
-function _gbif_catalogue_search_view_create() {
-  
-  // Update default node index with fields
-  $id = 'default_node_index';
-  $index = search_api_index_load($id);
-  $values = array(
-    'name' => 'Default node index',
-    'enabled' => '1',
-    'description' => 'An automatically created search index for indexing node data. Might be configured to specific needs.',
-    'server' => 'default_search_database',
-    'read_only' => 0,
-    'options' => array(
-      'index_directly' => 1,
-      'cron_limit' => '100'
-    ),
-    'actions' => array(),
-  );
-  $values['options'] += $index->options;
-  $additional_fields = array(
-    'field_rs_alternative_title' => array('type' => 'text'),
-    'field_rs_abstract' => array('type' => 'text'),
-    'field_rs_author' => array('type' => 'text'),
-    'field_rs_contributor' => array('type' => 'text'),
-    'field_rs_publisher' => array('type' => 'text'),
-    'field_rs_extent' => array('type' => 'text'),
-    'field_rs_rights' => array('type' => 'text'),
-    'field_rs_rights_holder' => array('type' => 'text'),
-    'term_rs_purpose' => array('type' => "list<integer>", 'entity_type' => 'taxonomy_term'),
-    'term_rs_target_audience' => array('type' => "list<integer>", 'entity_type' => 'taxonomy_term'),
-    'body:summary' => array('type' => 'text'),
-  );
-  $values['options']['fields'] += $additional_fields;
-  $index->update($values);
-  $index = search_api_index_load($id);
-  $index->clear();
-  search_api_index_items($index, -1);
-
-  // Create search facets
-  $searcher = 'search_api@default_node_index';
-  $realm_name = 'block';
-  $adapter = facetapi_adapter_load($searcher);
-  $realm = facetapi_realm_load($realm_name);
-  $facet_info = facetapi_get_facet_info($searcher);
-  $enabled_facets = array('term_rs_purpose', 'term_rs_target_audience');
-  
-  foreach ($facet_info as $facet_name => $facet) {
-    $status = in_array($facet_name, $enabled_facets) ? 1 : 0;
-    $weight = 0;
-    facetapi_save_facet_status($adapter, $realm, $facet, $status, $weight, TRUE);
-  }
-
-  // Update index and flush the cache
-  drupal_cron_run();
-
-  // Position facet blocks
-  db_update('block')
-    ->fields(array(
-      'visibility' => 1,
-      'pages' => 'resources/tools',
-      'region' => 'sidebar_second',
-      'status' => 1,
-    ))
-    ->condition('module', 'facetapi')
-    ->condition('theme', 'bvng')
-    ->execute();
-
 }
 
 /**
