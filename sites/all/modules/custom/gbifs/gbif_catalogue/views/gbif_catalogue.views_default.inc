@@ -11,7 +11,7 @@ function gbif_catalogue_views_default_views() {
 
   // List of tools
   $view = new view();
-  $view->name = 'tools_catalogue';
+  $view->name = 'tools_catalogue_old';
   $view->description = '';
   $view->tag = 'default';
   $view->base_table = 'search_api_index_default_node_index';
