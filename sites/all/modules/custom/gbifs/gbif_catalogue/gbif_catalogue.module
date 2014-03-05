@@ -595,6 +595,36 @@ function gbif_catalogue_default_search_api_server() {
 }
 
 /**
+ * Implements hook_default_search_api_server().
+ */
+/*
+function gbif_catalogue_default_search_api_server() {
+  $defaults['default_search_database'] = entity_create('search_api_server', array(
+    'name' => 'Default Search Database',
+    'machine_name' => 'default_search_database',
+    'description' => 'Default search database from gbif_catalogue module.',
+    'class' => 'search_api_db_service',
+  ));
+  return $defaults;
+}
+*/
+
+/**
+ * Implements hook_default_search_api_index().
+ */
+function gbif_catalogue_default_search_api_index_alter(&$defaults) {
+  
+  return $defaults;
+}
+
+function gbif_catalogue_peep() {
+  $machine_name = 'default_node_index';
+  $result = db_query('SELECT s.machine_name, s.options FROM {search_api_index} s WHERE s.machine_name = :machine_name', array(':machine_name' => $machine_name));
+  $row = $result->fetchAssoc();
+  $options = unserialize($row['options']);
+}
+
+/**
  * Load FileMaker API if it's not already loaded.
  * @return TRUE if the FileMaker API is loaded, FALSE otherwise.
  */
