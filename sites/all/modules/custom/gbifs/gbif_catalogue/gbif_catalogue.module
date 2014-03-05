@@ -392,10 +392,225 @@ function gbif_catalogue_default_search_api_server() {
 */
 
 /**
+ * Implements hook_default_search_api_server().
+ */
+function gbif_catalogue_default_search_api_server() {
+  $defaults['default_search_database'] = entity_create('search_api_server', array(
+    'name' => 'Default search database',
+    'machine_name' => 'default_search_database',
+    'description' => 'Default search database.',
+    'class' => 'search_api_db_service',
+    'options' => array(
+      'database' => 'default:default',
+      'min_chars' => '1',
+      'indexes' => array(
+        'default_node_index' => array(
+          'type' => array(
+            'table' => 'search_api_db_default_node_index',
+            'column' => 'type',
+            'type' => 'string',
+            'boost' => '1.0',
+          ),
+          'title' => array(
+            'table' => 'search_api_db_default_node_index_title',
+            'type' => 'text',
+            'boost' => '5.0',
+          ),
+          'promote' => array(
+            'table' => 'search_api_db_default_node_index',
+            'column' => 'promote',
+            'type' => 'boolean',
+            'boost' => '1.0'
+          ),
+          'sticky' => array(
+            'table' => 'search_api_db_default_node_index',
+            'column' => 'sticky',
+            'type' => 'boolean',
+            'boost' => '1.0',
+          ),
+          'created' => array(
+            'table' => 'search_api_db_default_node_index',
+            'column' => 'created',
+            'type' => 'date',
+            'boost' => '1.0'
+          ),
+          'changed' => array(
+            'table' => 'search_api_db_default_node_index',
+            'column' => 'changed',
+            'type' => 'date',
+            'boost' => '1.0'
+          ),
+          'author' => array(
+            'table' => 'search_api_db_default_node_index',
+            'column' => 'author',
+            'type' => 'integer',
+            'boost' => '1.0'
+          ),
+          'comment_count' => array(
+            'table' => 'search_api_db_default_node_index',
+            'column' => 'comment_count',
+            'type' => 'integer',
+            'boost' => '1.0'
+          ),
+          'search_api_language' => array(
+            'table' => 'search_api_db_default_node_index',
+            'column' => 'search_api_language',
+            'type' => 'string',
+            'boost' => '1.0'
+          ),
+          'body:value' => array(
+            'table' => 'search_api_db_default_node_index_body_value',
+            'type' => 'text',
+            'boost' => '1.0'
+          ),
+          'field_rs_alternative_title' => array(
+            'table' => 'search_api_db_default_node_index_field_rs_alternative_title',
+            'type' => 'text',
+            'boost' => '1.0'
+          ),
+          'field_rs_abstract' => array(
+            'table' => 'search_api_db_default_node_index_field_rs_abstract',
+            'type' => 'text',
+            'boost' => '1.0'
+          ),
+          'field_rs_author' => array(
+            'table' => 'search_api_db_default_node_index_field_rs_author',
+            'type' => 'text',
+            'boost' => '1.0'
+          ),
+          'field_rs_contributor' => array(
+            'table' => 'search_api_db_default_node_index_field_rs_contributor',
+            'type' => 'text',
+            'boost' => '1.0'
+          ),
+          'field_rs_publisher' => array(
+            'table' => 'search_api_db_default_node_index_field_rs_publisher',
+            'type' => 'text',
+            'boost' => '1.0'
+          ),
+          'field_rs_extent' => array(
+            'table' => 'search_api_db_default_node_index_field_rs_extent',
+            'type' => 'text',
+            'boost' => '1.0'
+          ),
+          'field_rs_rights' => array(
+            'table' => 'search_api_db_default_node_index_field_rs_rights',
+            'type' => 'text',
+            'boost' => '1.0'
+          ),
+          'field_rs_rights_holder' => array(
+            'table' => 'search_api_db_default_node_index_field_rs_rights_holder',
+            'type' => 'text',
+            'boost' => '1.0'
+          ),
+          'term_rs_purpose' => array(
+            'table' => 'search_api_db_default_node_index_term_rs_purpose',
+            'column' => 'value',
+            'type' => "list<integer>",
+            'boost' => '1.0'
+          ),
+          'term_rs_target_audience' => array(
+            'table' => 'search_api_db_default_node_index_term_rs_target_audience',
+            'column' => 'value',
+            'type' => "list<integer>",
+            'boost' => '1.0'
+          ),
+          'language' => array(
+            'table' => 'search_api_db_default_node_index',
+            'column' => 'language',
+            'type' => 'string',
+            'boost' => '1.0'
+          ),
+          'body:summary' => array(
+            'table' => 'search_api_db_default_node_index_body_summary',
+            'type' => 'text',
+            'boost' => '1.0'
+          ),
+        ),
+      ),
+    ),
+    'enabled' => '1',
+    'rdf_mapping' => array(),
+  ));
+  return $defaults;
+}
+
+/**
  * Implements hook_default_search_api_index().
  */
-function gbif_catalogue_default_search_api_index_alter(&$defaults) {
-  
+function gbif_catalogue_default_search_api_index() {
+  $defaults = array();
+  $defaults['default_node_index'] = entity_create('search_api_index', array(
+    'name' => 'Default node index',
+    'machine_name' => 'default_node_index',
+    'description' => 'An automatically created search index for indexing node data. Might be configured to specific needs.',
+    'server' => 'default_search_database',
+    'item_type' => 'node',
+    'options' => array(
+      'index_directly' => 1,
+      'cron_limit' => '50',
+      'data_alter_callbacks' => array(
+        'search_api_alter_node_access' => array(
+          'status' => 1,
+          'weight' => '0',
+          'settings' => array(),
+        ),
+      ),
+      'processors' => array(
+        'search_api_case_ignore' => array(
+          'status' => 1,
+          'weight' => '0',
+          'settings' => array(
+            'strings' => 0
+          ),
+        ),
+        'search_api_html_filter' => array(
+          'status' => 1,
+          'weight' => '10',
+          'settings' => array(
+            'title' => 0,
+            'alt' => 1,
+            'tags' => "h1 = 5\\nh2 = 3\\nh3 = 2\\nstrong = 2\\nb = 2\\nem = 1.5\\nu = 1.5",
+          ),
+        ),
+        'search_api_tokenizer' => array(
+          'status' => 1,
+          'weight' => '20',
+          'settings' => array(
+            'spaces' => '[^\p{L}\p{N}]',
+            'ignorable' => '[-]',
+          ),
+        ),
+      ),
+      'fields' => array(
+        'type' => array('type' => 'string'),
+        'title' => array('type' => 'text', 'boost' => '5.0'),
+        'language' => array('type' => 'string'),
+        'promote' => array('type' => 'boolean'),
+        'sticky' => array('type' => 'boolean'),
+        'created' => array('type' => 'date'),
+        'changed' => array('type' => 'date'),
+        'author' => array('type' => 'integer', 'entity_type' => 'user'),
+        'comment_count' => array('type' => 'integer'),
+        'field_rs_alternative_title' => array('type' => 'text'),
+        'field_rs_abstract' => array('type' => 'text'),
+        'field_rs_author' => array('type' => 'text'),
+        'field_rs_contributor' => array('type' => 'text'),
+        'field_rs_publisher' => array('type' => 'text'),
+        'field_rs_extent' => array('type' => 'text'),
+        'field_rs_rights' => array('type' => 'text'),
+        'field_rs_rights_holder' => array('type' => 'text'),
+        'term_rs_purpose' => array('type' => "list<integer>", 'entity_type' => 'taxonomy_term'),
+        'term_rs_target_audience' => array('type' => "list<integer>", 'entity_type' => 'taxonomy_term'),
+        'search_api_language' => array('type' => 'string'),
+        'body:value' => array('type' => 'text'),
+        'body:summary' => array('type' => 'text'),
+      ),
+    ),
+    'enabled' => '1',
+    'read_only' => '0',
+    'rdf_mapping' => array(),
+  ));
   return $defaults;
 }
 
