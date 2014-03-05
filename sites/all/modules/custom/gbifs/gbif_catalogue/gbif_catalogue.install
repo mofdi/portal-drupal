@@ -76,6 +76,7 @@ function gbif_catalogue_install() {
   ));
   variable_set('theme_default', 'bvng');
 
+  // Automatically import tool contents from IMS.
   gbif_catalogue_import_tools();
   
   // Make it easier for administration
