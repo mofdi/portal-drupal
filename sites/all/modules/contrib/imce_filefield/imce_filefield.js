@@ -9,9 +9,9 @@ Drupal.behaviors.imce_filefield = {attach: function(context, settings) {
   var set = settings.imce_filefield;
   if (!set || !set.fields) return;
   $.each(set.fields, function(fieldID, conf) {
-    // Check file input.
-    var $file = $('#' + fieldID + '-upload', context).not('.imce-filefield-processed');
-    if (!$file.length) {
+    // Check imce submit button. Not checking file input because it's ID changes on error.
+    var $button = $('#' + fieldID + '-imce-filefield-submit', context);
+    if (!$button.length) {
       // Prevent queue processing after file removal.
       var $remove = $('#' + fieldID + '-remove-button', context);
       if ($remove.length) $remove.mousedown(function(){
@@ -19,10 +19,8 @@ Drupal.behaviors.imce_filefield = {attach: function(context, settings) {
       });
       return;
     }
-    $file.addClass('imce-filefield-processed');
-    // Check the invisible imce submit button.
-    var $button = $('#' + fieldID + '-imce-filefield-submit', context);
-    if (!$button.length) return;
+    if ($button.is('.imce-filefield-processed')) return;
+    $button.addClass('imce-filefield-processed');
     // Check and run queue.
     if (imce_filefield.runQueue(fieldID)) return;
     // Widget wrapper
@@ -34,7 +32,7 @@ Drupal.behaviors.imce_filefield = {attach: function(context, settings) {
       return false;
     });
     // Add elements to document.
-    $wrapper.insertBefore($file.parent()).append($opener).append($button);
+    $wrapper.insertBefore($button.parent()).append($opener).append($button);
   });
 }};
 

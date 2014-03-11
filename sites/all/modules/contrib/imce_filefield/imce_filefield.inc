@@ -71,6 +71,7 @@ function _imce_filefield_field_process($element, &$form_state, $form) {
   $element['imce_filefield_fid'] = array(
     '#attributes' => array('id' => $element['#id'] . '-imce-filefield-fid'),
     '#type' => 'hidden',
+    '#value' => '',
   );
   $element['imce_filefield_submit'] = array(
     '#type' => 'submit',
@@ -132,6 +133,12 @@ function _imce_filefield_field_pre_render(&$element) {
  */
 function imce_filefield_element_validate($element, $file) {
   $errors = array();
+
+  // Check download access first
+  if (file_uri_scheme($file->uri) !== 'public' && !imce_filefield_download_access($file)) {
+    form_error($element, t('You do not have permission to use the selected file.'));
+    return FALSE;
+  }
 
   // Validate.
   foreach ($element['#upload_validators'] as $function => $args) {
@@ -209,4 +216,23 @@ function _imce_js_imce_filefield(&$imce) {
     }
   }
   return array('ids' => $ids);
+}
+
+/**
+ * Check download access to a file.
+ */
+function imce_filefield_download_access($file) {
+  $headers = array();
+  foreach (module_implements('file_download') as $module) {
+    $function = $module . '_file_download';
+    if ($result = $function($file->uri)) {
+      if ($result == -1) {
+        return FALSE;
+      }
+      if (is_array($result)) {
+        $headers = array_merge($headers, $result);
+      }
+    }
+  }
+  return !empty($headers);
 }

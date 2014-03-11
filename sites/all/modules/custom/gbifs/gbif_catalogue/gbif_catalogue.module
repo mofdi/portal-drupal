@@ -58,7 +58,7 @@ function gbif_catalogue_block_info() {
   $blocks = array();
   $blocks['tools_search_blocks'] = array(
     'info' => t('Tools Catalogue Search'),
-    'region' => 'header',
+    'region' => 'highlighted',
     'weight' => -30,
     'status' => 1,
     'visibility' => BLOCK_VISIBILITY_LISTED,
@@ -230,6 +230,7 @@ function gbif_catalogue_peep() {
   // Position facet blocks
   //_gbif_catalogue_search_view_create();
 }
+
 
 /**
  * Implements hook_default_search_api_server().

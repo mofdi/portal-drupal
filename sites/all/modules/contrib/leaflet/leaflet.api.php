@@ -21,8 +21,7 @@
  */
 function hook_leaflet_map_info() {
   return array(
-    'OSM Mapnik' =>
-    array(
+    'OSM Mapnik' => array(
       'label' => 'OSM Mapnik',
       'description' => t('Leaflet default map.'),
       'settings' => array(
@@ -39,14 +38,14 @@ function hook_leaflet_map_info() {
         'layerControl' => TRUE,
         // 'minZoom' => 10,
         // 'maxZoom' => 15,
-        // 'zoom' => 15, // set the map zoom fixed to 15
+        // 'zoom' => 15, // set the map zoom fixed to 15                     
       ),
       'layers' => array(
         'earth' => array(
           'urlTemplate' => 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
           'options' => array(
             'attribution' => 'OSM Mapnik'
-          )
+          ),
         ),
       ),
       // Uncomment the lines below to use a custom icon
@@ -58,6 +57,7 @@ function hook_leaflet_map_info() {
       //   'shadowUrl'     => '/sites/default/files/icon-shadow.png',
       //   'shadowSize'    => array('x' => '25', 'y' => '27'),
       //   'shadowAnchor'  => array('x' => '0', 'y' => '27'),
-      // ),
+      // ),                            
+    ),
   );
 }

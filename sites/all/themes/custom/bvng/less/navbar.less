@@ -12,8 +12,6 @@
   position: relative;
   min-height: @navbar-height; // Ensure a navbar always shows (e.g., without a .navbar-brand in collapsed mode)
   margin-bottom: 0px; 
-  border: 1px solid red;
-  height: 97px ;
 
   // Prevent floats from breaking the navbar
   &:extend(.clearfix all);
@@ -616,3 +614,20 @@
   }
 
 }
+
+// GBIF Additions
+.navbar-rel {
+  position: relative;
+}
+
+.nav-inline {
+  display:inline-block;
+}
+.contextual {
+  right: 0;
+  position: absolute;
+}
+.contextual li {
+  display:inline-block;
+}
+
