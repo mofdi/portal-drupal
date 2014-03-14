@@ -3,18 +3,18 @@ Data {"url":"<front>"}
 -Explore species {"url":"http:\/\/www.gbif-dev.org\/species"}
 -Explore dataset {"url":"http:\/\/www.gbif-dev.org\/dataset"}
 -Explore by country {"url":"http:\/\/www.gbif-dev.org\/country"}
--Publishing data {"url":"publishingdata\/summary"}
---Summary {"url":"publishingdata\/summary"}
+-Publishing data {"url":"publishingdata\/summary", "description": "How and why you should make biodiversity datasets accessible through GBIF"}
+--Summary {"url":"publishingdata\/summary", "description": "How and why you should make biodiversity datasets accessible through GBIF"}
 --Mobilizing data {"url":"publishingdata\/mobilizingdata"}
 --How to publish {"url":"publishingdata\/howtopublish"}
 --Data papers {"url":"publishingdata\/datapapers"}
--Using Data {"url":"usingdata\/summary"}
---Summary {"url":"usingdata\/summary"}
+-Using Data {"url":"usingdata\/summary", "description": "How data accessed through GBIF are used in research and policy"}
+--Summary {"url":"usingdata\/summary", "description": "How data accessed through GBIF are used in research and policy"}
 --Science relevance {"url":"usingdata\/sciencerelevance"}
 --Methods {"url":"usingdata\/methods"}
 --Data applications {"url":"usingdata\/dataapplications"}
 --Policy relevance {"url":"usingdata\/policyrelevance"}
--Infrastructure {"url":"taxonomy\/term\/745"}
+-Infrastructure {"url":"taxonomy\/term\/745", "description": "How GBIF works as a global informatics infrastructure"}
 --Summary {"url":"taxonomy\/term\/745"}
 --Registry {"url":"<front>"}
 --occurence {"url":"<front>"}
@@ -27,7 +27,7 @@ Data {"url":"<front>"}
 --Stats {"url":"<front>","hidden":true}
 --Releases {"url":"<front>","hidden":true}
 News {"url":"newsroom\/summary"}
--GBIF News {"url":"newsroom\/summary"}
+-GBIF News {"url":"newsroom\/summary", "description": "News and events from around the GBIF community"}
 --Summary {"url":"newsroom\/summary"}
 --News {"url":"newsroom\/news"}
 ---A view of all GBIF news articles {"url":"newsroom\/archive\/allnewsarticles"}
@@ -42,41 +42,41 @@ News {"url":"newsroom\/summary"}
 --A view of all GBIF events {"url":"newsroom\/archive\/allevents"}
 -Newsletter {"url":"page\/2996"}
 Community {"url":"participation\/summary"}
--Participation {"url":"participation\/summary"}
+-Participation {"url":"participation\/summary", "description": "Being part of the GBIF community"}
 --Summary {"url":"participation\/summary"}
 --Membership {"url":"participation\/membership"}
 --Participant list {"url":"participation\/list"}
 --How to join {"url":"participation\/howtojoin"}
--Capacity enhancement {"url":"<front>"}
+-Capacity enhancement {"url":"capacityenhancement\/summary", "description": "Sharing expertise, experience and technology around the GBIF community"}
 --Summary {"url":"capacityenhancement\/summary"}
 --Training {"url":"capacityenhancement\/training"}
 --Mentoring {"url":"capacityenhancement\/mentoring"}
 --Nodes Portal Toolkit {"url":"capacityenhancement\/npt"}
 --Capacity programmes {"url":"capacityenhancement\/capacityprogrammes"}
 --Regional collaboration {"url":"capacityenhancement\/regionalcollaboration"}
--Resources {"url":"resources\/summary"}
+-Resources {"url":"resources\/summary", "description": "Tools and information to support the GBIF community"}
 --Summary {"url":"resources\/summary"}
 ---Archive of all Resources {"url":"resources\/archive"}
 --Key information {"url":"resources\/keyinformation"}
 About {"url":"<front>"}
--What is GBIF {"url":"whatisgbif"}
+-What is GBIF {"url":"whatisgbif", "description": "A short description of the Global Biodiversity Information Facility"}
 --What is GBIF? {"url":"whatisgbif"}
 -Key information {"url":"resources\/keyinformation"}
 --Summary {"url":"resources\/summary"}
 --Key information {"url":"resources\/keyinformation"}
--Governance {"url":"governance\/governingboard"}
+-Governance {"url":"governance\/governingboard", "description": "How decisions, advice, management and funding are organized in GBIF"}
 --Governing Board {"url":"governance\/governingboard"}
 --Standing committees {"url":"governance\/standingcommittees"}
 --Task groups {"url":"governance\/taskgroups"}
 --Finance {"url":"governance\/finance"}
 --Secretariat {"url":"governance\/secretariat"}
--Who we work with {"url":"whoweworkwith"}
+-Who we work with {"url":"whoweworkwith", "description": "GBIF's key collaborations, partnerships and affiliations"}
 --Who we work with {"url":"whoweworkwith"}
--Contact {"url":"contact\/contactus"}
+-Contact {"url":"contact\/contactus", "description": "Finding people and information around the GBIF community"}
 --Contact us {"url":"contact\/contactus"}
 --Directory of contacts {"url":"contact\/directoryofcontacts"}
 Home {"url":"<front>","hidden":true}
--Disclaimers and agreements {"url":"<front>","hidden":true}
+-Disclaimers and agreements {"url":"<front>","hidden":true, "description": "Terms relating to information and data accessed, used and shared through GBIF"}
 --Data sharing {"url":"disclaimer\/datasharing"}
 --Data use {"url":"disclaimer\/datause"}
 --Disclaimer {"url":"disclaimer"}
