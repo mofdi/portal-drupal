@@ -31,6 +31,10 @@ News {"url":"newsroom\/summary"}
 --Summary {"url":"newsroom\/summary"}
 --News {"url":"newsroom\/news"}
 ---A view of all GBIF news articles {"url":"newsroom\/archive\/allnewsarticles"}
+--Uses of data {"url":"newsroom\/uses"}
+--Opportunties {"url":"newsroom\/opportunities"}
+--Events {"url":"newsroom\/events"}
+--Newsletter {"url":"page\/2996"}
 -Featured data use {"url":"newsroom\/uses"}
 --A view of all data use articles {"url":"newsroom\/archive\/alldatausearticles"}
 -Opportunities {"url":"newsroom\/opportunities"}
@@ -58,16 +62,17 @@ About {"url":"<front>"}
 -What is GBIF {"url":"whatisgbif"}
 --What is GBIF? {"url":"whatisgbif"}
 -Key information {"url":"resources\/keyinformation"}
+--Summary {"url":"resources\/summary"}
 --Key information {"url":"resources\/keyinformation"}
--Governance {"url":"<front>"}
+-Governance {"url":"governance\/governingboard"}
 --Governing Board {"url":"governance\/governingboard"}
 --Standing committees {"url":"governance\/standingcommittees"}
 --Task groups {"url":"governance\/taskgroups"}
 --Finance {"url":"governance\/finance"}
 --Secretariat {"url":"governance\/secretariat"}
--Who we work with {"url":"<front>"}
+-Who we work with {"url":"whoweworkwith"}
 --Who we work with {"url":"whoweworkwith"}
--Contact {"url":"<front>"}
+-Contact {"url":"contact\/contactus"}
 --Contact us {"url":"contact\/contactus"}
 --Directory of contacts {"url":"contact\/directoryofcontacts"}
 Home {"url":"<front>","hidden":true}
