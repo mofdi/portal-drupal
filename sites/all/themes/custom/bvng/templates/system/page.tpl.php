@@ -137,30 +137,14 @@ global $base_url;
 <section id="banner">
   <div role="banner" class="container">
     <div class="row">
-      <div id="region-highlighted" class="col-md-8">
-        <h1>
-          <?php
-            $highlighted_title = bvng_get_title_data();
-            print $highlighted_title->name;
-          ?> 
-        </h1>
-        <h5>
-          <?php
-            print $highlighted_title->description;
-          ?>
-        </h5>
+      <div id="region-highlighted" class="col-md-12">
+        <h1><?php print $page['highlighted_title']['name']; ?></h1>
+        <h5><?php print $page['highlighted_title']['description']; ?></h5>
   			<?php if (!empty($page['highlighted'])): ?>
   			<?php print render($page['highlighted']); ?>
   			<?php endif; ?>
-        <!-- 
-      	<h1>Region Highlighted</h1>
-        <p>Title, subtitle, and occasional contextual search.</p>
-        -->
       </div>
-      <div id="region-shortcut" class="col-md-4">
-        <p>Region Shortcut</p>
-      </div>
-      <div id="region-menu" class="col-md-8">
+      <div id="region-menu" class="col-md-12">
   			<?php if (!empty($page['menu'])): ?>
         <?php print render($page['menu']); ?>
   			<?php endif; ?>
