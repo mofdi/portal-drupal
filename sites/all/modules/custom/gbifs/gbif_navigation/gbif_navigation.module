@@ -78,4 +78,11 @@ function gbif_navigation_menu_block_blocks() {
 
 function bvng_preprocess_page(&$variables) {
   $variables['page']['highlighted_title'] = bvng_get_title_data();
+  
+  if ($variables['node']) {
+    $node = $variables['node'];
+    $type = $node->type;
+    $taxanav_id = $node->field_taxanavigation['und'][0]['tid'];
+  }
+  
 }

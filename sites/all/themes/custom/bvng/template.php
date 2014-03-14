@@ -26,5 +26,7 @@ function bvng_get_title_data() {
    'name' => ($parent['link_title'] == 'GBIF News') ? 'GBIF Newsroom' : $parent['link_title'],
 	 'description' => $parent['options']['attributes']['title'],
 	);
+		
 	return $title;
 }
+

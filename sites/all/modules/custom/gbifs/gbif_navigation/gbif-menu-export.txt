@@ -80,3 +80,6 @@ Home {"url":"<front>","hidden":true}
 --Data sharing {"url":"disclaimer\/datasharing"}
 --Data use {"url":"disclaimer\/datause"}
 --Disclaimer {"url":"disclaimer"}
+-Misc {"url": "<front>", "hidden":true}
+--Contact {"url": "newsroom\/contact", "hidden":true}
+--Peer-reviewed publications {"url": "mendeley", "description":"(via Mendeley)"}
