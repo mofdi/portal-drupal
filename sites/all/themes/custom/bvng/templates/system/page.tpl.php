@@ -72,13 +72,15 @@
  *
  * @ingroup themeable
  */
+
+global $base_url;
+
 ?>
 <section id="masthead">
   <div id="navbar" class="<?php print $navbar_classes; ?>"><!-- $navbar_classes contains 'container' -->
       <div id="user" class="row">
         <div class="col-md-4 col-md-push-8">
           <?php
-            global $base_url;
             if ($user->uid == 0) {
               print l(t('Log in'), 'user/login', array('query' => drupal_get_destination()));
               print ' or <a href="' . $base_url . 'user/register">Create a new account</a>';
@@ -109,18 +111,17 @@
         		<?php endif; ?>
 
             <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
-        			<!--<div class="navbar-collapse collapse">-->
         		</div>
         			<div class="nav-inline">
           			<nav role="navigation">
-              		<?php get_nav(); ?>
-
+          				<?php if (!empty($page['navigation'])): ?>
+          				<?php print render($page['navigation']); ?>
+          				<?php endif; ?>
           				<?php if (!empty($primary_nav)): ?>
           				<?php print render($primary_nav); ?>
           				<?php endif; ?>
           			</nav>
           		</div>
-        			<!--</div>-->
         		<?php endif; ?>
         		
       		</div>

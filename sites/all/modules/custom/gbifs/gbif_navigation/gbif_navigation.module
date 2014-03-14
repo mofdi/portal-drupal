@@ -15,3 +15,63 @@ function gbif_navigation_menu() {
 */
   return $items;
 }
+
+/**
+ * Implements hook_block_info_alter().
+ */
+function gbif_navigation_block_info_alter(&$block, $theme, $code_blocks) {
+  switch ($theme) {
+    case 'bvng':
+     $block['system']['navigation']['weight'] = 0;
+     $block['system']['navigation']['status'] = 0;
+     $block['system']['navigation']['region'] = -1;
+     
+     // Turn off the existing level2-menu.
+     $block['menu_block']['1']['weight'] = 0;
+     $block['menu_block']['1']['status'] = 0;
+     $block['menu_block']['1']['region'] = -1;
+     
+     $block['menu_block']['gbif_navigation-nav']['weight'] = 0;
+     $block['menu_block']['gbif_navigation-nav']['status'] = 1;
+     $block['menu_block']['gbif_navigation-nav']['region'] = 'navigation';
+     $block['menu_block']['gbif_navigation-nav']['title'] = '<none>';
+
+     $block['menu_block']['gbif_navigation-menu-tabs']['weight'] = 0;
+     $block['menu_block']['gbif_navigation-menu-tabs']['status'] = 1;
+     $block['menu_block']['gbif_navigation-menu-tabs']['region'] = 'menu';
+     $block['menu_block']['gbif_navigation-menu-tabs']['title'] = '<none>';
+     
+     break;
+  }
+}
+
+/**
+ * Implements hook_menu_block_blocks().
+ */
+function gbif_navigation_menu_block_blocks() {
+  // The array key is the block delta used by menu block.
+  return array(
+    'gbif_navigation-nav' => array(
+      'menu_name'   => 'gbif-menu',
+      'parent_mlid' => 0,
+      'title_link'  => 0,
+      'admin_title' => 'Navigation menu',
+      'level'       => 1,
+      'follow'      => 0,
+      'depth'       => 2,
+      'expanded'    => 1,
+      'sort'        => 0,
+    ),
+    'gbif_navigation-menu-tabs' => array(
+      'menu_name'   => 'gbif-menu',
+      'parent_mlid' => 0,
+      'title_link'  => 0,
+      'admin_title' => 'Menu tabs',
+      'level'       => 3,
+      'follow'      => 0,
+      'depth'       => 1,
+      'expanded'    => 0,
+      'sort'        => 0,
+    ),
+  );
+}
