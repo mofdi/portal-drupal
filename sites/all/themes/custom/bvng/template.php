@@ -5,34 +5,10 @@
  * template.php
  */
 
-/**
- * Use bootstrap nav-tabs class to style menu tabs.
- */
-function bvng_menu_tree__menu_block(&$variables) {
-  return '<ul class="menu nav nav-tabs">' . $variables['tree'] . '</ul>';
-}
+include_once(drupal_get_path('theme', 'bvng') . '/templates/menu/menu-local-tasks.func.php');
+include_once(drupal_get_path('theme', 'bvng') . '/templates/menu/menu-tree.func.php');
 
-function bvng_menu_local_tasks(&$variables) {
-  $output = '';
-
-  if (!empty($variables['primary'])) {
-    $variables['primary']['#prefix'] = '<h2 class="element-invisible">' . t('Primary tabs') . '</h2>';
-    $variables['primary']['#prefix'] .= '<div class="navbar-rel"><ul class="tabs--primary nav navbar-default contextual">';
-    $variables['primary']['#suffix'] = '</ul></div>';
-    $output .= drupal_render($variables['primary']);
-  }
-
-  if (!empty($variables['secondary'])) {
-    $variables['secondary']['#prefix'] = '<h2 class="element-invisible">' . t('Secondary tabs') . '</h2>';
-    $variables['secondary']['#prefix'] .= '<ul class="tabs--secondary pagination pagination-sm">';
-    $variables['secondary']['#suffix'] = '</ul>';
-    $output .= drupal_render($variables['secondary']);
-  }
-
-  return $output;
-}
-
-function get_title_data() {
+function bvng_get_title_data() {
 	$trail = menu_get_active_trail() ;
 	$taxon = taxonomy_get_term_by_name($trail[2]['title'], 'taxanavigation');
 	reset($taxon);

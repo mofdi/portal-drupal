@@ -139,7 +139,7 @@
       <div id="region-highlighted" class="col-md-8">
         <h1>
           <?php
-            $highlighted_title = get_title_data();
+            $highlighted_title = bvng_get_title_data();
             print $highlighted_title->name;
           ?> 
         </h1>
@@ -176,6 +176,7 @@
   <?php if(!empty($page['help']) OR !empty($messages) OR !empty($tabs)): ?>
     <div class="container well well-lg">
         <div class="row">
+          <p>This area will be decorated in yellow, and it will show/hide accordingly.</p>
           <?php print render($page['help']); ?>
         </div>
     </div>

@@ -1,0 +1,21 @@
+<?php
+
+function gbif_navigation_install() {
+  $t = get_t();
+  $menu = array(
+    'menu_name' => 'gbif-menu',
+    'title' => $t('GBIF Menu'),
+    'description' => $t("The <em>GBIF Menu</em> contains links for navigation that are specific to GBIF Portal."),
+  );
+  menu_save($menu);
+}
+
+function gbif_navigation_uninstall() {
+  $menu_to_delete = 'gbif-menu';
+  $links = menu_load_links($menu_to_delete);
+  foreach ($links as $link) {
+    menu_link_delete($link['mlid']);
+  }
+  menu_delete(menu_load($menu_to_delete));
+  menu_rebuild();
+}

@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function gbif_navigation_menu() {
+  $items = array();
+/*
+  $items['<nolink>'] = array(
+    'title' => t('Data'),
+    'menu_name' => 'gbif-menu',
+    'weight' => -50,
+    'type' => MENU_NORMAL_ITEM,
+  );
+*/
+  return $items;
+}

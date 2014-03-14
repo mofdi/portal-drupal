@@ -1,0 +1,7 @@
+name = GBIF Navigation
+description = Navigation structure that is specific to GBIF Portal.
+core = 7.x
+version = 7.x-0.1
+package = GBIF
+
+;dependencies[] = special_menu_items

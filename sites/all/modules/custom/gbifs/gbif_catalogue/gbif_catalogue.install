@@ -74,6 +74,9 @@ function gbif_catalogue_install() {
   theme_enable(array(
     'bvng'
   ));
+  theme_disable(array(
+    'vizz2'
+  ));
   variable_set('theme_default', 'bvng');
 
   gbif_catalogue_import_tools();
