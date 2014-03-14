@@ -10,6 +10,8 @@ function gbif_navigation_install() {
   menu_save($menu);
   
   // Import default menu
+  $gbif_menu_file = drupal_get_path('module', 'gbif_navigation') . '/gbif-menu-export.txt';
+  drush_menu_import_import($gbif_menu_file, 'gbif-menu');
   
   // jquery_update settings.
   variable_set('jquery_update_jquery_cdn', 'google');
