@@ -1,10 +1,9 @@
-Data {"url":"<nolink>"}
+Data {"url":"<front>"}
 -Explore occurrences {"url":"http:\/\/www.gbif-dev.org\/occurrence"}
--Explore dataset {"url":"http:\/\/www.gbif-dev.org\/dataset"}
 -Explore species {"url":"http:\/\/www.gbif-dev.org\/species"}
+-Explore dataset {"url":"http:\/\/www.gbif-dev.org\/dataset"}
 -Explore by country {"url":"http:\/\/www.gbif-dev.org\/country"}
--separator {"url":"<separator>"}
--Publishing data {"url":"<front>"}
+-Publishing data {"url":"publishingdata\/summary"}
 --Summary {"url":"publishingdata\/summary"}
 --Mobilizing data {"url":"publishingdata\/mobilizingdata"}
 --How to publish {"url":"publishingdata\/howtopublish"}
@@ -15,18 +14,18 @@ Data {"url":"<nolink>"}
 --Methods {"url":"usingdata\/methods"}
 --Data applications {"url":"usingdata\/dataapplications"}
 --Policy relevance {"url":"usingdata\/policyrelevance"}
--Infrastructure {"url":"infrastructure\/summary"}
---Summary {"url":"infrastructure\/summary"}
---Registry {"url":"infrastructure\/registry"}
---occurence {"url":"infrastructure\/occurrences"}
+-Infrastructure {"url":"taxonomy\/term\/745"}
+--Summary {"url":"taxonomy\/term\/745"}
+--Registry {"url":"<front>"}
+--occurence {"url":"<front>"}
 --Tools {"url":"infrastructure\/tools"}
 --Species {"url":"<front>","hidden":true}
 --Maps {"url":"<front>","hidden":true}
 --FAQ {"url":"<front>","hidden":true}
--GBIF IPT {"url":"ipt"}
---Summary {"url":"ipt","hidden":true}
---Stats {"url":"ipt/stats","hidden":true}
---Releases {"url":"ipt/releases","hidden":true}
+-GBIF IPT {"url":"<front>","hidden":true}
+--Summary {"url":"<front>","hidden":true}
+--Stats {"url":"<front>","hidden":true}
+--Releases {"url":"<front>","hidden":true}
 News {"url":"newsroom\/summary"}
 -GBIF News {"url":"newsroom\/summary"}
 --Summary {"url":"newsroom\/summary"}
@@ -38,8 +37,8 @@ News {"url":"newsroom\/summary"}
 -Events {"url":"newsroom\/events"}
 --A view of all GBIF events {"url":"newsroom\/archive\/allevents"}
 -Newsletter {"url":"page\/2996"}
-Community {"url":"<nolink>"}
--Participation {"url":"<front>"}
+Community {"url":"participation\/summary"}
+-Participation {"url":"participation\/summary"}
 --Summary {"url":"participation\/summary"}
 --Membership {"url":"participation\/membership"}
 --Participant list {"url":"participation\/list"}
@@ -51,11 +50,11 @@ Community {"url":"<nolink>"}
 --Nodes Portal Toolkit {"url":"capacityenhancement\/npt"}
 --Capacity programmes {"url":"capacityenhancement\/capacityprogrammes"}
 --Regional collaboration {"url":"capacityenhancement\/regionalcollaboration"}
--Resources {"url":"<front>"}
+-Resources {"url":"resources\/summary"}
 --Summary {"url":"resources\/summary"}
 ---Archive of all Resources {"url":"resources\/archive"}
 --Key information {"url":"resources\/keyinformation"}
-About {"url":"<nolink>"}
+About {"url":"<front>"}
 -What is GBIF {"url":"whatisgbif"}
 --What is GBIF? {"url":"whatisgbif"}
 -Key information {"url":"resources\/keyinformation"}
@@ -73,6 +72,6 @@ About {"url":"<nolink>"}
 --Directory of contacts {"url":"contact\/directoryofcontacts"}
 Home {"url":"<front>","hidden":true}
 -Disclaimers and agreements {"url":"<front>","hidden":true}
---Disclaimer {"url":"disclaimer"}
---Data use {"url":"disclaimer\/datause"}
 --Data sharing {"url":"disclaimer\/datasharing"}
+--Data use {"url":"disclaimer\/datause"}
+--Disclaimer {"url":"disclaimer"}
