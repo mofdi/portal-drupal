@@ -506,17 +506,18 @@ switch ($type) {
 }
 	
 $result = db_query('SELECT gbifims_Participant.Name_Short, gbifims_Participant.Name_Full, Contacts.Name_First, Contacts.Name_Last, Contacts.CountryNameAdd, 
-						Contacts.GrouproleName, Contacts.Job_Position, Contacts.Institution, Contacts.Address, Contacts.Email, Contacts.City, Contacts.ZipCode, Contacts.Phone_Office, Contacts.Fax
+						Contacts.GrouproleName, Contacts.Job_Position, Contacts.Institution, Contacts.Address, Contacts.AddrInstitution, Contacts.Email, Contacts.City, Contacts.ZipCode, Contacts.Phone_Office, Contacts.Fax
 					FROM gbifims_Participant
 					LEFT JOIN gbifims_Institution ON gbifims_Participant.InstitutionID = gbifims_Institution.InstitutionID
 					LEFT JOIN gbifims_Country ON gbifims_Participant.CountryID = gbifims_Country.CountryID
 					LEFT JOIN ( SELECT gbifims_Participant.ParticipantId AS PId, gbifims_Contact.Name_First, gbifims_Contact.Name_Last, gbifims_ContactGrouproleNodeParticipant.Active, c2.Name AS CountryNameAdd, 
-									gbifims_Grouprole.Name AS GrouproleName, gbifims_Contact.Job_Position, gbifims_Institution.Name AS Institution, gbifims_Grouprole.SortOrder, gbifims_Contact.Address, gbifims_Contact.Email, gbifims_Contact.City, gbifims_Contact.ZipCode, gbifims_Contact.Phone_Office, gbifims_Contact.Fax
+									gbifims_Grouprole.Name AS GrouproleName, gbifims_Contact.Job_Position, gbifims_Institution.Name AS Institution, AddrInstitution.Name AS AddrInstitution, gbifims_Grouprole.SortOrder, gbifims_Contact.Address, gbifims_Contact.Email, gbifims_Contact.City, gbifims_Contact.ZipCode, gbifims_Contact.Phone_Office, gbifims_Contact.Fax
 								FROM gbifims_Participant
 								LEFT JOIN gbifims_Institution ON gbifims_Participant.InstitutionID = gbifims_Institution.InstitutionID
 								LEFT JOIN gbifims_Country ON gbifims_Participant.CountryID = gbifims_Country.CountryID
 								LEFT JOIN gbifims_ContactGrouproleNodeParticipant ON gbifims_Participant.ParticipantID = gbifims_ContactGrouproleNodeParticipant.ParticipantID
 								LEFT JOIN gbifims_Contact ON gbifims_ContactGrouproleNodeParticipant.ContactID = gbifims_Contact.ContactID
+								LEFT JOIN gbifims_Institution AddrInstitution ON gbifims_Contact.InstitutionID = AddrInstitution.InstitutionID
 								LEFT JOIN gbifims_Country c2 ON gbifims_Contact.CountryID_Address = c2.CountryID 
 								LEFT JOIN gbifims_Grouprole ON gbifims_ContactGrouproleNodeParticipant.GrouproleID = gbifims_Grouprole.GrouproleID
 								WHERE '.$where.'
@@ -564,6 +565,7 @@ while ( $row < $resultsize ) {
 															'Name_Last'=>$dbrows[$row+$i]->Name_Last, 
 															'GrouproleName'=>$dbrows[$row+$i]->GrouproleName, 
 															'Institution'=>$dbrows[$row+$i]->Institution, 
+															'AddrInstitution'=>$dbrows[$row+$i]->AddrInstitution, 
 															'Job_Position'=>$dbrows[$row+$i]->Job_Position, 
 															'CountryNameAdd'=>$dbrows[$row+$i]->CountryNameAdd, 
 															'Address'=>$dbrows[$row+$i]->Address, 
@@ -591,7 +593,7 @@ foreach ( $participants as $p => $data ) {
 				<div class='contactName'>{$d['Name_First']} {$d['Name_Last']}  ({$d['GrouproleName']})</div>
 				<div style='display: none;'>
 					<div class='contactPosition'>{$d['Job_Position']}</div>
-					<div class='contactInstitution'>{$d['Institution']}</div>
+					<div class='contactInstitution'>{$d['AddrInstitution']}</div>
 					<div class='address'>
 						<span>{$d['Address']}</span>
 						<span class='city'>{$d['City']}</span>
