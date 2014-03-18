@@ -83,6 +83,9 @@ function bvng_preprocess_page(&$variables) {
     $node = $variables['node'];
     $type = $node->type;
     $taxanav_id = $node->field_taxanavigation['und'][0]['tid'];
+    //menu_set_active_item('taxonomy/term/' . $taxanav_id);
+    //$path_alias = drupal_get_path_alias('taxonomy/term/' . $taxanav_id);
+    menu_tree_set_path('gbif-name', 'taxonomy/term/' . $taxanav_id);
   }
   
 }
