@@ -89,3 +89,21 @@ function gbif_navigation_node_view($node, $view_mode, $langcode) {
       break;  
   }
 }
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Provides a checkbox to indicate that the menu item points to a portal URL that
+ * is not served by Drupal itself.
+ */
+function gbif_navigation_form_menu_edit_item_alter(&$form, &$form_state, $form_id) {
+  $form['link_title']['#weight'] = -5;
+  $form['link_path']['#weight'] = -3;
+  $form['description']['#weight'] = -1;
+  $form['non_drupal_portal_url'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Non-Drupal portal URL'),
+    '#description' => t('Check if this menu item points to a non-Drupal portal URL. Once checked, the base URL will be determined by the mode of this installation - live, uat or dev.'),
+    '#weight' => 0,
+  );
+}
