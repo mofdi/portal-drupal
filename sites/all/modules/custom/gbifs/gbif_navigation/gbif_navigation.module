@@ -3,6 +3,9 @@
 /**
  * @file
  * gbif_navigation.module
+ *
+ * An important reference post:
+ * @see http://drupal.stackexchange.com/questions/26000/saving-form-after-altering-it
  */
 
 /**
@@ -11,26 +14,26 @@
 function gbif_navigation_block_info_alter(&$block, $theme, $code_blocks) {
   switch ($theme) {
     case 'bvng':
-     $block['system']['navigation']['weight'] = 0;
-     $block['system']['navigation']['status'] = 0;
-     $block['system']['navigation']['region'] = -1;
-     
-     // Turn off the existing level2-menu.
-     $block['menu_block']['1']['weight'] = 0;
-     $block['menu_block']['1']['status'] = 0;
-     $block['menu_block']['1']['region'] = -1;
-     
-     $block['menu_block']['gbif_navigation_nav']['weight'] = 0;
-     $block['menu_block']['gbif_navigation_nav']['status'] = 1;
-     $block['menu_block']['gbif_navigation_nav']['region'] = 'navigation';
-     $block['menu_block']['gbif_navigation_nav']['title'] = '<none>';
-
-     $block['menu_block']['gbif_navigation_menu_tabs']['weight'] = 0;
-     $block['menu_block']['gbif_navigation_menu_tabs']['status'] = 1;
-     $block['menu_block']['gbif_navigation_menu_tabs']['region'] = 'menu';
-     $block['menu_block']['gbif_navigation_menu_tabs']['title'] = '<none>';
-     
-     break;
+      $block['system']['navigation']['weight'] = 0;
+      $block['system']['navigation']['status'] = 0;
+      $block['system']['navigation']['region'] = -1;
+      
+      // Turn off the existing level2-menu.
+      $block['menu_block']['1']['weight'] = 0;
+      $block['menu_block']['1']['status'] = 0;
+      $block['menu_block']['1']['region'] = -1;
+      
+      $block['menu_block']['gbif_navigation_nav']['weight'] = 0;
+      $block['menu_block']['gbif_navigation_nav']['status'] = 1;
+      $block['menu_block']['gbif_navigation_nav']['region'] = 'navigation';
+      $block['menu_block']['gbif_navigation_nav']['title'] = '<none>';
+   
+      $block['menu_block']['gbif_navigation_menu_tabs']['weight'] = 0;
+      $block['menu_block']['gbif_navigation_menu_tabs']['status'] = 1;
+      $block['menu_block']['gbif_navigation_menu_tabs']['region'] = 'menu';
+      $block['menu_block']['gbif_navigation_menu_tabs']['title'] = '<none>';
+      
+      break;
   }
 }
 
@@ -95,17 +98,84 @@ function gbif_navigation_node_view($node, $view_mode, $langcode) {
  *
  * Provides a checkbox to indicate that the menu item points to a portal URL that
  * is not served by Drupal itself.
+ *
+ * The main reason for implement this hook is for easier maintenance of the menu links,
+ * especially those outside Drupal. This hook will take care of the data portal base URL
+ * for the editor.
+ *
+ * @todo For stream-lined deployment, eventually all data portal base URLs have to be 
+ *       erased from the menu_links table, so all data portal links refer to the
+ *       environment settings. This will require a replacement of default validation,
+ *       instead of adding extra validation. Also, to ensure the link still shows in the
+ *       management page.
  */
 function gbif_navigation_form_menu_edit_item_alter(&$form, &$form_state, $form_id) {
   $data_portal_base_url = variable_get('data_portal_base_url');
-
-  $form['link_title']['#weight'] = -5;
-  $form['link_path']['#weight'] = -3;
-  $form['description']['#weight'] = -1;
+  $mlid = $form['mlid']['#value'];
+  $result = db_select('menu_links', 'm')
+    ->fields('m', array('non_drupal_url'))
+    ->condition('mlid', $mlid)
+    ->execute()
+    ->fetchAssoc();
   $form['non_drupal_url'] = array(
     '#type' => 'checkbox',
     '#title' => t('Non-Drupal URL'),
     '#description' => t('Check if this menu item points to a portal URL that is not managed by Drupal. The base URL, according to the environment_settings.php, is !data_portal_base_url, will be added automatically before it goes to the theme.', array('!data_portal_base_url' => $data_portal_base_url)),
-    '#weight' => 0,
+    '#default_value' => isset($result['non_drupal_url']) ? $result['non_drupal_url'] : 0,
+    '#weight' => -1,
   );
+	
+	// Organise form items in a desired order.
+  $form['link_title']['#weight'] = -5;
+  $form['link_path']['#weight'] = -3;
+  $form['link_path']['#description'] .= ' If the path points to the Java part of the portal, leave the base URL and check the "Non-Drupal URL" below.';
+  
+  // Assuming the link_path is a non-Drupal URL, it should have
+  // the data portal base URL identical as $conf['data_portal_base_url'],
+  // Therefore only the base path will be displayed and used as the input
+  // value.
+  if ($result['non_drupal_url'] == 1) {
+  	$form['link_path']['#default_value'] = str_replace($data_portal_base_url . '/', "", $form['link_path']['#default_value']);
+  }
+  $form['description']['#weight'] = 0;
+
+  array_unshift($form['#validate'], 'gbif_navigation_menu_edit_validate');
+  // Depending on whether mlid is available or not, which means editing
+  // or adding a menu item, respectively, we put the extra submit handler
+  // before or after the default one. If the menu item is being added, then
+  // mild will be available after the default handler, so we can keep the
+  // same update query.  
+  if ($form['mlid']['#value'] == 0) {
+  	array_push($form['#submit'], 'gbif_navigation_menu_edit_submit');
+  }
+  else {
+  	array_unshift($form['#submit'], 'gbif_navigation_menu_edit_submit');
+  }
+}
+
+/**
+ * Custom validation handler.
+ */
+function gbif_navigation_menu_edit_validate($form, &$form_state) {
+  $item = &$form_state['values'];
+  
+  // Add the data portal base URL underneath so it'll pass normal Drupal
+  // link validation as an external link.
+  if ($item['non_drupal_url'] == 1) {
+    $data_portal_base_url = variable_get('data_portal_base_url');
+    $item['link_path'] = $data_portal_base_url . '/' . $item['link_path'];
+  }  
+}
+
+/**
+ * Custom submit handler to store non_drupal_url field.
+ */
+function gbif_navigation_menu_edit_submit($form, &$form_state) {
+  $item = &$form_state['values'];
+  if (isset($item['non_drupal_url']) && isset($item['mlid'])) {
+    db_update('menu_links')
+      ->fields(array('non_drupal_url' => $item['non_drupal_url']))
+      ->condition('mlid', $item['mlid'])
+      ->execute();
+  }  
 }
