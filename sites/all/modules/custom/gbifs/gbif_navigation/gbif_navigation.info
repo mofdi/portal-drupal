@@ -2,9 +2,10 @@ name = GBIF Navigation
 description = Navigation structure that is specific to GBIF Portal. This module can ONLY BE ENABLED VIA DRUSH.
 core = 7.x
 version = 7.x-0.1
-package = GBIF
+package = GBIFS
 
-;dependencies[] = special_menu_items
+dependencies[] = gbif_tweaks
+dependencies[] = special_menu_items
 dependencies[] = menu_block
 dependencies[] = menu_import
 dependencies[] = jquery_update

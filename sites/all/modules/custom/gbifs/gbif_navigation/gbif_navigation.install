@@ -16,7 +16,7 @@ function gbif_navigation_install() {
   );
   menu_save($menu);
   
-  // Clean the Navigation and Import default menu
+  // Clean the Navigation and Import default menu.
   $gbif_menu_file = drupal_get_path('module', 'gbif_navigation') . '/' . 'gbif-menu-export.txt';
   $import_function_file = drupal_get_path('module', 'menu_import') . '/' . 'menu_import.drush.inc';
   if (file_exists($import_function_file)) {
@@ -24,11 +24,7 @@ function gbif_navigation_install() {
     drush_menu_import_import($gbif_menu_file, 'gbif-menu');
   }
   
-  // jquery_update settings.
-  variable_set('jquery_update_jquery_cdn', 'google');
-  variable_set('jquery_update_jquery_version', '1.7');
-  
-  // Default menu
+  // Set the default menu to gbif-menu.
   variable_set('menu_main_links_source', 'gbif-menu');
   variable_set('menu_secondary_links_source', 'gbif-menu');
   variable_set('menu_default_active_menus', array('gbif-menu'));
@@ -65,6 +61,7 @@ function gbif_navigation_uninstall() {
   menu_delete(menu_load($menu_to_delete));
   menu_rebuild();
 
+  // Set the default menu back to main-menu.
   variable_set('menu_main_links_source', 'main-menu');
   variable_set('menu_secondary_links_source', 'main-menu');
   variable_set('menu_default_active_menus', array('main-menu'));

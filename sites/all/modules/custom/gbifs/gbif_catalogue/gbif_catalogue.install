@@ -45,7 +45,6 @@ function gbif_catalogue_requirements($phase) {
 
 /**
  * Implemtation of hook_install().
- * @todo Change body title to description.
  */
 function gbif_catalogue_install() {
   // Populate all required vocabularies and their terms.
@@ -55,40 +54,17 @@ function gbif_catalogue_install() {
   node_types_rebuild();
   $types = node_type_get_types();
   
-  // The body field.
+  // Setup the body field.
   node_add_body_field($types['resource'], 'Description'); // Attach body field and name it 'Description'.
   $instance = field_read_instance('node', 'body', 'resource');
   $instance['widget']['weight'] = 5;
   $instance['widget']['settings']['rows'] = 5;
   field_update_instance($instance);
   
-  // The other fields.
+  // Setup the other fields.
   _gbif_catalogue_create_custom_fields();
-  
-  // Hide "submitted by" by default.
-  variable_set('node_submitted_resource', 0);
-  // Disable "comment" by default.
-  variable_set('comment_resource', 0);
-  
-  // Change the default theme to bvng.
-  theme_enable(array(
-    'bvng'
-  ));
-  theme_disable(array(
-    'vizz2'
-  ));
-  variable_set('theme_default', 'bvng');
 
   gbif_catalogue_import_tools();
-  
-  // Make it easier for administration
-  module_disable(array(
-    'toolbar',
-  ));
-  module_enable(array(
-    'admin_menu',
-    'admin_menu_toolbar'
-  ));
 
   _gbif_catalogue_search_view_create();
 
@@ -96,7 +72,6 @@ function gbif_catalogue_install() {
 
 /**
  * Implemtation of hook_uninstall().
- * @todo remove the tools_catalogue view.
  */
 function gbif_catalogue_uninstall() {
 
@@ -117,28 +92,7 @@ function gbif_catalogue_uninstall() {
   // Clean up the vocabularies.
   gbif_catalogue_vocabularies_delete();
 
-  // Hide "submitted by" by default.
-  variable_del('node_submitted_resource', 0);
-  // Disable "comment" by default.
-  variable_del('comment_resource', 0);
-  
-  // Revert the default theme to vizz2.
-  theme_disable(array(
-    'bvng'
-  ));
-  variable_set('theme_default', 'vizz2');
-  
-  // Revert the admin menu.
-  module_disable(array(
-    'admin_menu',
-    'admin_menu_toolbar'
-  ));
-  module_enable(array(
-    'toolbar',
-  ));
-
   cache_clear_all();
-  
 }
 
 function gbif_catalogue_vocabularies_create() {
