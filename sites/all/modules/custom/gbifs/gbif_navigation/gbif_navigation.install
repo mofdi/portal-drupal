@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * @file
+ * gbif_navigation module installation.
+ */
+ 
+/**
+ * Implenets hook_install().
+ */
 function gbif_navigation_install() {
   $t = get_t();
   $menu = array(
@@ -10,20 +17,48 @@ function gbif_navigation_install() {
   menu_save($menu);
   
   // Clean the Navigation and Import default menu
-  $gbif_menu_file = drupal_get_path('module', 'gbif_navigation') . '/gbif-menu-export.txt';
-  drush_menu_import_import($gbif_menu_file, 'gbif-menu');
+  $gbif_menu_file = drupal_get_path('module', 'gbif_navigation') . '/' . 'gbif-menu-export.txt';
+  $import_function_file = drupal_get_path('module', 'menu_import') . '/' . 'menu_import.drush.inc';
+  if (file_exists($import_function_file)) {
+    include_once($import_function_file);
+    drush_menu_import_import($gbif_menu_file, 'gbif-menu');
+  }
   
   // jquery_update settings.
   variable_set('jquery_update_jquery_cdn', 'google');
   variable_set('jquery_update_jquery_version', '1.7');
   
-  // default menu
+  // Default menu
   variable_set('menu_main_links_source', 'gbif-menu');
   variable_set('menu_secondary_links_source', 'gbif-menu');
   variable_set('menu_default_active_menus', array('gbif-menu'));
   
+  // Add the non-Drupal URL setting in menu_links table.
+  db_add_field('menu_links', 'non_drupal_url', array(
+    'description' => 'We save a value here if the link is pointing to non-Drupal URL.',
+    'type' => 'int',
+    'size' => 'tiny',
+    'not null' => FALSE,
+  ));
 }
 
+/**
+ * Implements hook_schema_alter().
+ */
+function gbif_navigation_schema_alter(&$schema) {
+  if (isset($schema['menu_links'])) {
+    $schema['menu_links']['fields']['non_drupal_url'] = array(
+      'description' => 'We save a value here if the link is pointing to non-Drupal URL.',
+      'type' => 'int',
+      'size' => 'tiny',
+      'not null' => FALSE,
+    );
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
 function gbif_navigation_uninstall() {
   $menu_to_delete = 'gbif-menu';
   menu_delete_links($menu_to_delete);
@@ -33,5 +68,7 @@ function gbif_navigation_uninstall() {
   variable_set('menu_main_links_source', 'main-menu');
   variable_set('menu_secondary_links_source', 'main-menu');
   variable_set('menu_default_active_menus', array('main-menu'));
-
+  
+  // Remove non-Drupal URL setting in menu_links table.
+  db_drop_field('menu_links', 'non_drupal_url');
 }
