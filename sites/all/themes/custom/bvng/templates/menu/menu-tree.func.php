@@ -31,3 +31,10 @@ function bvng_menu_tree__secondary(&$variables) {
 function bvng_menu_tree__menu_block(&$variables) {
   return '<ul class="menu nav nav-tabs">' . $variables['tree'] . '</ul>';
 }
+
+/**
+ * Footer links are flat so we don't expect it to be rendered like normal menus.
+ */
+function bvng_menu_tree__menu_block__gbif_navigation_footer_links(&$variables) {
+  return '<ul>' . $variables['tree'] . '</ul>';
+}

@@ -8,8 +8,6 @@ base theme = bootstrap
 ;; Regions
 ;;;;;;;;;;;;;;;;;;;;;
 
-regions[page_top]       = 'Page top'
-
 ; In the header section
 regions[user]           = 'User'
 regions[navigation]     = 'Navigation'
@@ -40,6 +38,9 @@ regions[credits]        = 'Credits'
 ; Footer as a term also has the same concern as header.
 ; I suggest we avoid using that for the same reason.
 regions[footer]         = 'Footer'
+
+; Hidden regions that should not be used by admins.
+regions[page_top]       = 'Page top'
 regions[page_bottom]    = 'Page bottom'
 
 

@@ -18,6 +18,32 @@
 @brand-warning:         #f0ad4e;
 @brand-danger:          #d9534f;
 
+// Colors - from gbif-portal
+@cWhite: #FFFFFF;
+@cGray5: #F1F1F1;
+@cGray4: #CCCCCC;
+@cGray3: #999999;
+@cGray2: #666666;
+@cGray1: #333333;
+@cGray0: #000000;
+
+// backgrounds - from gbif-portal
+@colorBackContent: #efefef;
+@colorBackArticle: @cWhite;
+@colorBackFooter: #222;
+
+// Text colors - from gbif-portal
+@colorTitle: @cGray1;
+@colorText: @cGray2;
+@colorTextLight: @cGray3;
+@colorTextLighter: @cGray4;
+@colorLink: #0099cc;
+@colorLinkHover: #005E7D;
+@colorTitleOnGreen: @cWhite;
+@colorTextOnGreen: #40523C;
+@colorLinkOnGreen: #0099cc;
+@colorTabTitleActive: @cGray1;
+@colorTabTitleInactive: #B0D0AB;
 
 //== Scaffolding
 //
@@ -835,3 +861,13 @@
 @container-large-desktop:      ((894px + @grid-gutter-width));
 //** For `@screen-lg-min` and up.
 @container-lg:                 @container-large-desktop;
+
+//
+// MIXINS
+//
+.inline_block() {
+  display: -moz-inline-stack;
+  vertical-align: top;
+  display: inline-block;
+  zoom: 1; *display: inline;
+}

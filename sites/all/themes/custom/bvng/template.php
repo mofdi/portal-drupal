@@ -3,10 +3,13 @@
 /**
  * @file
  * template.php
+ * @see https://drupal.org/node/2217037 The fixed in included in the dev branch
+ *      so we can avoid the include lines in this template.
  */
-
 include_once(drupal_get_path('theme', 'bvng') . '/templates/menu/menu-local-tasks.func.php');
+include_once(drupal_get_path('theme', 'bvng') . '/templates/menu/menu-local-task.func.php');
 include_once(drupal_get_path('theme', 'bvng') . '/templates/menu/menu-tree.func.php');
+include_once(drupal_get_path('theme', 'bvng') . '/templates/menu/menu-link.func.php');
 
 /**
  * Helper function for showing the title and subtitle of a site section in the

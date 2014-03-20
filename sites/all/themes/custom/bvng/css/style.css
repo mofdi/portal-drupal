@@ -5919,12 +5919,6 @@ body #admin-menu .dropdown li {
 .modal-backdrop {
   z-index: 1610;
 }
-.footer {
-  margin-top: 45px;
-  padding-top: 35px;
-  padding-bottom: 36px;
-  border-top: 1px solid #E5E5E5;
-}
 .element-invisible {
   margin: 0;
   padding: 0;
@@ -6418,4 +6412,132 @@ table .checkbox input[type="checkbox"] {
 }
 #region-highlighted h1 {
   color: white;
+}
+#footer {
+  position: relative;
+  bottom: 0px;
+  border-top: 1px solid rgba(0, 0, 0, 0.4);
+  text-align: left;
+  line-height: 21px;
+  font-size: 15px;
+  color: #666666;
+}
+#footer h3 {
+  color: #ffffff;
+  text-transform: uppercase;
+  font-size: 13px;
+  margin-top: 0px;
+  margin-bottom: 9px;
+}
+#footer a {
+  color: #666666;
+}
+#footer a:hover {
+  text-decoration: underline;
+}
+#footer div {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+#footer .region-links {
+  padding: 30px 0px 10px 0px;
+}
+#footer .region-credits {
+  padding: 30px 0px 10px 0px;
+}
+#footer #footer-links {
+  background-color: #6ebd61;
+  background: url("../images/footer_bkg.jpg") repeat-x;
+  width: 100%;
+}
+#footer #footer-links a {
+  color: #40523c;
+}
+#footer #footer-links ul {
+  margin: 0;
+}
+#footer #footer-links ul > li {
+  display: block;
+  float: left;
+  margin: 0 20px 36px 0;
+  width: 204px;
+}
+#footer #footer-links ul > li > ul {
+  -webkit-padding-start: 0px;
+  -moz-padding-start: 0px;
+}
+#footer #footer-links ul > li > ul > li {
+  margin: 0;
+  padding-left: 15px;
+  text-indent: -15px;
+}
+#footer #footer-credits {
+  background-color: #222222;
+}
+#footer #footer-credits ul {
+  margin: 0;
+}
+#footer #footer-credits ul > li {
+  display: block;
+  float: left;
+  margin: 0 20px 36px 0;
+  width: 204px;
+}
+#footer #footer-credits ul > li > ul {
+  -webkit-padding-start: 0px;
+  -moz-padding-start: 0px;
+}
+#footer #footer-credits ul > li > ul > li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#footer #footer-credits ul > li > ul > li strong {
+  width: 40px;
+  display: -moz-inline-stack;
+  vertical-align: top;
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+#footer #footer-credits ul > li > ul > li .logo {
+  width: 80px;
+  height: 94px;
+  margin: 0 0 10px 0;
+  background: url("../images/logo_black.png") no-repeat;
+}
+#footer #footer-credits ul > li > ul.social li {
+  margin: 0 0 5px 0;
+}
+#footer #footer-credits ul > li > ul.social li a {
+  vertical-align: middle;
+}
+#footer #footer-credits ul > li > ul.social li i {
+  display: -moz-inline-stack;
+  vertical-align: top;
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+  vertical-align: middle;
+  width: 25px;
+  height: 25px;
+  margin: 0 7px 0 0;
+}
+#footer #footer-credits ul > li > ul.social li.twitter i {
+  background: url("../images/twitter.png") 0 0 no-repeat;
+  background-size: 25px 25px;
+}
+#footer #footer-credits ul > li > ul.social li.facebook i {
+  background: url("../images/facebook.png") 0 0 no-repeat;
+  background-size: 25px 25px;
+}
+#footer #footer-credits ul > li > ul.social li.linkedin i {
+  background: url("../images/linkedin.png") 0 0 no-repeat;
+  background-size: 25px 25px;
+}
+#footer #footer-credits ul > li > ul.social li.vimeo i {
+  background: url("../images/vimeo.png") 0 0 no-repeat;
+  background-size: 25px 25px;
 }

@@ -2,6 +2,8 @@
 /**
  * @file
  * menu-link.func.php
+ * 
+ * This template controls the HTML of links at the 'link' level, before it's been wrapped.
  */
 
 /**
@@ -39,5 +41,30 @@ function bvng_menu_link(array $variables) {
     $element['#attributes']['class'][] = 'active';
   }
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+}
+
+/**
+ * Flatten footer links.
+ */
+function bvng_menu_link__footer_links(array $variables) {
+  $element = $variables['element'];
+  $sub_menu = '';
+
+  if ($element['#below']) {
+    unset($element['#below']['#theme_wrappers']);
+    $sub_menu = '<ul>' . drupal_render($element['#below']) . '</ul>';
+    if (isset($element['#attributes']['class'])) {
+      foreach ($element['#attributes']['class'] as $key => $class) {
+        if ($class == 'expanded') {
+          unset($element['#attributes']['class'][$key]);
+        }
+      }
+    }
+  }
+  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+  if ($element['#below']) {
+    $output = '<h3>' . $output . '</h3>';
+  }
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }

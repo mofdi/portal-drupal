@@ -1,0 +1,21 @@
+Join the community {"url":"<nolink>"}
+-Join GBIF Community Site {"url":"http:\/\/community.gbif.org\/"}
+-Sign up to GBits newsletter {"url":"http:\/\/www.gbif.org\/newsroom\/summary\/#signup"}
+-GBIF Online Resource Centre {"url":"http:\/\/www.gbif-dev.org\/dataset"}
+Who's participating {"url":"<nolink>"}
+-Countries {"url":"participation\/list#voting"}
+-Organizations {"url":"participation/list#other"}
+-Data publishers {"url":"publisher\/search"}
+Key documents {"url":"<nolink>"}
+-Disclaimer {"url":"disclaimer"}
+-Data use agreement {"url":"disclaimer\/datause"}
+-Data sharing agreement  {"url":"disclaimer\/datasharing"}
+-Memorandum of Understanding  {"url":"resources\/2605"}
+-Annual Report  {"url":"resources\/2262"}
+-GBIF Strategic Plan  {"url":"resources\/2569"}
+-GBIF Work Programme  {"url":"resources\/2970"}
+-GBIF Travel guidelines  {"url":"http://links.gbif.org\/travel_guidelines.pdf"}
+For developers {"url":"<nolink>"}
+-Portal API  {"url":"developer"}
+-Developer blog  {"url":"http:\/\/gbif.blogspot.com\/"}
+-Tools  {"url":"infrastructure\/tools"}

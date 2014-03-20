@@ -42,18 +42,10 @@
  * @see bootstrap_process_block()
  * @see template_process()
  *
+ * @see https://drupal.org/node/104319 for template suggestions.
+ *
  * @ingroup themeable
  */
-
-if ($block_html_id == 'block-menu-block-1') {
-	unset($title);
-	unset($block->subject);
-}
-
-if ($block->region == 'highlighted') {
-  return;
-}
-
 ?>
 <section id="<?php print $block_html_id; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
 

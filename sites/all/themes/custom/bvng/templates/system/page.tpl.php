@@ -202,7 +202,24 @@ global $base_url;
   </div>
 </section>
 <section id="footer">
-  <div class="footer container">
-    <?php print render($page['footer']); ?>
+  <div id="footer-links">
+    <div class="container">
+      <div class="row">
+        <div class="footer col-md-12">
+          <?php print render($page['links']); ?>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="footer-credits">
+    <div class="container">
+      <div class="row">
+        <div class="footer col-md-12">
+            <?php print render($page['credits']); ?>
+            <!-- Print the footer here for compatibility reason. -->
+            <?php print render($page['footer']); ?>
+        </div>
+      </div>
+    </div>
   </div>
 </section>

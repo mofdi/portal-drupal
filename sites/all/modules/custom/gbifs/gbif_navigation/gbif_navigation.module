@@ -9,6 +9,37 @@
  */
 
 /**
+ * Implements hook_block_info().
+ */
+function gbif_navigation_block_info() {
+  $blocks['footer_credits'] = array(
+    'info' => 'Footer credits',
+    'region' => 'credits',
+    'weight' => 30,
+    'status' => 1,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function gbif_navigation_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    // 
+    case 'footer_credits':
+      $block = array(
+        'subject' => '<none>',
+        'content' => array(
+          '#markup' => '',
+        ),
+      );
+  }
+  return $block;
+}
+
+/**
  * Implements hook_block_info_alter().
  */
 function gbif_navigation_block_info_alter(&$block, $theme, $code_blocks) {
@@ -32,6 +63,11 @@ function gbif_navigation_block_info_alter(&$block, $theme, $code_blocks) {
       $block['menu_block']['gbif_navigation_menu_tabs']['status'] = 1;
       $block['menu_block']['gbif_navigation_menu_tabs']['region'] = 'menu';
       $block['menu_block']['gbif_navigation_menu_tabs']['title'] = '<none>';
+
+      $block['menu_block']['gbif_navigation_footer_links']['weight'] = 0;
+      $block['menu_block']['gbif_navigation_footer_links']['status'] = 1;
+      $block['menu_block']['gbif_navigation_footer_links']['region'] = 'links';
+      $block['menu_block']['gbif_navigation_footer_links']['title'] = '<none>';
       
       break;
   }
@@ -63,6 +99,17 @@ function gbif_navigation_menu_block_blocks() {
       'follow'      => 0,
       'depth'       => 1,
       'expanded'    => 0,
+      'sort'        => 0,
+    ),
+    'gbif_navigation_footer_links' => array(
+      'menu_name'   => 'footer-links',
+      'parent_mlid' => 0,
+      'title_link'  => 0,
+      'admin_title' => 'Footer links',
+      'level'       => 1,
+      'follow'      => 0,
+      'depth'       => 2,
+      'expanded'    => 1,
       'sort'        => 0,
     ),
   );
