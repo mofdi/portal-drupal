@@ -26,6 +26,14 @@ function bvng_menu_tree__secondary(&$variables) {
 }
 
 /**
+ * Use bootstrap nav-pills class to style navigation.
+ */
+function bvng_menu_tree__menu_block__gbif_navigation_nav(&$variables) {
+  return '<ul class="menu nav nav-pills">' . $variables['tree'] . '</ul>';
+}
+
+
+/**
  * Use bootstrap nav-tabs class to style menu tabs.
  */
 function bvng_menu_tree__menu_block(&$variables) {

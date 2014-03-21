@@ -28,7 +28,7 @@
 // styling of responsive aspects.
 
 .navbar-header {
-	margin-top: 25px;
+	margin-top: 23px;
   &:extend(.clearfix all);
 
   @media (min-width: @grid-float-breakpoint) {
@@ -623,11 +623,49 @@
 .nav-inline {
   display:inline-block;
 }
+
 .contextual {
   right: 0;
   position: absolute;
-}
-.contextual li {
-  display:inline-block;
+  
+  li {
+    display:inline-block;
+  }
 }
 
+#branding {
+  position: absolute;
+  left: 0;
+  .size(300px, 38px);
+  color: #333333;
+  font-size: 11px;
+
+  a {
+    font-size: 17px;
+    color: #333333;
+  }
+
+  .logo {
+    position: relative;
+    float: left;
+    .size(41px, 38px);
+    margin: 0 10px 0 0;
+    top: -5px;
+  }
+
+  h1 { 
+    display: block;
+    font-weight: normal;
+    margin-bottom: -2px;
+    margin-top: -18px;
+  } 
+  span {
+    color: #999;
+    margin-top: -8px;
+  }
+}
+
+#navigation-menu {
+  position: absolute;
+  right: 0px;
+}

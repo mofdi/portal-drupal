@@ -70,72 +70,73 @@
  * @see template_process()
  * @see html.tpl.php
  *
+ * @todo check the existence of $navbar_classes in the original bootstrap template.
+ *
  * @ingroup themeable
  */
-
-global $base_url;
-
 ?>
 <section id="masthead">
-  <div id="navbar" class="<?php print $navbar_classes; ?>"><!-- $navbar_classes contains 'container' -->
-      <div id="user" class="row">
-        <div class="col-md-4 col-md-push-8">
-          <?php
-            if ($user->uid == 0) {
-              print l(t('Log in'), 'user/login', array('query' => drupal_get_destination()));
-              print ' or <a href="' . $base_url . 'user/register">Create a new account</a>';
-            }
-            else {
-              print t('Hello !username! ', array('!username' => theme('username', array('account' => $user))));
-              print l(t('Log out'), 'user/logout', array('attributes' => array('class' => array('logout'))));
-            }
-          ?>
-  			</div>
-      </div>
-      <div class="row">
-        <div id="navigation" class="col-md-8">
-      		<div class="navbar-header">
-      			<div class="nav-inline">
+  <div class="container">
+    <div class="row">
+      <div id="region-user" class="col-md-4 col-md-push-8">
+        <!--
+          This user region is very small according to the original design,
+          so we avoid printing $page['user'] which also means blocks assigned to that region
+          won't show.
+        -->
+        <?php
+          if ($user->uid == 0) {
+            print l(t('Log in'), 'user/login', array('query' => drupal_get_destination()));
+            print ' or <a href="' . $base_url . 'user/register">Create a new account</a>';
+          }
+          else {
+            print t('Hello !username! ', array('!username' => theme('username', array('account' => $user))));
+            print l(t('Log out'), 'user/logout', array('attributes' => array('class' => array('logout'))));
+          }
+        ?>
+			</div>
+    </div>
+    <div class="row">
+      <div id="region-navigation" class="col-md-12">
+    		<div class="navbar-header">
+    			<div id="branding">
         		<?php if ($logo): ?>
-        		<a class="logo navbar-btn pull-left" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
-        			<img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
-        		</a>
+          		<a class="logo" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
+          			<img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
+          		</a>
         		<?php endif; ?>
-
         		<?php if (!empty($site_name)): ?>
-        		<a class="name navbar-brand" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>"><?php print $site_name; ?></a>
+        		  <h1><a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>"><?php print $site_name; ?></a></h1>
         		<?php endif; ?>
-
         		<?php if (!empty($site_slogan)): ?>
-        			<p class="lead"><?php print $site_slogan; ?></p>
-        		<?php endif; ?>
-
-            <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
-        		</div>
-        			<div class="nav-inline">
-          			<nav role="navigation">
-          				<?php if (!empty($page['navigation'])): ?>
-          				<?php print render($page['navigation']); ?>
-          				<?php endif; ?>
-          				<?php if (!empty($primary_nav)): ?>
-          				<?php print render($primary_nav); ?>
-          				<?php endif; ?>
-          			</nav>
-          		</div>
-        		<?php endif; ?>
-        		
+            	<span><?php print $site_slogan; ?></span>
+            <?php endif; ?>
       		</div>
-      	</div>
-    		<div id="search" class="col-md-4">
+
+          <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
+    			<div id="navigation-menu" class="nav-inline">
+      			<nav role="navigation">
+      				<?php if (!empty($page['navigation'])): ?>
+      				<?php print render($page['navigation']); ?>
+      				<?php endif; ?>
+
+      				<!-- $primary_nav is kept for compatibility reason. -->
+      				<?php if (!empty($primary_nav)): ?>
+      				<?php print render($primary_nav); ?>
+      				<?php endif; ?>
+      			</nav>
+      		</div>
+      		<?php endif; ?>
   				<?php if (!empty($page['search'])): ?>
   				<?php print render($page['search']); ?>
   				<?php endif; ?>
     		</div>
     	</div>
+  	</div>
   </div>
 </section>
 <section id="banner">
-  <div role="banner" class="container">
+  <div class="container">
     <div class="row">
       <div id="region-highlighted" class="col-md-12">
         <h1><?php print $page['highlighted_title']['name']; ?></h1>

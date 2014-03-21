@@ -3657,7 +3657,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   }
 }
 .navbar-header {
-  margin-top: 25px;
+  margin-top: 23px;
 }
 @media (min-width: 768px) {
   .navbar-header {
@@ -4129,6 +4129,40 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .contextual li {
   display: inline-block;
+}
+#branding {
+  position: absolute;
+  left: 0;
+  width: 300px;
+  height: 38px;
+  color: #333333;
+  font-size: 11px;
+}
+#branding a {
+  font-size: 17px;
+  color: #333333;
+}
+#branding .logo {
+  position: relative;
+  float: left;
+  width: 41px;
+  height: 38px;
+  margin: 0 10px 0 0;
+  top: -5px;
+}
+#branding h1 {
+  display: block;
+  font-weight: normal;
+  margin-bottom: -2px;
+  margin-top: -18px;
+}
+#branding span {
+  color: #999;
+  margin-top: -8px;
+}
+#navigation-menu {
+  position: absolute;
+  right: 0px;
 }
 .breadcrumb {
   padding: 8px 15px;
@@ -6388,6 +6422,7 @@ table .checkbox input[type="checkbox"] {
 #masthead {
   background: url('../images/navbar.jpg') repeat-x top;
   height: 97px;
+  position: relative;
 }
 #banner {
   background: url('../images/banner-green.jpg') repeat-x top;
@@ -6399,19 +6434,8 @@ table .checkbox input[type="checkbox"] {
   bottom: -11px;
   padding-left: 0;
 }
-.infoband-container {
-  height: 187px;
-  margin-bottom: 41px;
-}
-.infoband-container h1 {
-  color: #fff ;
-  margin-top: 33px;
-}
-.lead {
-  white-space: nowrap;
-}
 #region-highlighted h1 {
-  color: white;
+  color: #ffffff;
 }
 #footer {
   position: relative;
