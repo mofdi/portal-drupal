@@ -10,6 +10,7 @@ include_once(drupal_get_path('theme', 'bvng') . '/templates/menu/menu-local-task
 include_once(drupal_get_path('theme', 'bvng') . '/templates/menu/menu-local-task.func.php');
 include_once(drupal_get_path('theme', 'bvng') . '/templates/menu/menu-tree.func.php');
 include_once(drupal_get_path('theme', 'bvng') . '/templates/menu/menu-link.func.php');
+include_once(drupal_get_path('theme', 'bvng') . '/templates/bootstrap/bootstrap-search-form-wrapper.func.php');
 
 /**
  * Helper function for showing the title and subtitle of a site section in the
@@ -39,4 +40,10 @@ function bvng_get_title_data() {
 
 function bvng_preprocess_page(&$variables) {
   $variables['page']['highlighted_title'] = bvng_get_title_data();
+}
+
+function bvng_preprocess_search_block_form(&$variables) {
+  if ($variables['search']) {
+    
+  }
 }

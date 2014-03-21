@@ -3,7 +3,8 @@
  * @file
  * menu-link.func.php
  * 
- * This template controls the HTML of links at the 'link' level, before it's been wrapped.
+ * This template controls the HTML of links at the 'link' level, before it's been wrapped with
+ * <ul> and <li>.
  */
 
 /**
@@ -46,6 +47,17 @@ function bvng_menu_link(array $variables) {
   if ($element['#href'] == '<separator>') {
     $output = '';
     $element['#attributes']['class'][] = 'divider';
+  }
+  // If it's the search form, we insert the form here.
+  elseif ($element['#href'] == '<nolink>' && $element['#title'] == 'Search') {
+    $output = '';
+    $element['#attributes']['class'][] = 'search';
+    $block = module_invoke('search', 'block_view');
+    // Insert a class for search input so we can style it.
+    // @todo Decide whether this should be implemented with hook_block_view_alter().
+    $block['content']['search_block_form']['#attributes']['class'][] = 'nav_search_input';
+    
+    $output = render($block['content']);
   }
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }

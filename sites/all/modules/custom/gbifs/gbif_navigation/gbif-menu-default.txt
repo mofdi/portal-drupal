@@ -76,6 +76,7 @@ About {"url":"<front>"}
 -Contact {"url":"contact\/contactus", "description": "Finding people and information around the GBIF community"}
 --Contact us {"url":"contact\/contactus"}
 --Directory of contacts {"url":"contact\/directoryofcontacts"}
+Search {"url":"<nolink>", "description":"This is the placeholder for the search form that aligns with the navigation."}
 Home {"url":"<front>","hidden":true}
 -Disclaimers and agreements {"url":"<front>","hidden":true, "description": "Terms relating to information and data accessed, used and shared through GBIF"}
 --Data sharing {"url":"disclaimer\/datasharing"}

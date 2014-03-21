@@ -4,6 +4,26 @@
   background: url('../images/navbar.jpg') repeat-x top;
   height: @masthead-height;
   position: relative;
+  
+  nav > ul > li.search {
+    display:none;
+    position:absolute;
+    top: 11px;
+    display: block;
+    padding: 0;
+    width: 14px;
+    height: 14px;
+
+    background:url(../images/magnifier.png) no-repeat;
+
+    a.search {
+    }
+
+    form {
+      opacity: 0;
+      width: 10px;
+    }
+  }
 }
 
 #banner {
