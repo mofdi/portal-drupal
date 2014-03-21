@@ -41,6 +41,12 @@ function bvng_menu_link(array $variables) {
     $element['#attributes']['class'][] = 'active';
   }
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+  
+  // If it's a separator, then we use Bootstrap divider.
+  if ($element['#href'] == '<separator>') {
+    $output = '';
+    $element['#attributes']['class'][] = 'divider';
+  }
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
 

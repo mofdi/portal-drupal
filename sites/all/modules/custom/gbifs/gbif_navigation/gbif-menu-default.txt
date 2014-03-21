@@ -3,6 +3,7 @@ Data {"url":"<front>"}
 -Explore species {"url":"http:\/\/www.gbif-dev.org\/species"}
 -Explore dataset {"url":"http:\/\/www.gbif-dev.org\/dataset"}
 -Explore by country {"url":"http:\/\/www.gbif-dev.org\/country"}
+-Separator {"url":"<separator>"}        
 -Publishing data {"url":"publishingdata\/summary", "description": "How and why you should make biodiversity datasets accessible through GBIF"}
 --Summary {"url":"publishingdata\/summary", "description": "How and why you should make biodiversity datasets accessible through GBIF"}
 --Mobilizing data {"url":"publishingdata\/mobilizingdata"}
