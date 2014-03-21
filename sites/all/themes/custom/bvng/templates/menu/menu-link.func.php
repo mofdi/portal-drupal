@@ -36,6 +36,7 @@ function bvng_menu_link(array $variables) {
       $element['#localized_options']['attributes']['data-toggle'] = 'dropdown';
     }
   }
+
   // On primary navigation menu, class 'active' is not set on active menu item.
   // @see https://drupal.org/node/1896674
   if (($element['#href'] == $_GET['q'] || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))) {
@@ -48,6 +49,7 @@ function bvng_menu_link(array $variables) {
     $output = '';
     $element['#attributes']['class'][] = 'divider';
   }
+
   // If it's the search form, we insert the form here.
   elseif ($element['#href'] == '<nolink>' && $element['#title'] == 'Search') {
     $output = '';
@@ -56,9 +58,10 @@ function bvng_menu_link(array $variables) {
     // Insert a class for search input so we can style it.
     // @todo Decide whether this should be implemented with hook_block_view_alter().
     $block['content']['search_block_form']['#attributes']['class'][] = 'nav_search_input';
-    
+    $block['content']['search_block_form']['#attributes']['placeholder'] = 'News and articles';
     $output = render($block['content']);
   }
+
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
 
