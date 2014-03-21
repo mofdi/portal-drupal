@@ -72,6 +72,8 @@
  *
  * @todo check the existence of $navbar_classes in the original bootstrap template.
  *
+ * @see navbar.less for #branding, #navigation-menu and .nav-inline.
+ *
  * @ingroup themeable
  */
 ?>
