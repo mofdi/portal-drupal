@@ -239,6 +239,7 @@ function gbifims_queue_1_worker($item) {
 		_gbifims_doInstitution () ;
 		_gbifims_doNode () ;
 		_gbifims_doParticipant () ;
+		_gbifims_doGBIFarea () ;
 	}
 
 }

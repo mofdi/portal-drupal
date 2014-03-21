@@ -487,6 +487,53 @@ function _gbifims_doParticipant() {
 		}
 }
 
+function _gbifims_doGBIFarea() {
+	
+		db_query('TRUNCATE {gbifims_GBIFarea}');
+	
+		$resultSetError = FALSE;
+
+		$FMAccess = new db ;
+
+		$FMFindCMD = $FMAccess->newFindCommand( '__GBIFarea' );
+		$FMFindCMD->addFindCriterion( '', '');		
+
+		$FMResult = $FMFindCMD->execute();
+
+		if ( FileMaker::isError( $FMResult ) ) {
+			$resultSetError = TRUE ;
+			$resultSetErrorMessage = $FMResult->getMessage() ;
+			$resultSetErrorCode = $FMResult->code ;
+			drupal_set_message('FileMaker Error:'.$resultSetErrorMessage);
+		} else {
+			$resultSet = $FMResult->getRecords();
+			$resultSetNumRecords = count( $resultSet ) ;		
+
+			gbifims_queue_report_work(1,$item,'Area:'.$resultSetNumRecords.' records');
+			
+			$FMResults = array() ;
+			foreach ( $resultSet as $key => $record ) {
+				$FMResults[] = array ();
+				$tmp = '' ; 
+				
+				$FMResults[$key]['GBIFareaID'] = $record->getField('__kp_ID') ;
+				
+				$FMResults[$key]['GBIFarea'] = $record->getField('GBIFarea') ;
+				$FMResults[$key]['Drupal_tid'] = $record->getField('_kf_Drupal_tid') ;
+			}
+			
+			foreach ($FMResults as $values) 
+				$mytmp = db_insert('gbifims_GBIFarea') 
+							->fields( $values )
+							->execute();
+			
+		}
+}
+
+
+
+
+
 function _gbifims_get_ParticipantsList( $type ) {
 $PList = '' ;
 
@@ -652,7 +699,7 @@ function _gbifims_get_SecretariatList () {
 function _gbifims_get_CommitteeList( $committee ) {
 	$CList = '';
 
-	$result = db_query('SELECT DISTINCT Name_First, Name_Last, Address, Email, City, ZipCode, Phone_Office, Fax, Job_Position, gbifims_Country.Name, gbifims_Grouprole.Name, gbifims_Grouprole.SortOrder 
+	$tempres = db_query('SELECT DISTINCT Name_First, Name_Last, Address, Email, City, ZipCode, Phone_Office, Fax, Job_Position, gbifims_Country.Name AS CountryNameAdd, gbifims_Grouprole.Name AS Role, gbifims_Grouprole.SortOrder 
 						FROM {gbifims_Contact}, {gbifims_ContactGrouproleNodeParticipant}, {gbifims_Grouprole}, {gbifims_Country}
 						WHERE gbifims_Contact.ContactID = gbifims_ContactGrouproleNodeParticipant.ContactID 
 							AND gbifims_Contact.CountryID_Address = gbifims_Country.CountryID
@@ -665,12 +712,45 @@ function _gbifims_get_CommitteeList( $committee ) {
 							GROUP BY Name_First
 							ORDER BY gbifims_Grouprole.SortOrder, gbifims_Contact.GBIF_Order, Name_Last', 
 									array(':rcom'=>$committee, ':rSS'=>'Secretariat Support', ':rscis'=>'Sci-staff')) ;
+	$result = $tempres->fetchAll();
+	
+	// add the empty seats in the NSC by mathching the values from FM's __GBIFarea with the results above
+	if ( $committee == 'Nodes Steering Group' ) {
+		$tempres = db_query ('SELECT * FROM gbifims_GBIFarea ') ;
+		$areas = $tempres->fetchAll();
+		
+		foreach ($result as $row ) { 
+			foreach ( $areas as $key => $area ) {
+				$hasNodeRep = strpos( $row->Role, $area->GBIFarea ); 
+				if ( $hasNodeRep ) unset( $areas[$key] );
+			}
+		}
+		
+		if ( ! empty( $areas ) ) {
+			foreach ($areas as $area) {
+				$template = clone $result[0] ;
+				$template->Name_First = 'pending' ;
+				$template->Name_Last = 'appointment' ;
+				$template->Address = '' ;
+				$template->City = '' ;
+				$template->CountryNameAdd = '' ;
+				$template->Email = '' ;
+				$template->Phone_Office = '' ;
+				$template->Fax = '' ;
+				$template->Job_Position = '' ;
+				$template->Role = 'Regional Node Representative - '.$area->GBIFarea ;
+				array_push( $result, $template );
+			}
+		}
 
-	// hook_theme? What hook_theme... :-| 
+	}
+
+
+	// hook_theme? What hook_theme... :-| 	
 	$CList = '<table style="" class="table table-bordered table-stripped"><tbody>';
 	// <thead><tr><th colspan="2" >'.$options[1].'</th><tr></thead>
 	foreach ( $result as $row) {
-		$job_or_role = ( $committee == 'GBIF Secretariat' ) ? $row->Job_Position : $row->Name ;
+		$job_or_role = ( $committee == 'GBIF Secretariat' ) ? $row->Job_Position : $row->Role ;
 		$CList .= "<tr><td>
 			<div class='contact'>
 				<a name='$row->Name_First,$row->Name_Last'></a>
@@ -681,7 +761,7 @@ function _gbifims_get_CommitteeList( $committee ) {
 					<div class='address'>
 						<span>$row->Address</span>
 						<span class='city'>$row->City</span>
-						<span class='country'>$row->Country</span>
+						<span class='country'>$row->CountryNameAdd</span>
 						<span class='email'><a href='mailto:$row->Email' title='email'>$row->Email</a></span>
 						<span class='phone'>$row->Phone_Office</span>
 						<span class='phone'>$row->Fax</span>
@@ -702,19 +782,24 @@ function _gbifims_get_NCList( ) {
 
 	$CList = '';
 
-	$result = db_query('SELECT Name_First, Name_Last, gbifims_Contact.Address, Email, gbifims_Contact.City, ZipCode, Phone_Office, Fax, gbifims_Node.Name_Full, gbifims_Grouprole.Name AS Role, gbifims_Group.Name, gbifims_Participant.Name_Short,gbifims_Grouprole.SortOrder 
-							FROM gbifims_Contact, gbifims_ContactGrouproleNodeParticipant, gbifims_Grouprole, gbifims_Group, gbifims_Country, gbifims_Node, gbifims_Participant
-							WHERE 	gbifims_Contact.ContactID = gbifims_ContactGrouproleNodeParticipant.ContactID 
-								AND gbifims_Grouprole.GrouproleID = gbifims_ContactGrouproleNodeParticipant.GrouproleID 
-								AND gbifims_Grouprole.GroupID = gbifims_Group.GroupID
-								AND gbifims_ContactGrouproleNodeParticipant.NodeID = gbifims_Node.NodeID 
-								AND gbifims_Node.ParticipantID = gbifims_Participant.ParticipantID
-								AND gbifims_Contact.CountryID_Address = gbifims_Country.CountryID
-								AND gbifims_ContactGrouproleNodeParticipant.Active = 1  
-								AND gbifims_Group.Name = :nc
-								AND ( gbifims_Grouprole.Name = :nm OR gbifims_Grouprole.Name = :chair OR gbifims_Grouprole.Name = :vc OR gbifims_Grouprole.Name = :fstvc OR gbifims_Grouprole.Name = :sndvc OR gbifims_Grouprole.Name = :trdvc)
-								AND gbifims_Grouprole.Name <> :rSS
-							ORDER BY gbifims_Grouprole.SortOrder, gbifims_Participant.Name_Short', array(':nc'=>'Nodes Committee', 'nm'=>'Node Manager', ':chair'=>'Chair', ':vc'=>'Vice Chair',':fstvc'=>'1st Vice Chair',':sndvc'=>'2nd Vice Chair',':trdvc'=>'3rd Vice Chair',':rSS'=>'Secretariat Support')) ;
+	$result = db_query('SELECT N.Name_Full, N.Name_Acronym, 
+							P.Name_Full, P.Name_Short,
+							C.Name_First, C.Name_Last, C.Job_Position, C.Address, C.Email, C.City, C.ZipCode, C.Phone_Office, C.Fax, I.Acronym AS ContactInstitution, CO.Name AS ConctactCountry,
+							GR.Name AS GroupRoleName, G.Name AS GroupName
+						FROM gbifims_Node AS N
+						LEFT JOIN gbifims_Participant AS P ON N.ParticipantID = P.ParticipantID
+						LEFT JOIN gbifims_ContactGrouproleNodeParticipant AS CGNP ON CGNP.NodeID = N.NodeID
+						LEFT JOIN gbifims_Grouprole AS GR ON CGNP.GrouproleID = GR.GrouproleID
+						LEFT JOIN gbifims_Group AS G ON GR.GroupID = G.GroupID
+						LEFT JOIN gbifims_Contact AS C ON CGNP.ContactID = C.ContactID
+						LEFT JOIN gbifims_Institution as I ON C.InstitutionID = I.InstitutionID
+						LEFT JOIN gbifims_Country as CO ON C.CountryID_Address = CO.CountryID
+						WHERE (P.GBIFMembership = \'Voting Participant\' OR P.GBIFMembership = \'Associate Country Participant\' OR P.GBIFMembership = \'Other Associate Participant\' OR  P.ParticipantID IS NULL) 
+							AND G.Name = \'Nodes Committee\'
+							AND GR.Name <> \'GBIF Secretariat Staff\'
+							AND CGNP.Active = 1
+						ORDER BY SortOrder, P.Name_Short', array(':nc'=>'Nodes Committee', ':rSS'=>'Secretariat Support', )) ;
+
 	// hook_theme? What hook_theme... :-| 
 	$CList = '<table style="" class="table table-bordered table-stripped"><tbody>';
 	// <thead><tr><th colspan="2" >'.$options[1].'</th><tr></thead>
@@ -725,18 +810,18 @@ function _gbifims_get_NCList( ) {
 				<div class='contactName'>$row->Name_First $row->Name_Last</div>
 				<div style='display: none;'>
 					<div class='contactPosition'>$row->Job_Position</div>
-					<div class='contactInstitution'></div>
+					<div class='contactInstitution'>$row->ContactInstitution</div>
 					<div class='address'>
 						<span>$row->Address</span>
 						<span class='city'>$row->City</span>
-						<span class='country'>$row->Country</span>
+						<span class='country'>$row->ConctactCountry</span>
 						<span class='email'><a href='mailto:$row->Email' title='email'>$row->Email</a></span>
 						<span class='phone'>$row->Phone_Office</span>
 						<span class='phone'>$row->Fax</span>
 					</div>
 				</div>
 			</div>
-		</td><td width='18%'>$row->Role</td><td width='20%'>$row->Name_Short</td>";
+		</td><td width='18%'>$row->GroupRoleName</td><td width='20%'>$row->Name_Short</td>";
 	}
 	$CList .= '</tbody></table>' ;
 

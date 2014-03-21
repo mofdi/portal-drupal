@@ -471,6 +471,28 @@ $schema['gbifims_Participant'] = array(
   ),
 );
 
+$schema['gbifims_GBIFarea'] = array(
+	'description' => '__GBIFarea from FM',
+	'fields' => array(
+		'GBIFareaID' => array(
+			'description' => 'TODO: please describe this field!',
+			'type' => 'int',
+			'not null' => TRUE,
+		),
+		'GBIFarea' => array(
+			'description' => 'Area name',
+			'type' => 'varchar',
+			'length' => '256',
+			'not null' => TRUE,
+		),
+		'Drupal_tid' => array(
+			'description' => 'Drupal term id',
+			'type' => 'int',
+			'not null' => FALSE,
+		),
+	),
+);
+
 
 return $schema; 
 
