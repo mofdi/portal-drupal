@@ -3517,7 +3517,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
-  color: #555555;
+  color: #000000;
   background-color: #efefef;
   border: 1px solid #dddddd;
   border-bottom-color: transparent;
@@ -4614,32 +4614,6 @@ a.list-group-item-danger.active:focus {
 .panel-danger > .panel-footer + .panel-collapse .panel-body {
   border-bottom-color: #ebccd1;
 }
-.well {
-  min-height: 20px;
-  padding: 19px;
-  margin-bottom: 20px;
-  background-color: #ffffff;
-  border: 0px ;
-  border-radius: 1px;
-  -webkit-box-shadow: 0px 1px 2px 1px #d6d6d6;
-  -moz-box-shadow: 0px 1px 2px 1px #d6d6d6;
-  box-shadow: 0px 1px 2px 1px #d6d6d6;
-}
-.well blockquote {
-  border-color: #ddd;
-  border-color: rgba(0, 0, 0, 0.15);
-}
-.well-lg {
-  padding: 24px;
-  border-radius: 3px;
-}
-.well-sm {
-  padding: 9px;
-  border-radius: 2px;
-}
-.well-margin-top {
-  margin-top: 40px;
-}
 .close {
   float: right;
   font-size: 22.5px;
@@ -5372,6 +5346,32 @@ button.close {
     display: none !important;
   }
 }
+.well {
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border: 0px ;
+  border-radius: 1px;
+  -webkit-box-shadow: 0px 1px 2px 1px #d6d6d6;
+  -moz-box-shadow: 0px 1px 2px 1px #d6d6d6;
+  box-shadow: 0px 1px 2px 1px #d6d6d6;
+}
+.well blockquote {
+  border-color: #ddd;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+.well-lg {
+  padding: 24px;
+  border-radius: 3px;
+}
+.well-sm {
+  padding: 9px;
+  border-radius: 2px;
+}
+.well-margin-top {
+  margin-top: 40px;
+}
 html.overlay-open .navbar-fixed-top {
   z-index: 400;
 }
@@ -6080,15 +6080,27 @@ table .checkbox input[type="checkbox"] {
   margin-right: 2px;
   line-height: 1.42857143;
   border: 1px solid transparent;
-  border-radius: 1px 1px 0 0;
+  border-radius: 3px 3px 0 0;
+  padding: 7px 15px 7px 15px;
+  font-weight: 400;
+  color: #b0d0ab;
+  background-color: rgba(0, 0, 0, 0.1);
+  opacity: .65;
 }
 .nav-tabs > li > a:hover {
+  font-weight: normal;
+  color: #000000;
   border-color: #eeeeee #eeeeee #dddddd;
+  opacity: 1;
+}
+.nav-tabs > li.active > a {
+  opacity: 1;
 }
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
-  color: #555555;
+  color: #000000;
+  font-weight: normal;
   background-color: #efefef;
   border: 1px solid #dddddd;
   border-bottom-color: transparent;
@@ -6785,8 +6797,19 @@ table .checkbox input[type="checkbox"] {
   position: absolute;
   right: 0px;
 }
+#region-highlighted {
+  padding-left: 0px;
+}
 #region-highlighted h1 {
   color: #ffffff;
+  font-weight: normal;
+  margin-top: 30px;
+  margin-bottom: 0px;
+}
+#region-highlighted h5 {
+  color: #40523c;
+  font-weight: 400;
+  margin-top: 7px;
 }
 #footer {
   position: relative;
