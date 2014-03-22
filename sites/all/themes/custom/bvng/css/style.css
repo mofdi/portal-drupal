@@ -5438,6 +5438,19 @@ body #admin-menu {
 body #admin-menu .dropdown li {
   line-height: normal;
 }
+a {
+  color: #0099cc;
+  font-weight: normal;
+  text-decoration: none;
+}
+a:hover {
+  color: #005e7d;
+  -webkit-transition: color 0.3s ease-in-out;
+  -moz-transition: color 0.3s ease-in-out;
+  -o-transition: color 0.3s ease-in-out;
+  -ms-transition: color 0.3s ease-in-out;
+  transition: color 0.3s ease-in-out;
+}
 .navbar.container {
   margin-top: 0px;
 }
@@ -5981,6 +5994,26 @@ table .checkbox input[type="checkbox"] {
 #masthead nav > ul > li.search form {
   opacity: 0;
   width: 10px;
+}
+.account {
+  position: absolute;
+  top: -3px;
+  right: -8px;
+  width: 180px;
+  height: 25px;
+  text-align: center;
+  padding: 6px 0 0 7px;
+  color: #ADD8B8;
+  font-size: 11px;
+  background: url("../images/header_account_bkg.png") no-repeat;
+  color: #ffffff;
+}
+.account a {
+  color: #ffffff;
+}
+.account a:hover {
+  color: #005e7d;
+  text-decoration: none;
 }
 #banner {
   background: url('../images/banner-green.jpg') repeat-x top;
@@ -6702,11 +6735,11 @@ table .checkbox input[type="checkbox"] {
 .navbar-inverse .navbar-link:hover {
   color: #ffffff;
 }
-.navbar-rel {
-  position: relative;
-}
 .nav-inline {
   display: inline-block;
+}
+.navbar-rel {
+  position: relative;
 }
 .contextual {
   right: 0;
@@ -6744,6 +6777,9 @@ table .checkbox input[type="checkbox"] {
 #branding span {
   color: #999;
   margin-top: -8px;
+}
+#region-navigation {
+  top: 18px;
 }
 #navigation-menu {
   position: absolute;

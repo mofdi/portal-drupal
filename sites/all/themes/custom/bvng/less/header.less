@@ -26,6 +26,29 @@
   }
 }
 
+.account {
+  position: absolute;
+  top: -3px;
+  right: -8px;
+  width: 180px;
+  height: 25px;
+  text-align: center;
+  padding: 6px 0 0 7px;
+  color: #ADD8B8;
+  font-size: 11px;
+  background: url("../images/header_account_bkg.png") no-repeat;
+  color: @colorTitleOnGreen;
+  
+  a {
+    color: @colorTitleOnGreen;
+    
+    &:hover {
+      color: @colorLinkHover;
+      text-decoration: none;
+    }
+  }  
+}
+
 #banner {
   background: url('../images/banner-green.jpg') repeat-x top;
   height: @banner-height;
