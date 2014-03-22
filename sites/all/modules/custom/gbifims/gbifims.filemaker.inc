@@ -782,25 +782,37 @@ function _gbifims_get_NCList( ) {
 
 	$CList = '';
 
-	$result = db_query('SELECT N.Name_Full, N.Name_Acronym, 
+	$result = db_query("SELECT N.Name_Full, N.Name_Acronym, 
 							P.Name_Full, P.Name_Short,
-							C.Name_First, C.Name_Last, C.Job_Position, C.Address, C.Email, C.City, C.ZipCode, C.Phone_Office, C.Fax, I.Acronym AS ContactInstitution, CO.Name AS ConctactCountry,
-							GR.Name AS GroupRoleName, G.Name AS GroupName
+							COALESCE( C.Name_First,'pending') AS Name_First, COALESCE( C.Name_Last,'appointment') AS Name_Last, C.Job_Position, C.Address, C.Email, C.City, C.ZipCode, C.Phone_Office, C.Fax, I.Acronym AS ContactInstitution, CO.Name AS ConctactCountry,
+							GR.Name AS GroupRoleName, G.Name AS GroupName,
+							COALESCE(GR.SortOrder,40) AS NewSort
 						FROM gbifims_Node AS N
 						LEFT JOIN gbifims_Participant AS P ON N.ParticipantID = P.ParticipantID
-						LEFT JOIN gbifims_ContactGrouproleNodeParticipant AS CGNP ON CGNP.NodeID = N.NodeID
+						LEFT JOIN (
+							SELECT CGNP.*
+							FROM gbifims_Node AS N
+							LEFT JOIN gbifims_Participant AS P ON N.ParticipantID = P.ParticipantID
+							LEFT JOIN gbifims_ContactGrouproleNodeParticipant AS CGNP ON CGNP.NodeID = N.NodeID
+							LEFT JOIN gbifims_Grouprole AS GR ON CGNP.GrouproleID = GR.GrouproleID
+							LEFT JOIN gbifims_Group AS G ON GR.GroupID = G.GroupID
+							WHERE (P.GBIFMembership = 'Voting Participant' OR P.GBIFMembership = 'Associate Country Participant' OR P.GBIFMembership = 'Other Associate Participant' OR  P.ParticipantID IS NULL)
+								AND ( G.Name = :nc OR G.Name IS NULL )
+								AND ( GR.Name = 'Node Manager' OR GR.Name = 'Chair' OR GR.Name='1st Vice Chair' OR GR.Name='2nd Vice Chair' OR GR.Name IS NULL )
+								AND GR.Name <> :GSS
+								AND GR.Name <> :rSs
+								AND CGNP.Active = 1
+							) AS CGNP ON CGNP.NodeID = N.NodeID
 						LEFT JOIN gbifims_Grouprole AS GR ON CGNP.GrouproleID = GR.GrouproleID
 						LEFT JOIN gbifims_Group AS G ON GR.GroupID = G.GroupID
 						LEFT JOIN gbifims_Contact AS C ON CGNP.ContactID = C.ContactID
 						LEFT JOIN gbifims_Institution as I ON C.InstitutionID = I.InstitutionID
 						LEFT JOIN gbifims_Country as CO ON C.CountryID_Address = CO.CountryID
-						WHERE (P.GBIFMembership = \'Voting Participant\' OR P.GBIFMembership = \'Associate Country Participant\' OR P.GBIFMembership = \'Other Associate Participant\' OR  P.ParticipantID IS NULL) 
-							AND G.Name = \'Nodes Committee\'
-							AND GR.Name <> \'GBIF Secretariat Staff\'
-							AND CGNP.Active = 1
-						ORDER BY SortOrder, P.Name_Short', array(':nc'=>'Nodes Committee', ':rSS'=>'Secretariat Support', )) ;
+						WHERE (P.GBIFMembership = 'Voting Participant' OR P.GBIFMembership = 'Associate Country Participant' OR P.GBIFMembership = 'Other Associate Participant' OR  P.ParticipantID IS NULL)
+						ORDER BY NewSort, P.Name_Short", array(':nc'=>'Nodes Committee', ':rSs'=>'Secretariat support', 'GSS'=>'GBIF Secretariat Staff' )) ;
 
 	// hook_theme? What hook_theme... :-| 
+
 	$CList = '<table style="" class="table table-bordered table-stripped"><tbody>';
 	// <thead><tr><th colspan="2" >'.$options[1].'</th><tr></thead>
 	foreach ( $result as $row) {
