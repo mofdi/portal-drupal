@@ -644,7 +644,7 @@ foreach ( $participants as $p => $data ) {
 					<div class='address'>
 						<span>{$d['Address']}</span>
 						<span class='city'>{$d['City']}</span>
-						<span class='country'>{$d['Country']}</span>
+						<span class='country'>{$d['CountryNameAdd']}</span>
 						<span class='email'><a href='mailto:{$d['Email']} title='email'>{$d['Email']}</a></span>
 						<span class='phone'>{$d['Phone_Office']}</span>
 						<span class='phone'>{$d['Fax']}</span>
