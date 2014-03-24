@@ -226,3 +226,10 @@ function gbif_navigation_menu_edit_submit($form, &$form_state) {
       ->execute();
   }  
 }
+
+/**
+ * Implements hook_help().
+ */
+function gbif_navigation_help() {
+  
+}

@@ -668,6 +668,7 @@ table {
 // Treat all links inside alert as .alert-link
 .alert a {
   font-weight: @alert-link-font-weight;
+  margin-top: -3px;
 }
 .alert-success a {
   color: darken(@alert-success-text, 10%);
@@ -680,4 +681,8 @@ table {
 }
 .alert-danger a {
   color: darken(@alert-danger-text, 10%);
+}
+.alert-block {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }

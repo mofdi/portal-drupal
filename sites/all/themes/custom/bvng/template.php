@@ -11,6 +11,7 @@ include_once(drupal_get_path('theme', 'bvng') . '/templates/menu/menu-local-task
 include_once(drupal_get_path('theme', 'bvng') . '/templates/menu/menu-tree.func.php');
 include_once(drupal_get_path('theme', 'bvng') . '/templates/menu/menu-link.func.php');
 include_once(drupal_get_path('theme', 'bvng') . '/templates/bootstrap/bootstrap-search-form-wrapper.func.php');
+include_once(drupal_get_path('theme', 'bvng') . '/templates/system/status-messages.func.php');
 
 /**
  * Helper function for showing the title and subtitle of a site section in the
@@ -40,10 +41,8 @@ function bvng_get_title_data() {
 
 function bvng_preprocess_page(&$variables) {
   $variables['page']['highlighted_title'] = bvng_get_title_data();
+  drupal_set_message(t('An error messaged is generated for developing the message box.'), 'warning');
 }
 
 function bvng_preprocess_search_block_form(&$variables) {
-  if ($variables['search']) {
-    
-  }
 }

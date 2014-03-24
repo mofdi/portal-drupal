@@ -6484,6 +6484,7 @@ table .checkbox input[type="checkbox"] {
 }
 .alert a {
   font-weight: bold;
+  margin-top: -3px;
 }
 .alert-success a {
   color: #2b542c;
@@ -6496,6 +6497,10 @@ table .checkbox input[type="checkbox"] {
 }
 .alert-danger a {
   color: #843534;
+}
+.alert-block {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 #masthead {
   background: url('../images/navbar.jpg') repeat-x top;
@@ -7085,4 +7090,4 @@ table .checkbox input[type="checkbox"] {
 #admin-menu .dropdown {
   font-size: 12px;
 }
-/*# sourceMappingURL=css/style.map */
+/*# sourceMappingURL=style.map */

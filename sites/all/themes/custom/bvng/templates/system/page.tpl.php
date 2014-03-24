@@ -164,10 +164,13 @@
 	</div>	
 -->
 <section id="main">
-  <?php if(!empty($page['help']) OR !empty($messages) OR !empty($tabs)): ?>
+  <?php if (!empty($messages)): ?>
+        <?php print $messages; ?>
+  <?php endif; ?>    
+    
+  <?php if (!empty($page['help'])): ?>
     <div class="container well well-lg">
         <div class="row">
-          <p>This area will be decorated in yellow, and it will show/hide accordingly.</p>
           <?php print render($page['help']); ?>
         </div>
     </div>
