@@ -39,9 +39,14 @@ function bvng_get_title_data() {
 	return $title;
 }
 
+/**
+ * Implements hook_preprocess_page().
+ */
 function bvng_preprocess_page(&$variables) {
   $variables['page']['highlighted_title'] = bvng_get_title_data();
-  drupal_set_message(t('An error messaged is generated for developing the message box.'), 'warning');
+  
+  // For testing purpose. To be deleted later.
+  //drupal_set_message(t('An error messaged is generated for developing the message box.'), 'warning');
 }
 
 function bvng_preprocess_search_block_form(&$variables) {
