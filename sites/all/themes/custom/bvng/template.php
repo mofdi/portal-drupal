@@ -49,5 +49,34 @@ function bvng_preprocess_page(&$variables) {
   //drupal_set_message(t('An error messaged is generated for developing the message box.'), 'warning');
 }
 
+/**
+ * Implements hook_preprocess_node(). 
+ */
+function bvng_preprocess_node(&$variables) {
+  global $user;
+
+  // Bring the local tasks tab into node template.
+  $variables['tabs'] = menu_local_tabs();
+  
+  /* Determine what local task to show according to the role.
+   * @todo To implement this using user_permission.
+   */
+  foreach ($variables['tabs']['#primary'] as $key => $item) {
+    // We don't need the view tab because we're already viewing it.
+    
+    switch ($item['#link']['title']) {
+      case 'View':
+        unset($variables['tabs']['#primary'][$key]);
+        break;
+      case 'Edit':
+        if (!in_array('Editors', $user->roles)) unset($variables['tabs']['#primary'][$key]);
+        break;
+      case 'Devel':
+        if (!in_array('administrator', $user->roles)) unset($variables['tabs']['#primary'][$key]);
+        break;
+    }
+  }
+}
+
 function bvng_preprocess_search_block_form(&$variables) {
 }

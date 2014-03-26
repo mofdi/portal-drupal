@@ -180,14 +180,6 @@
     <div class="row">
       <section class="col-md-8">
         <a id="main-content"></a>
-        <?php print render($title_prefix); ?>
-        <?php if (!empty($title)): ?>
-          <h2 class="page-header"><?php print $title; ?></h2>
-        <?php endif; ?>
-        <?php print render($title_suffix); ?>
-  			<?php if (!empty($tabs) && user_is_logged_in()): ?>
-  				<?php print render($tabs); ?>
-  			<?php endif; ?>
         <?php if (!empty($action_links)): ?>
           <ul class="action-links"><?php print render($action_links); ?></ul>
         <?php endif; ?>

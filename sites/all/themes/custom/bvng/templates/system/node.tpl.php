@@ -81,18 +81,22 @@
 ?>
 <article id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
   <?php if ((!$page && !empty($title)) || !empty($title_prefix) || !empty($title_suffix) || $display_submitted): ?>
-  <header>
+  <header class="content-header">
+    <h3>GBIF News</h3>
     <?php print render($title_prefix); ?>
     <?php if (!$page && !empty($title)): ?>
-    <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
+    <h2<?php print $title_attributes; ?>><?php print $title; ?></h2>
     <?php endif; ?>
     <?php print render($title_suffix); ?>
-    <?php if ($display_submitted): ?>
+    <?php if ($display_submitted && user_is_logged_in()): ?>
     <span class="submitted">
-      <?php print $user_picture; ?>
+      <?php // print $user_picture; ?>
       <?php print $submitted; ?>
     </span>
     <?php endif; ?>
+ 		<?php if (!empty($tabs) && user_is_logged_in()): ?>
+ 			<?php print render($tabs); ?>
+ 		<?php endif; ?>		
   </header>
   <?php endif; ?>
   <?php

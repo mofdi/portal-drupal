@@ -27,5 +27,11 @@ function bvng_menu_local_task($variables) {
     $classes[] = 'active';
   }
 
-  return '<li class="' . implode(' ', $classes) . '">' . l($link_text, $link['href'], $link['localized_options']) . "</li>\n";
+  $output = '<li';
+  $output .= (count($classes) > 0) ? ' class="' . implode(' ', $classes) . '"' : '';
+  $output .= '>';
+  $output .= l($link_text, $link['href'], $link['localized_options']);
+  $output .= "</li>\n";
+
+  return $output;
 }

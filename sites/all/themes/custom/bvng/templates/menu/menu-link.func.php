@@ -62,6 +62,10 @@ function bvng_menu_link(array $variables) {
     $output = render($block['content']);
   }
 
+  if (count($element['#attributes']['class']) == 0) {
+    return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+  }
+
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
 

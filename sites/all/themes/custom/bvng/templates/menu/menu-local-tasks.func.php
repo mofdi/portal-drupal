@@ -12,8 +12,10 @@ function bvng_menu_local_tasks(&$variables) {
 
   if (!empty($variables['primary'])) {
     $variables['primary']['#prefix'] = '<h2 class="element-invisible">' . t('Primary tabs') . '</h2>';
-    $variables['primary']['#prefix'] .= '<div class="navbar-rel"><ul class="tabs--primary nav navbar-default contextual">';
-    $variables['primary']['#suffix'] = '</ul></div>';
+    $variables['primary']['#prefix'] .= '<div class="navbar-rel">';
+    $variables['primary']['#prefix'] .= '<ul class="contextual">';
+    $variables['primary']['#suffix'] = '</ul>';
+    $variables['primary']['#suffix'] .= '</div>';
     $output .= drupal_render($variables['primary']);
   }
 
