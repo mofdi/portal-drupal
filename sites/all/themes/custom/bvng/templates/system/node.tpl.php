@@ -84,8 +84,8 @@
   <header class="content-header">
     <h3>GBIF News</h3>
     <?php print render($title_prefix); ?>
-    <?php if (!$page && !empty($title)): ?>
-    <h2<?php print $title_attributes; ?>><?php print $title; ?></h2>
+    <?php if (!empty($title)): ?>
+    <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
     <?php endif; ?>
     <?php print render($title_suffix); ?>
     <?php if ($display_submitted && user_is_logged_in()): ?>

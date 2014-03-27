@@ -1,9 +1,9 @@
 <?php
 /**
  * @file
- * 
+ *
  * This module provides a block that will emit various information
- * pieces; to be used instead of plain old template(s). 
+ * pieces; to be used instead of plain old template(s).
  *
  */
 
@@ -16,7 +16,6 @@ function gbif_blocks_help($path, $arg) {
   }
 }
 
-
 /**
  * Implements hook_block_info().
  */
@@ -25,7 +24,7 @@ function gbif_blocks_block_info() {
   $blocks['gbif_blocks'] = array(
     'info' => t('GBIF Blocks'),
     'region' => 'sidebar_second',
-    'weight' => -50,
+    'weight' => -15,
     'status' => 1,
     'visibility' => BLOCK_VISIBILITY_LISTED,
     'pages' => 'page/*',
@@ -34,25 +33,25 @@ function gbif_blocks_block_info() {
   return $blocks;
 }
 
-
 /**
  * Implements hook_block_view().
- * This block view is for positioning. The content will be generated 
+ * This block view is for positioning. The content will be generated
  * dynamically according to the content type.
  * @see _gbif_blocks_block_content().
  */
 function gbif_blocks_block_view($delta = '') {
   $block = array();
- 
+
   switch ($delta) {
     case 'gbif_blocks':
+      $block['subject'] = '<none>';
       $block['content'] = _gbif_blocks_block_content();
       break;
   }
- 
+
   return $block;
 }
- 
+
 /**
  * Helper function to assemble renderable array for our block content.
  * Returns a renderable array with the block content.
@@ -62,11 +61,12 @@ function gbif_blocks_block_view($delta = '') {
  */
 function _gbif_blocks_block_content() {
   $block = array();
-  
+
+  $path = current_path();
   $node = menu_get_object('node');
 
   if ($node && $node->type === 'newsarticle') {
-    
+
     // PUBLICATION DATE
     $publication_date = array(
       'title' => t('Publication date'),
@@ -79,7 +79,7 @@ function _gbif_blocks_block_content() {
         'class' => 'item-date',
       ),
     );
-    
+
     // LAST UPDATED
     $last_updated = array(
       'title' => t('Last updated'),
@@ -92,7 +92,7 @@ function _gbif_blocks_block_content() {
         'class' => 'item-date',
       ),
     );
-    
+
     // TAGS
     $terms = array();
     // List where to get terms to populate as tags.
@@ -100,7 +100,7 @@ function _gbif_blocks_block_content() {
       'field_capacity',
       'field_country',
     );
-    
+
     // Get all the terms.
     foreach ($term_sources as $term_source) {
       $items = field_get_items('node', $node, $term_source);
@@ -121,12 +121,12 @@ function _gbif_blocks_block_content() {
       $uri = taxonomy_term_uri($term);
       $term_links['items'][]['data'] = l($term->name, $uri['path']);
     }
-  }  
- 
+  }
+
   $markup = theme_item_list($publication_date);
   $markup .= theme_item_list($last_updated);
   $markup .= theme_item_list($term_links);
-  
+
   // Block output in HTML with div wrapper.
   $block = array(
     'message' => array(
@@ -136,6 +136,6 @@ function _gbif_blocks_block_content() {
       '#suffix' => '</div>',
     ),
   );
- 
+
   return $block;
 }

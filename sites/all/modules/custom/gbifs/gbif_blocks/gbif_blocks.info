@@ -1,9 +1,7 @@
 name = GBIF Blocks
-description = A module to emit various content in blocks (so that we don't use templates for that).
+description = A module to emit various content in blocks (so that theme templates can focus on layout and structure).
 core = 7.x
 version = 7.x-0.1
 package = GBIFS
-
-files[] = gbif_blocks.module
 
 dependencies[] = gbif_tweaks

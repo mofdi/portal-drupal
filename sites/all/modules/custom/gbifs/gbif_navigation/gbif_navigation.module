@@ -120,22 +120,20 @@ function gbif_navigation_menu_block_blocks() {
  *
  * We use this hook to set the active menu item so visitors would have
  * a clearer idea about where they are.
+ * 
+ * Note that use menu_set_active_item() at the node view level will render
+ * menu_local_tasks pointing to the item being set. We use theme_preprocess_page()
+ * instead.
  *
- * We want to keep the meaningful path alias so in the code we use path
- * alias as proxy to the internal/system path. It's also easier for developers
- * to communicate and maintain.
- *
- * @see http://www.dibe.gr/blog/set-path-determining-active-trail-drupal-7-menu
+ * @see bvng_preprocess_page().
  */
 function gbif_navigation_node_view($node, $view_mode, $langcode) {
   switch ($node->type) {
     case 'newsarticle':
-      $system_path = drupal_get_normal_path('newsroom/news'); // taxonomy/term/566
-      menu_set_active_item($system_path);
+      menu_tree_set_path('gbif-menu', 'taxonomy/term/566'); // newsroom/news
       break;
     case 'usesofdata':
-      $system_path = drupal_get_normal_path('newsroom/uses'); // taxonomy/term/567
-      menu_set_active_item($system_path);
+      menu_tree_set_path('gbif-menu', 'taxonomy/term/567'); // newsroom/uses
       break;  
   }
 }

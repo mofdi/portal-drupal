@@ -190,9 +190,6 @@
       <?php if (!empty($page['sidebar_second'])): ?>
         <aside class="col-md-4" role="complementary">
           <?php print render($page['sidebar_second']); ?>
-          <?php if (!empty($page['navigation'])): ?>
-  				<?php print render($page['navigation']); ?>
-  				<?php endif; ?>
   				<?php if (!empty($secondary_nav)): ?>
   				<?php print render($secondary_nav); ?>
   				<?php endif; ?>

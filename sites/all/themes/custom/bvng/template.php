@@ -41,12 +41,30 @@ function bvng_get_title_data() {
 
 /**
  * Implements hook_preprocess_page().
+ *
+ * @see gbif_navigation_node_view().
+ * @see http://www.dibe.gr/blog/set-path-determining-active-trail-drupal-7-menu
  */
 function bvng_preprocess_page(&$variables) {
+	if (!empty($variables['node'])) {
+    switch ($variables['node']->type) {
+      case 'newsarticle':
+        $system_path = drupal_get_normal_path('newsroom/news'); // taxonomy/term/566
+        menu_tree_set_path('gbif-menu', $system_path);
+        menu_set_active_item($system_path);
+        break;
+      case 'usesofdata':
+        $system_path = drupal_get_normal_path('newsroom/uses'); // taxonomy/term/566
+        menu_tree_set_path('gbif-menu', $system_path);
+        menu_set_active_item($system_path);
+        break;
+    }
+  }
+  
   $variables['page']['highlighted_title'] = bvng_get_title_data();
   
-  // For testing purpose. To be deleted later.
-  //drupal_set_message(t('An error messaged is generated for developing the message box.'), 'warning');
+  // @todo For testing purpose. To be deleted later.
+  // drupal_set_message(t('An error messaged is generated for developing the message box.'), 'warning');
 }
 
 /**
