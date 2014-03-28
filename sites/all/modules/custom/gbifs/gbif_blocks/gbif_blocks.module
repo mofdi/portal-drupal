@@ -45,7 +45,7 @@ function gbif_blocks_block_view($delta = '') {
   switch ($delta) {
     case 'gbif_blocks':
       $block['subject'] = '<none>';
-      $block['content'] = _gbif_blocks_block_content();
+      $block['content'] = _gbif_blocks_newsarticle_sidebar();
       break;
   }
 
@@ -59,10 +59,9 @@ function gbif_blocks_block_view($delta = '') {
  * @todo Date formating ideally could be taken cared by template.
  * returns a renderable array of block content.
  */
-function _gbif_blocks_block_content() {
+function _gbif_blocks_newsarticle_sidebar() {
   $block = array();
 
-  $path = current_path();
   $node = menu_get_object('node');
 
   if ($node && $node->type === 'newsarticle') {
@@ -75,7 +74,7 @@ function _gbif_blocks_block_content() {
         'data' => format_date($node->created, 'custom', 'F jS, Y '),
       ),
       'attributes' => array(
-        'id' => 'Publication-date',
+        'id' => 'publication-date',
         'class' => 'item-date',
       ),
     );

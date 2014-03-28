@@ -139,15 +139,24 @@ cite    { font-style: normal; }
   border-bottom: 1px solid @page-header-border-color;
 }
 
-.content-header {
+.content-header,
+.node-sidebar {
+
   h2 {
     margin-top: 0px;
+    margin-bottom: 0px;
     padding-bottom: 20px;
     font-size: 23px;
     font-weight: normal;
     line-height: 20px;
     text-shadow: 0 1px @cWhite;
-    border-bottom: 1px solid @page-header-border-color;
+    //border-bottom: 1px solid @page-header-border-color;
+    
+    a {
+      &:hover {
+        text-decoration: none;
+      }
+    }
   }
   h3 {
     margin-top: 0px;

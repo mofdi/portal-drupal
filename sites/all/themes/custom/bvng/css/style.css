@@ -560,16 +560,22 @@ a.bg-danger:hover {
   margin: 42px 0 21px;
   border-bottom: 1px solid #eeeeee;
 }
-.content-header h2 {
+.content-header h2,
+.node-sidebar h2 {
   margin-top: 0px;
+  margin-bottom: 0px;
   padding-bottom: 20px;
   font-size: 23px;
   font-weight: normal;
   line-height: 20px;
   text-shadow: 0 1px #ffffff;
-  border-bottom: 1px solid #eeeeee;
 }
-.content-header h3 {
+.content-header h2 a:hover,
+.node-sidebar h2 a:hover {
+  text-decoration: none;
+}
+.content-header h3,
+.node-sidebar h3 {
   margin-top: 0px;
   margin-bottom: 8px;
   font-size: 13px;
@@ -5183,6 +5189,9 @@ a.list-group-item-danger.active:focus {
 .well-margin-top {
   margin-top: 40px;
 }
+.well-margin-bottom {
+  margin-bottom: 50px;
+}
 .close {
   float: right;
   font-size: 22.5px;
@@ -6846,7 +6855,7 @@ table .checkbox input[type="checkbox"] {
   text-align: left;
   line-height: 21px;
   font-size: 15px;
-  color: #666666;
+  color: #626262;
 }
 #footer h3 {
   color: #ffffff;
@@ -6856,7 +6865,7 @@ table .checkbox input[type="checkbox"] {
   margin-bottom: 9px;
 }
 #footer a {
-  color: #666666;
+  color: #626262;
 }
 #footer a:hover {
   text-decoration: underline;
@@ -6887,6 +6896,9 @@ table .checkbox input[type="checkbox"] {
   float: left;
   margin: 0 20px 36px 0;
   width: 204px;
+}
+#footer #footer-links ul > li > h3 a {
+  color: #ffffff;
 }
 #footer #footer-links ul > li > ul {
   -webkit-padding-start: 0px;
@@ -7112,5 +7124,70 @@ table .checkbox input[type="checkbox"] {
 }
 #admin-menu .dropdown {
   font-size: 12px;
+}
+.block-gbif-blocks {
+  margin-top: 41px;
+}
+.block-gbif-blocks h3 {
+  margin-top: 10px;
+}
+.node-content {
+  margin-left: 15px;
+  padding-top: 10.5px;
+  padding-left: 0px;
+  border-top: 1px solid #eeeeee;
+}
+.node-content p {
+  color: #464646;
+}
+.node-sidebar {
+  width: 230px;
+  margin-left: 30px;
+  padding-top: 25px;
+  padding-left: 0px;
+  padding-right: 0px;
+  border-top: 1px solid #eeeeee;
+}
+.node-sidebar h3 {
+  margin-bottom: 5px;
+}
+.node-sidebar ul {
+  padding-left: 0px;
+}
+.node-sidebar .item-list {
+  margin-bottom: 20px;
+}
+.node-sidebar .item-date {
+  list-style: none;
+  color: #464646;
+}
+.node-sidebar .tags {
+  padding-left: 10px;
+  list-style: square;
+  list-style-position: outside;
+  list-style-image: url("http://cdn.gbif.org/img/icons/bullet.png");
+}
+.field-type-image > .field-label {
+  display: none;
+}
+.field-type-image .field-item {
+  margin-top: 15px;
+}
+.field-name-body p > em > strong,
+.field-name-body p > strong {
+  font-weight: normal;
+}
+.field-name-body p a[href^="mailto"] {
+  text-decoration: underline;
+  font-style: italic;
+  color: #666666;
+  font-size: 13px;
+}
+.next-news h2 {
+  padding-bottom: 0px;
+}
+.next-news h2 > a {
+  font-size: 17px;
+  font-weight: bold;
 }
 /*# sourceMappingURL=css/style.map */

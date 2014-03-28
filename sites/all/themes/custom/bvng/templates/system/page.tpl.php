@@ -164,6 +164,7 @@
 	</div>	
 -->
 <section id="main">
+  <a id="main-content"></a>
   <?php if (!empty($messages)): ?>
         <?php print $messages; ?>
   <?php endif; ?>    
@@ -176,29 +177,14 @@
     </div>
   <?php endif; ?>
 
-  <div class="container well well-lg well-margin-top">
-    <div class="row">
-      <section class="col-md-8">
-        <a id="main-content"></a>
-        <?php if (!empty($action_links)): ?>
-          <ul class="action-links"><?php print render($action_links); ?></ul>
-        <?php endif; ?>
-        <?php print render($page['content']); ?>
-      </section>
-
-      <!-- /#sidebar-second -->
-      <?php if (!empty($page['sidebar_second'])): ?>
-        <aside class="col-md-4" role="complementary">
-          <?php print render($page['sidebar_second']); ?>
-  				<?php if (!empty($secondary_nav)): ?>
-  				<?php print render($secondary_nav); ?>
-  				<?php endif; ?>
-        </aside>
-      <?php endif; ?>
-
-    </div>
-  </div>
+  <section>
+    <?php if (!empty($action_links)): ?>
+      <ul class="action-links"><?php print render($action_links); ?></ul>
+    <?php endif; ?>
+    <?php print render($page['content']); ?>
+  </section>
 </section>
+
 <section id="footer">
   <div id="footer-links">
     <div class="container">
