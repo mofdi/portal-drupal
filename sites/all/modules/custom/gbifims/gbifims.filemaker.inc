@@ -750,11 +750,12 @@ function _gbifims_get_CommitteeList( $committee ) {
 	$CList = '<table style="" class="table table-bordered table-stripped"><tbody>';
 	// <thead><tr><th colspan="2" >'.$options[1].'</th><tr></thead>
 	foreach ( $result as $row) {
+		$contactNameCSS = $row->Name_First == 'pending' ? '':'contactName' ; 		// remove class for "pending" so it's not clickable
 		$job_or_role = ( $committee == 'GBIF Secretariat' ) ? $row->Job_Position : $row->Role ;
 		$CList .= "<tr><td>
 			<div class='contact'>
 				<a name='$row->Name_First,$row->Name_Last'></a>
-				<div class='contactName'>$row->Name_First $row->Name_Last</div>
+				<div class='".$contactNameCSS."'>$row->Name_First $row->Name_Last</div>
 				<div style='display: none;'>
 					<div class='contactPosition'>$row->Job_Position</div>
 					<div class='contactInstitution'></div>
@@ -816,10 +817,11 @@ function _gbifims_get_NCList( ) {
 	$CList = '<table style="" class="table table-bordered table-stripped"><tbody>';
 	// <thead><tr><th colspan="2" >'.$options[1].'</th><tr></thead>
 	foreach ( $result as $row) {
+		$contactNameCSS = $row->Name_First == 'pending' ? '':'contactName' ; 		// remove class for "pending" so it's not clickable
 		$CList .= "<tr><td>
 			<div class='contact'>
 				<a name='$row->Name_First,$row->Name_Last'></a>
-				<div class='contactName'>$row->Name_First $row->Name_Last</div>
+				<div class='".$contactNameCSS."'>$row->Name_First $row->Name_Last</div>
 				<div style='display: none;'>
 					<div class='contactPosition'>$row->Job_Position</div>
 					<div class='contactInstitution'>$row->ContactInstitution</div>
