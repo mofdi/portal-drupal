@@ -5196,7 +5196,7 @@ a.list-group-item-danger.active:focus {
   margin-bottom: 50px;
 }
 .well-right-bg {
-  background: url("http://dd.gbif.org/sites/all/themes/custom/bvng/images/box_results_bkg.png") 118% 0% repeat-y #ffffff;
+  background: url("/sites/all/themes/custom/bvng/images/box_results_bkg.png") 118% 0% repeat-y #ffffff;
 }
 .close {
   float: right;

@@ -36,7 +36,7 @@ function bvng_preprocess_user_login() {
 }
 
 /**
- * Implements hook_preprocess_page().
+ * Implements template_preprocess_page().
  *
  * @see gbif_navigation_node_view().
  * @see http://www.dibe.gr/blog/set-path-determining-active-trail-drupal-7-menu
@@ -60,6 +60,8 @@ function bvng_preprocess_page(&$variables) {
     }
   }
   elseif (strpos($current_path, 'allnewsarticles')) {
+    // Insert $current_path to the content region so it knows the requested path.
+    $variables['page']['content']['current_path'] = $current_path;
     $system_path = drupal_get_normal_path('newsroom/news'); // taxonomy/term/566
     menu_tree_set_path('gbif-menu', $system_path);
     menu_set_active_item($system_path);
@@ -68,6 +70,29 @@ function bvng_preprocess_page(&$variables) {
 
   // @todo For testing purpose. To be deleted later.
   // drupal_set_message(t('An error messaged is generated for developing the message box.'), 'warning');
+}
+
+/**
+ * Implements template_preprocess_region().
+ */
+function bvng_preprocess_region(&$variables) {
+  $well = bvng_get_container_well();
+  $current_path = $variables['elements']['current_path'];
+  switch ($variables['region']) {
+    case 'content':
+      if (!empty($variables['elements']['system_main']['nodes'])) {
+        break;
+      }
+      elseif (!empty($variables['elements']['system_main']['taxonomy_terms']) || strpos($current_path, 'allnewsarticles')) {
+        $variables['well_top'] = $well['filter']['top'];
+        $variables['well_bottom'] = $well['filter']['bottom'];
+      }
+      else {
+        $variables['well_top'] = $well['normal']['top'];
+        $variables['well_bottom'] = $well['normal']['bottom'];
+      }
+      break;
+  }
 }
 
 /**
@@ -256,4 +281,20 @@ function bvng_get_also_tag_links($node) {
   }
   $term_links .= '</ul>';
   return $term_links;
+}
+
+/**
+ * Helper function for the styling of external wells.
+ */
+function bvng_get_container_well() {
+  $well = array();
+  $well['normal'] = array(
+    'top' => '<div class="container well well-lg well-margin-top well-margin-bottom">' . "\n" . '<div class="row">' . "\n" . '<div class="col-md-12">',
+    'bottom' => '</div>' . "\n" . '</div>' . "\n" . '</div>',
+  );
+  $well['filter'] = array(
+    'top' => '<div class="container well well-lg well-margin-top well-margin-bottom well-right-bg">' . "\n" . '<div class="row">' . "\n" . '<div class="col-md-12">',
+    'bottom' => '</div>' . "\n" . '</div>' . "\n" . '</div>',
+  );
+  return $well;
 }
