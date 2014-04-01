@@ -32,33 +32,7 @@ function bvng_theme() {
 }
 
 function bvng_preprocess_user_login() {
-  
-}
 
-/**
- * Helper function for showing the title and subtitle of a site section in the
- * highlighted region.
- *
- * The description is retrieved from the description of the menu item.
- */
-function bvng_get_title_data() {
-
-  // The old way
-	// $trail = menu_get_active_trail() ;
-	// $taxon = taxonomy_get_term_by_name($trail[2]['title'], 'taxanavigation');
-	// reset($taxon);
-	// return current($taxon);
-
-	// This way disassociates the taxanavigation voc, is more reasonable, but a bit heavy.
-	// Only 'GBIF Newsroom' has a shorter name in the nav.
-	$active_menu_item = menu_link_get_preferred(current_path(), 'gbif-menu');
-	$parent = menu_link_load($active_menu_item['plid']);
-	$title = array(
-	 'mild' => $parent['mlid'],
-   'name' => ($parent['link_title'] == 'GBIF News') ? 'GBIF Newsroom' : $parent['link_title'],
-	 'description' => $parent['options']['attributes']['title'],
-	);
-	return $title;
 }
 
 /**
@@ -68,7 +42,8 @@ function bvng_get_title_data() {
  * @see http://www.dibe.gr/blog/set-path-determining-active-trail-drupal-7-menu
  */
 function bvng_preprocess_page(&$variables) {
-	if (!empty($variables['node'])) {
+  $current_path = current_path();
+  if (!empty($variables['node'])) {
     switch ($variables['node']->type) {
       case 'newsarticle':
         $system_path = drupal_get_normal_path('newsroom/news'); // taxonomy/term/566
@@ -84,7 +59,11 @@ function bvng_preprocess_page(&$variables) {
         break;
     }
   }
-
+  elseif (strpos($current_path, 'allnewsarticles')) {
+    $system_path = drupal_get_normal_path('newsroom/news'); // taxonomy/term/566
+    menu_tree_set_path('gbif-menu', $system_path);
+    menu_set_active_item($system_path);
+  }
   $variables['page']['highlighted_title'] = bvng_get_title_data();
 
   // @todo For testing purpose. To be deleted later.
@@ -125,9 +104,43 @@ function bvng_preprocess_node(&$variables) {
         break;
     }
   }
+
+  /* Get also tagged
+   */
+  $variables['also_tagged'] = bvng_get_also_tag_links($variables['node']);
+}
+
+function bvng_preprocess_views_view(&$variables) {
+
 }
 
 function bvng_preprocess_search_block_form(&$variables) {
+}
+
+/**
+ * Helper function for showing the title and subtitle of a site section in the
+ * highlighted region.
+ *
+ * The description is retrieved from the description of the menu item.
+ */
+function bvng_get_title_data() {
+
+  // The old way
+	// $trail = menu_get_active_trail() ;
+	// $taxon = taxonomy_get_term_by_name($trail[2]['title'], 'taxanavigation');
+	// reset($taxon);
+	// return current($taxon);
+
+	// This way disassociates the taxanavigation voc, is more reasonable, but a bit heavy.
+	// Only 'GBIF Newsroom' has a shorter name in the nav.
+	$active_menu_item = menu_link_get_preferred(current_path(), 'gbif-menu');
+	$parent = menu_link_load($active_menu_item['plid']);
+	$title = array(
+	 'mild' => $parent['mlid'],
+   'name' => ($parent['link_title'] == 'GBIF News') ? 'GBIF Newsroom' : $parent['link_title'],
+	 'description' => $parent['options']['attributes']['title'],
+	);
+	return $title;
 }
 
 function bvng_get_sidebar_content($nid, $vid) {
@@ -162,23 +175,7 @@ function bvng_get_sidebar_content($nid, $vid) {
     );
 
     // TAGS
-    $terms = array();
-    // List where to get terms to populate as tags.
-    $term_sources = array(
-      'field_capacity',
-      'field_country',
-      'field_informatics',
-      'field_organizations',
-      'field_regions',
-    );
 
-    // Get all the terms.
-    foreach ($term_sources as $term_source) {
-      $items = field_get_items('node', $node, $term_source);
-      foreach ($items as $item) {
-        $terms[] = $item['tid'];
-      }
-    }
     // Create term links.
     $term_links = array(
       'title' => t('Tags'),
@@ -188,10 +185,9 @@ function bvng_get_sidebar_content($nid, $vid) {
         'class' => 'tags'
       ),
     );
-    foreach ($terms as $tid) {
-      $term = taxonomy_term_load($tid);
-      $uri = taxonomy_term_uri($term);
-      $term_links['items'][]['data'] = l($term->name, $uri['path']);
+    $tag_links = bvng_get_tag_links($node);
+    foreach ($tag_links as $tag_link) {
+      $term_links['items'][]['data'] = $tag_link;
     }
   }
 
@@ -200,4 +196,64 @@ function bvng_get_sidebar_content($nid, $vid) {
   $markup .= theme_item_list($term_links);
 
   return $markup;
+}
+
+function bvng_get_filter_links() {
+  $regions = variable_get('gbif_region_definition');
+  $links = '';
+  $links = '<ul class="filter-list">';
+  foreach ($regions as $region) {
+    $links .= '<li>';
+    $url_base = 'newsroom/archive/allnewsarticles/';
+    $links .= l($region, $url_base . $region);
+    $links .= '</li>';
+  }
+  $links .= '</ul>';
+  return $links;
+}
+
+/**
+ * Helper function to get tags from specified fields.
+ */
+function bvng_get_tag_links($node) {
+  $terms = array();
+
+  // List fields to get terms.
+  $term_sources = array(
+    'field_capacity',
+    'field_country',
+    'field_informatics',
+    'field_organizations',
+    'field_regions',
+  );
+
+  // Get all the terms.
+  foreach ($term_sources as $term_source) {
+    $items = field_get_items('node', $node, $term_source);
+    foreach ($items as $item) {
+      $terms[] = $item['tid'];
+    }
+  }
+
+  $tag_links = array();
+  foreach ($terms as $tid) {
+    $term = taxonomy_term_load($tid);
+    $uri = taxonomy_term_uri($term);
+    $tag_links[] = l($term->name, $uri['path']);
+  }
+
+  return $tag_links;
+}
+
+/**
+ * Helper function to get "also tagged" tag links.
+ */
+function bvng_get_also_tag_links($node) {
+  $tag_links = bvng_get_tag_links($node);
+  $term_links = t('Also tagged') . ':' . '<ul class="also-tagged">';
+  foreach ($tag_links as $tag_link) {
+    $term_links .= '<li>' . $tag_link . '</li>';
+  }
+  $term_links .= '</ul>';
+  return $term_links;
 }

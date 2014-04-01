@@ -33,7 +33,10 @@ function gbif_tweaks_install() {
 
   // jquery_update settings.
   variable_set('jquery_update_jquery_cdn', 'google');
-  variable_set('jquery_update_jquery_version', '1.7');  
+  variable_set('jquery_update_jquery_version', '1.7');
+  
+  // GBIF definitions.
+  gbif_tweaks_region_definition();  
 }
 
 /**
@@ -61,5 +64,23 @@ function gbif_tweaks_uninstall() {
   ));
   module_enable(array(
     'toolbar',
-  ));  
+  ));
+  
+  // Revert GBIF definitions.
+  variable_del('gbif_region_definition');  
+}
+
+/**
+ * Define GBIF Regions and set a variable.
+ */
+function gbif_tweaks_region_definition() {
+  $regions = array(
+    'Africa',
+    'Asia',
+    'Europe',
+    'Latin America',
+    'North America',
+    'Oceania',
+  );
+  variable_set('gbif_region_definition', $regions);
 }

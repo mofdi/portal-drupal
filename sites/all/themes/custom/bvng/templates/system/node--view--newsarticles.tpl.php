@@ -102,9 +102,10 @@
     ?> 
     <?php if (!empty($content['field_tags']) || !empty($content['links']) || !empty($created)): ?>
     <footer>
+      <?php if (isset($also_tagged)): ?>
+      <?php print render($also_tagged); ?>
+      <?php endif; ?>
       <p class="date"><?php print format_date($created, 'custom', 'F jS, Y '); ?></p>
-      <?php print render($content['field_tags']); ?>
-      <?php print render($content['links']); ?>
     </footer>
     <?php endif; ?>
     <?php print render($content['comments']); ?>
