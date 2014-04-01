@@ -13,6 +13,28 @@ include_once(drupal_get_path('theme', 'bvng') . '/templates/menu/menu-link.func.
 include_once(drupal_get_path('theme', 'bvng') . '/templates/bootstrap/bootstrap-search-form-wrapper.func.php');
 include_once(drupal_get_path('theme', 'bvng') . '/templates/system/status-messages.func.php');
 
+
+/**
+ * Implements hook_theme().
+ * @see http://www.danpros.com/2013/01/creating-custom-user-login-page-in.html
+ */
+function bvng_theme() {
+  $items = array();
+  // create custom user-login.tpl.php
+  $items['user_login'] = array(
+    'render element' => 'form',
+    'template' => 'templates/system/user-login',
+    'preprocess functions' => array(
+      'bvng_preprocess_user_login'
+    ),
+  );
+  return $items;
+}
+
+function bvng_preprocess_user_login() {
+  
+}
+
 /**
  * Helper function for showing the title and subtitle of a site section in the
  * highlighted region.

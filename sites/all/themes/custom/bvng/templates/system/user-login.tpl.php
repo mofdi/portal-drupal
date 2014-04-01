@@ -7,8 +7,13 @@
 <div class="container well well-lg well-margin-top well-margin-bottom">
   <div class="row">
     <div class="col-md-12">
-      test login
-      <?php print render(drupal_get_form('user_login')); ?>
+      <?php
+        print drupal_render($form['name']);
+        print drupal_render($form['pass']);
+        print drupal_render($form['form_build_id']);
+        print drupal_render($form['form_id']);
+        print drupal_render($form['actions']);
+      ?>
     </div>
   </div>
 </div>
