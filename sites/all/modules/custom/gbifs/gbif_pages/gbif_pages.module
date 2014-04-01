@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * gbif_pages.module
+ *
+ * An important reference post:
+ * @see https://drupal.org/node/1024312
+ */
+ 
+/**
+ * Implements hook_menu_alter().
+ */
+function gbif_pages_menu_alter(&$items) {
+  $items['taxonomy/term/%taxonomy_term']['page callback'] = 'gbif_pages_term_page';
+}
+
+function gbif_pages_term_page($term) {
+  $build = taxonomy_term_page($term);
+  return $build;
+}
