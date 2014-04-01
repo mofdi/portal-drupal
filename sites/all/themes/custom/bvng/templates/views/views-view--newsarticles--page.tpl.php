@@ -31,12 +31,12 @@
   <header class="content-header col-md-8">
     <h2><?php print $view->get_title(); ?></h2>
   </header>
-  <div class="sidebar-filter col-md-4">
+  <div class="content-header sidebar-header col-md-3">
     <h2>Filter by region</h2>
   </div>
 </div>
 <div class="row">
-  <div class="col-md-8">
+  <div class="view-column col-md-8">
     <div class="<?php print $classes; ?>">
       <?php print render($title_prefix); ?>
       <?php if ($title): ?>
@@ -71,22 +71,22 @@
         </div>
       <?php endif; ?>
 
-      <?php if ($pager): ?>
-        <?php print $pager; ?>
-      <?php endif; ?>
-
       <?php if ($attachment_after): ?>
         <div class="attachment attachment-after">
           <?php print $attachment_after; ?>
         </div>
       <?php endif; ?>
+      <?php if ($pager): ?>
+        <?php print $pager; ?>
+      <?php endif; ?>
       <hr>
+      <button type="button" class="btn btn-primary"><a href="/newsroom/archive/allnewsarticles">more GBIF news</a></button>
       <?php if ($more): ?>
         <?php print $more; ?>
       <?php endif; ?>
     </div>
   </div>
-  <div class="col-md-4 node-sidebar">
+  <div class="sidebar-filter col-md-3">
     <?php
       print bvng_get_filter_links();
     ?>

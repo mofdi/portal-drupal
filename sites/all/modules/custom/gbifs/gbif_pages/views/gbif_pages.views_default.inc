@@ -23,7 +23,6 @@ function gbif_pages_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Latest news items';
-  $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = TRUE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -86,8 +85,8 @@ function gbif_pages_views_default_views() {
   $handler->display->display_options['fields']['body']['alter']['max_length'] = '300';
   $handler->display->display_options['fields']['body']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['body']['alter']['more_link'] = TRUE;
-  $handler->display->display_options['fields']['body']['alter']['more_link_text'] = '... read more';
-  $handler->display->display_options['fields']['body']['alter']['more_link_path'] = 'page/[nid]';
+  $handler->display->display_options['fields']['body']['alter']['more_link_text'] = 'more GBIF news';
+  $handler->display->display_options['fields']['body']['alter']['more_link_path'] = 'newsroom/archive/allnewsarticles';
   $handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;
   $handler->display->display_options['fields']['body']['alter']['html'] = TRUE;
   $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
@@ -210,7 +209,7 @@ function gbif_pages_views_default_views() {
     t('last'),
     t('author'),
     t(' '),
-    t('... read more'),
+    t('more GBIF news'),
     t('All'),
     t('GBIF news articles related to %1'),
     t('Page'),
