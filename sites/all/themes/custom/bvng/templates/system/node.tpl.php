@@ -80,7 +80,7 @@
  */
 ?>
 
-<div class="container well well-lg well-margin-top">
+<div class="container well well-lg well-margin-top well-margin-bottom">
   <div class="row">
 
     <article id="node-<?php print $node->nid; ?>" class="col-md-12 <?php print $classes; ?> clearfix"<?php print $attributes; ?>>
@@ -133,6 +133,8 @@
 
   </div>
 </div>
+
+<?php if (!empty($node) && $node->type == 'newsarticle'): ?>
 <div class="container well well-lg well-margin-top well-margin-bottom">
   <div class="row">
     <article class="col-md-12 next-news">
@@ -145,3 +147,4 @@
     </article>
   </div>
 </div>
+<?php endif; ?>

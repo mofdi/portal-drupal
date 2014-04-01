@@ -177,12 +177,18 @@
     </div>
   <?php endif; ?>
 
+  <?php
+    // Print the container and the row if it's not node page
+  ?>
+
   <section>
     <?php if (!empty($action_links)): ?>
       <ul class="action-links"><?php print render($action_links); ?></ul>
     <?php endif; ?>
     <?php print render($page['content']); ?>
   </section>
+
+
 </section>
 
 <section id="footer">
