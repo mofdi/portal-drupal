@@ -7183,11 +7183,35 @@ table .checkbox input[type="checkbox"] {
   color: #666666;
   font-size: 13px;
 }
-.next-news h2 {
+.node-teaser {
+  border-top: 1px solid #eeeeee;
+  margin-bottom: 20px;
+}
+.node-teaser p {
+  font-size: 13px;
+}
+.node-teaser h2 {
+  margin: 0px;
   padding-bottom: 0px;
 }
-.next-news h2 > a {
+.node-teaser h2 > a {
   font-size: 17px;
   font-weight: bold;
+}
+.node-teaser h2 > a:hover {
+  text-decoration: none;
+}
+.node-teaser > footer .date {
+  color: #999999;
+}
+.node-next h2 {
+  padding-bottom: 0px;
+}
+.node-next h2 > a {
+  font-size: 17px;
+  font-weight: bold;
+}
+.sidebar-filter {
+  background-color: #f1f1f1;
 }
 /*# sourceMappingURL=css/style.map */

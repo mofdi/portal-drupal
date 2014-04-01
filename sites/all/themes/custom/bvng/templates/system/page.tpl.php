@@ -177,13 +177,16 @@
     </div>
   <?php endif; ?>
 
-  <section>
-    <?php if (!empty($action_links)): ?>
-      <ul class="action-links"><?php print render($action_links); ?></ul>
-    <?php endif; ?>
-    <?php print render($page['content']); ?>
-  </section>
-
+  <div class="container well well-lg well-margin-top well-margin-bottom">
+    <div class="row">
+      <div class="col-md-12">
+        <?php if (!empty($action_links)): ?>
+          <ul class="action-links"><?php print render($action_links); ?></ul>
+        <?php endif; ?>
+        <?php print render($page['content']); ?>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section id="footer">

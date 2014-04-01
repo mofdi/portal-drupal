@@ -41,15 +41,17 @@
  * @ingroup themeable
  */
 ?>
-<div id="taxonomy-term-<?php print $term->tid; ?>" class="<?php print $classes; ?>">
+<div class="row">
+  <div id="taxonomy-term-<?php print $term->tid; ?>" class="<?php print $classes; ?>">
+    <?php if (!$page): ?>
+      <h2><a href="<?php print $term_url; ?>"><?php print $term_name; ?></a></h2>
+    <?php endif; ?>
 
-  <?php if (!$page): ?>
-    <h2><a href="<?php print $term_url; ?>"><?php print $term_name; ?></a></h2>
-  <?php endif; ?>
-
-  <div class="content">
-    term page template in effect
-    <?php print render($content); ?>
+      <header class="content-header col-md-8">
+        <h2>Latest news items</h2>
+      </header>
+      <div class="sidebar-filter col-md-4">
+        Filter by region.
+      </div>
   </div>
-
 </div>

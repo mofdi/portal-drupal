@@ -5,17 +5,50 @@
  * gbif_pages.module
  *
  * An important reference post:
- * @see https://drupal.org/node/1024312
+ * @see http://chacadwa.com/blog/2012/12/08/override-drupal-7-taxonomy-display-vocabulary
+ * @see https://api.drupal.org/api/views/views.module/function/views_embed_view/7
  */
  
 /**
  * Implements hook_menu_alter().
  */
 function gbif_pages_menu_alter(&$items) {
-  $items['taxonomy/term/%taxonomy_term']['page callback'] = 'gbif_pages_term_page';
+  $items['taxonomy/term/%taxonomy_term']['page callback'] = 'gbif_pages_taxonomy_term_page';
 }
 
-function gbif_pages_term_page($term) {
-  $build = taxonomy_term_page($term);
-  return $build;
+/**
+ * Implementation of hook_views_api().
+ */
+function gbif_pages_views_api() {
+  return array(
+    'api' => 3.0,
+    'path' => drupal_get_path('module', 'gbif_pages') . '/views'
+  );
+}
+
+function gbif_pages_taxonomy_term_page($term) {
+  switch ($term->tid) {
+    case '566': // newsroom/news
+      return gbif_pages_taxonomy_term_latest_news_page($term);
+    default:
+      $build = taxonomy_term_page($term);
+      return $build;
+  }
+}
+
+function gbif_pages_taxonomy_term_latest_news_page($term) {
+  drupal_set_title('Latest news items');
+
+  $uri = entity_uri('taxonomy_term', $term);
+
+  // Set the term path as the canonical URL to prevent duplicate content.
+  drupal_add_html_head_link(array('rel' => 'canonical', 'href' => url($uri['path'], $uri['options'])), TRUE);
+  // Set the non-aliased path as a default shortlink.
+  drupal_add_html_head_link(array('rel' => 'shortlink', 'href' => url($uri['path'], array_merge($uri['options'], array('alias' => TRUE)))), TRUE);
+
+  $build = taxonomy_term_show($term);
+
+  // This is the only deviation from the core function.
+  $build['members'] = array('#markup' => views_embed_view('newsarticles', 'page_latest', $term->tid));
+  return $build;  
 }
