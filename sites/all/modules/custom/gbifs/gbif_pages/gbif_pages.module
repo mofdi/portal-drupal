@@ -54,6 +54,7 @@ function gbif_pages_taxonomy_term_latest_news_page($term) {
   $build['members'] = array('#markup' => views_embed_view('newsarticles', 'page_latest'));
   return $build;  
 }
+
 function gbif_pages_taxonomy_term_latest_events_page($term) {
   drupal_set_title('Upcoming Events');
 

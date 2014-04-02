@@ -37,12 +37,33 @@ function gbif_tweaks_install() {
   
   // GBIF definitions.
   gbif_tweaks_region_definition();
+
+  // Flush all caches so the special menu items can take effect.
+  drupal_flush_all_caches();
   
   // Enable related GBIF modules.
   module_enable(array(
     'gbif_blocks',
     'gbif_pages',
-  ));  
+    'gbif_navigation',
+  ));
+  
+}
+
+/**
+ * Implements hook_enable().
+ */
+function gbif_tweaks_enable() {
+  $views = array(
+    'newsarticles',
+    'viewallevents',
+  );
+  foreach ($views as $view_name) {
+    $view = views_get_view($view_name);
+    $view->delete();
+    ctools_include('object-cache');
+    ctools_object_cache_clear('view', $view);
+  }
 }
 
 /**

@@ -6,14 +6,20 @@
  
 /**
  * Implenets hook_install().
+ * @see drush_menu_import_import() is more verbose from the command-line.
  */
 function gbif_navigation_install() {
   // Create the menu and import default menu items.
   $menus = _gbif_navigation_default_menus();
+  $options = array(
+    'create_content'  => FALSE,
+    'link_to_content' => TRUE,
+    'remove_menu_items' => FALSE
+  );
   foreach ($menus as $menu) {
     menu_save($menu);
     $menu_file = drupal_get_path('module', 'gbif_navigation') . '/' . $menu['menu_name'] . '-default.txt';
-    drush_menu_import_import($menu_file, $menu['menu_name']);
+    menu_import_file($menu_file, $menu['menu_name'], $options);
   }
     
   // Set the default menu to gbif-menu.

@@ -4,4 +4,8 @@ core = 7.x
 version = 7.x-0.1
 package = GBIFS
 
+; jquery_update is dependented because of Bootstrap CSS.
+dependencies[] = jquery_update
+dependencies[] = module_filter
 dependencies[] = special_menu_items
+dependencies[] = ctools
