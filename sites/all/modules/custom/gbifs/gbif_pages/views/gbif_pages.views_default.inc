@@ -105,7 +105,7 @@ function gbif_pages_views_default_views() {
   $handler->display->display_options['arguments']['field_regions_tid']['table'] = 'field_data_field_regions';
   $handler->display->display_options['arguments']['field_regions_tid']['field'] = 'field_regions_tid';
   $handler->display->display_options['arguments']['field_regions_tid']['title_enable'] = TRUE;
-  $handler->display->display_options['arguments']['field_regions_tid']['title'] = 'GBIF news articles related to %1';
+  $handler->display->display_options['arguments']['field_regions_tid']['title'] = 'GBIF news about %1';
   $handler->display->display_options['arguments']['field_regions_tid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['field_regions_tid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['field_regions_tid']['summary']['format'] = 'default_summary';
@@ -135,7 +135,7 @@ function gbif_pages_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Archive of all GBIF news items';
+  $handler->display->display_options['title'] = 'GBIF news archive';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'full';
