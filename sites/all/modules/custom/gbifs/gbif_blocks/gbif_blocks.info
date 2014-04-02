@@ -3,5 +3,3 @@ description = A module to emit various content in blocks (so that theme template
 core = 7.x
 version = 7.x-0.1
 package = GBIFS
-
-dependencies[] = gbif_tweaks

@@ -12,10 +12,10 @@ function gbif_pages_views_default_views() {
   // List of tools
   $view = new view();
   $view->name = 'newsarticles';
-  $view->description = 'Returns all published nodes of type "News Article"';
+  $view->description = 'All published nodes of type "News Article"';
   $view->tag = 'default';
   $view->base_table = 'node';
-  $view->human_name = 'NewsArticles';
+  $view->human_name = 'News Articles';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -84,7 +84,7 @@ function gbif_pages_views_default_views() {
   $handler->display->display_options['fields']['body']['label'] = '';
   $handler->display->display_options['fields']['body']['alter']['max_length'] = '300';
   $handler->display->display_options['fields']['body']['alter']['ellipsis'] = FALSE;
-  $handler->display->display_options['fields']['body']['alter']['more_link'] = TRUE;
+  $handler->display->display_options['fields']['body']['alter']['more_link'] = FALSE;
   $handler->display->display_options['fields']['body']['alter']['more_link_text'] = 'more GBIF news';
   $handler->display->display_options['fields']['body']['alter']['more_link_path'] = 'newsroom/archive/allnewsarticles';
   $handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;

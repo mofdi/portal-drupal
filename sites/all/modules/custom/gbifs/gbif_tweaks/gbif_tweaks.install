@@ -36,7 +36,13 @@ function gbif_tweaks_install() {
   variable_set('jquery_update_jquery_version', '1.7');
   
   // GBIF definitions.
-  gbif_tweaks_region_definition();  
+  gbif_tweaks_region_definition();
+  
+  // Enable related GBIF modules.
+  module_enable(array(
+    'gbif_blocks',
+    'gbif_pages',
+  ));  
 }
 
 /**
@@ -67,7 +73,15 @@ function gbif_tweaks_uninstall() {
   ));
   
   // Revert GBIF definitions.
-  variable_del('gbif_region_definition');  
+  variable_del('gbif_region_definition');
+  
+  // Uninstall GBIF related modules.
+  $module_list = array(
+    'gbif_blocks',
+    'gbif_pages',
+    'gbif_navigation',
+  );
+  drupal_uninstall_modules($module_list, TRUE);
 }
 
 /**

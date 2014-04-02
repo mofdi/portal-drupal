@@ -4,4 +4,4 @@ core = 7.x
 version = 7.x-0.1
 package = GBIFS
 
-dependencies[] = jquery_update
+dependencies[] = special_menu_items
