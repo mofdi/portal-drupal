@@ -30,6 +30,8 @@ function gbif_pages_taxonomy_term_page($term) {
   switch ($term->tid) {
     case '566': // newsroom/news
       return gbif_pages_taxonomy_term_latest_news_page($term);
+    case '569': // newsroom/events
+      return gbif_pages_taxonomy_term_latest_events_page($term);      
     default:
       $build = taxonomy_term_page($term);
       return $build;
@@ -50,5 +52,22 @@ function gbif_pages_taxonomy_term_latest_news_page($term) {
 
   // This is the only deviation from the core function.
   $build['members'] = array('#markup' => views_embed_view('newsarticles', 'page_latest', $term->tid));
+  return $build;  
+}
+
+function gbif_pages_taxonomy_term_latest_events_page($term) {
+  drupal_set_title('Upcoming Events');
+
+  $uri = entity_uri('taxonomy_term', $term);
+
+  // Set the term path as the canonical URL to prevent duplicate content.
+  drupal_add_html_head_link(array('rel' => 'canonical', 'href' => url($uri['path'], $uri['options'])), TRUE);
+  // Set the non-aliased path as a default shortlink.
+  drupal_add_html_head_link(array('rel' => 'shortlink', 'href' => url($uri['path'], array_merge($uri['options'], array('alias' => TRUE)))), TRUE);
+
+  $build = taxonomy_term_show($term);
+
+  // This is the only deviation from the core function.
+  $build['members'] = array('#markup' => views_embed_view('viewallevents', 'page', $term->tid));
   return $build;  
 }

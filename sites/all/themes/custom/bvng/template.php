@@ -274,13 +274,18 @@ function bvng_get_tag_links($node) {
  * Helper function to get "also tagged" tag links.
  */
 function bvng_get_also_tag_links($node) {
-  $tag_links = bvng_get_tag_links($node);
-  $term_links = t('Also tagged') . ':' . '<ul class="also-tagged">';
-  foreach ($tag_links as $tag_link) {
-    $term_links .= '<li>' . $tag_link . '</li>';
-  }
-  $term_links .= '</ul>';
-  return $term_links;
+	$tag_links = bvng_get_tag_links($node);
+	$term_links = '' ;
+	
+	if (!empty( $tag_links)) {
+		$term_links = t('Also tagged') . ':' . '<ul class="also-tagged">';
+		foreach ($tag_links as $tag_link) {
+			$term_links .= '<li>' . $tag_link . '</li>';
+		}
+		$term_links .= '</ul>';
+	}
+	
+	return $term_links;
 }
 
 /**
