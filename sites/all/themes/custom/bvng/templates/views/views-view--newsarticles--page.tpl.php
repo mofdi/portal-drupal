@@ -29,9 +29,13 @@
 ?>
 <div class="row">
   <header class="content-header col-md-8">
-    <h2><?php
-    $set_title = $view->get_title();
-    print $view->get_title(); ?></h2>
+    <h2>
+    <?php
+      $view_title = $view->get_title();
+      print $view_title;
+      drupal_set_title($view_title);
+    ?>
+    </h2>
   </header>
   <div class="content-header sidebar-header col-md-3">
     <h2>Filter by region</h2>

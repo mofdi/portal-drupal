@@ -39,8 +39,6 @@ function gbif_pages_taxonomy_term_page($term) {
 }
 
 function gbif_pages_taxonomy_term_latest_news_page($term) {
-  drupal_set_title('Latest news items');
-
   $uri = entity_uri('taxonomy_term', $term);
 
   // Set the term path as the canonical URL to prevent duplicate content.
