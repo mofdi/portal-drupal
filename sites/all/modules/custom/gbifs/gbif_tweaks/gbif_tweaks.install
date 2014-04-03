@@ -47,7 +47,7 @@ function gbif_tweaks_install() {
     'gbif_pages',
     'gbif_navigation',
   ));
-  
+
 }
 
 /**

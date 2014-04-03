@@ -51,7 +51,7 @@ function gbif_pages_taxonomy_term_latest_news_page($term) {
   $build = taxonomy_term_show($term);
 
   // This is the only deviation from the core function.
-  $build['members'] = array('#markup' => views_embed_view('newsarticles', 'page_latest'));
+  $build['members'] = array('#markup' => views_embed_view('newsarticles', 'page'));
   return $build;  
 }
 

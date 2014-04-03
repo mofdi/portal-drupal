@@ -29,7 +29,9 @@
 ?>
 <div class="row">
   <header class="content-header col-md-8">
-    <h2><?php print $view->get_title(); ?></h2>
+    <h2><?php
+    $set_title = $view->get_title();
+    print $view->get_title(); ?></h2>
   </header>
   <div class="content-header sidebar-header col-md-3">
     <h2>Filter by region</h2>
@@ -76,11 +78,10 @@
           <?php print $attachment_after; ?>
         </div>
       <?php endif; ?>
+      <hr>
       <?php if ($pager): ?>
         <?php print $pager; ?>
       <?php endif; ?>
-      <hr>
-      <button type="button" class="btn btn-primary"><a href="/newsroom/archive/allnewsarticles">more GBIF news</a></button>
       <?php if ($more): ?>
         <?php print $more; ?>
       <?php endif; ?>

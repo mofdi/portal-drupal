@@ -11,7 +11,6 @@ function gbif_pages_views_default_views() {
   
   /* News Articles
    */
-  // List of tools
   $view = new view();
   $view->name = 'newsarticles';
   $view->description = 'All published nodes of type "News Articles"';
@@ -21,10 +20,10 @@ function gbif_pages_views_default_views() {
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
-
+  
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Latest news items';
+  $handler->display->display_options['title'] = 'GBIF news';
   $handler->display->display_options['use_more_always'] = TRUE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -86,7 +85,6 @@ function gbif_pages_views_default_views() {
   $handler->display->display_options['fields']['body']['label'] = '';
   $handler->display->display_options['fields']['body']['alter']['max_length'] = '300';
   $handler->display->display_options['fields']['body']['alter']['ellipsis'] = FALSE;
-  $handler->display->display_options['fields']['body']['alter']['more_link'] = FALSE;
   $handler->display->display_options['fields']['body']['alter']['more_link_text'] = 'more GBIF news';
   $handler->display->display_options['fields']['body']['alter']['more_link_path'] = 'newsroom/archive/allnewsarticles';
   $handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;
@@ -133,11 +131,9 @@ function gbif_pages_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'newsarticle' => 'newsarticle',
   );
-
+  
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'GBIF news archive';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'full';
@@ -164,7 +160,7 @@ function gbif_pages_views_default_views() {
   $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['menu']['name'] = 'main-menu';
   $handler->display->display_options['menu']['context'] = 0;
-
+  
   /* Display: Feed */
   $handler = $view->new_display('feed', 'Feed', 'feed_1');
   $handler->display->display_options['pager']['type'] = 'some';
@@ -173,29 +169,9 @@ function gbif_pages_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'node_rss';
   $handler->display->display_options['row_options']['item_length'] = 'rss';
   $handler->display->display_options['path'] = 'newsroom/archive/rss';
-
-  /* Display: Latest news items */
-  $handler = $view->new_display('page', 'Latest news items', 'page_latest');
-  $handler->display->display_options['display_description'] = 'The page that shows only the latest 5 news items.';
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'some';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '5';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
-  $handler->display->display_options['style_options']['row_class_special'] = FALSE;
-  $handler->display->display_options['defaults']['style_options'] = FALSE;
-  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'node';
-  $handler->display->display_options['row_options']['view_mode'] = 'teaser_nt';
-  $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['defaults']['relationships'] = FALSE;
-  $handler->display->display_options['defaults']['arguments'] = FALSE;
-  $handler->display->display_options['path'] = 'newsroom/news';
   $translatables['newsarticles'] = array(
     t('Master'),
-    t('Latest news items'),
+    t('GBIF news'),
     t('more'),
     t('Apply'),
     t('Reset'),
@@ -213,13 +189,11 @@ function gbif_pages_views_default_views() {
     t(' '),
     t('more GBIF news'),
     t('All'),
-    t('GBIF news articles related to %1'),
+    t('GBIF news about %1'),
     t('Page'),
-    t('Archive of all GBIF news items'),
     t('Feed'),
-    t('The page that shows only the latest 5 news items.'),
   );
-
+  
   $views[$view->name] = $view;
   
   // View All Events
