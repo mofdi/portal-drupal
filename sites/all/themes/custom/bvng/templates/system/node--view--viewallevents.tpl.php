@@ -91,9 +91,6 @@
 		<?php print $submitted; ?>
 		</span>
     <?php endif; ?>
-	<?php if (!empty($tabs) && user_is_logged_in()): ?>
-		<?php print render($tabs); ?>
-	<?php endif; ?>
     <?php
       // Hide comments, tags, and links now so that we can render them later.
       hide($content['comments']);
@@ -103,12 +100,22 @@
     ?> 
     <?php if (!empty($content['field_tags']) || !empty($content['links']) || !empty($field_dates)): ?>
     <footer>
-      <?php if (!empty($also_tagged)): ?>
-      <?php print render($also_tagged); ?>
-      <?php endif; ?>
+      <?php if ( $field_city['und'][0]['value'] !='' OR $field_venuecountry['und'][0]['value'] !='') {	
+		print '<p>' ;
+		print ( $field_city['und'][0]['value'] !=''?$field_city['und'][0]['value']:NULL);
+		print ( ( $field_city['und'][0]['value'] !='' AND $field_venuecountry['und'][0]['value'] !='') ? ', ':'');
+		print ( $field_venuecountry['und'][0]['value'] !=''?$field_venuecountry['und'][0]['value']:NULL); 
+		print '</p>';
+       } ?>
       <p class="date"><?php print( $field_dates['und'][0]['value']); ?></p>
+    <?php if (!empty($also_tagged)): ?>
+		<?php print render($also_tagged); ?>
+    <?php endif; ?>
     </footer>
     <?php endif; ?>
+   	<?php if (!empty($tabs) && user_is_logged_in()): ?>
+		<?php print render($tabs); ?>
+	<?php endif; ?>    
     <?php print render($content['comments']); ?>
   </div>
 </article>
