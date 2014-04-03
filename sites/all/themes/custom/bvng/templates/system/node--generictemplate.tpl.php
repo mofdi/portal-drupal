@@ -76,75 +76,105 @@
  * @see template_preprocess_node()
  * @see template_process()
  *
+ * @see bvng_preprocess_node() $cchunks, $anchors and $elinks.
+ *
  * @ingroup themeable
  */
 ?>
+<article id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
+<?php if (!empty($body)): ?>
 <div class="container well well-lg well-margin-top">
   <div class="row">
     <div class="col-md-12">
-
-      <article id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
-        <?php if ((!$page && !empty($title)) || !empty($title_prefix) || !empty($title_suffix) || $display_submitted): ?>
-        <div class="row">
-          <header class="content-header col-md-12">
-            <h3><?php print render($type_title); ?></h3>
-            <?php print render($title_prefix); ?>
-            <?php if (!empty($title)): ?>
-            <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
-            <?php endif; ?>
-            <?php print render($title_suffix); ?>
-          </header>
+      <?php if ((!$page && !empty($title)) || !empty($title_prefix) || !empty($title_suffix) || $display_submitted): ?>
+      <div class="row">
+        <header class="content-header col-md-12">
+          <h3><?php print render($type_title); ?></h3>
+          <?php print render($title_prefix); ?>
+          <?php if (!empty($title)): ?>
+          <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
+          <?php endif; ?>
+          <?php print render($title_suffix); ?>
+        </header>
+      </div>
+      <?php endif; ?>
+      <div class="row">
+        <div class="node-content col-md-8">
+          Generic template in effect.
+          <?php if ($display_submitted && user_is_logged_in()): ?>
+            <span class="submitted"><?php print $submitted; ?></span>
+          <?php endif; ?>
+      		<?php if (!empty($tabs) && user_is_logged_in()): ?>
+      			<?php print render($tabs); ?>
+      		<?php endif; ?>
+          <?php print render($body); ?>
         </div>
-        <?php endif; ?>
-        <div class="row">
-          <div class="node-content col-md-8">
-            <?php if ($display_submitted && user_is_logged_in()): ?>
-            <span class="submitted">
-              <?php // print $user_picture; ?>
-              <?php print $submitted; ?>
-            </span>
-            <?php endif; ?>
-        		<?php if (!empty($tabs) && user_is_logged_in()): ?>
-        			<?php print render($tabs); ?>
-        		<?php endif; ?>
-            <?php
-              // Hide comments, tags, and links now so that we can render them later.
-              hide($content['comments']);
-              hide($content['links']);
-              hide($content['field_tags']);
-              print render($content['field_image']);
-              print render($content['body']);
-            ?>
-            <?php if (!empty($content['field_tags']) || !empty($content['links'])): ?>
-            <footer>
-              <?php print render($content['field_tags']); ?>
-              <?php print render($content['links']); ?>
-            </footer>
-            <?php endif; ?>
-            <?php print render($content['comments']); ?>
-          </div>
-          <div class="node-sidebar col-md-3">
-            <?php
-              print $sidebar;
-            ?>
-          </div>
+        <div class="node-sidebar col-md-3">
+    			<?php
+    			  if (!empty($node->field_image)) {
+    				  print render(field_view_field('node', $node, 'field_image', array('settings' => array('image_style' => 'mainimage'))));
+    			  }
+    			?>
         </div>
-      </article>
+      </div>
     </div>
   </div>
 </div>
-
-<?php if (!empty($node) && $node->type == 'newsarticle'): ?>
-<div class="container well well-lg well-margin-bottom">
-  <div class="row">
-    <article class="col-md-12 node-next">
-      <div class="row">
-      	<header class="content-header col-md-12">
-      		<h3>NEXT GBIF NEWS STORY</h3>
-      		<h2><a>New portal builds visitor numbers in first month</a></h2>
-      	</header>
-      </div>
-    </article>
-  </div>
-</div>
 <?php endif; ?>
+</article>
+<?php $cchunks_count = count($cchunks); ?>
+<?php foreach ($cchunks as $k => $cchunk): ?>
+<?php $top_well = (empty($body) && $k == 0) ? ' well-margin-top': ''; ?>
+<?php $last_well = ($k == $cchunks_count - 1) ? ' well-margin-bottom': ''; ?>
+<article>
+  <div class="container well well-lg<?php print $top_well.$last_well; ?>">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <header class="content-header col-md-12">
+    				<?php if (!empty($cchunk->field_title['und']['0']['value'])): ?>
+    					<h2><?php print $cchunk->field_title['und']['0']['value']; ?></h2>
+    				<?php endif; ?>
+          </header>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="node-content col-md-8">
+				<?php print token_replace($cchunk->field_sectioncontent['und']['0']['value']); ?>
+      </div>
+      <div class="node-sidebar col-md-3">
+  			<?php if (!empty($anchors[$k]->field_anchorlinkslisttitle['und']['0']['value'])): ?>
+  				<h3><?php print $anchors[$k]->field_anchorlinkslisttitle['und']['0']['value'] ?></h3>
+  			<?php endif; ?>
+  			<?php if ($anchors[$k]->field_anchorlink['und']): ?>
+  			  <ul class="tags">
+  			    <?php foreach ($anchors[$k]->field_anchorlink['und'] as $anchor): ?>
+  			      <?php print '<li><a href="#'.$anchor['link'].'">'.$anchor['title'].'</a></li>'; ?>
+  			    <?php endforeach; ?>
+  			  </ul>
+  			<?php endif; ?>
+  			<?php if (!empty($elinks)): ?>
+  			  <?php foreach ($elinks as $elink): ?>
+  			    <h3><?php print $elink->field_externallinkslisttitle['und']['0']['value']; ?></h3>
+  			    <ul class="tags">
+  			      <?php foreach ($elink->field_externallink['und'] as $lk => $xlink): ?>
+  			        <li>
+  			          <?php print l($xlink['title'], $xlink['url']); ?>
+  			        </li>
+  			      <?php endforeach; ?>
+  			    </ul>
+  			  <?php endforeach; ?>
+  			<?php endif; ?>
+
+      </div>
+    </div>
+
+</article>
+<?php
+  // Hide comments, tags, and links now so that we can render them later.
+  hide($content['comments']);
+  hide($content['links']);
+  hide($content['field_tags']);
+?>
+<?php endforeach; ?>

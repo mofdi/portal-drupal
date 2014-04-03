@@ -76,6 +76,10 @@ function bvng_preprocess_page(&$variables) {
  * Implements template_preprocess_region().
  */
 function bvng_preprocess_region(&$variables) {
+
+  /* Only style outer wells at the region level for taxonomy/term pages and pages
+   * with a filter sidebar. For the rest the well will be draw at the node level.
+   */
   $well = bvng_get_container_well();
   $current_path = $variables['elements']['current_path'];
   switch ($variables['region']) {
@@ -99,6 +103,27 @@ function bvng_preprocess_region(&$variables) {
  * Implements hook_preprocess_node().
  */
 function bvng_preprocess_node(&$variables) {
+  /* Prepare $cchunks, $anchors and $elinks for type "generic template"
+   */
+  // Prepare $cchunks.
+  if ($variables['node']->type == 'generictemplate' && !empty($variables['field_cchunk'])) {
+  	$fields_collection = field_get_items('node', $variables['node'], 'field_cchunk');
+    $cchunks = array();
+  	foreach ($fields_collection as $idx => $data) $cchunks[$idx] = field_collection_item_load($fields_collection[$idx]['value']);
+  	$variables['cchunks'] = $cchunks;
+  }
+  // Prepare $anchors and $elinks.
+  $anchors = array();
+  $elinks = array();
+  foreach ($variables['cchunks'] as $k => $cchunk) {
+    $anchors[$k] = field_collection_item_load($cchunk->field_anchorlinkslist['und'][0]['value']);
+    foreach ($cchunk->field_externallinkslist['und'] as $i => $eblock) {
+      $elinks[$k][$i] = field_collection_item_load($eblock['value']);
+    }
+  }
+  $variables['anchors'] = $anchors;
+  $variables['elinks'] = $elinks;
+
   /* Get sidebar content
    */
   $sidebar = bvng_get_sidebar_content($variables['nid'], $variables['vid']);
@@ -276,7 +301,7 @@ function bvng_get_tag_links($node) {
 function bvng_get_also_tag_links($node) {
 	$tag_links = bvng_get_tag_links($node);
 	$term_links = '' ;
-	
+
 	if (!empty( $tag_links)) {
 		$term_links = t('Also tagged') . ':' . '<ul class="also-tagged">';
 		foreach ($tag_links as $tag_link) {
@@ -284,7 +309,7 @@ function bvng_get_also_tag_links($node) {
 		}
 		$term_links .= '</ul>';
 	}
-	
+
 	return $term_links;
 }
 

@@ -5169,7 +5169,8 @@ a.list-group-item-danger.active:focus {
 .well {
   min-height: 20px;
   padding: 19px;
-  margin-bottom: 20px;
+  margin-top: 30px;
+  margin-bottom: 0px;
   background-color: #ffffff;
   border: 0px ;
   border-radius: 1px;
@@ -7146,6 +7147,12 @@ table .checkbox input[type="checkbox"] {
 .node-content p {
   color: #464646;
 }
+.node-content > ul {
+  padding-left: 10px;
+  list-style: square;
+  list-style-position: outside;
+  list-style-image: url("http://cdn.gbif.org/img/icons/bullet.png");
+}
 .view-column {
   margin-left: 15px;
   padding-left: 0px;
@@ -7202,10 +7209,13 @@ table .checkbox input[type="checkbox"] {
 .field-type-image .field-item {
   margin-top: 15px;
 }
+.node-content p > em > strong,
 .field-name-body p > em > strong,
+.node-content p > strong,
 .field-name-body p > strong {
   font-weight: normal;
 }
+.node-content p a[href^="mailto"],
 .field-name-body p a[href^="mailto"] {
   text-decoration: underline;
   font-style: italic;
