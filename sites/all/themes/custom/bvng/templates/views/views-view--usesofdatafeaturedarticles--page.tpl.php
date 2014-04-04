@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Main view template.
+ * View template for usesofdatafeaturedarticles.
  *
  * Variables available:
  * - $classes_array: An array of classes determined in
@@ -37,6 +37,9 @@
     ?>
     </h2>
   </header>
+  <div class="content-header sidebar-header col-md-3">
+    <h2>Filter by subject</h2>
+  </div>
 </div>
 <div class="row">
   <div class="view-column col-md-8">
@@ -79,13 +82,19 @@
           <?php print $attachment_after; ?>
         </div>
       <?php endif; ?>
+      <hr>
       <?php if ($pager): ?>
         <?php print $pager; ?>
       <?php endif; ?>
+      <?php if ($more): ?>
+        <?php print $more; ?>
+      <?php endif; ?>
     </div>
   </div>
-  <div class="col-md-3">
-
+  <div class="sidebar-filter col-md-3">
+    <?php
+      print bvng_get_filter_links();
+    ?>
   </div>
     <?php if ($footer): ?>
       <div class="view-footer">
