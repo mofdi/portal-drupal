@@ -92,9 +92,8 @@
     </div>
   </div>
   <div class="sidebar-filter col-md-3">
-    <?php
-      print bvng_get_filter_links();
-    ?>
+
+
   </div>
     <?php if ($footer): ?>
       <div class="view-footer">

@@ -33,7 +33,7 @@ News {"url":"newsroom\/summary"}
 --News {"url":"newsroom\/news"}
 ---A view of all GBIF news articles {"url":"newsroom\/archive\/allnewsarticles"}
 --Uses of data {"url":"newsroom\/uses"}
---Opportunties {"url":"newsroom\/opportunities"}
+--Opportunities {"url":"newsroom\/opportunities"}
 --Events {"url":"newsroom\/events"}
 --Newsletter {"url":"page\/2996"}
 -Featured data use {"url":"newsroom\/uses"}

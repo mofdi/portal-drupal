@@ -124,57 +124,57 @@
 </article>
 <?php $cchunks_count = count($cchunks); ?>
 <?php foreach ($cchunks as $k => $cchunk): ?>
-<?php $top_well = (empty($body) && $k == 0) ? ' well-margin-top': ''; ?>
-<?php $last_well = ($k == $cchunks_count - 1) ? ' well-margin-bottom': ''; ?>
-<article>
-  <div class="container well well-lg<?php print $top_well.$last_well; ?>">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="row">
-          <header class="content-header col-md-12">
-    				<?php if (!empty($cchunk->field_title['und']['0']['value'])): ?>
-    					<h2><?php print $cchunk->field_title['und']['0']['value']; ?></h2>
-    				<?php endif; ?>
-          </header>
+  <?php $top_well = (empty($body) && $k == 0) ? ' well-margin-top': ''; ?>
+  <?php $last_well = ($k == $cchunks_count - 1) ? ' well-margin-bottom': ''; ?>
+  <article>
+    <div class="container well well-lg<?php print $top_well.$last_well; ?>">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <header class="content-header col-md-12">
+      				<?php if (!empty($cchunk->field_title['und']['0']['value'])): ?>
+      					<h2><?php print $cchunk->field_title['und']['0']['value']; ?></h2>
+      				<?php endif; ?>
+            </header>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="node-content col-md-8">
-				<?php print token_replace($cchunk->field_sectioncontent['und']['0']['value']); ?>
-      </div>
-      <div class="node-sidebar col-md-3">
-  			<?php if (!empty($anchors[$k]->field_anchorlinkslisttitle['und']['0']['value'])): ?>
-  				<h3><?php print $anchors[$k]->field_anchorlinkslisttitle['und']['0']['value'] ?></h3>
-  			<?php endif; ?>
-  			<?php if ($anchors[$k]->field_anchorlink['und']): ?>
-  			  <ul class="tags">
-  			    <?php foreach ($anchors[$k]->field_anchorlink['und'] as $anchor): ?>
-  			      <?php print '<li><a href="#'.$anchor['link'].'">'.$anchor['title'].'</a></li>'; ?>
-  			    <?php endforeach; ?>
-  			  </ul>
-  			<?php endif; ?>
-  			<?php if (!empty($elinks)): ?>
-  			  <?php foreach ($elinks as $elink): ?>
-  			    <h3><?php print $elink->field_externallinkslisttitle['und']['0']['value']; ?></h3>
-  			    <ul class="tags">
-  			      <?php foreach ($elink->field_externallink['und'] as $lk => $xlink): ?>
-  			        <li>
-  			          <?php print l($xlink['title'], $xlink['url']); ?>
-  			        </li>
-  			      <?php endforeach; ?>
-  			    </ul>
-  			  <?php endforeach; ?>
-  			<?php endif; ?>
+      <div class="row">
+        <div class="node-content col-md-8">
+  				<?php print token_replace($cchunk->field_sectioncontent['und']['0']['value']); ?>
+        </div>
+        <div class="node-sidebar col-md-3">
+    			<?php if (!empty($anchors[$k]->field_anchorlinkslisttitle['und']['0']['value'])): ?>
+    				<h3><?php print $anchors[$k]->field_anchorlinkslisttitle['und']['0']['value'] ?></h3>
+    			<?php endif; ?>
+    			<?php if ($anchors[$k]->field_anchorlink['und']): ?>
+    			  <ul class="tags">
+    			    <?php foreach ($anchors[$k]->field_anchorlink['und'] as $anchor): ?>
+    			      <?php print '<li><a href="#'.$anchor['link'].'">'.$anchor['title'].'</a></li>'; ?>
+    			    <?php endforeach; ?>
+    			  </ul>
+    			<?php endif; ?>
+    			<?php if (!empty($elinks)): ?>
+    			  <?php foreach ($elinks as $elink): ?>
+    			    <h3><?php print $elink->field_externallinkslisttitle['und']['0']['value']; ?></h3>
+    			    <ul class="tags">
+    			      <?php foreach ($elink->field_externallink['und'] as $lk => $xlink): ?>
+    			        <li>
+    			          <?php print l($xlink['title'], $xlink['url']); ?>
+    			        </li>
+    			      <?php endforeach; ?>
+    			    </ul>
+    			  <?php endforeach; ?>
+    			<?php endif; ?>
 
+        </div>
       </div>
-    </div>
 
-</article>
-<?php
-  // Hide comments, tags, and links now so that we can render them later.
-  hide($content['comments']);
-  hide($content['links']);
-  hide($content['field_tags']);
-?>
+  </article>
+  <?php
+    // Hide comments, tags, and links now so that we can render them later.
+    hide($content['comments']);
+    hide($content['links']);
+    hide($content['field_tags']);
+  ?>
 <?php endforeach; ?>

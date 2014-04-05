@@ -76,73 +76,29 @@
  * @see template_preprocess_node()
  * @see template_process()
  *
+ * @todo Should we show $submitted and $tabs for this page if user is logged in?
+ *
  * @ingroup themeable
  */
 ?>
-<div class="container well well-lg well-margin-top">
-  <div class="row">
-    <div class="col-md-12">
-
-      <article id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
-        <?php if ((!$page && !empty($title)) || !empty($title_prefix) || !empty($title_suffix) || $display_submitted): ?>
-        <div class="row">
-          <header class="content-header col-md-12">
-            <h3><?php print render($type_title); ?></h3>
-            <?php print render($title_prefix); ?>
-            <?php if (!empty($title)): ?>
-            <h2<?php print $title_attributes; ?>><?php print $title; ?></h2>
-            <?php endif; ?>
-            <?php print render($title_suffix); ?>
-          </header>
-        </div>
-        <?php endif; ?>
-        <div class="row">
-          <div class="node-content col-md-8">
-            <?php if ($display_submitted && user_is_logged_in()): ?>
-            <span class="submitted">
-              <?php // print $user_picture; ?>
-              <?php print $submitted; ?>
-            </span>
-            <?php endif; ?>
-        		<?php if (!empty($tabs) && user_is_logged_in()): ?>
-        			<?php print render($tabs); ?>
-        		<?php endif; ?>
-            <?php
-              // Hide comments, tags, and links now so that we can render them later.
-              hide($content['comments']);
-              hide($content['links']);
-              hide($content['field_tags']);
-              print render($content['field_image']);
-              print render($content['body']);
-            ?>
-            <?php if (!empty($content['field_tags']) || !empty($content['links'])): ?>
-            <footer>
-              <?php print render($content['field_tags']); ?>
-              <?php print render($content['links']); ?>
-            </footer>
-            <?php endif; ?>
-            <?php print render($content['comments']); ?>
-          </div>
-          <div class="node-sidebar col-md-3">
-            <?php
-              print $sidebar;
-            ?>
-          </div>
-        </div>
-      </article>
-    </div>
+<article id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
+  <div class="node-featured">
+    <?php if (!empty($field_featured)) {
+      print render(field_view_field('node', $node, 'field_featured', array('settings' => array('image_style' => 'featured'))));
+    } ?>
+    <?php if (!empty($title)): ?>
+      <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
+    <?php endif; ?>
+        
+    <?php
+      // Hide comments, tags, and links now so that we can render them later.
+      hide($content['comments']);
+      hide($content['links']);
+      hide($content['field_tags']);
+      print render($content['body']);
+    ?> 
+    <footer>
+      <?php print $node->field_numofresused['und'][0]['safe_value']; ?>
+    </footer>
   </div>
-</div>
-
-<div class="container well well-lg well-margin-bottom">
-  <div class="row">
-    <article class="col-md-12 node-next">
-      <div class="row">
-      	<header class="content-header col-md-12">
-      		<h3>NEXT GBIF NEWS STORY</h3>
-      		<h2><a>New portal builds visitor numbers in first month</a></h2>
-      	</header>
-      </div>
-    </article>
-  </div>
-</div>
+</article>

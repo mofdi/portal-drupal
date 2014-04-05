@@ -59,10 +59,15 @@ function bvng_preprocess_page(&$variables) {
         break;
     }
   }
-  elseif (strpos($current_path, 'allnewsarticles')) {
+  elseif (strpos($current_path, 'allnewsarticles') || strpos($current_path, 'alldatausearticles')) {
     // Insert $current_path to the content region so it knows the requested path.
     $variables['page']['content']['current_path'] = $current_path;
-    $system_path = drupal_get_normal_path('newsroom/news'); // taxonomy/term/566
+    if (strpos($current_path, 'allnewsarticles')) {
+      $system_path = drupal_get_normal_path('newsroom/news'); // taxonomy/term/566
+    }
+    elseif (strpos($current_path, 'alldatausearticles')) {
+      $system_path = drupal_get_normal_path('newsroom/uses'); // taxonomy/term/567
+    }
     menu_tree_set_path('gbif-menu', $system_path);
     menu_set_active_item($system_path);
   }
@@ -82,14 +87,24 @@ function bvng_preprocess_region(&$variables) {
    */
   $well = bvng_get_container_well();
   $current_path = $variables['elements']['current_path'];
+  if (!empty($variables['elements']['system_main'])) {
+    $system_main = &$variables['elements']['system_main'];
+  }
   switch ($variables['region']) {
     case 'content':
-      if (!empty($variables['elements']['system_main']['nodes'])) {
+      if (!empty($system_main['nodes'])) {
         break;
       }
-      elseif (!empty($variables['elements']['system_main']['taxonomy_terms']) || strpos($current_path, 'allnewsarticles')) {
-        $variables['well_top'] = $well['filter']['top'];
-        $variables['well_bottom'] = $well['filter']['bottom'];
+      elseif (!empty($system_main['taxonomy_terms']) || strpos($current_path, 'allnewsarticles') || strpos($current_path, 'alldatausearticles')) {
+
+        if (array_key_exists(567, $system_main['taxonomy_terms'])) {
+          break;
+        }
+        else {
+          $variables['well_top'] = $well['filter']['top'];
+          $variables['well_bottom'] = $well['filter']['bottom'];
+        }
+
       }
       else {
         $variables['well_top'] = $well['normal']['top'];
@@ -111,18 +126,19 @@ function bvng_preprocess_node(&$variables) {
     $cchunks = array();
   	foreach ($fields_collection as $idx => $data) $cchunks[$idx] = field_collection_item_load($fields_collection[$idx]['value']);
   	$variables['cchunks'] = $cchunks;
+
+  	// Prepare $anchors and $elinks.
+  	$anchors = array();
+  	$elinks = array();
+  	foreach ($variables['cchunks'] as $k => $cchunk) {
+  	  $anchors[$k] = field_collection_item_load($cchunk->field_anchorlinkslist['und'][0]['value']);
+  	  foreach ($cchunk->field_externallinkslist['und'] as $i => $eblock) {
+  	    $elinks[$k][$i] = field_collection_item_load($eblock['value']);
+  	  }
+  	}
+  	$variables['anchors'] = $anchors;
+  	$variables['elinks'] = $elinks;
   }
-  // Prepare $anchors and $elinks.
-  $anchors = array();
-  $elinks = array();
-  foreach ($variables['cchunks'] as $k => $cchunk) {
-    $anchors[$k] = field_collection_item_load($cchunk->field_anchorlinkslist['und'][0]['value']);
-    foreach ($cchunk->field_externallinkslist['und'] as $i => $eblock) {
-      $elinks[$k][$i] = field_collection_item_load($eblock['value']);
-    }
-  }
-  $variables['anchors'] = $anchors;
-  $variables['elinks'] = $elinks;
 
   /* Get sidebar content
    */
@@ -160,8 +176,17 @@ function bvng_preprocess_node(&$variables) {
   $variables['also_tagged'] = bvng_get_also_tag_links($variables['node']);
 }
 
-function bvng_preprocess_views_view(&$variables) {
-
+/**
+ * Implements hook_preprocess_views_view().
+ */
+function bvng_preprocess_views_view_list(&$variables) {
+  if ($variables['view']->name == 'usesofdatafeaturedarticles') {
+    foreach ($variables['classes'] as $k => $class) {
+      if ($k == 2 || $k == 5) {
+        $variables['classes_array'][$k] = $variables['classes_array'][$k] . ' views-row-right';
+      }
+    }
+  }
 }
 
 function bvng_preprocess_search_block_form(&$variables) {

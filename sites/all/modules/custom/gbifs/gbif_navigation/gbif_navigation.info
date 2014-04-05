@@ -4,7 +4,6 @@ core = 7.x
 version = 7.x-0.1
 package = GBIFS
 
-dependencies[] = gbif_tweaks
 dppendencies[] = special_menu_items
 dependencies[] = menu_block
 dependencies[] = menu_import

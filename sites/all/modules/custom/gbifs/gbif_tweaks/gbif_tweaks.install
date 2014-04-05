@@ -57,6 +57,8 @@ function gbif_tweaks_enable() {
   $views = array(
     'newsarticles',
     'viewallevents',
+    'usesofdatafeaturedarticles',
+    'datausearticles',
   );
   foreach ($views as $view_name) {
     $view = views_get_view($view_name);

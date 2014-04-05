@@ -27,46 +27,10 @@
  * @ingroup views_templates
  */
 ?>
+<div class="container well well-lg well-margin-bottom">
 <div class="row">
-  <header class="content-header col-md-8">
-    <h2>
-    <?php
-      $view_title = $view->get_title();
-      print $view_title;
-      drupal_set_title($view_title);
-    ?>
-    </h2>
-  </header>
-  <div class="content-header sidebar-header col-md-3">
-    <h2>Filter by subject</h2>
-  </div>
-</div>
-<div class="row">
-  <div class="view-column col-md-8">
+  <div class="view-content-featured col-md-12">
     <div class="<?php print $classes; ?>">
-      <?php print render($title_prefix); ?>
-      <?php if ($title): ?>
-        <?php print $title; ?>
-      <?php endif; ?>
-      <?php print render($title_suffix); ?>
-      <?php if ($header): ?>
-        <div class="view-header">
-          <?php print $header; ?>
-        </div>
-      <?php endif; ?>
-
-      <?php if ($exposed): ?>
-        <div class="view-filters">
-          <?php print $exposed; ?>
-        </div>
-      <?php endif; ?>
-
-      <?php if ($attachment_before): ?>
-        <div class="attachment attachment-before">
-          <?php print $attachment_before; ?>
-        </div>
-      <?php endif; ?>
-
       <?php if ($rows): ?>
         <div class="view-content">
           <?php print $rows; ?>
@@ -77,24 +41,18 @@
         </div>
       <?php endif; ?>
 
-      <?php if ($attachment_after): ?>
-        <div class="attachment attachment-after">
-          <?php print $attachment_after; ?>
-        </div>
-      <?php endif; ?>
       <hr>
+      
+      <button type="button" class="btn btn-primary"><a href="/newsroom/archive/alldatausearticles">more featured data uses</a></button>
+      
       <?php if ($pager): ?>
         <?php print $pager; ?>
       <?php endif; ?>
       <?php if ($more): ?>
         <?php print $more; ?>
       <?php endif; ?>
+      
     </div>
-  </div>
-  <div class="sidebar-filter col-md-3">
-    <?php
-      print bvng_get_filter_links();
-    ?>
   </div>
     <?php if ($footer): ?>
       <div class="view-footer">
@@ -109,3 +67,4 @@
     <?php endif; ?>
 
 </div><?php /* class view */ ?>
+</div>

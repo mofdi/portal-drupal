@@ -89,7 +89,6 @@ body {
 
 a {
   color: @colorLink;
-  font-weight: normal;
   text-decoration: none;
 
   &:hover {
@@ -99,6 +98,7 @@ a {
     -o-transition:      color @hover-speed ease-in-out;
     -ms-transition:     color @hover-speed ease-in-out;
     transition:         color @hover-speed ease-in-out;
+    text-decoration: none;
   }
 }
 
@@ -345,10 +345,12 @@ ul li.leaf {
 
 // Submitted
 .submitted {
-  margin-bottom: 1em;
-  font-style: italic;
-  font-weight: normal;
-  color: #777;
+  > span {
+    margin-bottom: 5px;
+    font-style: italic;
+    font-weight: normal;
+    color: #777;
+  }
 }
 
 // Password strength indicator.

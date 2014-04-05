@@ -108,22 +108,24 @@
   }
 }
 
-.node-teaser {
+.node-list {
   border-top: 1px solid @page-header-border-color;
   margin-bottom: 20px;
+  padding-top: 10px;
   color: @cGray75;
   
   p {
     font-size: 13px;
   }
 
-  h2 {
-    margin: 0px;
+  > h2 {
+    margin-top: 10px;
+    margin-bottom: 7px;
     padding-bottom: 0px;
+    font-size: 17px;
+    font-weight: bold;
     
     > a {
-      font-size: 17px;
-      font-weight: bold;
       &:hover {
         text-decoration: none;
       }
@@ -136,7 +138,31 @@
     .date {
       color: @cGray3;
       margin-bottom: 0px;
+      margin-top: 5px;
     }
+  }
+}
+
+.node-featured {
+  article {
+    border-top: none;
+    padding-top: 0px;
+  }
+  h2 {
+    font-weight: bold;
+    font-size: 19px;
+    line-height: 24px;
+    margin-bottom: 7px;
+  }
+  footer {
+    display: block;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background: #E5F5FA;
+    font-size: 13px;
+    text-align: center;
+    vertical-align: bottom;
+    color: @cGray80;
   }
 }
 
@@ -152,9 +178,6 @@
 
 .filter-list {
   list-style: none;
-  a:hover {
-    text-decoration: none;
-  }
 }
 
 .also-tagged {
@@ -163,9 +186,46 @@
   font-size: 13px;
   > li {
     display: inline-block;
+    margin-top: 2px;
     margin-right: 5px;
-  }
-  a:hover {
-    text-decoration: none;
+    padding: 1px 5px 0px 5px;
+    border: 1px solid #ACC5D9;
+    background-color: #EAF6FF;
+    border-radius: 4px;
   }
 }
+
+.view-content-featured {
+  .item-list {
+    ul {
+      padding-left: 0px;
+      li {
+        display: inline-block;
+        vertical-align: top;
+        width: 269px;
+        margin-right: 29px;
+        margin-bottom: 20px;
+        p {
+          font-size: 15px;
+          height: 8em;
+          line-height: 1.3em;
+          overflow: hidden;
+          margin-bottom: 18px;
+        }
+      }
+      li.views-row-right {
+        margin-right: 0px;
+      } 
+    }
+  }
+}
+
+.taxonomy-term {
+  > h2 {
+    margin-top: 0px;
+    margin-bottom: 20px;
+    font-size: 23px;
+    text-shadow: 0 1px @cWhite;
+  }
+}
+
