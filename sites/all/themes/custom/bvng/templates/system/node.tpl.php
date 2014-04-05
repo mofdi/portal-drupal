@@ -79,7 +79,7 @@
  * @ingroup themeable
  */
 ?>
-<div class="container well well-lg well-margin-top">
+<div class="container well well-lg well-margin-top<?php print (empty($next_node)) ? ' well-margin-bottom' : ''; ?>">
   <div class="row">
     <div class="col-md-12">
 
@@ -133,16 +133,17 @@
     </div>
   </div>
 </div>
-
+<?php if (!empty($next_node)): ?>
 <div class="container well well-lg well-margin-bottom">
   <div class="row">
     <article class="col-md-12 node-next">
       <div class="row">
       	<header class="content-header col-md-12">
-      		<h3>NEXT GBIF NEWS STORY</h3>
-      		<h2><a>New portal builds visitor numbers in first month</a></h2>
+      		<h3>Next <?php print render($type_title); ?> Story</h3>
+      		<h2><a href="<?php print '/page/' . $next_node->nid; ?>"><?php print $next_node->title; ?></a></h2>
       	</header>
       </div>
     </article>
   </div>
 </div>
+<?php endif; ?>

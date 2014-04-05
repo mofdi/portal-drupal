@@ -118,6 +118,21 @@ function bvng_preprocess_region(&$variables) {
  * Implements hook_preprocess_node().
  */
 function bvng_preprocess_node(&$variables) {
+
+  /* Prepare the prev/next $node of the same content type.
+   */
+  if ($variables['node']) {
+    switch ($variables['node']->type) {
+      case 'usesofdata':
+        $next_node = node_load(prev_next_nid($variables['node']->nid, 'prev'));
+        break;
+      default:
+        $next_node = node_load(prev_next_nid($variables['node']->nid, 'next'));
+    }
+    $next_node = ($next_node->status == 1) ? $next_node : NULL; // Only refer to published node.
+    $variables['next_node'] = $next_node;
+  }
+
   /* Prepare $cchunks, $anchors and $elinks for type "generic template"
    */
   // Prepare $cchunks.
@@ -145,7 +160,7 @@ function bvng_preprocess_node(&$variables) {
   $sidebar = bvng_get_sidebar_content($variables['nid'], $variables['vid']);
   $variables['sidebar'] = $sidebar;
 
-  /* Processing menu_local_tasks()
+  /* Process menu_local_tasks()
    */
   global $user;
 
