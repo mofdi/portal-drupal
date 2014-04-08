@@ -71,6 +71,13 @@ function bvng_preprocess_page(&$variables) {
     menu_tree_set_path('gbif-menu', $system_path);
     menu_set_active_item($system_path);
   }
+  elseif (strpos($current_path, 'resources/summary')) {
+    // Insert $current_path to the content region so it knows the requested path.
+    $variables['page']['content']['current_path'] = $current_path;
+    $system_path = drupal_get_normal_path('newsroom/news'); // taxonomy/term/764
+    menu_tree_set_path('gbif-menu', $system_path);
+    menu_set_active_item($system_path);
+  }  
   $variables['page']['highlighted_title'] = bvng_get_title_data();
 
   // @todo For testing purpose. To be deleted later.
