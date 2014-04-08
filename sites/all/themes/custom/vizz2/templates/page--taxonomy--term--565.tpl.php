@@ -195,7 +195,7 @@ foreach ($view as $key => $vnode) {
       $(function() {
 
         var slides = [
-		<?php for ( $slide = 0 ; $slide < 5 ; $slide++ ) : ?>
+		<?php for ( $slide = 0 ; $slide < 3 ; $slide++ ) : ?>
 		{
 			title: "<?php print ($results[$slide]->title)?>",
 			description: "<?php print ( $results[$slide]->body['und'][0]['summary'] ) ; ?>",
