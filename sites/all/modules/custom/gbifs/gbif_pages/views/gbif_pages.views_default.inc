@@ -123,6 +123,29 @@ function gbif_pages_views_default_views() {
   $handler->display->display_options['pager']['options']['tags']['previous'] = 'previous';
   $handler->display->display_options['pager']['options']['tags']['next'] = 'next';
   $handler->display->display_options['pager']['options']['tags']['last'] = 'last';
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relationship: Content: Author */
+  $handler->display->display_options['relationships']['uid']['id'] = 'uid';
+  $handler->display->display_options['relationships']['uid']['table'] = 'node';
+  $handler->display->display_options['relationships']['uid']['field'] = 'uid';
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: Content: Regions (field_regions) */
+  $handler->display->display_options['arguments']['field_regions_tid']['id'] = 'field_regions_tid';
+  $handler->display->display_options['arguments']['field_regions_tid']['table'] = 'field_data_field_regions';
+  $handler->display->display_options['arguments']['field_regions_tid']['field'] = 'field_regions_tid';
+  $handler->display->display_options['arguments']['field_regions_tid']['title_enable'] = TRUE;
+  $handler->display->display_options['arguments']['field_regions_tid']['title'] = 'GBIF news about %1';
+  $handler->display->display_options['arguments']['field_regions_tid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['field_regions_tid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_regions_tid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_regions_tid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['field_regions_tid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['field_regions_tid']['validate']['type'] = 'taxonomy_term';
+  $handler->display->display_options['arguments']['field_regions_tid']['validate_options']['vocabularies'] = array(
+    'regions' => 'regions',
+  );
+  $handler->display->display_options['arguments']['field_regions_tid']['validate_options']['type'] = 'convert';
+  $handler->display->display_options['arguments']['field_regions_tid']['validate']['fail'] = 'ignore';
   $handler->display->display_options['path'] = 'newsroom/archive/allnewsarticles';
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'A view of all GBIF news articles';
@@ -167,6 +190,9 @@ function gbif_pages_views_default_views() {
     t(' '),
     t('more GBIF news'),
     t('Page'),
+    t('author'),
+    t('All'),
+    t('GBIF news about %1'),
     t('Feed'),
     t('GBIF news feed'),
     t('Block of latest 3'),
