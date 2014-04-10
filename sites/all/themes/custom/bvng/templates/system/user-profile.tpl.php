@@ -34,12 +34,6 @@
  * @ingroup themeable
  */
 ?>
-<div class="container well well-lg well-margin-top well-margin-bottom">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="profile"<?php print $attributes; ?>>
-        <?php print render($user_profile); ?>
-      </div>
-    </div>
-  </div>
+<div class="profile"<?php print $attributes; ?>>
+  <?php print render($user_profile); ?>
 </div>

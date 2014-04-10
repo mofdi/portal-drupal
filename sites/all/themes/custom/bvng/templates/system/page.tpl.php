@@ -80,25 +80,8 @@
 <section id="masthead">
   <div class="container">
     <div class="row">
-      <div id="region-user" class="col-md-3 col-md-push-9"> 
-        <div class="account">
-          <!--
-            This user region is very small according to the original design,
-            so we avoid printing $page['user'] which also means blocks assigned to that region
-            won't show.
-          -->
-          <?php
-            if ($user->uid == 0) {
-              print l(t('Log in'), 'user/login', array('query' => drupal_get_destination()));
-              print ' or <a href="' . $base_url . 'user/register">Create a new account</a>';
-            }
-            else {
-              print t('Hello !username! ', array('!username' => theme('username', array('account' => $user))));
-              print l(t('Log out'), 'user/logout', array('attributes' => array('class' => array('logout'))));
-            }
-          ?>
-          
-        </div>
+      <div class="col-md-3 col-md-push-9"> 
+        <?php print render($page['user']); ?>
 			</div>
     </div>
     <div class="row">

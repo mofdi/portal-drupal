@@ -218,10 +218,13 @@ input.form-control.nav_search_input.form-text {
   padding-left: 26px;
   margin-left: 10px;
   font-weight: 300;
-  border-top-left-radius: 13px;
-  border-top-right-radius: 13px;
-  border-bottom-right-radius: 13px;
-  border-bottom-left-radius: 13px;
+  border-radius: 13px;
+}
+
+#subscribe-newsletter {
+  > input {
+    border-radius: @border-radius-large;
+  }
 }
 
 .bring-forward {

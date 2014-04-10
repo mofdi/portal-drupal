@@ -1,0 +1,10 @@
+<?php
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_install().
+ */
+function gbif_vocabularies_install() {
+}

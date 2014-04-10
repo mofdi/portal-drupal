@@ -2,7 +2,7 @@
 
 /**
  * @file
- * View template for usesofdatafeaturedarticles.
+ * View template for featured news.
  *
  * Variables available:
  * - $classes_array: An array of classes determined in
@@ -27,10 +27,13 @@
  * @ingroup views_templates
  */
 ?>
-<div class="container well well-lg well-margin-bottom">
-<div class="row">
-  <div class="view-content-featured col-md-12">
+<div class="container slideshow-well well well-lg well-margin-top">
+  <div class="row slideshow-layout">
     <div class="<?php print $classes; ?>">
+      <?php if ($title): ?>
+        <?php print $title; ?>
+      <?php endif; ?>
+
       <?php if ($rows): ?>
         <div class="view-content">
           <?php print $rows; ?>
@@ -41,30 +44,8 @@
         </div>
       <?php endif; ?>
 
-      <hr>
-      
-      <button type="button" class="btn btn-primary"><a href="/newsroom/archive/alldatausearticles">more featured data uses</a></button>
-      
-      <?php if ($pager): ?>
-        <?php print $pager; ?>
-      <?php endif; ?>
-      <?php if ($more): ?>
-        <?php print $more; ?>
-      <?php endif; ?>
-      
     </div>
   </div>
-    <?php if ($footer): ?>
-      <div class="view-footer">
-        <?php print $footer; ?>
-      </div>
-    <?php endif; ?>
 
-    <?php if ($feed_icon): ?>
-      <div class="feed-icon">
-        <?php print $feed_icon; ?>
-      </div>
-    <?php endif; ?>
-
-</div><?php /* class view */ ?>
+  <?php /* class view */ ?>                                             
 </div>

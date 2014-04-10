@@ -64,7 +64,7 @@ stylesheets[all][] = css/style.css
 ; ;;;;;;;;;;;;;;;;;;;;;
 ; 
 scripts[] = 'bootstrap/js/affix.js'
-scripts[] = 'js/alert.js'
+scripts[] = 'bootstrap/js/alert.js'
 scripts[] = 'bootstrap/js/button.js'
 scripts[] = 'bootstrap/js/carousel.js'
 scripts[] = 'bootstrap/js/collapse.js'

@@ -22,18 +22,32 @@ function gbif_tweaks_install() {
   variable_set('theme_default', 'bvng');
   
   // Make it easier for administration
-  module_disable(array(
+  // and uninstall unused modules
+  $module_list = array(
     'toolbar',
-  ));
+    'local_fonts',
+    'fontyourface_ui',
+    'fontyourface',
+    'colorbox',
+  );
+  module_disable($module_list);
+  drupal_uninstall_modules($module_list, FALSE);
+  
   module_enable(array(
     'admin_menu',
     'admin_menu_toolbar',
+    'module_filter',
     'jquery_update',
+    'views_slideshow',
+    'views_slideshow_cycle',
   ));
-
+  
   // jquery_update settings.
   variable_set('jquery_update_jquery_cdn', 'google');
   variable_set('jquery_update_jquery_version', '1.7');
+  
+  // file_public_path settings.
+  variable_set('file_public_path', 'sites/default/files');
   
   // GBIF definitions.
   gbif_tweaks_region_definition();
@@ -46,6 +60,7 @@ function gbif_tweaks_install() {
     'gbif_blocks',
     'gbif_pages',
     'gbif_navigation',
+    'gbif_vocabularies',
   ));
 
 }
@@ -59,6 +74,7 @@ function gbif_tweaks_enable() {
     'viewallevents',
     'usesofdatafeaturedarticles',
     'datausearticles',
+    'featurednewsarticles',
   );
   foreach ($views as $view_name) {
     $view = views_get_view($view_name);
@@ -103,6 +119,7 @@ function gbif_tweaks_uninstall() {
     'gbif_blocks',
     'gbif_pages',
     'gbif_navigation',
+    'gbif_vocabularies',
   );
   drupal_uninstall_modules($module_list, TRUE);
 }

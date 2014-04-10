@@ -6,7 +6,7 @@ sites/*/environment_settings.php
 # Ignore paths that contain user-generated content.
 sites/*/files
 sites/*/private
-sites/10088.portal-drupal.bkolocal
+sites/10088.bko.gbif.org
 
 # Ignore files only relevant for development environment.
 .htaccess

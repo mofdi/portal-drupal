@@ -36,13 +36,40 @@ function bvng_preprocess_user_login() {
 }
 
 /**
+ * Implements template_preprocess().
+ */
+function bvng_preprocess(&$variables, $hook) {
+  $data_portal_base_url = variable_get('data_portal_base_url');
+  $variables['data_portal_base_url'] = $data_portal_base_url;
+
+  $req_path = current_path();
+  $variables['requested_path'] = $req_path;
+}
+
+/**
+ * Implements template_preprocess_html().
+ */
+function bvng_preprocess_html(&$variables) {
+  $data_portal_base_url = $variables['data_portal_base_url'];
+  drupal_add_js($data_portal_base_url . '/cfg', array('type' => 'file', 'scope' => 'header'));
+  drupal_add_js($data_portal_base_url . '/js/vendor/modernizr-1.7.min.js', array('type' => 'file', 'scope' => 'header'));
+  drupal_add_js($data_portal_base_url . '/js/vendor/jquery-1.7.1.min.js', array('type' => 'file', 'scope' => 'header'));
+  drupal_add_js($data_portal_base_url . '/js/vendor/jscrollpane.min.js', array('type' => 'file', 'scope' => 'header'));
+  drupal_add_js($data_portal_base_url . '/js/vendor/css_browser_selector.js', array('type' => 'file', 'scope' => 'header'));
+}
+
+
+/**
  * Implements template_preprocess_page().
  *
  * @see gbif_navigation_node_view().
  * @see http://www.dibe.gr/blog/set-path-determining-active-trail-drupal-7-menu
  */
 function bvng_preprocess_page(&$variables) {
-  $current_path = current_path();
+  $data_portal_base_url = $variables['data_portal_base_url'];
+  $directory = $variables['directory'];
+  $req_path = $variables['requested_path'];
+
   if (!empty($variables['node'])) {
     switch ($variables['node']->type) {
       case 'newsarticle':
@@ -52,48 +79,61 @@ function bvng_preprocess_page(&$variables) {
         $variables['node']->type_title = t('GBIF News');
         break;
       case 'usesofdata':
-        $system_path = drupal_get_normal_path('newsroom/uses'); // taxonomy/term/566
+        $system_path = drupal_get_normal_path('newsroom/uses'); // taxonomy/term/567
         menu_tree_set_path('gbif-menu', $system_path);
         menu_set_active_item($system_path);
         $variables['node']->type_title = t('Featured Data Use');
         break;
     }
   }
-  elseif (strpos($current_path, 'allnewsarticles') || strpos($current_path, 'alldatausearticles')) {
-    // Insert $current_path to the content region so it knows the requested path.
-    $variables['page']['content']['current_path'] = $current_path;
-    if (strpos($current_path, 'allnewsarticles')) {
+  elseif (strpos($req_path, 'allnewsarticles') || strpos($req_path, 'alldatausearticles')) {
+
+    if (strpos($req_path, 'allnewsarticles')) {
       $system_path = drupal_get_normal_path('newsroom/news'); // taxonomy/term/566
     }
-    elseif (strpos($current_path, 'alldatausearticles')) {
+    elseif (strpos($req_path, 'alldatausearticles')) {
       $system_path = drupal_get_normal_path('newsroom/uses'); // taxonomy/term/567
     }
+    elseif (strpos($req_path, 'resources/summary')) {
+      $system_path = drupal_get_normal_path('resources/summary'); // taxonomy/term/764
+    }
+
     menu_tree_set_path('gbif-menu', $system_path);
     menu_set_active_item($system_path);
   }
-  elseif (strpos($current_path, 'resources/summary')) {
-    // Insert $current_path to the content region so it knows the requested path.
-    $variables['page']['content']['current_path'] = $current_path;
-    $system_path = drupal_get_normal_path('newsroom/news'); // taxonomy/term/764
-    menu_tree_set_path('gbif-menu', $system_path);
-    menu_set_active_item($system_path);
-  }  
-  $variables['page']['highlighted_title'] = bvng_get_title_data();
 
-  // @todo For testing purpose. To be deleted later.
-  // drupal_set_message(t('An error messaged is generated for developing the message box.'), 'warning');
+  $variables['page']['highlighted_title'] = bvng_get_title_data();
+  
+  // Manually set page title.
+  if ($req_path == 'taxonomy/term/565') {
+    drupal_set_title(t('GBIF Newsroom'));
+  }
+
+  /* Load javascripts.
+   */
+  //drupal_add_js($data_portal_base_url . '/js/vendor/jquery.dropkick-1.0.0.js', array('type' => 'file', 'scope' => 'footer'));
+  //drupal_add_js($data_portal_base_url . '/js/vendor/jquery.uniform.min.js', array('type' => 'file', 'scope' => 'footer'));
+  //drupal_add_js($data_portal_base_url . '/js/vendor/mousewheel.js', array('type' => 'file', 'scope' => 'footer'));
+  //drupal_add_js($data_portal_base_url . '/js/vendor/jquery-scrollTo-1.4.2-min.js', array('type' => 'file', 'scope' => 'footer'));
+  //drupal_add_js($data_portal_base_url . '/js/vendor/underscore-min.js', array('type' => 'file', 'scope' => 'footer'));
+  //drupal_add_js($data_portal_base_url . '/js/helpers.js', array('type' => 'file', 'scope' => 'footer'));
+  //drupal_add_js($data_portal_base_url . '/js/graphs.js', array('type' => 'file', 'scope' => 'footer'));
+  //drupal_add_js($data_portal_base_url . '/js/vendor/resourcebundle.js', array('type' => 'file', 'scope' => 'footer'));
+  //drupal_add_js($data_portal_base_url . '/js/app.js', array('type' => 'file', 'scope' => 'footer'));
+  //drupal_add_js($data_portal_base_url . '/js/widgets.js', array('type' => 'file', 'scope' => 'footer'));
+
 }
 
 /**
  * Implements template_preprocess_region().
  */
 function bvng_preprocess_region(&$variables) {
+  $req_path = $variables['requested_path'];
 
   /* Only style outer wells at the region level for taxonomy/term pages and pages
    * with a filter sidebar. For the rest the well will be draw at the node level.
    */
   $well = bvng_get_container_well();
-  $current_path = $variables['elements']['current_path'];
   if (!empty($variables['elements']['system_main'])) {
     $system_main = &$variables['elements']['system_main'];
   }
@@ -102,9 +142,9 @@ function bvng_preprocess_region(&$variables) {
       if (!empty($system_main['nodes'])) {
         break;
       }
-      elseif (!empty($system_main['taxonomy_terms']) || strpos($current_path, 'allnewsarticles') || strpos($current_path, 'alldatausearticles')) {
+      elseif (!empty($system_main['taxonomy_terms']) || strpos($req_path, 'allnewsarticles') || strpos($req_path, 'alldatausearticles')) {
 
-        if (array_key_exists(567, $system_main['taxonomy_terms'])) {
+        if (array_key_exists(565, $system_main['taxonomy_terms']) || array_key_exists(567, $system_main['taxonomy_terms'])) {
           break;
         }
         else {
@@ -201,13 +241,47 @@ function bvng_preprocess_node(&$variables) {
 /**
  * Implements hook_preprocess_views_view().
  */
-function bvng_preprocess_views_view_list(&$variables) {
-  if ($variables['view']->name == 'usesofdatafeaturedarticles') {
-    foreach ($variables['classes'] as $k => $class) {
-      if ($k == 2 || $k == 5) {
-        $variables['classes_array'][$k] = $variables['classes_array'][$k] . ' views-row-right';
+function bvng_preprocess_views_view(&$variables) {
+  switch ($variables['view']->name) {
+    case 'featurednewsarticles':
+      // Contruct the JSON for slideshow.
+      /* The old attempt to not use views_slideshow. To be deleted.
+      $slides = array();
+    	foreach ($variables['view']->result as $result) {
+      	$node = node_load($result->nid);
+      	$slide = new stdClass();
+      	$slide->title = $node->title;
+      	$slide->description = $node->body['und'][0]['summary'];
+      	$slide->src = file_create_url($node->field_featured['und'][0]['uri']);
+      	$slide->url = '/page/' . $node->nid;
+      	$slides[] = $slide;
       }
-    }
+      $slides = json_encode($slides);
+      drupal_add_js(array(
+        'bvng' => $slides,
+      ), 'setting');
+      drupal_add_js(drupal_get_path('theme', 'bvng') . '/js/featuredNewsSlideshow.js', array('type' => 'file', 'scope' => 'footer', 'weight' => 50));
+      */
+      break;
+  }
+}
+
+function bvng_preprocess_views_view_field(&$variables, $hook) {
+  if ($variables['view']->name == 'featurednewsarticles') {
+    $new = '';
+  }
+}
+
+function bvng_preprocess_views_view_list(&$variables) {
+  switch ($variables['view']->name) {
+    case 'usesofdatafeaturedarticles':
+      foreach ($variables['classes'] as $k => $class) {
+        $odr = $k + 1;
+        if ($odr % 3 === 0) {
+          $variables['classes_array'][$k] = $variables['classes_array'][$k] . ' views-row-right';
+        }
+      }
+      break;
   }
 }
 

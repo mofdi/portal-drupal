@@ -17,6 +17,33 @@ function gbif_pages_menu_alter(&$items) {
 }
 
 /**
+ * Implements hook_block_info_alter().
+ */
+function gbif_pages_block_info_alter(&$blocks, $theme, $code_blocks) {
+  switch ($theme) {
+    case 'bvng':
+      break;
+  }
+}
+
+/**
+ * Implements hook_library().
+ */
+function gbif_pages_library() {
+  $libraries['gbif_page_widgets'] = array(
+    'title' => 'GBIF Widgets',
+    'js' => array(
+      variable_get('data_portal_base_url') . '/js/widgets.js' => array(
+        'type' => 'file',
+        'scope' => 'footer',
+        'weight' => 20,
+      ),
+    ),
+  );
+  return $libraries;
+}
+
+/**
  * Implementation of hook_views_api().
  */
 function gbif_pages_views_api() {
@@ -45,9 +72,26 @@ function gbif_pages_taxonomy_term_page($term) {
     drupal_add_html_head_link(array('rel' => 'shortlink', 'href' => url($uri['path'], array_merge($uri['options'], array('alias' => TRUE)))), TRUE);
 
     $build = taxonomy_term_show($term);
+    
+    // Attach view(s) depending on term-view relations.
+    $markup = '';
+    $view_count = 0;
+    array_walk_recursive($term_view[$term->tid], function($value, $key) use (&$view_count) {
+    	if ($key == 'view') $view_count++;
+    });
 
-    // This is the only deviation from the core function.
-    $build['members'] = array('#markup' => views_embed_view($term_view[$term->tid]['view'], $term_view[$term->tid]['display']));
+    if ($view_count > 1) {
+      foreach ($term_view[$term->tid] as $view_block) {
+        $markup .= "\n";
+        $markup .= views_embed_view($view_block['view'], $view_block['display']);
+      }
+    }
+    elseif ($view_count === 1) {
+      $markup = views_embed_view($term_view[$term->tid]['view'], $term_view[$term->tid]['display']);
+    }
+
+    // Attach the final result to the page build.
+    $build['members'] = array('#markup' => $markup);
     
   }
   else {
@@ -58,6 +102,20 @@ function gbif_pages_taxonomy_term_page($term) {
 
 function gbif_pages_term_view_relation() {
   $term_view = array(
+    '565' => array( // newsroom/summary
+      array(
+        'view' => 'featurednewsarticles',
+        'display' => 'default',
+      ),
+      array(
+        'view' => 'usesofdatafeaturedarticles',
+        'display' => 'latest3',
+      ),
+      array(
+        'view' => 'newsarticles',
+        'display' => 'latest3',
+      ),
+    ),
     '566' => array( // newsroom/news
       'view' => 'newsarticles',
       'display' => 'page',
