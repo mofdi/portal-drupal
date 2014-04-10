@@ -86,7 +86,7 @@ function bvng_preprocess_page(&$variables) {
         break;
     }
   }
-  elseif (strpos($req_path, 'allnewsarticles') || strpos($req_path, 'alldatausearticles')) {
+  elseif (strpos($req_path, 'allnewsarticles') || strpos($req_path, 'alldatausearticles') || strpos($req_path, 'resources/summary')) {
 
     if (strpos($req_path, 'allnewsarticles')) {
       $system_path = drupal_get_normal_path('newsroom/news'); // taxonomy/term/566
