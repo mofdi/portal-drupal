@@ -66,25 +66,6 @@ function gbif_tweaks_install() {
 }
 
 /**
- * Implements hook_enable().
- */
-function gbif_tweaks_enable() {
-  $views = array(
-    'newsarticles',
-    'viewallevents',
-    'usesofdatafeaturedarticles',
-    'datausearticles',
-    'featurednewsarticles',
-  );
-  foreach ($views as $view_name) {
-    $view = views_get_view($view_name);
-    $view->delete();
-    ctools_include('object-cache');
-    ctools_object_cache_clear('view', $view);
-  }
-}
-
-/**
  * Implements hook_uninstall().
  * @todo Decide whether we should uninstall jquery_update if this
  *       module got uninstalled. jquery_update is required by

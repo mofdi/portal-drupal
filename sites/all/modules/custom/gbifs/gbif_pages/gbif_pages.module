@@ -53,6 +53,18 @@ function gbif_pages_views_api() {
   );
 }
 
+function gbif_pages_views_register() {
+	$views = array(
+			'newsarticles',
+			'usesofdatafeaturedarticles',
+			'datausearticles',
+			'featurednewsarticles',
+			'viewallevents',
+			'viewallresources',
+	);
+	return $views;
+}
+
 /**
  * Build custom term pages with associated views.
  * 
