@@ -52,11 +52,15 @@
     margin-bottom: 20px;
   }
   
-  .item-date {
+  .newsarticle-sidebar,
+  .usesofdata-sidebar {
     list-style: none;
-    color: @cGray80;
+    color: @cGray2;
   }
   
+  .researchers-location,
+  .links-to-research,
+  .data-use-categories,
   .tags {
     padding-left: 10px;
     list-style: square;
@@ -368,4 +372,19 @@
 
 .summary-rule {
   margin: 0px; 
+}
+
+.field-name-field-citationinformation,
+.field-name-field-relatedgbifresources {
+  border-top: 1px solid @page-header-border-color;
+  margin-top: 20px;
+  padding-top: 15px;
+  .field-label {
+    text-transform: uppercase;
+    font-weight: normal;
+    font-size: 13px;
+  }
+  p {
+    font-size: 13px;
+  }
 }

@@ -119,6 +119,7 @@
             <footer>
               <?php print render($content['field_tags']); ?>
               <?php print render($content['links']); ?>
+              <?php print $node_footer; ?>
             </footer>
             <?php endif; ?>
             <?php print render($content['comments']); ?>

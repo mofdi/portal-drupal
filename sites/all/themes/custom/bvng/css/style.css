@@ -7175,10 +7175,14 @@ table .checkbox input[type="checkbox"] {
 .node-sidebar .item-list {
   margin-bottom: 20px;
 }
-.node-sidebar .item-date {
+.node-sidebar .newsarticle-sidebar,
+.node-sidebar .usesofdata-sidebar {
   list-style: none;
-  color: #464646;
+  color: #666666;
 }
+.node-sidebar .researchers-location,
+.node-sidebar .links-to-research,
+.node-sidebar .data-use-categories,
 .node-sidebar .tags {
   padding-left: 10px;
   list-style: square;
@@ -7443,6 +7447,22 @@ table .checkbox input[type="checkbox"] {
 }
 .summary-rule {
   margin: 0px;
+}
+.field-name-field-citationinformation,
+.field-name-field-relatedgbifresources {
+  border-top: 1px solid #eeeeee;
+  margin-top: 20px;
+  padding-top: 15px;
+}
+.field-name-field-citationinformation .field-label,
+.field-name-field-relatedgbifresources .field-label {
+  text-transform: uppercase;
+  font-weight: normal;
+  font-size: 13px;
+}
+.field-name-field-citationinformation p,
+.field-name-field-relatedgbifresources p {
+  font-size: 13px;
 }
 button > a {
   color: #ffffff;

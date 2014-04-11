@@ -86,7 +86,10 @@ function bvng_preprocess_html(&$variables) {
  */
 function bvng_preprocess_page(&$variables) {
   $req_path = $variables['page']['content']['requested_path'];
-
+  
+  /* @todo move menu_tree_set_path() and menu_set_active_item() outside the condition
+   *       breaks the menu.
+   */
   if (!empty($variables['node'])) {
     switch ($variables['node']->type) {
       case 'newsarticle':
@@ -254,6 +257,11 @@ function bvng_preprocess_node(&$variables) {
   	$variables['anchors'] = $anchors;
   	$variables['elinks'] = $elinks;
   }
+  
+  /* Get footer fields for data use articles.
+   */
+  $node_footer = _bvng_get_node_footer_content($variables['node']);
+  $variables['node_footer'] = $node_footer;
 
   /* Get sidebar content
    */
@@ -367,59 +375,196 @@ function bvng_get_title_data() {
 	return $title;
 }
 
+/**
+ * Retrieve sidebar content according to content type
+ * @todo To investigate why passing $variables['node'] as $node will produce extra
+ *       taxonomy_term object in $field_items, which cause taxonomy_term_load_multiple() to fail.
+ *       Therefore here a $node object is loaded by $nid and $vid.
+ */
 function bvng_get_sidebar_content($nid, $vid) {
   $node = node_load($nid, $vid);
+  
+  if ($node) {
+    switch ($node->type) {
+      case 'newsarticle':
+      case 'usesofdata':
+        $markup = '';
+        $fields = _bvng_get_sidebar_fields($node->type);
+        foreach ($fields as $idx => $field) {
+          $variable_name = str_replace('-', '_', $idx);
+          $$variable_name = array(
+            'title' => $field['title'],
+            'type' => 'ul',
+            'items' => array(),
+            'attributes' => array(
+              'id' => $idx,
+              'class' => $node->type . '-sidebar' . ' ' . $idx,
+            ),
+          );
+      		$item_list = &$$variable_name;
 
-  if ($node && $node->type === 'newsarticle') {
+          if ($idx <> 'tags') {
+            $field_items = field_get_items('node', $node, $field['machine_name']);
+            switch ($field['field_type']) {
+              case 'node_date':
+          		  array_push($item_list['items'], array('data' => format_date($node->$field['machine_name'], 'custom', 'F jS, Y ')));
+                break;
+              case 'text':
+              	foreach ($field_items as $item) {
+              		array_push($item_list['items'], array('data' => $item['value']));
+              	}
+                break;
+              case 'link_field':
+              	foreach ($field_items as $item) {
+              		array_push($item_list['items'], array('data' => l($item['title'], $item['url'])));
+              	}
+                break;
+              case 'taxonomy_term_reference':
+                _bvng_get_tag_links($field_items, $item_list);
+                break;
+            }
+          }
+          elseif ($idx == 'tags') {
+            $terms = array();
+            $term_sources = $field['fields'];
+            // Get all terms.
+            foreach ($term_sources as $term_source) {
+              $items = field_get_items('node', $node, $term_source);
+              foreach ($items as $item) {
+                $terms[] = $item['tid'];
+              }
+            }
+            _bvng_get_tag_links($terms, $item_list);
+          }
 
-    // PUBLICATION DATE
-    $publication_date = array(
-      'title' => t('Publication date'),
-      'type' => 'ul',
-      'items' => array(
-        'data' => format_date($node->created, 'custom', 'F jS, Y '),
-      ),
-      'attributes' => array(
-        'id' => 'publication-date',
-        'class' => 'item-date',
-      ),
-    );
-
-    // LAST UPDATED
-    $last_updated = array(
-      'title' => t('Last updated'),
-      'type' => 'ul',
-      'items' => array(
-        'data' => format_date($node->changed, 'custom', 'F jS, Y '),
-      ),
-      'attributes' => array(
-        'id' => 'last-updated',
-        'class' => 'item-date',
-      ),
-    );
-
-    // TAGS
-
-    // Create term links.
-    $term_links = array(
-      'title' => t('Tags'),
-      'type' => 'ul',
-      'attributes' => array(
-        'id' => 'tags',
-        'class' => 'tags'
-      ),
-    );
-    $tag_links = bvng_get_tag_links($node);
-    foreach ($tag_links as $tag_link) {
-      $term_links['items'][]['data'] = $tag_link;
+          $markup .= theme_item_list($item_list);
+        }
+        break;
     }
   }
 
-  $markup = theme_item_list($publication_date);
-  $markup .= theme_item_list($last_updated);
-  $markup .= theme_item_list($term_links);
-
   return $markup;
+}
+
+function _bvng_get_node_footer_content($node) {
+  $markup = '';
+  switch ($node->type) {
+    case 'newsarticle':
+    case 'usesofdata':
+      $fields = array(
+        'field_citationinformation',
+        'field_relatedgbifresources',
+      );
+      foreach ($fields as $field) {
+        if (!empty($node->$field)) {
+        	$item = field_view_field('node', $node, $field);
+     			$markup .= render($item);
+        }
+      }
+      break;
+  }            
+  
+  return $markup;
+}
+
+/**
+ * Defined fields to retrieve content.
+ * @param $type Type of the node.
+ */
+function _bvng_get_sidebar_fields($type) {
+  switch ($type) {
+    case 'newsarticle':
+      $fields = array(
+        'publication-date' => array(
+          'title' => t('Publication date'),
+          'machine_name' => 'created',
+          'field_type' => 'node_date',
+        ),
+        'last-updated' => array(
+          'title' => t('Last updated'),
+          'machine_name' => 'changed',
+          'field_type' => 'node_date',
+        ),
+        'tags' => array(
+          'title' => t('Tags'),
+          'machine_name' => 'tags',
+          'fields' => _bvng_get_sidebar_tags_definition($type),
+        ),
+      );
+      break;
+    case 'usesofdata':
+      $fields = array(
+        'publication' => array(
+          'title' => t('Publication'),
+          'machine_name' => 'field_publication',
+        ),
+        'researchers-location' => array(
+          'title' => t('Location of researchers'),
+          'machine_name' => 'field_reasearcherslocation',
+        ),
+        'study-area' => array(
+          'title' => t('Study area'),
+          'machine_name' => 'field_studyarea',
+        ),
+        'data-sources' => array(
+          'title' => t('Data sources'),
+          'machine_name' => 'field_datasources',
+        ),
+        'links-to-research' => array(
+          'title' => t('Links to research'),
+          'machine_name' => 'field_linkstoresearch',
+        ),
+        'data-use-categories' => array(
+          'title' => t('Data use categories'),
+          'machine_name' => 'field_datausecategories',
+        ),
+        'tags' => array(
+          'title' => t('Tags'),
+          'machine_name' => 'tags',
+          'fields' => _bvng_get_sidebar_tags_definition($type),
+        ),
+      );
+      break;
+  }
+
+  // @see https://api.drupal.org/api/drupal/modules%21field%21field.info.inc/function/field_info_instances/7
+  foreach ($fields as $idx => $field) {
+    if ($idx <> 'tags') {
+    	if (!isset($field['field_type'])) {
+    		$info = field_info_field($field['machine_name']);
+    		$fields[$idx]['field_type'] = $info['type'];
+    	}
+    }
+  }
+  return $fields; 
+}
+
+function _bvng_get_tag_links(&$field_items, &$item_list) {
+  $terms = taxonomy_term_load_multiple($field_items);
+	foreach ($terms as $term) {
+		$uri = taxonomy_term_uri($term);
+		$tag_link = l($term->name, $uri['path']);
+		array_push($item_list['items'], array('data' => $tag_link));
+	}
+}
+
+function _bvng_get_sidebar_tags_definition($type) {
+  switch ($type) {
+    case 'newsarticle':
+      return array(
+        'field_capacity',
+        'field_country',
+        'field_informatics',
+        'field_organizations',
+        'field_regions',
+      );
+    case 'usesofdata':
+      return array(
+        'field_country',
+        'field_regions',
+        'field_organizations',
+      );
+  }  
 }
 
 function bvng_get_regional_links() {
@@ -451,19 +596,10 @@ function bvng_get_subject_links() {
 }
 
 /**
- * Helper function to get tags from specified fields.
+ * Helper function to get "also tagged" tag links.
  */
-function bvng_get_tag_links($node) {
-  $terms = array();
-
-  // List fields to get terms.
-  $term_sources = array(
-    'field_capacity',
-    'field_country',
-    'field_informatics',
-    'field_organizations',
-    'field_regions',
-  );
+function bvng_get_also_tag_links($node) {
+  $term_sources = _bvng_get_sidebar_tags_definition($node->type);
 
   // Get all the terms.
   foreach ($term_sources as $term_source) {
@@ -472,28 +608,19 @@ function bvng_get_tag_links($node) {
       $terms[] = $item['tid'];
     }
   }
+  
+  //$tag_links = bvng_get_tag_links($node);
+	$item_list = array(
+	 'items' => array(),
+	);
+	_bvng_get_tag_links($terms, $item_list);
+		
+	$term_links = '';
 
-  $tag_links = array();
-  foreach ($terms as $tid) {
-    $term = taxonomy_term_load($tid);
-    $uri = taxonomy_term_uri($term);
-    $tag_links[] = l($term->name, $uri['path']);
-  }
-
-  return $tag_links;
-}
-
-/**
- * Helper function to get "also tagged" tag links.
- */
-function bvng_get_also_tag_links($node) {
-	$tag_links = bvng_get_tag_links($node);
-	$term_links = '' ;
-
-	if (!empty( $tag_links)) {
+	if (!empty($item_list['items'])) {
 		$term_links = t('Also tagged') . ':' . '<ul class="also-tagged">';
-		foreach ($tag_links as $tag_link) {
-			$term_links .= '<li>' . $tag_link . '</li>';
+		foreach ($item_list['items'] as $tag_link) {
+			$term_links .= '<li>' . $tag_link['data'] . '</li>';
 		}
 		$term_links .= '</ul>';
 	}
