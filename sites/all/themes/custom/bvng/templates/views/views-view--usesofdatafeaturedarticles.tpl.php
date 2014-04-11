@@ -27,8 +27,8 @@
  * @ingroup views_templates
  */
 ?>
-<div class="container well well-lg well-margin-bottom">
 <?php if ($requested_path == 'taxonomy/term/565'): ?>
+<div class="container well well-lg">
   <div class="row">
     <header class="news-summary col-md-12">
       <h2><?php print $view_title = $view->get_title(); ?></h2>
@@ -36,6 +36,8 @@
     </header>
   </div>
   <hr class="summary-rule">
+<?php else: ?>
+<div class="container well well-lg well-margin-bottom">
 <?php endif; ?>
 <div class="row">
   <div class="view-content-featured col-md-12">

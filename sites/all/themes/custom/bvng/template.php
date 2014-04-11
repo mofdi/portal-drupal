@@ -41,9 +41,28 @@ function bvng_preprocess_user_login() {
 function bvng_preprocess(&$variables, $hook) {
   $data_portal_base_url = variable_get('data_portal_base_url');
   $variables['data_portal_base_url'] = $data_portal_base_url;
+  
+  /* The $current_path will change after setting active menu item,
+   * therefore a requested_path value is inserted to content region
+   * for regional processing.
+   */
+  $current_path = current_path();
+  $variables['current_path'] = $current_path;
 
-  $req_path = current_path();
-  $variables['requested_path'] = $req_path;
+	switch ($hook) {
+  	case 'page':
+  		if ($variables['page']['content']) {
+  			$req_path = current_path();
+  			$variables['page']['content']['requested_path'] = $req_path;
+  		}
+  		break;
+  	case 'region':
+  		switch ($variables['region']) {
+  			case 'content':
+  				break;
+  		}
+  		break;
+	}
 }
 
 /**
@@ -66,9 +85,7 @@ function bvng_preprocess_html(&$variables) {
  * @see http://www.dibe.gr/blog/set-path-determining-active-trail-drupal-7-menu
  */
 function bvng_preprocess_page(&$variables) {
-  $data_portal_base_url = $variables['data_portal_base_url'];
-  $directory = $variables['directory'];
-  $req_path = $variables['requested_path'];
+  $req_path = $variables['page']['content']['requested_path'];
 
   if (!empty($variables['node'])) {
     switch ($variables['node']->type) {
@@ -87,7 +104,7 @@ function bvng_preprocess_page(&$variables) {
     }
   }
   elseif (strpos($req_path, 'allnewsarticles') || strpos($req_path, 'alldatausearticles') || strpos($req_path, 'resources/summary')) {
-
+    
     if (strpos($req_path, 'allnewsarticles')) {
       $system_path = drupal_get_normal_path('newsroom/news'); // taxonomy/term/566
     }
@@ -95,13 +112,12 @@ function bvng_preprocess_page(&$variables) {
       $system_path = drupal_get_normal_path('newsroom/uses'); // taxonomy/term/567
     }
     elseif (strpos($req_path, 'resources/summary')) {
-      $system_path = drupal_get_normal_path('resources/summary'); // taxonomy/term/764
+      $system_path = drupal_get_normal_path('resource/summary'); // taxonomy/term/764
     }
-
     menu_tree_set_path('gbif-menu', $system_path);
     menu_set_active_item($system_path);
   }
-
+  
   $variables['page']['highlighted_title'] = bvng_get_title_data();
   
   // Manually set page title.
@@ -128,36 +144,73 @@ function bvng_preprocess_page(&$variables) {
  * Implements template_preprocess_region().
  */
 function bvng_preprocess_region(&$variables) {
-  $req_path = $variables['requested_path'];
-
-  /* Only style outer wells at the region level for taxonomy/term pages and pages
-   * with a filter sidebar. For the rest the well will be draw at the node level.
-   */
-  $well = bvng_get_container_well();
-  if (!empty($variables['elements']['system_main'])) {
-    $system_main = &$variables['elements']['system_main'];
-  }
   switch ($variables['region']) {
     case 'content':
-      if (!empty($system_main['nodes'])) {
-        break;
-      }
-      elseif (!empty($system_main['taxonomy_terms']) || strpos($req_path, 'allnewsarticles') || strpos($req_path, 'alldatausearticles')) {
-
-        if (array_key_exists(565, $system_main['taxonomy_terms']) || array_key_exists(567, $system_main['taxonomy_terms'])) {
-          break;
-        }
-        else {
-          $variables['well_top'] = $well['filter']['top'];
-          $variables['well_bottom'] = $well['filter']['bottom'];
-        }
-
+      $req_path = $variables['elements']['requested_path'];
+      
+      /* Only style outer wells at the region level for taxonomy/term pages and pages
+       * with a filter sidebar. For the rest the well will be draw at the node level.
+       */
+      $well = bvng_get_container_well();
+      if (!empty($variables['elements']['system_main'])) {
+        $system_main = &$variables['elements']['system_main'];
       }
       else {
-        $variables['well_top'] = $well['normal']['top'];
-        $variables['well_bottom'] = $well['normal']['bottom'];
+        $system_main = NULL;
+      }
+
+    	$well_type = bvng_well_type($req_path, $system_main);
+    	
+    	switch ($well_type) {
+        case 'filter':
+          $variables['well_top'] = $well['filter']['top'];
+          $variables['well_bottom'] = $well['filter']['bottom'];
+          break;
+        case 'normal':
+          $variables['well_top'] = $well['normal']['top'];
+          $variables['well_bottom'] = $well['normal']['bottom'];
+          break;
+        case 'none':
+        	break;
       }
       break;
+
+  }
+}
+
+function bvng_well_type($req_path, $system_main) {
+  // Term pages that has a special layout, hence no filter well.
+  $special_layout = array(
+    '565',
+    '567',
+  );
+  // Paths that have a filter well.
+  $filter_paths = array(
+    'allnewsarticles',
+    'alldatausearticles',
+    'events',
+  );
+  
+  // Determine giving filter sidebar or not.
+  if (!empty($system_main['nodes'])) {
+    // If it's a node page then the well is draw in the node level template.
+    return 'none';
+  }
+  elseif (!empty($system_main['taxonomy_terms'])) {
+    // If not a node page then the well is draw in the region level template.
+    // Some term pages are special.
+    foreach ($special_layout as $special) {
+      if (array_key_exists($special, $system_main['taxonomy_terms'])) return 'none';
+    }
+    return 'filter';
+  }
+  elseif ($req_path) {
+    // Others are views.
+    foreach ($filter_paths as $path) {
+      $match = strpos($req_path, $path);
+      if ($match !== FALSE) return 'filter';
+    }
+    return 'normal';
   }
 }
 
@@ -369,7 +422,7 @@ function bvng_get_sidebar_content($nid, $vid) {
   return $markup;
 }
 
-function bvng_get_filter_links() {
+function bvng_get_regional_links() {
   $regions = variable_get('gbif_region_definition');
   $links = '';
   $links = '<ul class="filter-list">';
@@ -377,6 +430,20 @@ function bvng_get_filter_links() {
     $links .= '<li>';
     $url_base = 'newsroom/archive/allnewsarticles/';
     $links .= l($region, $url_base . $region);
+    $links .= '</li>';
+  }
+  $links .= '</ul>';
+  return $links;
+}
+
+function bvng_get_subject_links() {
+  $subjects = variable_get('gbif_subject_definition');
+  $links = '';
+  $links = '<ul class="filter-list">';
+  foreach ($subjects as $term => $subject) {
+    $links .= '<li>';
+    $url_base = 'taxonomy/term/';
+    $links .= l($subject, $url_base . $term);
     $links .= '</li>';
   }
   $links .= '</ul>';
