@@ -75,11 +75,9 @@
           <?php print $attachment_after; ?>
         </div>
       <?php endif; ?>
-		<div class="btn btn-default">
-			<div class="more-link">
+		<button type="button" class="btn btn-primary">
 			<a href="/resources/archive"> Archive of all GBIF resources </a>
-			</div>
-		</div>
+		</button>
     </div>
   </div>
   <div class="col-md-3">
