@@ -85,11 +85,12 @@ function bvng_preprocess_html(&$variables) {
  * @see http://www.dibe.gr/blog/set-path-determining-active-trail-drupal-7-menu
  */
 function bvng_preprocess_page(&$variables) {
-  $req_path = $variables['page']['content']['requested_path'];
-
-  /* @todo move menu_tree_set_path() and menu_set_active_item() outside the condition
-   *       breaks the menu.
-   */
+	$req_path = $variables['page']['content']['requested_path'];
+	$system_path='';
+	
+	/* @todo move menu_tree_set_path() and menu_set_active_item() outside the condition
+	*       breaks the menu.
+	*/
 
 	if (!empty($variables['node'])) {
 		switch ($variables['node']->type) {
@@ -103,20 +104,23 @@ function bvng_preprocess_page(&$variables) {
 				break;
 		}
 	}
-	elseif ( strpos($req_path, 'allnewsarticles') !== FALSE) {
+	elseif (strpos($req_path, 'allnewsarticles') !== FALSE) {
 		$system_path = drupal_get_normal_path('newsroom/news'); // taxonomy/term/566
 	} 
-	elseif ( strpos($req_path, 'alldatausearticles') !== FALSE) {
+	elseif (strpos($req_path, 'alldatausearticles') !== FALSE) {
 		$system_path = drupal_get_normal_path('newsroom/uses'); // taxonomy/term/567
 	}
-	elseif ( strpos($req_path, 'resources') !== FALSE) {
+	elseif (strpos($req_path, 'resources/archive') !== FALSE) {
 		$system_path = drupal_get_normal_path('resources/summary'); // taxonomy/term/764
-		var_dump($system_path);
 	}
 
-    menu_tree_set_path('gbif-menu', $system_path);
-    menu_set_active_item($system_path); 
-
+	if ($system_path != '') { 
+		menu_tree_set_path('gbif-menu', $system_path);
+		menu_set_active_item($system_path); 
+	} else {
+		menu_tree_set_path('gbif-menu', menu_tree_get_path());
+		menu_set_active_item($req_path); 
+	}
 
   $variables['page']['highlighted_title'] = bvng_get_title_data();
   
