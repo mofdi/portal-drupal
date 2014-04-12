@@ -140,10 +140,10 @@ function gbif_pages_term_view_relation() {
       'view' => 'viewallevents',
       'display' => 'page',
     ),
-    '764' => array( // resources/summary
-      'view' => 'viewallresources',
-      'display' => 'latest5',
-    ),     
+	'764' => array( // resources/summary
+		'view' => 'viewallresources',
+		'display' => 'latest5',
+	),     
   );
   return $term_view;
 }

@@ -75,9 +75,7 @@
           <?php print $attachment_after; ?>
         </div>
       <?php endif; ?>
-		<button type="button" class="btn btn-primary">
-			<a href="/resources/archive"> Archive of all GBIF resources </a>
-		</button>
+		<a class="btn btn-primary" href="/resources/archive"> Archive of all GBIF resources </a>
     </div>
   </div>
   <div class="col-md-3">
