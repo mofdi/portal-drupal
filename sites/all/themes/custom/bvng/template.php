@@ -86,7 +86,7 @@ function bvng_preprocess_html(&$variables) {
  */
 function bvng_preprocess_page(&$variables) {
 	$req_path = $variables['page']['content']['requested_path'];
-	$system_path='';
+	$altered_path = FALSE ;
 	
 	/* @todo move menu_tree_set_path() and menu_set_active_item() outside the condition
 	*       breaks the menu.
@@ -95,28 +95,28 @@ function bvng_preprocess_page(&$variables) {
 	if (!empty($variables['node'])) {
 		switch ($variables['node']->type) {
 			case 'newsarticle':
-				$system_path = drupal_get_normal_path('newsroom/news'); // taxonomy/term/566
+				$altered_path = drupal_get_normal_path('newsroom/news'); // taxonomy/term/566
 				$variables['node']->type_title = t('GBIF News');
 				break;
 			case 'usesofdata':
-				$system_path = drupal_get_normal_path('newsroom/uses'); // taxonomy/term/567
+				$altered_path = drupal_get_normal_path('newsroom/uses'); // taxonomy/term/567
 				$variables['node']->type_title = t('Featured Data Use');
 				break;
 		}
 	}
 	elseif (strpos($req_path, 'allnewsarticles') !== FALSE) {
-		$system_path = drupal_get_normal_path('newsroom/news'); // taxonomy/term/566
+		$altered_path = drupal_get_normal_path('newsroom/news'); // taxonomy/term/566
 	} 
 	elseif (strpos($req_path, 'alldatausearticles') !== FALSE) {
-		$system_path = drupal_get_normal_path('newsroom/uses'); // taxonomy/term/567
+		$altered_path = drupal_get_normal_path('newsroom/uses'); // taxonomy/term/567
 	}
 	elseif (strpos($req_path, 'resources/archive') !== FALSE) {
-		$system_path = drupal_get_normal_path('resources/summary'); // taxonomy/term/764
+		$altered_path = drupal_get_normal_path('resources/summary'); // taxonomy/term/764
 	}
 
-	if ($system_path != '') { 
-		menu_tree_set_path('gbif-menu', $system_path);
-		menu_set_active_item($system_path); 
+	if ( $altered_path ) { 
+		menu_tree_set_path('gbif-menu', $altered_path);
+		menu_set_active_item($altered_path); 
 	} else {
 		menu_tree_set_path('gbif-menu', menu_tree_get_path());
 		menu_set_active_item($req_path); 
