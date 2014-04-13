@@ -29,13 +29,7 @@
 ?>
 <div class="row">
   <header class="content-header col-md-8">
-    <h2>
-    <?php
-      $view_title = $view->get_title();
-      print $view_title;
-      drupal_set_title($view_title);
-    ?>
-    </h2>
+    <h2><?php print $view->get_title(); ?></h2>
   </header>
 </div>
 <div class="row">
@@ -79,7 +73,10 @@
           <?php print $attachment_after; ?>
         </div>
       <?php endif; ?>
-       <?php if ($pager): ?>
+      <hr>
+      <a class="btn btn-primary" href="/newsroom/events/upcoming">Upcoming GBIF events</a>
+      <a class="btn btn-primary" href="/newsroom/events/archive">Archive of all GBIF events</a>
+      <?php if ($pager): ?>
         <?php print $pager; ?>
       <?php endif; ?>
     </div>

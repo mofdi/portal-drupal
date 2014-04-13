@@ -4200,6 +4200,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .contextual li a {
   text-decoration: none;
+  font-style: italic;
+  font-size: 14px;
 }
 #branding {
   position: absolute;
@@ -6239,10 +6241,13 @@ ul li.leaf {
 .tabs--secondary {
   margin: 0 0 10px;
 }
-.submitted > span {
+.submitted {
   margin-bottom: 5px;
+}
+.submitted > span {
   font-style: italic;
   font-weight: normal;
+  font-size: 14px;
   color: #777;
 }
 .password-strength {

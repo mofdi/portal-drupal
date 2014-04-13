@@ -124,7 +124,7 @@ function gbif_pages_view_datausearticles() {
   $handler->display->display_options['menu']['context'] = 0;
 
   /* Display: Feed */
-  $handler = $view->new_display('feed', 'Feed', 'feed_1');
+  $handler = $view->new_display('feed', 'Feed', 'feed');
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['style_plugin'] = 'rss';
   $handler->display->display_options['row_plugin'] = 'node_rss';

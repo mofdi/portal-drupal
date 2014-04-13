@@ -13,7 +13,7 @@ function gbif_pages_view_viewallresources() {
 	$view->description = '';
 	$view->tag = 'default';
 	$view->base_table = 'node';
-	$view->human_name = 'ViewAllResources';
+	$view->human_name = 'Resources';
 	$view->core = 7;
 	$view->api_version = '3.0';
 	$view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */

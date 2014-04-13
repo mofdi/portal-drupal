@@ -361,6 +361,7 @@ function bvng_preprocess_node(&$variables) {
   global $user;
 
   // Bring the local tasks tab into node template.
+  // @todo To investigate that this doesn't work for data use.
   $variables['tabs'] = menu_local_tabs();
 
   /* Determine what local task to show according to the role.
@@ -374,14 +375,19 @@ function bvng_preprocess_node(&$variables) {
         unset($variables['tabs']['#primary'][$key]);
         break;
       case 'Edit':
-        if (!in_array('Editors', $user->roles)) unset($variables['tabs']['#primary'][$key]);
+  			// Alter the 'edit' link to point to the node/%/edit
+ 				$variables['tabs']['#primary'][$key]['#link']['href'] = 'node/' . $variables['node']->nid . '/edit';
+      	if (!in_array('Editors', $user->roles)) unset($variables['tabs']['#primary'][$key]);
         break;
       case 'Devel':
-        if (!in_array('administrator', $user->roles)) unset($variables['tabs']['#primary'][$key]);
+  			// Alter the 'edit' link to point to the node/%/devel
+      	$variables['tabs']['#primary'][$key]['#link']['href'] = 'node/' . $variables['node']->nid . '/devel';
+      	if (!in_array('administrator', $user->roles)) unset($variables['tabs']['#primary'][$key]);
         break;
     }
   }
 
+  
   /* Get also tagged
    */
   $variables['also_tagged'] = bvng_get_also_tag_links($variables['node']);
@@ -397,6 +403,7 @@ function bvng_preprocess_taxonomy_term(&$variables) {
  * Implements hook_preprocess_views_view().
  */
 function bvng_preprocess_views_view(&$variables) {
+  drupal_set_title($variables['view']->get_title());
   switch ($variables['view']->name) {
     case 'featurednewsarticles':
       // Contruct the JSON for slideshow.

@@ -38,11 +38,13 @@ News {"url":"newsroom\/summary"}
 ---GBIF events archive {"url":"newsroom\/events\/archive", "description":"GBIF events archive"}
 ---GBIF upcoming events {"url":"newsroom\/events\/upcoming", "description":"GBIF upcoming events"}
 --Newsletter {"url":"page\/2996"}
+--Consultations {"url":"newsroom\/consultations"}
 -Featured data use {"url":"newsroom\/uses"}
 --A view of all data use articles {"url":"newsroom\/archive\/alldatausearticles"}
 -Opportunities {"url":"newsroom\/opportunities"}
 -Events {"url":"newsroom\/events"}
 -Newsletter {"url":"page\/2996"}
+-Consultations {"url":"newsroom\/consultations"}
 Community {"url":"participation\/summary"}
 -Participation {"url":"participation\/summary", "description": "Being part of the GBIF community"}
 --Summary {"url":"participation\/summary"}

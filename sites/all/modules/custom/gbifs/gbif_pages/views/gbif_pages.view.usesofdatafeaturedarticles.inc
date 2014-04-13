@@ -13,14 +13,14 @@ function gbif_pages_view_usesofdatafeaturedarticles() {
   $view->description = 'How data accessed through GBIF are being used in science and policy';
   $view->tag = 'default';
   $view->base_table = 'node';
-  $view->human_name = 'Featured Data use';
+  $view->human_name = 'Featured data use';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Latest featured data uses';
+  $handler->display->display_options['title'] = 'Featured data uses';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -84,7 +84,7 @@ function gbif_pages_view_usesofdatafeaturedarticles() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $translatables['usesofdatafeaturedarticles'] = array(
     t('Master'),
-    t('Latest featured data uses'),
+    t('Featured data uses'),
     t('more'),
     t('Apply'),
     t('Reset'),

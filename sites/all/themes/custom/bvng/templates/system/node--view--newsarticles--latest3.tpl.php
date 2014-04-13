@@ -84,15 +84,16 @@
     <?php if (!empty($title)): ?>
       <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
     <?php endif; ?>
+
     <?php if ($display_submitted && user_is_logged_in()): ?>
-    <span class="submitted">
-      <?php // print $user_picture; ?>
+    <div class="submitted">
       <?php print $submitted; ?>
-    </span>
+  		<?php if (!empty($tabs)): ?>
+  			<?php print render($tabs); ?>
+  		<?php endif; ?>
+    </div>
     <?php endif; ?>
-		<?php if (!empty($tabs) && user_is_logged_in()): ?>
-			<?php print render($tabs); ?>
-		<?php endif; ?>
+
     <?php
       // Hide comments, tags, and links now so that we can render them later.
       hide($content['comments']);

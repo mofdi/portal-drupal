@@ -31,8 +31,7 @@
   <header class="content-header col-md-8">
     <h2>
     <?php
-      $view_title = $view->get_title();
-      print $view_title;
+      print $view->get_title();
       drupal_set_title($view_title);
     ?>
     </h2>
@@ -79,8 +78,8 @@
           <?php print $attachment_after; ?>
         </div>
       <?php endif; ?>
-      <a class="btn btn-primary" href="/newsroom/events/upcoming"> Upcoming GBIF events </a>
-      <a class="btn btn-primary" href="/newsroom/events/archive"> Archive of all GBIF events </a>
+
+      <hr>
       <?php if ($pager): ?>
         <?php print $pager; ?>
       <?php endif; ?>

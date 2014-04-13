@@ -8,13 +8,12 @@ function gbif_pages_view_viewallevents() {
 
 	/* View All Events
 	*/
-
 	$view = new view();
 	$view->name = 'viewallevents';
 	$view->description = '';
 	$view->tag = 'default';
 	$view->base_table = 'node';
-	$view->human_name = 'View All Events';
+	$view->human_name = 'Events';
 	$view->core = 7;
 	$view->api_version = '3.0';
 	$view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -69,7 +68,7 @@ function gbif_pages_view_viewallevents() {
 	$handler->display->display_options['filters']['field_start_date_value']['year_range'] = '-0:+5';
 
 	/* Display: curentevents */
-	$handler = $view->new_display('page', 'curentevents', 'currentevents');
+	$handler = $view->new_display('page', 'Current', 'current');
 	$handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
 	$handler->display->display_options['defaults']['pager'] = FALSE;
 	$handler->display->display_options['pager']['type'] = 'some';
@@ -111,7 +110,7 @@ function gbif_pages_view_viewallevents() {
 	$handler->display->display_options['menu']['context_only_inline'] = 0;
 
 	/* Display: futureevents */
-	$handler = $view->new_display('page', 'futureevents', 'futureevents');
+	$handler = $view->new_display('page', 'Future', 'future');
 	$handler->display->display_options['defaults']['title'] = FALSE;
 	$handler->display->display_options['title'] = 'Upcoming Events';
 	$handler->display->display_options['display_description'] = 'Events in the future by start_date';
@@ -149,7 +148,7 @@ function gbif_pages_view_viewallevents() {
 	$handler->display->display_options['path'] = 'newsroom/events/upcoming';
 
 	/* Display: pastevents */
-	$handler = $view->new_display('page', 'pastevents', 'pastevents');
+	$handler = $view->new_display('page', 'Past', 'past');
 	$handler->display->display_options['defaults']['title'] = FALSE;
 	$handler->display->display_options['title'] = 'Archive of GBIF events';
 	$handler->display->display_options['path'] = 'newsroom/events/archive';
@@ -169,11 +168,11 @@ function gbif_pages_view_viewallevents() {
 		t('‹ previous'),
 		t('next ›'),
 		t('last »'),
-		t('curentevents'),
-		t('futureevents'),
+		t('Current'),
+		t('Future'),
 		t('Upcoming Events'),
 		t('Events in the future by start_date'),
-		t('pastevents'),
+		t('Past'),
 		t('Archive of GBIF events'),
 		);
 
