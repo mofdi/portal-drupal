@@ -37,7 +37,7 @@
       <h3><?php print $view->description; ?></h3>
     </header>
   </div>
-  <hr class="summary-rule">
+  <hr class="summary-ruler">
 <?php else: ?>
 <div class="container well well-lg well-margin-bottom">
 <?php endif; ?>

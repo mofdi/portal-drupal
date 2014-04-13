@@ -7466,7 +7466,7 @@ table .checkbox input[type="checkbox"] {
   margin-top: 6px;
   margin-bottom: 3px;
 }
-.summary-rule {
+.summary-ruler {
   margin: 0px;
 }
 .field-name-field-citationinformation,
@@ -7504,6 +7504,10 @@ table .checkbox input[type="checkbox"] {
 }
 .content-header {
   padding-right: 0px;
+}
+.generic-column p {
+  font-size: 19px;
+  color: #626262;
 }
 button > a {
   color: #ffffff;

@@ -137,7 +137,8 @@ function bvng_preprocess_page(&$variables) {
 		menu_set_active_item($altered_path); 
 	}
 	else {
-		menu_tree_set_path('gbif-menu', menu_tree_get_path());
+		$active_path = menu_tree_get_path();
+		menu_tree_set_path('gbif-menu', $active_path);
 		menu_set_active_item($req_path); 
 	}
 
@@ -245,6 +246,7 @@ function bvng_preprocess_block(&$variables) {
 	
 	// We only need to work on the system main block.
 	if ($variables['block']->module == 'system' && $variables['block']->delta == 'main') {
+
 		// Use our own template for generic taxonomy term page.
 		if (strpos($variables['elements']['#block']->requested_path, 'taxonomy/term') !== FALSE) {
     	$relation = gbif_pages_term_view_relation();
@@ -273,6 +275,20 @@ function bvng_preprocess_block(&$variables) {
       	array());
       	$variables['elements']['#block']->title = $block_title;
       }
+    }
+
+    // If it's 404 not found.
+    $status = drupal_get_http_header("status");
+    if ($status == '404 Not Found') {
+  		array_push($variables['theme_hook_suggestions'], 'block__system__main__404');
+
+		  $suggested_path = 'http://www-old.gbif.org/' . $variables['block']->requested_path; 
+  		
+		  $suggested_text .= '<p>' . t('We are sorry for the inconvenience.') . '</p>';
+		  $suggested_text .= '<p>' . t('Did you try searching? Enter a keyword(s) in the search field above.') . '</p>';
+		  $suggested_text .= '<p>' . t('You may be following an out-dated link based on GBIF’s previous portal which was active until September 2013 – if so, you may find the content you are looking for !here', array('!here' => l('here', $suggested_path))) . '.</p>';
+		  $variables['content'] = $suggested_text;
+		  
     }
   }
   
@@ -434,12 +450,7 @@ function bvng_preprocess_search_block_form(&$variables) {
  * The description is retrieved from the description of the menu item.
  */
 function bvng_get_title_data($count) {
-
-  // The old way
-	// $trail = menu_get_active_trail() ;
-	// $taxon = taxonomy_get_term_by_name($trail[2]['title'], 'taxanavigation');
-	// reset($taxon);
-	// return current($taxon);
+  $status = drupal_get_http_header("status");
 
 	// This way disassociates the taxanavigation voc, is more reasonable, but a bit heavy.
 	// Only 'GBIF Newsroom' has a shorter name in the nav.
@@ -460,6 +471,12 @@ function bvng_get_title_data($count) {
 				'Items tagged with "@term"',
 				array('@term' => $term->name)),
 		);
+	}
+	elseif ($status == '404 Not Found') {
+	  $title = array(
+	   'name' => t("Hmm, the page can't be found"),
+	   'description' => t('404 Not Found'),
+	  );
 	}
 	return $title;
 }
