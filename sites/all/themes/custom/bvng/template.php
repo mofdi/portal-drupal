@@ -263,15 +263,16 @@ function bvng_preprocess_block(&$variables) {
     	));
     	$icon = l($icon, $variables['elements']['#block']->requested_path . '/feed', array('html' => TRUE));
     	$variables['elements']['#block']->icon = $icon;
-    }
-    // Set title of the main block according to the number of node items.
-    if ($variables['elements']['nodes']) {
-      $node_count = _bvng_node_count($variables['elements']['nodes']);
-    	$block_title = format_plural($node_count,
-    	'Displaying 1 item',
-    	'Displaying @count items',
-    	array());
-    	$variables['elements']['#block']->title = $block_title;
+
+      // Set title of the main block according to the number of node items.
+      if ($variables['elements']['nodes']) {
+        $node_count = _bvng_node_count($variables['elements']['nodes']);
+      	$block_title = format_plural($node_count,
+      	'Displaying 1 item',
+      	'Displaying @count items',
+      	array());
+      	$variables['elements']['#block']->title = $block_title;
+      }
     }
   }
   

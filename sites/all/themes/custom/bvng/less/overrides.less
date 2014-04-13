@@ -11,6 +11,10 @@
 }
 
 html {
+  
+  position: relative;
+  min-height: 100%;
+  
   &.overlay-open .navbar-fixed-top {
     z-index: 400;
   }
@@ -27,9 +31,10 @@ html {
 }
 body {
 	background: @body-bg;
+  margin-bottom: 548px;
+
   // Fix horizontal scrolling on iOS devices.
   // http://drupal.org/node/1870076
-  position: relative;
   &.admin-expanded.admin-vertical.admin-nw .navbar,
   &.admin-expanded.admin-vertical.admin-sw .navbar {
     margin-left: 260px;
