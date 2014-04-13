@@ -43,18 +43,26 @@
  * @see template_process()
  *
  * @see https://drupal.org/node/104319 for template suggestions.
+ * @todo To implement this by using a taxonomy view. Should be possible to configure
+ *       a generic view for taxonomy/term/%.
  *
  * @ingroup themeable
  */
 ?>
-<section id="<?php print $block_html_id; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
-
-  <?php print render($title_prefix); ?>
-  <?php if ($title): ?>
-    <h2<?php print $title_attributes; ?>><?php print $title; ?></h2>
-  <?php endif;?>
-  <?php print render($title_suffix); ?>
-
-  <?php print $content ?>
-
-</section> <!-- /.block -->
+<div class="row">
+  <header class="content-header col-md-8">
+    <div class="feed"><?php print $block->icon; ?></div>
+    <h2><?php print $block->title; ?></h2> 
+  </header>
+  <div class="content-header sidebar-header col-md-3 .col-md-offset-1">
+    <h2>More search options</h2>
+  </div>
+</div>
+<div class="row">
+  <div class="view-column col-md-8">
+    <?php print $content ?>
+  </div>
+  <div class="sidebar-filter col-md-3">
+    <?php print bvng_get_more_search_options(arg(2)); ?>
+  </div>
+</div>

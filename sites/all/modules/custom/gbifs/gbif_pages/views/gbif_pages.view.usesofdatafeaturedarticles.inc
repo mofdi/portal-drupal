@@ -13,7 +13,7 @@ function gbif_pages_view_usesofdatafeaturedarticles() {
   $view->description = 'How data accessed through GBIF are being used in science and policy';
   $view->tag = 'default';
   $view->base_table = 'node';
-  $view->human_name = 'Data use';
+  $view->human_name = 'Featured Data use';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */

@@ -54,6 +54,21 @@ function bvng_preprocess(&$variables, $hook) {
   		if ($variables['page']['content']) {
   			$req_path = current_path();
   			$variables['page']['content']['requested_path'] = $req_path;
+  			if ($variables['page']['content']['system_main']['nodes']) {
+  				$nodes = &$variables['page']['content']['system_main']['nodes'];
+  				foreach ($nodes as $nid => $node) {
+  					if (is_int($nid)) {
+  						$node['#node']->requested_path= $req_path;
+  					}
+  				}
+  			}
+  			if ($variables['page']['content']['system_main']['#block']) {
+  				$block = &$variables['page']['content']['system_main']['#block'];
+  				if ($block->module == 'system' && $block->delta == 'main') {
+  					$block->requested_path = $req_path;
+  				}
+  			}
+  			$variables['node']->requested_path = $req_path;
   		}
   		break;
   	case 'region':
@@ -70,11 +85,11 @@ function bvng_preprocess(&$variables, $hook) {
  */
 function bvng_preprocess_html(&$variables) {
   $data_portal_base_url = $variables['data_portal_base_url'];
-  drupal_add_js($data_portal_base_url . '/cfg', array('type' => 'file', 'scope' => 'header'));
-  drupal_add_js($data_portal_base_url . '/js/vendor/modernizr-1.7.min.js', array('type' => 'file', 'scope' => 'header'));
-  drupal_add_js($data_portal_base_url . '/js/vendor/jquery-1.7.1.min.js', array('type' => 'file', 'scope' => 'header'));
-  drupal_add_js($data_portal_base_url . '/js/vendor/jscrollpane.min.js', array('type' => 'file', 'scope' => 'header'));
-  drupal_add_js($data_portal_base_url . '/js/vendor/css_browser_selector.js', array('type' => 'file', 'scope' => 'header'));
+  //drupal_add_js($data_portal_base_url . '/cfg', array('type' => 'file', 'scope' => 'header'));
+  //drupal_add_js($data_portal_base_url . '/js/vendor/modernizr-1.7.min.js', array('type' => 'file', 'scope' => 'header'));
+  //drupal_add_js($data_portal_base_url . '/js/vendor/jquery-1.7.1.min.js', array('type' => 'file', 'scope' => 'header'));
+  //drupal_add_js($data_portal_base_url . '/js/vendor/jscrollpane.min.js', array('type' => 'file', 'scope' => 'header'));
+  //drupal_add_js($data_portal_base_url . '/js/vendor/css_browser_selector.js', array('type' => 'file', 'scope' => 'header'));
 }
 
 
@@ -89,8 +104,8 @@ function bvng_preprocess_page(&$variables) {
 	$altered_path = FALSE ;
 	
 	/* @todo move menu_tree_set_path() and menu_set_active_item() outside the condition
-	*       breaks the menu.
-	*/
+	 *       breaks the menu.
+	 */
 
 	if (!empty($variables['node'])) {
 		switch ($variables['node']->type) {
@@ -114,15 +129,17 @@ function bvng_preprocess_page(&$variables) {
 		$altered_path = drupal_get_normal_path('resources/summary'); // taxonomy/term/764
 	}
 
-	if ( $altered_path ) { 
+	if ($altered_path) { 
 		menu_tree_set_path('gbif-menu', $altered_path);
 		menu_set_active_item($altered_path); 
-	} else {
+	}
+	else {
 		menu_tree_set_path('gbif-menu', menu_tree_get_path());
 		menu_set_active_item($req_path); 
 	}
 
-  $variables['page']['highlighted_title'] = bvng_get_title_data();
+	$node_count = _bvng_node_count($variables['page']['content']['system_main']['nodes']);
+  $variables['page']['highlighted_title'] = bvng_get_title_data($node_count);
   
   // Manually set page title.
   if ($req_path == 'taxonomy/term/565') {
@@ -196,17 +213,17 @@ function bvng_well_type($req_path, $system_main) {
   );
   
   // Determine giving filter sidebar or not.
-  if (!empty($system_main['nodes'])) {
-    // If it's a node page then the well is draw in the node level template.
-    return 'none';
-  }
-  elseif (!empty($system_main['taxonomy_terms'])) {
+  if (!empty($system_main['taxonomy_terms']) || !empty($system_main['term_heading']['term'])) {
     // If not a node page then the well is draw in the region level template.
     // Some term pages are special.
     foreach ($special_layout as $special) {
       if (array_key_exists($special, $system_main['taxonomy_terms'])) return 'none';
     }
     return 'filter';
+  }
+  elseif (!empty($system_main['nodes'])) {
+    // If it's a node page then the well is draw in the node level template.
+    return 'none';
   }
   elseif ($req_path) {
     // Others are views.
@@ -219,9 +236,59 @@ function bvng_well_type($req_path, $system_main) {
 }
 
 /**
+ * Implements template_preprocess_block().
+ */
+function bvng_preprocess_block(&$variables) {
+	
+	// We only need to work on the system main block.
+	if ($variables['block']->module == 'system' && $variables['block']->delta == 'main') {
+		// Use our own template for generic taxonomy term page.
+		if (strpos($variables['elements']['#block']->requested_path, 'taxonomy/term') !== FALSE) {
+    	$relation = gbif_pages_term_view_relation();
+    	$tid = arg(2);
+    	if (!array_key_exists(arg(2), $relation)) {
+    		array_push($variables['theme_hook_suggestions'], 'block__system__main__taxonomy' . '__generic');
+    	}
+    	// Add RSS feed icon.
+    	$alt = bvng_get_title_data();
+    	$icon = theme_image(array(
+    		'path' => drupal_get_path('theme', 'bvng') . '/images/rss-feed.gif',
+    		'width' => 28,
+    		'height' => 28,
+    		'alt' => $alt['title'],
+    		'title' => t('Subscribe to this list'),
+    	));
+    	$icon = l($icon, $variables['elements']['#block']->requested_path . '/feed', array('html' => TRUE));
+    	$variables['elements']['#block']->icon = $icon;
+    }
+    // Set title of the main block according to the number of node items.
+    if ($variables['elements']['nodes']) {
+      $node_count = _bvng_node_count($variables['elements']['nodes']);
+    	$block_title = format_plural($node_count,
+    	'Displaying 1 item',
+    	'Displaying @count items',
+    	array());
+    	$variables['elements']['#block']->title = $block_title;
+    }
+  }
+  
+  
+}
+
+/**
  * Implements hook_preprocess_node().
  */
 function bvng_preprocess_node(&$variables) {
+  
+  /* Add theme hook suggestion for nodes of taxonomy/term/%
+   */
+  if ($variables['requested_path']) {
+  	if (strpos($variables['requested_path'], 'taxonomy/term') !== FALSE) {
+  		array_push($variables['theme_hook_suggestions'], 'node__taxonomy' . '__generic');
+  	}
+  }
+  elseif ($variables['current_path']) {
+  }
 
   /* Prepare the prev/next $node of the same content type.
    */
@@ -301,6 +368,12 @@ function bvng_preprocess_node(&$variables) {
 }
 
 /**
+ * Implements template_preprocess_taxonomy_term().
+ */
+function bvng_preprocess_taxonomy_term(&$variables) {
+}
+
+/**
  * Implements hook_preprocess_views_view().
  */
 function bvng_preprocess_views_view(&$variables) {
@@ -356,7 +429,7 @@ function bvng_preprocess_search_block_form(&$variables) {
  *
  * The description is retrieved from the description of the menu item.
  */
-function bvng_get_title_data() {
+function bvng_get_title_data($count) {
 
   // The old way
 	// $trail = menu_get_active_trail() ;
@@ -367,12 +440,23 @@ function bvng_get_title_data() {
 	// This way disassociates the taxanavigation voc, is more reasonable, but a bit heavy.
 	// Only 'GBIF Newsroom' has a shorter name in the nav.
 	$active_menu_item = menu_link_get_preferred(current_path(), 'gbif-menu');
-	$parent = menu_link_load($active_menu_item['plid']);
-	$title = array(
-	 'mild' => $parent['mlid'],
-   'name' => ($parent['link_title'] == 'GBIF News') ? 'GBIF Newsroom' : $parent['link_title'],
-	 'description' => $parent['options']['attributes']['title'],
-	);
+	if ($active_menu_item) {
+		$parent = menu_link_load($active_menu_item['plid']);
+		$title = array(
+			 'mild' => $parent['mlid'],
+			 'name' => ($parent['link_title'] == 'GBIF News') ? 'GBIF Newsroom' : $parent['link_title'],
+			 'description' => $parent['options']['attributes']['title'],
+		);
+	}
+	elseif (strpos(current_path(), 'taxonomy/term') !== FALSE) {
+		$term = taxonomy_term_load(arg(2));
+		$title = array(
+			'name' => format_plural($count,
+			  'Item tagged with "@term"',
+				'Items tagged with "@term"',
+				array('@term' => $term->name)),
+		);
+	}
 	return $title;
 }
 
@@ -596,6 +680,45 @@ function bvng_get_subject_links() {
   return $links;
 }
 
+function bvng_get_more_search_options($tid) {
+  $data_portal_base_url = variable_get('data_portal_base_url');
+  $term = taxonomy_term_load($tid);
+  $voc = taxonomy_vocabulary_load($term->vid);
+	$links = '<p>' . t('This search result only covers the text content of the news and information pages of the GBIF portal.') . '</p>';
+  $links .= '<p>' . t('If you want to search data content, start here:') . '</p>';
+  $links .= '<ul class="filter-list">';
+
+  // Publishers and datasets
+  $link_text = t('Publishers and datasets');
+  $path_dataset = $data_portal_base_url . '/dataset/search?q=' . $term->name;
+  $links .= '<li>' . l($link_text, $path_dataset) . '</li>';
+
+  // Countries  
+  if ($voc->machine_name == 'countries') {
+  	$iso2 = field_get_items('taxonomy_term', $term, 'field_iso2');
+  	$path_country = $data_portal_base_url . '/country/' . $iso2[0]['value'];
+  	$link_text = t('Country') . '(' . $term->name . ')';
+  }
+  else {
+  	$link_text = t('Countries');
+  	$path_country = $data_portal_base_url . '/country';
+  }
+  $links .= '<li>' . l($link_text, $path_country) . '</li>';
+
+  // Occurrences
+  $link_text = t('Occurrences');
+  $path_occurrence = $data_portal_base_url . '/occurrence';
+  $links .= '<li>' . l($link_text, $path_occurrence) . '</li>';
+
+  // Species
+  $link_text = t('Species');
+  $path_species = $data_portal_base_url . '/species';
+  $links .= '<li>' . l($link_text, $path_species) . '</li>';
+  
+  $links .= '</ul>';
+  return $links;
+}
+
 /**
  * Helper function to get "also tagged" tag links.
  */
@@ -643,4 +766,21 @@ function bvng_get_container_well() {
     'bottom' => '</div>' . "\n" . '</div>' . "\n" . '</div>',
   );
   return $well;
+}
+
+/**
+ * Helper function for counting node number in a taxonomy term view.
+ * @todo If taxonomy/term/% is implemented using views, then this function 
+ *       may not be necessary.
+ * @param  The node array in page element array.
+ * @return (int) $count.
+ */
+function _bvng_node_count($nodes) {
+	// Chuck off non-node children.
+	foreach ($nodes as $idx => $node) {
+		if (!is_int($idx)) unset($nodes[$idx]);
+	}
+	$count = count($nodes);
+	return $count;
+  
 }

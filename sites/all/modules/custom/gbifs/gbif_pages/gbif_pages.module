@@ -73,8 +73,8 @@ function gbif_pages_views_register() {
  * another custom function which should return $build.
  */
 function gbif_pages_taxonomy_term_page($term) {
-  $term_view = gbif_pages_term_view_relation();
-  if (array_key_exists($term->tid, $term_view)) {
+  $relation = gbif_pages_term_view_relation();
+  if (array_key_exists($term->tid, $relation)) {
 
     $uri = entity_uri('taxonomy_term', $term);
 
@@ -82,24 +82,25 @@ function gbif_pages_taxonomy_term_page($term) {
     drupal_add_html_head_link(array('rel' => 'canonical', 'href' => url($uri['path'], $uri['options'])), TRUE);
     // Set the non-aliased path as a default shortlink.
     drupal_add_html_head_link(array('rel' => 'shortlink', 'href' => url($uri['path'], array_merge($uri['options'], array('alias' => TRUE)))), TRUE);
-
+    
+    // Every term page has a chance to show the description in taxaNavigation.
     $build = taxonomy_term_show($term);
     
     // Attach view(s) depending on term-view relations.
     $markup = '';
     $view_count = 0;
-    array_walk_recursive($term_view[$term->tid], function($value, $key) use (&$view_count) {
+    array_walk_recursive($relation[$term->tid], function($value, $key) use (&$view_count) {
     	if ($key == 'view') $view_count++;
     });
 
     if ($view_count > 1) {
-      foreach ($term_view[$term->tid] as $view_block) {
+      foreach ($relation[$term->tid] as $view_block) {
         $markup .= "\n";
         $markup .= views_embed_view($view_block['view'], $view_block['display']);
       }
     }
     elseif ($view_count === 1) {
-      $markup = views_embed_view($term_view[$term->tid]['view'], $term_view[$term->tid]['display']);
+      $markup = views_embed_view($relation[$term->tid]['view'], $relation[$term->tid]['display']);
     }
 
     // Attach the final result to the page build.
@@ -112,8 +113,9 @@ function gbif_pages_taxonomy_term_page($term) {
   return $build;
 }
 
+
 function gbif_pages_term_view_relation() {
-  $term_view = array(
+  $relation = array(
     '565' => array( // newsroom/summary
       array(
         'view' => 'featurednewsarticles',
@@ -140,10 +142,10 @@ function gbif_pages_term_view_relation() {
       'view' => 'viewallevents',
       'display' => 'page',
     ),
-	'764' => array( // resources/summary
-		'view' => 'viewallresources',
-		'display' => 'latest5',
-	),     
+    '764' => array( // resources/summary
+    	'view' => 'viewallresources',
+    	'display' => 'latest5',
+    ),     
   );
-  return $term_view;
+  return $relation;
 }

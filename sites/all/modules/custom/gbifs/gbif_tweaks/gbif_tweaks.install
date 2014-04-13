@@ -36,7 +36,6 @@ function gbif_tweaks_install() {
   module_enable(array(
     'admin_menu',
     'admin_menu_toolbar',
-    'module_filter',
     'jquery_update',
     'views_slideshow',
     'views_slideshow_cycle',

@@ -32,7 +32,7 @@
   <?php if ($id == 'title'): ?>
   <?php print '<div class="col-md-4 slideshow-intro">'; ?>
   <?php elseif($id == 'field_featured'): ?>
-  <?php print '<div class="col-md-8 slideshow-image">'; ?>
+  <?php print '<div class="slideshow-image">'; ?>
   <?php endif; ?>
 
   <?php print $field->wrapper_prefix; ?>

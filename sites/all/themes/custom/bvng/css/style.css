@@ -7191,6 +7191,7 @@ table .checkbox input[type="checkbox"] {
 }
 .sidebar-header {
   margin-left: 40px;
+  width: 260px;
   color: #626262;
 }
 .sidebar-filter {
@@ -7202,7 +7203,15 @@ table .checkbox input[type="checkbox"] {
   border-top: 1px solid #eeeeee;
 }
 .sidebar-filter ul {
+  margin-top: 20px;
   padding-left: 20px;
+}
+.sidebar-filter ul li {
+  margin-bottom: 2px;
+}
+.sidebar-filter p {
+  padding-left: 10px;
+  margin-bottom: 20px;
 }
 .sidebar-signup {
   width: 269px;
@@ -7365,6 +7374,7 @@ table .checkbox input[type="checkbox"] {
 }
 .slideshow-well {
   height: 424px;
+  padding-right: 0px;
 }
 .slideshow-layout {
   top: -60px;
@@ -7407,8 +7417,13 @@ table .checkbox input[type="checkbox"] {
 }
 .slideshow-image {
   position: relative;
+  overflow: hidden;
+  width: 616px;
+  left: -10px;
   top: -51px;
   right: 24px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
 }
 .slideshow-intro {
   padding-right: 30px;
@@ -7463,6 +7478,26 @@ table .checkbox input[type="checkbox"] {
 .field-name-field-citationinformation p,
 .field-name-field-relatedgbifresources p {
   font-size: 13px;
+}
+.taxonomy-generic h3 {
+  margin: 0px 0px 2px 0px;
+  font-size: 13px;
+  font-weight: normal;
+  text-transform: uppercase;
+  text-shadow: 0 1px #ffffff;
+  color: #999999;
+}
+.taxonomy-generic h2 {
+  margin-top: 0px;
+}
+.feed {
+  position: relative;
+  float: right;
+  top: -3px;
+  right: -18px;
+}
+.content-header {
+  padding-right: 0px;
 }
 button > a {
   color: #ffffff;
@@ -7660,4 +7695,4 @@ div.button span {
   padding-left: 2px;
   padding-right: 15px;
 }
-/*# sourceMappingURL=css/style.map */
+/*# sourceMappingURL=style.map */
