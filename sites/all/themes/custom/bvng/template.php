@@ -107,7 +107,7 @@ function bvng_preprocess_page(&$variables) {
 	 *       breaks the menu.
 	 */
 
-	if (!empty($variables['node'])) {
+	if (!empty($variables['node']->type)) {
 		switch ($variables['node']->type) {
 			case 'newsarticle':
 				$altered_path = drupal_get_normal_path('newsroom/news'); // taxonomy/term/566
