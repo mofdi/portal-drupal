@@ -125,10 +125,13 @@ function bvng_preprocess_page(&$variables) {
 	elseif (strpos($req_path, 'alldatausearticles') !== FALSE) {
 		$altered_path = drupal_get_normal_path('newsroom/uses'); // taxonomy/term/567
 	}
-	elseif (strpos($req_path, 'resources/archive') !== FALSE) {
+	elseif (strpos($req_path, 'resources') !== FALSE) {
 		$altered_path = drupal_get_normal_path('resources/summary'); // taxonomy/term/764
 	}
-
+	elseif (strpos($req_path, 'events') !== FALSE) {
+		$altered_path = drupal_get_normal_path('newsroom/events'); // taxonomy/term/569
+	}
+	
 	if ($altered_path) { 
 		menu_tree_set_path('gbif-menu', $altered_path);
 		menu_set_active_item($altered_path); 

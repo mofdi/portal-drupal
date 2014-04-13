@@ -140,7 +140,7 @@ function gbif_pages_term_view_relation() {
     ), 
     '569' => array( // newsroom/events
       'view' => 'viewallevents',
-      'display' => 'page',
+      'display' => 'currentevents',
     ),
     '764' => array( // resources/summary
     	'view' => 'viewallresources',
