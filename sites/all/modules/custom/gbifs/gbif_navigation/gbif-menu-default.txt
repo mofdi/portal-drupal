@@ -35,8 +35,8 @@ News {"url":"newsroom\/summary"}
 --Uses of data {"url":"newsroom\/uses"}
 --Opportunities {"url":"newsroom\/opportunities"}
 --Events {"url":"newsroom\/events"}
----{"url":"newsroom\/events\/archive", "description":"GBIF events archive"}
----{"url":"newsroom\/events\/upcoming", "description":"GBIF upcoming events"}
+---GBIF events archive {"url":"newsroom\/events\/archive", "description":"GBIF events archive"}
+---GBIF upcoming events {"url":"newsroom\/events\/upcoming", "description":"GBIF upcoming events"}
 --Newsletter {"url":"page\/2996"}
 -Featured data use {"url":"newsroom\/uses"}
 --A view of all data use articles {"url":"newsroom\/archive\/alldatausearticles"}

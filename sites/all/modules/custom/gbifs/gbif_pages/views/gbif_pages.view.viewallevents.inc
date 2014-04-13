@@ -146,13 +146,13 @@ function gbif_pages_view_viewallevents() {
 	$handler->display->display_options['filters']['field_start_date_value']['operator'] = '>';
 	$handler->display->display_options['filters']['field_start_date_value']['default_date'] = '1AM tomorrow';
 	$handler->display->display_options['filters']['field_start_date_value']['year_range'] = '-0:+3';
-	$handler->display->display_options['path'] = 'newseroom/events/upcoming';
+	$handler->display->display_options['path'] = 'newsroom/events/upcoming';
 
 	/* Display: pastevents */
 	$handler = $view->new_display('page', 'pastevents', 'pastevents');
 	$handler->display->display_options['defaults']['title'] = FALSE;
 	$handler->display->display_options['title'] = 'Archive of GBIF events';
-	$handler->display->display_options['path'] = 'newseroom/events/archive';
+	$handler->display->display_options['path'] = 'newsroom/events/archive';
 	$translatables['viewallevents'] = array(
 		t('Master'),
 		t('Current GBIF events'),
