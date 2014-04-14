@@ -964,6 +964,7 @@ echo "            <li><a href='$base_url/newsroom/uses'>Featured data use</a></l
 echo "            <li><a href='$base_url/newsroom/opportunities'>Opportunities</a></li> " ;
 echo "            <li><a href='$base_url/newsroom/events'>Events</a></li> " ;
 echo "            <li><a href='$base_url/newsroom/newsletter'>Newsletter</a></li> " ;
+echo "            <li><a href='$base_url/newsroom/consultations'>Consultations</a></li> " ;
 echo '          </ul>
         </div>
 
@@ -1071,7 +1072,7 @@ echo "<footer>
 <div id='contact_footer'>
   <div class='footer'>
     <ul>
-    <li><h3>2013 &copy; GBIF</h3></li>
+    <li><h3>2014 &copy; GBIF</h3></li>
     <li><div class='logo'></div></li>
   </ul>
   <ul>
