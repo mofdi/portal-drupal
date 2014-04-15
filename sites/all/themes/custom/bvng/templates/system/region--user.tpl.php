@@ -34,11 +34,11 @@
     <?php
       if ($user->uid == 0) {
         print l(t('Log in'), 'user/login', array('query' => drupal_get_destination()));
-        print ' or <a href="' . $base_url . 'user/register">Create a new account</a>';
+        print ' or <a href="/user/register">Create a new account</a>';
       }
       else {
         print t('Hello !username! ', array('!username' => theme('username', array('account' => $user))));
-        print l(t('Log out'), 'user/logout', array('attributes' => array('class' => array('logout'))));
+        print l(t('Log out'), '/user/logout', array('attributes' => array('class' => array('logout'))));
       }
     ?>
     </div>

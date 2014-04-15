@@ -5,7 +5,7 @@
  *
  * Tweaks the appearance of the VBO selector.
  */
-function gbifgreen_admin_views_bulk_operations_form_alter(&$form, &$form_state, $vbo) {
+function gbifgreen_views_bulk_operations_form_alter(&$form, &$form_state, $vbo) {
   if ($form_state['step'] == 'views_form_views_form') {
     $form['select']['#title'] = '';
     $form['select']['#collapsible'] = FALSE;
@@ -20,7 +20,7 @@ function gbifgreen_admin_views_bulk_operations_form_alter(&$form, &$form_state, 
  * @link https://drupal.org/node/2014851 @endlink
  * Issue #2014851 explains the core bug causing the font css import workaround.
  */
-function gbifgreen_admin_preprocess_html(&$vars) {
+function gbifgreen_preprocess_html(&$vars) {
   drupal_add_css(path_to_theme() . '/css/ie.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 9', '!IE' => FALSE), 'weight' => 999, 'preprocess' => FALSE));
   // Add conditional CSS for IE8 and below.
   drupal_add_css(path_to_theme() . '/css/ie8.css', array('group' => CSS_THEME, 'browsers' => array('IE' => 'lte IE 8', '!IE' => FALSE), 'weight' => 999, 'preprocess' => FALSE));
@@ -35,7 +35,7 @@ function gbifgreen_admin_preprocess_html(&$vars) {
 /**
  * Override or insert variables into the page template.
  */
-function gbifgreen_admin_preprocess_page(&$vars) {
+function gbifgreen_preprocess_page(&$vars) {
   $vars['primary_local_tasks'] = $vars['tabs'];
   unset($vars['primary_local_tasks']['#secondary']);
   $vars['secondary_local_tasks'] = array(
@@ -55,7 +55,7 @@ function gbifgreen_admin_preprocess_page(&$vars) {
  *
  * Use unordered list markup in both compact and extended mode.
  */
-function gbifgreen_admin_admin_block_content($variables) {
+function gbifgreen_admin_block_content($variables) {
   $content = $variables['content'];
   $output = '';
   if (!empty($content)) {
@@ -78,7 +78,7 @@ function gbifgreen_admin_admin_block_content($variables) {
  *
  * Use our own image versions, so they show up as black and not gray on gray.
  */
-function gbifgreen_admin_tablesort_indicator($variables) {
+function gbifgreen_tablesort_indicator($variables) {
   $style = $variables['style'];
   $theme_path = drupal_get_path('theme', 'shiny');
   if ($style == 'asc') {
@@ -92,7 +92,7 @@ function gbifgreen_admin_tablesort_indicator($variables) {
 /**
  * Implements hook_css_alter().
  */
-function gbifgreen_admin_css_alter(&$css) {
+function gbifgreen_css_alter(&$css) {
   // Use shiny's vertical tabs style instead of the default one.
   if (isset($css['misc/vertical-tabs.css'])) {
     $css['misc/vertical-tabs.css']['data'] = drupal_get_path('theme', 'shiny') . '/css/vertical-tabs.css';
@@ -106,7 +106,7 @@ function gbifgreen_admin_css_alter(&$css) {
   }
 }
 
-function gbifgreen_admin_breadcrumb($variables) {
+function gbifgreen_breadcrumb($variables) {
   $sep = ' <span></span> ';
   if (count($variables['breadcrumb']) > 0) {
     return '<div class="breadcrumb clearfix">' . implode($sep, $variables['breadcrumb']) . '</div>';
@@ -121,7 +121,7 @@ function gbifgreen_admin_breadcrumb($variables) {
  *
  * @see overlay.tpl.php
  */
-function gbifgreen_admin_preprocess_overlay(&$variables) {
+function gbifgreen_preprocess_overlay(&$variables) {
   if (module_exists('crumbs')) {
     $breadcrumb_data = crumbs_get_breadcrumb_data();
     $variables['crumbs_trail'] = $breadcrumb_data['trail'];
@@ -131,7 +131,7 @@ function gbifgreen_admin_preprocess_overlay(&$variables) {
   }
 }
 
-function gbifgreen_admin_system_info_alter(&$info, $file, $type) {
+function gbifgreen_system_info_alter(&$info, $file, $type) {
   if ($type == 'theme') {
     $info['overlay_regions'][] = 'footer';
   }

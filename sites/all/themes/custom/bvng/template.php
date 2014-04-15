@@ -54,7 +54,7 @@ function bvng_preprocess(&$variables, $hook) {
   		if ($variables['page']['content']) {
   			$req_path = current_path();
   			$variables['page']['content']['requested_path'] = $req_path;
-  			if ($variables['page']['content']['system_main']['nodes']) {
+  			if (isset($variables['page']['content']['system_main']['nodes'])) {
   				$nodes = &$variables['page']['content']['system_main']['nodes'];
   				foreach ($nodes as $nid => $node) {
   					if (is_int($nid)) {
@@ -62,13 +62,15 @@ function bvng_preprocess(&$variables, $hook) {
   					}
   				}
   			}
-  			if ($variables['page']['content']['system_main']['#block']) {
+  			if (isset($variables['page']['content']['system_main']['#block'])) {
   				$block = &$variables['page']['content']['system_main']['#block'];
   				if ($block->module == 'system' && $block->delta == 'main') {
   					$block->requested_path = $req_path;
   				}
   			}
-  			$variables['node']->requested_path = $req_path;
+  			if (isset($variables['node'])) {
+    			$variables['node']->requested_path = $req_path;
+  			}
   		}
   		break;
   	case 'region':
@@ -137,13 +139,15 @@ function bvng_preprocess_page(&$variables) {
 		menu_set_active_item($altered_path); 
 	}
 	else {
-		$active_path = menu_tree_get_path();
+		$active_path = menu_tree_get_path('gbif-menu');
 		menu_tree_set_path('gbif-menu', $active_path);
 		menu_set_active_item($req_path); 
 	}
-
-	$node_count = _bvng_node_count($variables['page']['content']['system_main']['nodes']);
-  $variables['page']['highlighted_title'] = bvng_get_title_data($node_count);
+  
+  if (isset($variables['page']['content']['system_main']['nodes'])) {
+  	$node_count = _bvng_node_count($variables['page']['content']['system_main']['nodes']);
+  }
+  $variables['page']['highlighted_title'] = bvng_get_title_data($node_count = NULL);
   
   // Manually set page title.
   if ($req_path == 'taxonomy/term/565') {
@@ -255,19 +259,20 @@ function bvng_preprocess_block(&$variables) {
     		array_push($variables['theme_hook_suggestions'], 'block__system__main__taxonomy' . '__generic');
     	}
     	// Add RSS feed icon.
-    	$alt = bvng_get_title_data();
+    	$alt = bvng_get_title_data($count = NULL);
     	$icon = theme_image(array(
     		'path' => drupal_get_path('theme', 'bvng') . '/images/rss-feed.gif',
     		'width' => 28,
     		'height' => 28,
-    		'alt' => $alt['title'],
+    		'alt' => (isset($alt['title'])) ? $alt['title'] : '',
     		'title' => t('Subscribe to this list'),
+    		'attributes' => array(),
     	));
     	$icon = l($icon, $variables['elements']['#block']->requested_path . '/feed', array('html' => TRUE));
     	$variables['elements']['#block']->icon = $icon;
 
       // Set title of the main block according to the number of node items.
-      if ($variables['elements']['nodes']) {
+      if (isset($variables['elements']['nodes'])) {
         $node_count = _bvng_node_count($variables['elements']['nodes']);
       	$block_title = format_plural($node_count,
       	'Displaying 1 item',
@@ -302,12 +307,12 @@ function bvng_preprocess_node(&$variables) {
   
   /* Add theme hook suggestion for nodes of taxonomy/term/%
    */
-  if ($variables['requested_path']) {
+  if (isset($variables['requested_path'])) {
   	if (strpos($variables['requested_path'], 'taxonomy/term') !== FALSE) {
   		array_push($variables['theme_hook_suggestions'], 'node__taxonomy' . '__generic');
   	}
   }
-  elseif ($variables['current_path']) {
+  elseif (isset($variables['current_path'])) {
   }
 
   /* Prepare the prev/next $node of the same content type.
@@ -364,30 +369,31 @@ function bvng_preprocess_node(&$variables) {
   /* Determine what local task to show according to the role.
    * @todo To implement this using user_permission.
    */
-  foreach ($variables['tabs']['#primary'] as $key => $item) {
-    // We don't need the view tab because we're already viewing it.
-
-    switch ($item['#link']['title']) {
-      case 'View':
-        unset($variables['tabs']['#primary'][$key]);
-        break;
-      case 'Edit':
-  			// Alter the 'edit' link to point to the node/%/edit
- 				$variables['tabs']['#primary'][$key]['#link']['href'] = 'node/' . $variables['node']->nid . '/edit';
-      	if (!in_array('Editors', $user->roles)) unset($variables['tabs']['#primary'][$key]);
-        break;
-      case 'Devel':
-  			// Alter the 'edit' link to point to the node/%/devel
-      	$variables['tabs']['#primary'][$key]['#link']['href'] = 'node/' . $variables['node']->nid . '/devel';
-      	if (!in_array('administrator', $user->roles)) unset($variables['tabs']['#primary'][$key]);
-        break;
-    }
-  }
-
+	if (is_array($variables['tabs']['#primary'])) {
+		foreach ($variables['tabs']['#primary'] as $key => $item) {
+			// We don't need the view tab because we're already viewing it.
+		
+			switch ($item['#link']['title']) {
+				case 'View':
+					unset($variables['tabs']['#primary'][$key]);
+					break;
+				case 'Edit':
+					// Alter the 'edit' link to point to the node/%/edit
+					$variables['tabs']['#primary'][$key]['#link']['href'] = 'node/' . $variables['node']->nid . '/edit';
+					if (!in_array('Editors', $user->roles)) unset($variables['tabs']['#primary'][$key]);
+					break;
+				case 'Devel':
+					// Alter the 'edit' link to point to the node/%/devel
+					$variables['tabs']['#primary'][$key]['#link']['href'] = 'node/' . $variables['node']->nid . '/devel';
+					if (!in_array('administrator', $user->roles)) unset($variables['tabs']['#primary'][$key]);
+					break;
+			}
+		}		
+	}
   
   /* Get also tagged
    */
-  $variables['also_tagged'] = bvng_get_also_tag_links($variables['node']);
+  $variables['also_tagged'] = _bvng_get_also_tag_links($variables['node']);
 }
 
 /**
@@ -540,8 +546,10 @@ function bvng_get_sidebar_content($nid, $vid) {
             // Get all terms.
             foreach ($term_sources as $term_source) {
               $items = field_get_items('node', $node, $term_source);
-              foreach ($items as $item) {
-                $terms[] = $item['tid'];
+              if (is_array($items)) {
+                foreach ($items as $item) {
+                  $terms[] = $item['tid'];
+                }
               }
             }
             _bvng_get_tag_links($terms, $item_list);
@@ -747,14 +755,16 @@ function bvng_get_more_search_options($tid) {
 /**
  * Helper function to get "also tagged" tag links.
  */
-function bvng_get_also_tag_links($node) {
+function _bvng_get_also_tag_links($node) {
   $term_sources = _bvng_get_sidebar_tags_definition($node->type);
 
   // Get all the terms.
   foreach ($term_sources as $term_source) {
     $items = field_get_items('node', $node, $term_source);
-    foreach ($items as $item) {
-      $terms[] = $item['tid'];
+    if (is_array($items)) {
+    	foreach ($items as $item) {
+    		$terms[] = $item['tid'];
+    	}
     }
   }
   
@@ -802,9 +812,11 @@ function bvng_get_container_well() {
  */
 function _bvng_node_count($nodes) {
 	// Chuck off non-node children.
-	foreach ($nodes as $idx => $node) {
-		if (!is_int($idx)) unset($nodes[$idx]);
-	}
+  if (is_array($nodes)) {
+  	foreach ($nodes as $idx => $node) {
+  		if (!is_int($idx)) unset($nodes[$idx]);
+  	}
+  }
 	$count = count($nodes);
 	return $count;
   

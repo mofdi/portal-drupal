@@ -1,4 +1,4 @@
-name = GBIF Green Admin
+name = GBIF Green
 description = A simple one-column, tableless, fluid width administration theme.
 core = 7.x
 base theme = shiny

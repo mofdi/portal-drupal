@@ -30,12 +30,14 @@
 ?>
 <?php if ($content): ?>
   <div class="<?php print $classes; ?>">
-    <?php if ($well_top) {
-      print $well_top;
-    }?>
+    <?php if (isset($well_top)): ?>
+    <?php print $well_top; ?>
+    <?php endif; ?>
+
     <?php print $content; ?>
-    <?php if ($well_bottom) {
-      print $well_bottom;
-    }?>
+
+    <?php if (isset($well_bottom)): ?>
+    <?php print $well_bottom; ?>
+    <?php endif; ?>
   </div>
 <?php endif; ?>
