@@ -105,7 +105,7 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <button type="button" class="btn btn-primary"><a href="/newsroom/news">more GBIF news</a></button>
+      <a href="/newsroom/news" class="btn btn-primary">more GBIF news</a>
       <?php if ($footer): ?>
         <div class="view-footer">
           <?php print $footer; ?>

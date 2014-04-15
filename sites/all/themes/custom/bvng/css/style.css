@@ -7515,6 +7515,11 @@ table .checkbox input[type="checkbox"] {
   font-size: 19px;
   color: #626262;
 }
+/*
+After jquery.cycle is loaded, the width of the row container is rendered
+differently on Firefox. This style explicitly set the style so the slideshow
+image won't shift it's position.
+*/
 .views-slideshow-cycle-main-frame-row {
   width: 930px;
 }
