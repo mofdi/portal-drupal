@@ -314,11 +314,8 @@ function bvng_preprocess_node(&$variables) {
    */
   if ($variables['node']) {
     switch ($variables['node']->type) {
-      case 'usesofdata':
-        $next_node = node_load(prev_next_nid($variables['node']->nid, 'prev'));
-        break;
       default:
-        $next_node = node_load(prev_next_nid($variables['node']->nid, 'next'));
+        $next_node = node_load(prev_next_nid($variables['node']->nid, 'prev'));
     }
     $next_node = ($next_node->status == 1) ? $next_node : NULL; // Only refer to published node.
     $variables['next_node'] = $next_node;

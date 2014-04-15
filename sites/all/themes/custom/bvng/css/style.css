@@ -565,10 +565,11 @@ a.bg-danger:hover {
 .sidebar-filter h2 {
   margin-top: 0px;
   margin-bottom: 0px;
-  padding-bottom: 20px;
+  padding-bottom: 15px;
+  padding-right: 20px;
   font-size: 23px;
   font-weight: normal;
-  line-height: 20px;
+  line-height: 25px;
   text-shadow: 0 1px #ffffff;
 }
 .content-header h2 a:hover,
@@ -7401,13 +7402,13 @@ table .checkbox input[type="checkbox"] {
   text-shadow: 0 1px #ffffff;
 }
 .views-slideshow-controls-top {
-  width: 255px;
+  width: 270px;
   margin-left: 15px;
 }
 #widget_pager_top_featurednewsarticles-default {
   display: block;
   position: relative;
-  width: 40px;
+  width: 70px;
   margin: 6px 0px 0px 0px;
   float: right;
 }
