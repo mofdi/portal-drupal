@@ -7515,6 +7515,9 @@ table .checkbox input[type="checkbox"] {
   font-size: 19px;
   color: #626262;
 }
+.views-slideshow-cycle-main-frame-row {
+  width: 930px;
+}
 button > a {
   color: #ffffff;
 }
