@@ -147,7 +147,7 @@ function bvng_preprocess_page(&$variables) {
   if (isset($variables['page']['content']['system_main']['nodes'])) {
   	$node_count = _bvng_node_count($variables['page']['content']['system_main']['nodes']);
   }
-  $variables['page']['highlighted_title'] = bvng_get_title_data($node_count = NULL);
+  $variables['page']['highlighted_title'] = _bvng_get_title_data($node_count = NULL);
   
   // Manually set page title.
   if ($req_path == 'taxonomy/term/565') {
@@ -180,7 +180,7 @@ function bvng_preprocess_region(&$variables) {
       /* Only style outer wells at the region level for taxonomy/term pages and pages
        * with a filter sidebar. For the rest the well will be draw at the node level.
        */
-      $well = bvng_get_container_well();
+      $well = _bvng_get_container_well();
       if (!empty($variables['elements']['system_main'])) {
         $system_main = &$variables['elements']['system_main'];
       }
@@ -188,7 +188,7 @@ function bvng_preprocess_region(&$variables) {
         $system_main = NULL;
       }
 
-    	$well_type = bvng_well_type($req_path, $system_main);
+    	$well_type = _bvng_well_types($req_path, $system_main);
     	
     	switch ($well_type) {
         case 'filter':
@@ -204,42 +204,6 @@ function bvng_preprocess_region(&$variables) {
       }
       break;
 
-  }
-}
-
-function bvng_well_type($req_path, $system_main) {
-  // Term pages that has a special layout, hence no filter well.
-  $special_layout = array(
-    '565',
-    '567',
-  );
-  // Paths that have a filter well.
-  $filter_paths = array(
-    'allnewsarticles',
-    'alldatausearticles',
-    'events',
-  );
-  
-  // Determine giving filter sidebar or not.
-  if (!empty($system_main['taxonomy_terms']) || !empty($system_main['term_heading']['term'])) {
-    // If not a node page then the well is draw in the region level template.
-    // Some term pages are special.
-    foreach ($special_layout as $special) {
-      if (array_key_exists($special, $system_main['taxonomy_terms'])) return 'none';
-    }
-    return 'filter';
-  }
-  elseif (!empty($system_main['nodes'])) {
-    // If it's a node page then the well is draw in the node level template.
-    return 'none';
-  }
-  elseif ($req_path) {
-    // Others are views.
-    foreach ($filter_paths as $path) {
-      $match = strpos($req_path, $path);
-      if ($match !== FALSE) return 'filter';
-    }
-    return 'normal';
   }
 }
 
@@ -259,7 +223,7 @@ function bvng_preprocess_block(&$variables) {
     		array_push($variables['theme_hook_suggestions'], 'block__system__main__taxonomy' . '__generic');
     	}
     	// Add RSS feed icon.
-    	$alt = bvng_get_title_data($count = NULL);
+   	  $alt = _bvng_get_title_data($count = NULL);
     	$icon = theme_image(array(
     		'path' => drupal_get_path('theme', 'bvng') . '/images/rss-feed.gif',
     		'width' => 28,
@@ -355,7 +319,7 @@ function bvng_preprocess_node(&$variables) {
 
   /* Get sidebar content
    */
-  $sidebar = bvng_get_sidebar_content($variables['nid'], $variables['vid']);
+  $sidebar = _bvng_get_sidebar_content($variables['nid'], $variables['vid']);
   $variables['sidebar'] = $sidebar;
 
   /* Process menu_local_tasks()
@@ -453,13 +417,49 @@ function bvng_preprocess_views_view_list(&$variables) {
 function bvng_preprocess_search_block_form(&$variables) {
 }
 
+function _bvng_well_types($req_path, $system_main) {
+  // Term pages that has a special layout, hence no filter well.
+  $special_layout = array(
+    '565',
+    '567',
+  );
+  // Paths that have a filter well.
+  $filter_paths = array(
+    'allnewsarticles',
+    'alldatausearticles',
+    'events',
+  );
+  
+  // Determine giving filter sidebar or not.
+  if (!empty($system_main['taxonomy_terms']) || !empty($system_main['term_heading']['term'])) {
+    // If not a node page then the well is draw in the region level template.
+    // Some term pages are special.
+    foreach ($special_layout as $special) {
+      if (array_key_exists($special, $system_main['taxonomy_terms'])) return 'none';
+    }
+    return 'filter';
+  }
+  elseif (!empty($system_main['nodes'])) {
+    // If it's a node page then the well is draw in the node level template.
+    return 'none';
+  }
+  elseif ($req_path) {
+    // Others are views.
+    foreach ($filter_paths as $path) {
+      $match = strpos($req_path, $path);
+      if ($match !== FALSE) return 'filter';
+    }
+    return 'normal';
+  }
+}
+
 /**
  * Helper function for showing the title and subtitle of a site section in the
  * highlighted region.
  *
  * The description is retrieved from the description of the menu item.
  */
-function bvng_get_title_data($count) {
+function _bvng_get_title_data($count) {
   $status = drupal_get_http_header("status");
 
 	// This way disassociates the taxanavigation voc, is more reasonable, but a bit heavy.
@@ -497,7 +497,7 @@ function bvng_get_title_data($count) {
  *       taxonomy_term object in $field_items, which cause taxonomy_term_load_multiple() to fail.
  *       Therefore here a $node object is loaded by $nid and $vid.
  */
-function bvng_get_sidebar_content($nid, $vid) {
+function _bvng_get_sidebar_content($nid, $vid) {
   $node = node_load($nid, $vid);
   
   if ($node) {
@@ -685,7 +685,7 @@ function _bvng_get_sidebar_tags_definition($type) {
   }  
 }
 
-function bvng_get_regional_links() {
+function _bvng_get_regional_links() {
   $regions = variable_get('gbif_region_definition');
   $links = '';
   $links = '<ul class="filter-list">';
@@ -699,7 +699,7 @@ function bvng_get_regional_links() {
   return $links;
 }
 
-function bvng_get_subject_links() {
+function _bvng_get_subject_links() {
   $subjects = variable_get('gbif_subject_definition');
   $links = '';
   $links = '<ul class="filter-list">';
@@ -713,7 +713,7 @@ function bvng_get_subject_links() {
   return $links;
 }
 
-function bvng_get_more_search_options($tid) {
+function _bvng_get_more_search_options($tid) {
   $data_portal_base_url = variable_get('data_portal_base_url');
   $term = taxonomy_term_load($tid);
   $voc = taxonomy_vocabulary_load($term->vid);
@@ -768,10 +768,10 @@ function _bvng_get_also_tag_links($node) {
     }
   }
   
-  //$tag_links = bvng_get_tag_links($node);
 	$item_list = array(
 	 'items' => array(),
 	);
+
 	_bvng_get_tag_links($terms, $item_list);
 		
 	$term_links = '';
@@ -790,7 +790,7 @@ function _bvng_get_also_tag_links($node) {
 /**
  * Helper function for the styling of external wells.
  */
-function bvng_get_container_well() {
+function _bvng_get_container_well() {
   $well = array();
   $well['normal'] = array(
     'top' => '<div class="container well well-lg well-margin-top well-margin-bottom">' . "\n" . '<div class="row">' . "\n" . '<div class="col-md-12">',

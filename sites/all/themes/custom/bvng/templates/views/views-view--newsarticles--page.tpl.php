@@ -92,7 +92,7 @@
     </div>
   </div>
   <div class="sidebar-filter col-md-3">
-    <?php print bvng_get_regional_links(); ?>
+    <?php print _bvng_get_regional_links(); ?>
   </div>
     <?php if ($footer): ?>
       <div class="view-footer">
