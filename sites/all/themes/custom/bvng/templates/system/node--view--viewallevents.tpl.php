@@ -76,7 +76,6 @@
  * @see template_preprocess_node()
  * @see template_process()
  * 
- * @todo Ideally to construct content in preprocess_node().
  * @ingroup themeable
  */
 ?>
@@ -103,19 +102,20 @@
       hide($content['field_tags']);
       print render($content['body']);
     ?> 
-    <?php if (!empty($content['field_tags']) || !empty($content['links']) || !empty($field_dates)): ?>
+
+    <?php if (!empty($content['field_tags']) || !empty($content['links']) || !empty($field_dates) || !empty($event_location)): ?>
     <footer>
-      <?php if ( $field_city['und'][0]['value'] !='' OR $field_venuecountry['und'][0]['value'] !='') {	
-		print '<p>' ;
-		print ( $field_city['und'][0]['value'] !=''?$field_city['und'][0]['value']:NULL);
-		print ( ( $field_city['und'][0]['value'] !='' AND $field_venuecountry['und'][0]['value'] !='') ? ', ':'');
-		print ( $field_venuecountry['und'][0]['value'] !=''?$field_venuecountry['und'][0]['value']:NULL); 
-		print '</p>';
-       } ?>
+
+      <?php if (!empty($event_location)): ?>	
+		  <p><?php print $event_location; ?></p>
+      <?php endif; ?> 
+
       <p class="date"><?php print( $field_dates['und'][0]['value']); ?></p>
+
     <?php if (!empty($also_tagged)): ?>
 		<?php print render($also_tagged); ?>
     <?php endif; ?>
+
     </footer>
     <?php endif; ?>
 

@@ -358,6 +358,20 @@ function bvng_preprocess_node(&$variables) {
   /* Get also tagged
    */
   $variables['also_tagged'] = _bvng_get_also_tag_links($variables['node']);
+  
+  /* Prepare event location
+   */
+  if (isset($variables['node']->type) && $variables['node']->type == 'event_ims') {
+  	$markup_location = '';
+  	$city = _bvng_get_field_value('node', $variables['node'], 'field_city');
+  	$venuecountry = _bvng_get_field_value('node', $variables['node'], 'field_venuecountry');
+  	$markup_location .= ($city == FALSE) ? '' : $city;
+  	$markup_location .= ($city == FALSE && $venuecountry == FALSE) ? '' : ', ';
+  	$markup_location .= ($venuecountry == FALSE) ? '' : $venuecountry;
+  }
+  if (strlen($markup_location) !== 0) {
+  	$variables['event_location'] = $markup_location;
+  }
 }
 
 /**
@@ -801,6 +815,26 @@ function _bvng_get_container_well() {
     'bottom' => '</div>' . "\n" . '</div>' . "\n" . '</div>',
   );
   return $well;
+}
+
+/**
+ * Helper function for getting the ready-to-print value of a field.
+ * 
+ * This is done by wrapping field_get_items() so it shares the same params.
+ * This function assumes only one value per language.
+ * @todo How do we deal with cases that have multiple values for a language? 
+ */
+function _bvng_get_field_value($entity_type, $entity, $field_name, $langcode = NULL) {
+  $field = field_get_items($entity_type, $entity, $field_name, $langcode);
+  if ($field === FALSE) {
+    return FALSE;
+  }
+  elseif (count($field) == 1) {
+    return $field[0]['value'];
+  }
+	else {
+	  return 'exception';
+	}
 }
 
 /**
