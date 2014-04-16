@@ -104,10 +104,6 @@ function bvng_preprocess_html(&$variables) {
 function bvng_preprocess_page(&$variables) {
 	$req_path = $variables['page']['content']['requested_path'];
 	$altered_path = FALSE ;
-	
-	/* @todo move menu_tree_set_path() and menu_set_active_item() outside the condition
-	 *       breaks the menu.
-	 */
 
 	if (!empty($variables['node']->type)) {
 		switch ($variables['node']->type) {
@@ -118,6 +114,10 @@ function bvng_preprocess_page(&$variables) {
 			case 'usesofdata':
 				$altered_path = drupal_get_normal_path('newsroom/uses'); // taxonomy/term/567
 				$variables['node']->type_title = t('Featured Data Use');
+				break;
+			case 'event_ims':
+				$altered_path = drupal_get_normal_path('newsroom/events'); // taxonomy/term/569
+				$variables['node']->type_title = t('Event Details');
 				break;
 		}
 	}
@@ -372,6 +372,7 @@ function bvng_preprocess_node(&$variables) {
   if (strlen($markup_location) !== 0) {
   	$variables['event_location'] = $markup_location;
   }
+  
 }
 
 /**
