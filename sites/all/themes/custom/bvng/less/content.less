@@ -389,6 +389,11 @@
   margin: 0px; 
 }
 
+.header-ruler {
+  margin-top: 0px; 
+  margin-bottom: 20px;
+}
+
 .field-name-field-citationinformation,
 .field-name-field-relatedgbifresources {
   border-top: 1px solid @page-header-border-color;
@@ -429,6 +434,10 @@
   padding-right: 0px;
 }
 
+.user-header {
+  margin: 0px 15px;
+}
+
 .generic-column {
   p {
     font-size: @font-size-large;
@@ -443,4 +452,101 @@ image won't shift it's position.
 */
 .views-slideshow-cycle-main-frame-row {
   width: 930px;
+}
+
+.user-login-row {
+  > .subscribe {
+    padding: 40px 25px 20px 25px;
+  }
+  
+  .form-item-name,
+  .form-item-pass {
+    width: 285px;
+  }
+
+  .form-item-pass {
+    margin-bottom: 0px;
+  }
+  
+  label {
+    color: @cGray80;
+  }
+  
+  input {
+    border-radius: 3px;
+  }
+  
+  .form-item-current-pass {
+    input {
+      width: 240px;
+    }
+  }
+  
+  .form-item-field-country-und {
+    select {
+      width: 240px;
+    }
+  }
+}
+
+.field-name-field-firstname,
+.field-name-field-lastname {
+  display: inline-block;
+  width: 49.5%;
+  padding-right: 10px;
+  input {
+    width: 295px;
+  }
+}
+
+.form-item-mail {
+  padding-right: 11px;
+}
+
+.user-login-action {
+  padding: 15px 15px 0px 15px;
+  p {
+    margin-bottom: 0px;
+    font-size: 14px;
+  }
+  button {
+    margin-top: 5px;
+  }
+}
+
+.profile {
+  .field-label {
+    font-size: 14px;
+    display: inline;
+    font-weight: normal;
+    text-transform: uppercase;
+  }
+  .field-items,
+  .field-item {
+    display: inline;
+  }
+  dl {
+    margin-bottom: 0px;
+  }
+  dt {
+    font-size: 14px;
+    display: inline;
+    font-weight: normal;
+    text-transform: uppercase;
+  }
+  dd {
+    display: inline;
+  }
+}
+
+.disclaimer {
+  background-color: #FDFFD8;
+  p {
+    color: @cGray2;
+    font-size: 13px;
+  }
+  img {
+    float: right;
+    margin-top: 8px;
+  }
 }

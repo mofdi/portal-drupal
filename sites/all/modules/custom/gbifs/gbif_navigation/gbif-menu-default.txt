@@ -85,6 +85,12 @@ Home {"url":"<front>","hidden":true}
 --Data sharing {"url":"disclaimer\/datasharing"}
 --Data use {"url":"disclaimer\/datause"}
 --Disclaimer {"url":"disclaimer"}
+-Log in to GBIF {"url":"<front>"}
+--Account {"url":"user\/login"}
+-Register new GBIF account {"url":"<front>", "description": "Please, register to the GBIF data portal for downloading data, or login if you already have an account"}
+--Account {"url":"user\/register"}
+-Request a new password {"url":"<front>", "description": "Please enter your username or the registered email address in order to reset your password"}
+--Account {"url":"user\/password"}
 -Misc {"url": "<front>", "hidden":true}
 --Contact {"url": "newsroom\/contact", "hidden":true}
 --Peer-reviewed publications {"url": "mendeley", "description":"(via Mendeley)"}

@@ -77,6 +77,7 @@
  * @see template_process()
  *
  * @see bvng_preprocess_node() $cchunks, $anchors and $elinks.
+ * @todo Use _bvng_get_field_value() to simplify the value retrieval.
  *
  * @ingroup themeable
  */

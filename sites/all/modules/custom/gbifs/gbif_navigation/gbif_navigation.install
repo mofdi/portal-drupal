@@ -21,7 +21,7 @@ function gbif_navigation_install() {
     $menu_file = drupal_get_path('module', 'gbif_navigation') . '/' . $menu['menu_name'] . '-default.txt';
     menu_import_file($menu_file, $menu['menu_name'], $options);
   }
-    
+  
   // Set the default menu to gbif-menu.
   variable_set('menu_main_links_source', 'gbif-menu');
   variable_set('menu_secondary_links_source', 'gbif-menu');

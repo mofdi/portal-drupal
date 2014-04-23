@@ -63,6 +63,6 @@
     <?php print $content ?>
   </div>
   <div class="sidebar-filter col-md-3">
-    <?php print bvng_get_more_search_options(arg(2)); ?>
+    <?php print _bvng_get_more_search_options(arg(2)); ?>
   </div>
 </div>

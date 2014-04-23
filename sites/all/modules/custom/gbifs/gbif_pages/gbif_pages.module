@@ -8,7 +8,7 @@
  * @see http://chacadwa.com/blog/2012/12/08/override-drupal-7-taxonomy-display-vocabulary
  * @see https://api.drupal.org/api/views/views.module/function/views_embed_view/7
  */
- 
+
 /**
  * Implements hook_menu_alter().
  */
@@ -67,8 +67,8 @@ function gbif_pages_views_register() {
 
 /**
  * Build custom term pages with associated views.
- * 
- * The logic assumes one view per term page. In case we need to 
+ *
+ * The logic assumes one view per term page. In case we need to
  * associate more than one view, we then add a condition and write
  * another custom function which should return $build.
  */
@@ -82,10 +82,10 @@ function gbif_pages_taxonomy_term_page($term) {
     drupal_add_html_head_link(array('rel' => 'canonical', 'href' => url($uri['path'], $uri['options'])), TRUE);
     // Set the non-aliased path as a default shortlink.
     drupal_add_html_head_link(array('rel' => 'shortlink', 'href' => url($uri['path'], array_merge($uri['options'], array('alias' => TRUE)))), TRUE);
-    
+
     // Every term page has a chance to show the description in taxaNavigation.
     $build = taxonomy_term_show($term);
-    
+
     // Attach view(s) depending on term-view relations.
     $markup = '';
     $view_count = 0;
@@ -105,7 +105,7 @@ function gbif_pages_taxonomy_term_page($term) {
 
     // Attach the final result to the page build.
     $build['members'] = array('#markup' => $markup);
-    
+
   }
   else {
     $build = taxonomy_term_page($term);
@@ -133,11 +133,11 @@ function gbif_pages_term_view_relation() {
     '566' => array( // newsroom/news
       'view' => 'newsarticles',
       'display' => 'page',
-    ), 
+    ),
     '567' => array( // newsroom/uses
       'view' => 'usesofdatafeaturedarticles',
       'display' => 'latest6',
-    ), 
+    ),
     '569' => array( // newsroom/events
       'view' => 'viewallevents',
       'display' => 'current',
@@ -145,7 +145,7 @@ function gbif_pages_term_view_relation() {
     '764' => array( // resources/summary
     	'view' => 'viewallresources',
     	'display' => 'latest5',
-    ),     
+    ),
   );
   return $relation;
 }

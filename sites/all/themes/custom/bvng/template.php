@@ -28,6 +28,21 @@ function bvng_theme() {
       'bvng_preprocess_user_login'
     ),
   );
+  $items['user_register_form'] = array(
+    'render element' => 'form',
+    'template' => 'templates/system/user-register',
+    'preprocess functions' => array(
+      'bvng_preprocess_user_register_form',
+    ),
+  );
+  $items['user_profile_form'] = array(
+    'render element' => 'form',
+    'template' => 'templates/system/user-profile-edit',
+  );
+  $items['user_pass'] = array(
+    'render element' => 'form',
+    'template' => 'templates/system/user-password',
+  );
   return $items;
 }
 
@@ -41,7 +56,7 @@ function bvng_preprocess_user_login() {
 function bvng_preprocess(&$variables, $hook) {
   $data_portal_base_url = variable_get('data_portal_base_url');
   $variables['data_portal_base_url'] = $data_portal_base_url;
-  
+
   /* The $current_path will change after setting active menu item,
    * therefore a requested_path value is inserted to content region
    * for regional processing.
@@ -100,6 +115,7 @@ function bvng_preprocess_html(&$variables) {
  *
  * @see gbif_navigation_node_view().
  * @see http://www.dibe.gr/blog/set-path-determining-active-trail-drupal-7-menu
+ * @see https://drupal.org/node/1292590 for setting active user menu.
  */
 function bvng_preprocess_page(&$variables) {
 	$req_path = $variables['page']['content']['requested_path'];
@@ -123,7 +139,7 @@ function bvng_preprocess_page(&$variables) {
 	}
 	elseif (strpos($req_path, 'allnewsarticles') !== FALSE) {
 		$altered_path = drupal_get_normal_path('newsroom/news'); // taxonomy/term/566
-	} 
+	}
 	elseif (strpos($req_path, 'alldatausearticles') !== FALSE) {
 		$altered_path = drupal_get_normal_path('newsroom/uses'); // taxonomy/term/567
 	}
@@ -133,40 +149,37 @@ function bvng_preprocess_page(&$variables) {
 	elseif (strpos($req_path, 'events') !== FALSE) {
 		$altered_path = drupal_get_normal_path('newsroom/events'); // taxonomy/term/569
 	}
-	
-	if ($altered_path) { 
-		menu_tree_set_path('gbif-menu', $altered_path);
-		menu_set_active_item($altered_path); 
+
+  //$source_menu = (strpos($req_path, 'user') !== FALSE) ? 'user-menu' : 'gbif-menu';
+	//$active_menu_item = menu_link_get_preferred(current_path(), 'gbif-menu');
+
+	if ($altered_path) {
+    menu_tree_set_path('gbif-menu', $altered_path);
+		menu_set_active_item($altered_path);
 	}
-	else {
+  elseif (drupal_match_path($req_path, "user") || drupal_match_path($req_path, "user/*")) {
+    menu_set_active_item('user');
+  }
+  else {
 		$active_path = menu_tree_get_path('gbif-menu');
 		menu_tree_set_path('gbif-menu', $active_path);
-		menu_set_active_item($req_path); 
+		menu_set_active_item($req_path);
 	}
-  
+
   if (isset($variables['page']['content']['system_main']['nodes'])) {
   	$node_count = _bvng_node_count($variables['page']['content']['system_main']['nodes']);
   }
-  $variables['page']['highlighted_title'] = _bvng_get_title_data($node_count = NULL);
-  
+  else {
+  	$node_count = NULL;
+  }
+  $variables['page']['highlighted_title'] = _bvng_get_title_data($node_count, $variables['user'], $req_path);
+
   // Manually set page title.
   if ($req_path == 'taxonomy/term/565') {
     drupal_set_title(t('GBIF Newsroom'));
   }
 
-  /* Load javascripts.
-   */
-  //drupal_add_js($data_portal_base_url . '/js/vendor/jquery.dropkick-1.0.0.js', array('type' => 'file', 'scope' => 'footer'));
-  //drupal_add_js($data_portal_base_url . '/js/vendor/jquery.uniform.min.js', array('type' => 'file', 'scope' => 'footer'));
-  //drupal_add_js($data_portal_base_url . '/js/vendor/mousewheel.js', array('type' => 'file', 'scope' => 'footer'));
-  //drupal_add_js($data_portal_base_url . '/js/vendor/jquery-scrollTo-1.4.2-min.js', array('type' => 'file', 'scope' => 'footer'));
-  //drupal_add_js($data_portal_base_url . '/js/vendor/underscore-min.js', array('type' => 'file', 'scope' => 'footer'));
-  //drupal_add_js($data_portal_base_url . '/js/helpers.js', array('type' => 'file', 'scope' => 'footer'));
-  //drupal_add_js($data_portal_base_url . '/js/graphs.js', array('type' => 'file', 'scope' => 'footer'));
-  //drupal_add_js($data_portal_base_url . '/js/vendor/resourcebundle.js', array('type' => 'file', 'scope' => 'footer'));
-  //drupal_add_js($data_portal_base_url . '/js/app.js', array('type' => 'file', 'scope' => 'footer'));
-  //drupal_add_js($data_portal_base_url . '/js/widgets.js', array('type' => 'file', 'scope' => 'footer'));
-
+  // _bvng_load_javascript()
 }
 
 /**
@@ -176,7 +189,7 @@ function bvng_preprocess_region(&$variables) {
   switch ($variables['region']) {
     case 'content':
       $req_path = $variables['elements']['requested_path'];
-      
+
       /* Only style outer wells at the region level for taxonomy/term pages and pages
        * with a filter sidebar. For the rest the well will be draw at the node level.
        */
@@ -189,7 +202,7 @@ function bvng_preprocess_region(&$variables) {
       }
 
     	$well_type = _bvng_well_types($req_path, $system_main);
-    	
+
     	switch ($well_type) {
         case 'filter':
           $variables['well_top'] = $well['filter']['top'];
@@ -204,6 +217,19 @@ function bvng_preprocess_region(&$variables) {
       }
       break;
 
+    case 'user':
+      $account_string = '';
+      if (isset($variables['user']->uid) && $variables['user']->uid !== 0) {
+        $account_string .= t('Hello') . ' ' . l($variables['user']->name . '! ', 'user/' . $variables['user']->uid . '/edit');
+        $account_string .= l(t('Logout'), 'user/logout');
+      }
+      else {
+        $account_string .= l(t('Log in'), 'user/login', array('query' => drupal_get_destination()));
+        $account_string .= ' or ';
+        $account_string .= l(t('Create a new account'), 'user/register');
+      }
+      $variables['account_string'] = $account_string;
+      break;
   }
 }
 
@@ -211,7 +237,7 @@ function bvng_preprocess_region(&$variables) {
  * Implements template_preprocess_block().
  */
 function bvng_preprocess_block(&$variables) {
-	
+
 	// We only need to work on the system main block.
 	if ($variables['block']->module == 'system' && $variables['block']->delta == 'main') {
 
@@ -251,24 +277,24 @@ function bvng_preprocess_block(&$variables) {
     if ($status == '404 Not Found') {
   		array_push($variables['theme_hook_suggestions'], 'block__system__main__404');
 
-		  $suggested_path = 'http://www-old.gbif.org/' . $variables['block']->requested_path; 
-  		
+		  $suggested_path = 'http://www-old.gbif.org/' . $variables['block']->requested_path;
+
 		  $suggested_text .= '<p>' . t('We are sorry for the inconvenience.') . '</p>';
 		  $suggested_text .= '<p>' . t('Did you try searching? Enter a keyword(s) in the search field above.') . '</p>';
 		  $suggested_text .= '<p>' . t('You may be following an out-dated link based on GBIF’s previous portal which was active until September 2013 – if so, you may find the content you are looking for !here', array('!here' => l('here', $suggested_path))) . '.</p>';
 		  $variables['content'] = $suggested_text;
-		  
+
     }
   }
-  
-  
+
+
 }
 
 /**
  * Implements hook_preprocess_node().
  */
 function bvng_preprocess_node(&$variables) {
-  
+
   /* Add theme hook suggestion for nodes of taxonomy/term/%
    */
   if (isset($variables['requested_path'])) {
@@ -311,7 +337,7 @@ function bvng_preprocess_node(&$variables) {
   	$variables['anchors'] = $anchors;
   	$variables['elinks'] = $elinks;
   }
-  
+
   /* Get footer fields for data use articles.
    */
   $node_footer = _bvng_get_node_footer_content($variables['node']);
@@ -336,7 +362,7 @@ function bvng_preprocess_node(&$variables) {
 	if (is_array($variables['tabs']['#primary'])) {
 		foreach ($variables['tabs']['#primary'] as $key => $item) {
 			// We don't need the view tab because we're already viewing it.
-		
+
 			switch ($item['#link']['title']) {
 				case 'View':
 					unset($variables['tabs']['#primary'][$key]);
@@ -352,13 +378,13 @@ function bvng_preprocess_node(&$variables) {
 					if (!in_array('administrator', $user->roles)) unset($variables['tabs']['#primary'][$key]);
 					break;
 			}
-		}		
+		}
 	}
-  
+
   /* Get also tagged
    */
   $variables['also_tagged'] = _bvng_get_also_tag_links($variables['node']);
-  
+
   /* Prepare event location
    */
   if (isset($variables['node']->type) && $variables['node']->type == 'event_ims') {
@@ -432,6 +458,44 @@ function bvng_preprocess_views_view_list(&$variables) {
 function bvng_preprocess_search_block_form(&$variables) {
 }
 
+/**
+ * Implements template_preprocess_user_profile().
+ */
+function bvng_preprocess_user_profile(&$variables) {
+  if (isset($variables)) {
+    $user = user_load($variables['user']->uid);
+    $name = _bvng_get_field_value('user', $user, 'field_firstname');
+    $name .= ' ';
+    $name .= _bvng_get_field_value('user', $user, 'field_lastname');
+    $variables['full_name'] = $name;
+
+    $edit_link = l('[' . t('Edit your account') . ']', 'user/' . $variables['user']->uid . '/edit');
+    $variables['edit_link'] = $edit_link;
+
+    $variables['user_profile']['field_country']['#title'] = t('Country');
+
+    unset($variables['user_profile']['summary']['#title']);
+  }
+}
+
+function bvng_preprocess_user_register_form(&$variables) {
+  if (isset($variables)) {
+  	$notice_icon = theme_image(array(
+  		'path' => drupal_get_path('theme', 'bvng') . '/images/notice_icon.png',
+  		'width' => 44,
+  		'height' => 44,
+  		'alt' => t('Disclaimer icon'),
+  		'title' => t('Disclaimer'),
+  		'attributes' => array(),
+  	));
+
+    $disclaimer = $notice_icon;
+    $disclaimer .= '<h3>' . t('Disclaimer') . '</h3>';
+    $disclaimer .= '<p>' . t('Any user accounts created may be deleted; users might need to recreate their accounts in the future. By registering with GBIF you agree to abide by the terms of usage set out !here.', array('!here' => l('here', 'disclaimer/datause'))) . '</p>';
+    $variables['disclaimer'] = $disclaimer;
+  }
+}
+
 function _bvng_well_types($req_path, $system_main) {
   // Term pages that has a special layout, hence no filter well.
   $special_layout = array(
@@ -444,7 +508,7 @@ function _bvng_well_types($req_path, $system_main) {
     'alldatausearticles',
     'events',
   );
-  
+
   // Determine giving filter sidebar or not.
   if (!empty($system_main['taxonomy_terms']) || !empty($system_main['term_heading']['term'])) {
     // If not a node page then the well is draw in the region level template.
@@ -454,8 +518,8 @@ function _bvng_well_types($req_path, $system_main) {
     }
     return 'filter';
   }
-  elseif (!empty($system_main['nodes'])) {
-    // If it's a node page then the well is draw in the node level template.
+  elseif (!empty($system_main['nodes']) || strpos($req_path, 'user') !== FALSE) {
+    // If it's a node page or the user page then the well is draw in the node/user level template.
     return 'none';
   }
   elseif ($req_path) {
@@ -474,13 +538,61 @@ function _bvng_well_types($req_path, $system_main) {
  *
  * The description is retrieved from the description of the menu item.
  */
-function _bvng_get_title_data($count) {
+function _bvng_get_title_data($node_count = NULL, $user = NULL, $req_path = NULL) {
   $status = drupal_get_http_header("status");
 
 	// This way disassociates the taxanavigation voc, is more reasonable, but a bit heavy.
 	// Only 'GBIF Newsroom' has a shorter name in the nav.
-	$active_menu_item = menu_link_get_preferred(current_path(), 'gbif-menu');
-	if ($active_menu_item) {
+	$source_menu = (strpos($req_path, 'user') !== FALSE) ? 'user-menu' : 'gbif-menu';
+	$active_menu_item = menu_link_get_preferred(current_path(), $source_menu);
+	if (strpos(current_path(), 'user') !== FALSE) {
+		switch ($req_path) {
+	    case 'user/login':
+    	  $title = array(
+    	   'name' => t('Login to GBIF'),
+    	   'description' => '',
+    	  );
+	      break;
+	    case 'user/register':
+    	  $title = array(
+    	   'name' => t('Register New GBIF Account'),
+    	   'description' => t('Please, register to the GBIF data portal for downloading data, or login if you already have an account'),
+    	  );
+    	  break;
+	    case 'user/password':
+	      $title = array(
+    	   'name' => t('Request a new password'),
+    	   'description' => t('Please enter your username or the registered email address in order to reset your password'),
+    	  );
+    	  break;
+	    default:
+        if (isset($user->uid) && $user->uid !== 0) {
+        	$user = user_load($user->uid);
+        	$name = '';
+        	$name .= _bvng_get_field_value('user', $user, 'field_firstname');
+        	$name .= ' ';
+        	$name .= _bvng_get_field_value('user', $user, 'field_lastname');
+	      	$title = array(
+    	   		'name' => $name,
+    	   		'description' => t('User account and personal settings'),
+    	  	);
+        }
+        elseif (isset($user->uid) && $user->uid == 0) {
+        	$title = array(
+        		'name' => t('Log in to GBIF'),
+        		'description' => '',
+        	);
+        }
+        break;
+	  }
+	}
+	elseif ($status == '404 Not Found') {
+	  $title = array(
+	   'name' => t("Hmm, the page can't be found"),
+	   'description' => t('404 Not Found'),
+	  );
+	}
+	elseif ($active_menu_item) {
 		$parent = menu_link_load($active_menu_item['plid']);
 		$title = array(
 			 'mild' => $parent['mlid'],
@@ -491,17 +603,11 @@ function _bvng_get_title_data($count) {
 	elseif (strpos(current_path(), 'taxonomy/term') !== FALSE) {
 		$term = taxonomy_term_load(arg(2));
 		$title = array(
-			'name' => format_plural($count,
+			'name' => format_plural($node_count,
 			  'Item tagged with "@term"',
 				'Items tagged with "@term"',
 				array('@term' => $term->name)),
 		);
-	}
-	elseif ($status == '404 Not Found') {
-	  $title = array(
-	   'name' => t("Hmm, the page can't be found"),
-	   'description' => t('404 Not Found'),
-	  );
 	}
 	return $title;
 }
@@ -514,7 +620,7 @@ function _bvng_get_title_data($count) {
  */
 function _bvng_get_sidebar_content($nid, $vid) {
   $node = node_load($nid, $vid);
-  
+
   if ($node) {
     switch ($node->type) {
       case 'newsarticle':
@@ -595,8 +701,8 @@ function _bvng_get_node_footer_content($node) {
         }
       }
       break;
-  }            
-  
+  }
+
   return $markup;
 }
 
@@ -669,7 +775,7 @@ function _bvng_get_sidebar_fields($type) {
     	}
     }
   }
-  return $fields; 
+  return $fields;
 }
 
 function _bvng_get_tag_links(&$field_items, &$item_list) {
@@ -697,7 +803,7 @@ function _bvng_get_sidebar_tags_definition($type) {
         'field_regions',
         'field_organizations',
       );
-  }  
+  }
 }
 
 function _bvng_get_regional_links() {
@@ -741,7 +847,7 @@ function _bvng_get_more_search_options($tid) {
   $path_dataset = $data_portal_base_url . '/dataset/search?q=' . $term->name;
   $links .= '<li>' . l($link_text, $path_dataset) . '</li>';
 
-  // Countries  
+  // Countries
   if ($voc->machine_name == 'countries') {
   	$iso2 = field_get_items('taxonomy_term', $term, 'field_iso2');
   	$path_country = $data_portal_base_url . '/country/' . $iso2[0]['value'];
@@ -762,7 +868,7 @@ function _bvng_get_more_search_options($tid) {
   $link_text = t('Species');
   $path_species = $data_portal_base_url . '/species';
   $links .= '<li>' . l($link_text, $path_species) . '</li>';
-  
+
   $links .= '</ul>';
   return $links;
 }
@@ -782,13 +888,13 @@ function _bvng_get_also_tag_links($node) {
     	}
     }
   }
-  
+
 	$item_list = array(
 	 'items' => array(),
 	);
 
 	_bvng_get_tag_links($terms, $item_list);
-		
+
 	$term_links = '';
 
 	if (!empty($item_list['items'])) {
@@ -820,10 +926,10 @@ function _bvng_get_container_well() {
 
 /**
  * Helper function for getting the ready-to-print value of a field.
- * 
+ *
  * This is done by wrapping field_get_items() so it shares the same params.
  * This function assumes only one value per language.
- * @todo How do we deal with cases that have multiple values for a language? 
+ * @todo How do we deal with cases that have multiple values for a language?
  */
 function _bvng_get_field_value($entity_type, $entity, $field_name, $langcode = NULL) {
   $field = field_get_items($entity_type, $entity, $field_name, $langcode);
@@ -840,7 +946,7 @@ function _bvng_get_field_value($entity_type, $entity, $field_name, $langcode = N
 
 /**
  * Helper function for counting node number in a taxonomy term view.
- * @todo If taxonomy/term/% is implemented using views, then this function 
+ * @todo If taxonomy/term/% is implemented using views, then this function
  *       may not be necessary.
  * @param  The node array in page element array.
  * @return (int) $count.
@@ -854,5 +960,22 @@ function _bvng_node_count($nodes) {
   }
 	$count = count($nodes);
 	return $count;
-  
+}
+
+/**
+ *
+ */
+function _bvng_load_javascript() {
+  /* Load javascripts.
+   */
+  drupal_add_js($data_portal_base_url . '/js/vendor/jquery.dropkick-1.0.0.js', array('type' => 'file', 'scope' => 'footer'));
+  drupal_add_js($data_portal_base_url . '/js/vendor/jquery.uniform.min.js', array('type' => 'file', 'scope' => 'footer'));
+  drupal_add_js($data_portal_base_url . '/js/vendor/mousewheel.js', array('type' => 'file', 'scope' => 'footer'));
+  drupal_add_js($data_portal_base_url . '/js/vendor/jquery-scrollTo-1.4.2-min.js', array('type' => 'file', 'scope' => 'footer'));
+  drupal_add_js($data_portal_base_url . '/js/vendor/underscore-min.js', array('type' => 'file', 'scope' => 'footer'));
+  drupal_add_js($data_portal_base_url . '/js/helpers.js', array('type' => 'file', 'scope' => 'footer'));
+  drupal_add_js($data_portal_base_url . '/js/graphs.js', array('type' => 'file', 'scope' => 'footer'));
+  drupal_add_js($data_portal_base_url . '/js/vendor/resourcebundle.js', array('type' => 'file', 'scope' => 'footer'));
+  drupal_add_js($data_portal_base_url . '/js/app.js', array('type' => 'file', 'scope' => 'footer'));
+  drupal_add_js($data_portal_base_url . '/js/widgets.js', array('type' => 'file', 'scope' => 'footer'));
 }

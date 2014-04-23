@@ -31,16 +31,7 @@
 <?php if ($content): ?>
   <div class="<?php print $classes; ?>">
     <div class="account">
-    <?php
-      if ($user->uid == 0) {
-        print l(t('Log in'), 'user/login', array('query' => drupal_get_destination()));
-        print ' or <a href="/user/register">Create a new account</a>';
-      }
-      else {
-        print t('Hello !username! ', array('!username' => theme('username', array('account' => $user))));
-        print l(t('Log out'), '/user/logout', array('attributes' => array('class' => array('logout'))));
-      }
-    ?>
+      <?php print $account_string; ?>
     </div>
   </div>
 <?php endif; ?>

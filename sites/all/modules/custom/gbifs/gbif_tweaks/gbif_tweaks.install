@@ -14,12 +14,15 @@ function gbif_tweaks_install() {
 
   // Change the default theme to bvng.
   theme_enable(array(
-    'bvng'
+    'bvng',
   ));
   theme_disable(array(
     'vizz2'
   ));
+
+  // Set the default theme.
   variable_set('theme_default', 'bvng');
+  variable_set('admin_theme', 'gbifgreen');
   
   // Make it easier for administration
   // and uninstall unused modules
@@ -39,6 +42,7 @@ function gbif_tweaks_install() {
     'jquery_update',
     'views_slideshow',
     'views_slideshow_cycle',
+    'chosen',
   ));
   
   // jquery_update settings.
@@ -81,7 +85,9 @@ function gbif_tweaks_uninstall() {
   theme_disable(array(
     'bvng'
   ));
-  variable_set('theme_default', 'vizz2');
+  theme_enable(array(
+    'vizz2',
+  ));
   
   // Revert the admin menu.
   module_disable(array(

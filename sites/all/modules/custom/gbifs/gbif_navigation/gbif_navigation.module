@@ -64,6 +64,13 @@ function gbif_navigation_block_info_alter(&$block, $theme, $code_blocks) {
       $block['menu_block']['gbif_navigation_menu_tabs']['region'] = 'menu';
       $block['menu_block']['gbif_navigation_menu_tabs']['title'] = '<none>';
 
+      $block['menu_block']['gbif_navigation_user_menu_tabs']['weight'] = 5;
+      $block['menu_block']['gbif_navigation_user_menu_tabs']['status'] = 1;
+      $block['menu_block']['gbif_navigation_user_menu_tabs']['region'] = 'menu';
+      $block['menu_block']['gbif_navigation_user_menu_tabs']['title'] = '<none>';
+      $block['menu_block']['gbif_navigation_user_menu_tabs']['visibility'] = BLOCK_VISIBILITY_LISTED;
+      $block['menu_block']['gbif_navigation_user_menu_tabs']['pages'] = "user/*";
+
       $block['menu_block']['gbif_navigation_footer_links']['weight'] = 0;
       $block['menu_block']['gbif_navigation_footer_links']['status'] = 1;
       $block['menu_block']['gbif_navigation_footer_links']['region'] = 'links';
@@ -96,6 +103,17 @@ function gbif_navigation_menu_block_blocks() {
       'title_link'  => 0,
       'admin_title' => 'Menu tabs',
       'level'       => 3,
+      'follow'      => 0,
+      'depth'       => 1,
+      'expanded'    => 0,
+      'sort'        => 0,
+    ),
+    'gbif_navigation_user_menu_tabs' => array(
+      'menu_name'   => 'user-menu',
+      'parent_mlid' => 0,
+      'title_link'  => 0,
+      'admin_title' => 'User menu tabs',
+      'level'       => 1,
       'follow'      => 0,
       'depth'       => 1,
       'expanded'    => 0,
@@ -240,16 +258,36 @@ function gbif_navigation_menu_local_tasks_alter(&$data, $router_item, $root_path
 /**
  * Implements hook_menu().
  */
-/*
 function gbif_navigation_menu() {
-  $items['newsroom/summary'] = array(
-    'title' => 'Summary',
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
+  $items = array();
+  $items['download'] = array(
+    'title' => t('Downloads'),
+    'description' => 'Download history.',
+    'page callback' => 'gbif_navigation_download_history',
+    'access callback' => 'user_is_logged_in',
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'user-menu',
+    'weight' => 5
   );
   return $items;
 }
-*/
+
+
+function gbif_navigation_menu_alter(&$items) {
+  //$items['user']['menu_name'] = 'gbif-menu';
+  //$items['user']['tab-parent'] = '<front>';
+  //$items['user/%user']['menu_name'] = 'gbif-menu';
+  
+  
+  //$items['user/%user/edit']['title'] = 'Account';
+  //$items['user/%user/edit']['description'] = 'User account and personal settings';
+  //$items['user/%user/edit']['menu-name'] = 'gbif-menu';
+  //$items['user/%user/edit']['tab-parent'] = 'user';
+  //$items['user/%user/edit']['title'] = 'Account';
+  //$items['user/%user/edit']['description'] = 'User account and personal settings';
+  //$items['user/%user/edit']['menu-name'] = 'gbif-menu';
+  //$items['user/%user/edit']['tab-parent'] = 'user';
+}
 
 /**
  * Implements hook_help().
@@ -263,3 +301,9 @@ function gbif_navigation_help($path, $arg) {
   }
 }
 */
+
+function gbif_navigation_download_history() {
+  $data_portal_base_url = variable_get('data_portal_base_url');
+  $path = $data_portal_base_url . '/user/download';
+  drupal_goto($path, array('external' => TRUE));
+}

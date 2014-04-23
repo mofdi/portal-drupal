@@ -34,6 +34,29 @@
  * @ingroup themeable
  */
 ?>
-<div class="profile"<?php print $attributes; ?>>
-  <?php print render($user_profile); ?>
+<div class="container">
+  <div class="row">
+    <div class="col-md-9 well well-lg well-margin-top">
+
+      <div class="row">
+        <div class="content-header user-header">
+          <h2>Your GBIF account</h2>
+          <hr class="header-ruler">
+        </div>
+      </div>
+
+      <div class="row user-login-row">
+        <div class="subscribe">
+          <div class="profile"<?php print $attributes; ?>>
+            <?php print $full_name . ' ' . $edit_link; ?>
+            <br>
+            <?php print render($user_profile['field_country']); ?>
+            <?php print render($user_profile['summary']); ?>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>
+
