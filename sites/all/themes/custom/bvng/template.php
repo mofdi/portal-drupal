@@ -135,6 +135,10 @@ function bvng_preprocess_page(&$variables) {
 				$altered_path = drupal_get_normal_path('newsroom/events'); // taxonomy/term/569
 				$variables['node']->type_title = t('Event Details');
 				break;
+			case 'resource_ims':
+				$altered_path = drupal_get_normal_path('resources/summary'); // taxonomy/term/569
+				$variables['node']->type_title = t('Resource Details');
+				break;				
 		}
 	}
 	elseif (strpos($req_path, 'allnewsarticles') !== FALSE) {
@@ -149,18 +153,17 @@ function bvng_preprocess_page(&$variables) {
 	elseif (strpos($req_path, 'events') !== FALSE) {
 		$altered_path = drupal_get_normal_path('newsroom/events'); // taxonomy/term/569
 	}
-
-  //$source_menu = (strpos($req_path, 'user') !== FALSE) ? 'user-menu' : 'gbif-menu';
-	//$active_menu_item = menu_link_get_preferred(current_path(), 'gbif-menu');
+	elseif (drupal_match_path($req_path, "user") || drupal_match_path($req_path, "user/*")) {
+		$altered_path = 'user' ;
+	}
 
 	if ($altered_path) {
-    menu_tree_set_path('gbif-menu', $altered_path);
+		if ($altered_path != 'user' ) {
+			menu_tree_set_path('gbif-menu', $altered_path); // can't use menu_tree_set_path for user, it'll mess the tabs. 
+		}
 		menu_set_active_item($altered_path);
 	}
-  elseif (drupal_match_path($req_path, "user") || drupal_match_path($req_path, "user/*")) {
-    menu_set_active_item('user');
-  }
-  else {
+	else {
 		$active_path = menu_tree_get_path('gbif-menu');
 		menu_tree_set_path('gbif-menu', $active_path);
 		menu_set_active_item($req_path);

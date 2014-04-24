@@ -154,8 +154,11 @@ function gbif_navigation_node_view($node, $view_mode, $langcode) {
 		menu_tree_set_path('gbif-menu', 'taxonomy/term/567'); // newsroom/uses
 	break;
 		case 'event_ims':
-		menu_tree_set_path('gbif-menu', 'taxonomy/term/569'); // newsroom/uses
-	break;  	
+		menu_tree_set_path('gbif-menu', 'taxonomy/term/569'); // newsroom/events
+	break;
+		case 'resource_ims':
+		menu_tree_set_path('gbif-menu', 'taxonomy/term/764'); // resources/summary 
+	break; 		
 	}
 }
 
