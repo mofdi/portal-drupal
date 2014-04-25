@@ -12,6 +12,7 @@ include_once(drupal_get_path('theme', 'bvng') . '/templates/menu/menu-tree.func.
 include_once(drupal_get_path('theme', 'bvng') . '/templates/menu/menu-link.func.php');
 include_once(drupal_get_path('theme', 'bvng') . '/templates/bootstrap/bootstrap-search-form-wrapper.func.php');
 include_once(drupal_get_path('theme', 'bvng') . '/templates/system/status-messages.func.php');
+include_once(drupal_get_path('theme', 'bvng') . '/templates/system/button.func.php');
 
 
 /**
