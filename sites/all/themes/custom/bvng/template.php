@@ -186,6 +186,14 @@ function bvng_preprocess_page(&$variables) {
     drupal_set_title(t('GBIF Newsroom'));
   }
 
+  // Load javascript only when needed.
+  switch ($req_path) {
+    case 'node/223': // contact/directoryofcontacts
+      drupal_add_js(drupal_get_path('theme', 'bvng') . '/js/contacts.js', array('type' => 'file', 'scope' => 'footer'));
+      break;
+  }
+
+
   // _bvng_load_javascript()
 }
 
@@ -1064,6 +1072,5 @@ function _bvng_load_javascript() {
   drupal_add_js($data_portal_base_url . '/js/helpers.js', array('type' => 'file', 'scope' => 'footer'));
   drupal_add_js($data_portal_base_url . '/js/graphs.js', array('type' => 'file', 'scope' => 'footer'));
   drupal_add_js($data_portal_base_url . '/js/vendor/resourcebundle.js', array('type' => 'file', 'scope' => 'footer'));
-  drupal_add_js($data_portal_base_url . '/js/app.js', array('type' => 'file', 'scope' => 'footer'));
   drupal_add_js($data_portal_base_url . '/js/widgets.js', array('type' => 'file', 'scope' => 'footer'));
 }

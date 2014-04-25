@@ -7623,11 +7623,36 @@ image won't shift it's position.
   margin-top: 8px;
 }
 .table-bordered {
-  border-left: 0;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  border-spacing: 0;
+  border-left: 0;
+}
+.table-bordered th {
+  color: #666666;
+  font-size: 14px;
+}
+.table-bordered td {
+  color: #666666;
+  font-size: 14px;
+}
+.table-bordered td .contactName {
+  text-decoration: underline;
+  font-style: italic;
+}
+.table-bordered td .contactPosition,
+.table-bordered td .contactInstitution {
+  color: #999999;
+  font-size: 13px;
+  padding-left: 5px;
+}
+.table-bordered td .address {
+  color: #999999;
+  padding-left: 5px;
+  margin-bottom: 5px;
+}
+.table-bordered td .address span {
+  display: block;
 }
 button > a {
   color: #ffffff;

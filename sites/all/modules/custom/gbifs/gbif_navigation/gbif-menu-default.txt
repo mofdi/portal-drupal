@@ -58,7 +58,7 @@ Community {"url":"participation\/summary"}
 --Nodes Portal Toolkit {"url":"capacityenhancement\/npt"}
 --Capacity programmes {"url":"capacityenhancement\/capacityprogrammes"}
 --Regional collaboration {"url":"capacityenhancement\/regionalcollaboration"}
--Resources {"url":"resources\/summary", "description": "Tools and information to support the GBIF community"}
+-Resources {"url":"resources\/summary", "description": "Tools and information to support the GBIF community (look template.php for changing this particular item.)"}
 --Summary {"url":"resources\/summary"}
 ---Archive of all Resources {"url":"resources\/archive"}
 --Key information {"url":"resources\/keyinformation"}
