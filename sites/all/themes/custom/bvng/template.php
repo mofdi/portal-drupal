@@ -230,7 +230,7 @@ function bvng_preprocess_region(&$variables) {
         $account_string .= l(t('Logout'), 'user/logout');
       }
       else {
-        $account_string .= l(t('Log in'), 'user/login', array('query' => drupal_get_destination()));
+        $account_string .= l(t('Login'), 'user/login', array('query' => drupal_get_destination()));
         $account_string .= ' or ';
         $account_string .= l(t('Create a new account'), 'user/register');
       }
