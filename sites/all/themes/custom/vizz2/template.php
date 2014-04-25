@@ -247,10 +247,7 @@ function get_title_data() {
 	$trail = menu_get_active_trail() ;
 	$taxon = taxonomy_get_term_by_name($trail[2]['title'], $navigation_vocab ) ;
 	reset ( $taxon ) ;
-	$temp = current($taxon);
-	$desc = strip_tags($temp->description);
-	$temp->description = $desc ;
-	return $temp ;
+	return current( $taxon ) ;
 }
 
 function vizz2_menu_tree($variables){

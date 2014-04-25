@@ -35,7 +35,7 @@
 <?php $taxon = get_title_data() ; ?>
 
   <title property="dc:title">
-  <?php print $taxon->name?>&nbsp;&dash;&nbsp;<?php if ($taxon->description != '') print $taxon->description ; else print $head_title;  ?></title>
+  <?php print $taxon->name?>&nbsp;&dash;&nbsp;<?php if ($taxon->description != '') print strip_tags($taxon->description) ; else print $head_title;  ?></title>
   <meta name="description" content="">
   <meta name="author" content="GBIF">
   <link rel="shortcut icon" href="<?php print ($dataportal_base_url); ?>/img/favicon/favicon_32x32.ico">
