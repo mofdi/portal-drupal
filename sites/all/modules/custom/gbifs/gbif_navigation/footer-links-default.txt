@@ -1,7 +1,7 @@
 Join the community {"url":"<nolink>"}
 -Join GBIF Community Site {"url":"http:\/\/community.gbif.org\/"}
--Sign up to GBits newsletter {"url":"http:\/\/www.gbif.org\/newsroom\/summary\/#signup"}
--GBIF Online Resource Centre {"url":"http:\/\/www.gbif-dev.org\/dataset"}
+-Sign up to GBits newsletter {"url":"newsroom\/summary\/#signup"}
+-GBIF Online Resource Centre {"url":"resource\/summary"}
 Who's participating {"url":"<nolink>"}
 -Countries {"url":"participation\/list#voting"}
 -Organizations {"url":"participation/list#other"}

@@ -138,7 +138,10 @@ function bvng_preprocess_page(&$variables) {
 			case 'resource_ims':
 				$altered_path = drupal_get_normal_path('resources/summary'); // taxonomy/term/569
 				$variables['node']->type_title = t('Resource Details');
-				break;				
+				break;
+			case 'generictemplate':
+        if (drupal_match_path($req_path, 'node/241')) $altered_path = 'user';
+			  break;
 		}
 	}
 	elseif (strpos($req_path, 'allnewsarticles') !== FALSE) {
@@ -153,13 +156,13 @@ function bvng_preprocess_page(&$variables) {
 	elseif (strpos($req_path, 'events') !== FALSE) {
 		$altered_path = drupal_get_normal_path('newsroom/events'); // taxonomy/term/569
 	}
-	elseif (drupal_match_path($req_path, "user") || drupal_match_path($req_path, "user/*")) {
+	elseif (drupal_match_path($req_path, 'user') || drupal_match_path($req_path, 'user/*')) {
 		$altered_path = 'user' ;
 	}
 
 	if ($altered_path) {
 		if ($altered_path != 'user' ) {
-			menu_tree_set_path('gbif-menu', $altered_path); // can't use menu_tree_set_path for user, it'll mess the tabs. 
+			menu_tree_set_path('gbif-menu', $altered_path); // can't use menu_tree_set_path for user, it'll mess the tabs.
 		}
 		menu_set_active_item($altered_path);
 	}
@@ -633,6 +636,12 @@ function _bvng_get_title_data($node_count = NULL, $user = NULL, $req_path = NULL
     	   'description' => t('Please enter your username or the registered email address in order to reset your password'),
     	  );
     	  break;
+	    case 'node/241':
+	      $title = array(
+    	   'name' => t('Thanks for registering!'),
+    	   'description' => t('Please verify your email address'),
+    	  );
+    	  break;
 	    default:
         if (isset($user->uid) && $user->uid !== 0) {
         	$user = user_load($user->uid);
@@ -661,12 +670,22 @@ function _bvng_get_title_data($node_count = NULL, $user = NULL, $req_path = NULL
 	  );
 	}
 	elseif ($active_menu_item) {
-		$parent = menu_link_load($active_menu_item['plid']);
-		$title = array(
-			 'mild' => $parent['mlid'],
-			 'name' => ($parent['link_title'] == 'GBIF News') ? 'GBIF Newsroom' : $parent['link_title'],
-			 'description' => $parent['options']['attributes']['title'],
-		);
+		// The resource/summary and resources/keyinformation are shared by two menu parents
+		// so we force the title here.
+		if (drupal_match_path($req_path, 'taxonomy/term/764') || drupal_match_path($req_path, 'node/234')) {
+		  $title = array(
+		    'name' => t('Resources'),
+		    'description' => t('Tools and information to support the GBIF community'),
+		  );
+		}
+		else {
+		  $parent = menu_link_load($active_menu_item['plid']);
+		  $title = array(
+		      'mild' => $parent['mlid'],
+		      'name' => ($parent['link_title'] == 'GBIF News') ? 'GBIF Newsroom' : $parent['link_title'],
+		      'description' => $parent['options']['attributes']['title'],
+		  );
+		}
 	}
 	elseif (strpos(current_path(), 'taxonomy/term') !== FALSE) {
 		$term = taxonomy_term_load(arg(2));
