@@ -90,10 +90,9 @@
       <?php if ((!$page && !empty($title)) || !empty($title_prefix) || !empty($title_suffix) || $display_submitted): ?>
       <div class="row">
         <header class="content-header col-md-12">
-          <h3><?php print render($type_title); ?></h3>
           <?php print render($title_prefix); ?>
           <?php if (!empty($title)): ?>
-          <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
+          <h2<?php print $title_attributes; ?>><?php print $title; ?></h2>
           <?php endif; ?>
           <?php print render($title_suffix); ?>
         </header>
@@ -101,7 +100,6 @@
       <?php endif; ?>
       <div class="row">
         <div class="node-content col-md-8">
-          Generic template in effect.
 
           <?php if ($display_submitted && user_is_logged_in()): ?>
           <div class="submitted">
@@ -112,14 +110,13 @@
           </div>
           <?php endif; ?>
 
-          <?php print render($body); ?>
+          <?php print render($content['body']); ?>
+
         </div>
         <div class="node-sidebar col-md-3">
-    			<?php
-    			  if (!empty($node->field_image)) {
-    				  print render(field_view_field('node', $node, 'field_image', array('settings' => array('image_style' => 'mainimage'))));
-    			  }
-    			?>
+    			<?php if (!empty($node->field_image)): ?> 
+    			<?php print render(field_view_field('node', $node, 'field_image', array('settings' => array('image_style' => 'mainimage')))); ?>
+    			<?php endif; ?>
         </div>
       </div>
     </div>
@@ -127,18 +124,19 @@
 </div>
 <?php endif; ?>
 </article>
+
 <?php $cchunks_count = count($cchunks); ?>
 <?php foreach ($cchunks as $k => $cchunk): ?>
   <?php $top_well = (empty($body) && $k == 0) ? ' well-margin-top': ''; ?>
   <?php $last_well = ($k == $cchunks_count - 1) ? ' well-margin-bottom': ''; ?>
   <article>
-    <div class="container well well-lg<?php print $top_well.$last_well; ?>">
+    <div class="container well well-lg<?php print $top_well . $last_well; ?>">
       <div class="row">
         <div class="col-md-12">
           <div class="row">
             <header class="content-header col-md-12">
-      				<?php if (!empty($cchunk->field_title['und']['0']['value'])): ?>
-      					<h2><?php print $cchunk->field_title['und']['0']['value']; ?></h2>
+      				<?php if (!empty($cchunks_title[$k])): ?>
+      					<h2><?php print $cchunks_title[$k]; ?></h2>
       				<?php endif; ?>
             </header>
           </div>
@@ -146,32 +144,12 @@
       </div>
       <div class="row">
         <div class="node-content col-md-8">
-  				<?php print token_replace($cchunk->field_sectioncontent['und']['0']['value']); ?>
+  				<?php print token_replace($cchunks_content[$k]); ?>
         </div>
         <div class="node-sidebar col-md-3">
-    			<?php if (!empty($anchors[$k]->field_anchorlinkslisttitle['und']['0']['value'])): ?>
-    				<h3><?php print $anchors[$k]->field_anchorlinkslisttitle['und']['0']['value'] ?></h3>
-    			<?php endif; ?>
-    			<?php if ($anchors[$k]->field_anchorlink['und']): ?>
-    			  <ul class="tags">
-    			    <?php foreach ($anchors[$k]->field_anchorlink['und'] as $anchor): ?>
-    			      <?php print '<li><a href="#'.$anchor['link'].'">'.$anchor['title'].'</a></li>'; ?>
-    			    <?php endforeach; ?>
-    			  </ul>
-    			<?php endif; ?>
-    			<?php if (!empty($elinks)): ?>
-    			  <?php foreach ($elinks as $elink): ?>
-    			    <h3><?php print $elink->field_externallinkslisttitle['und']['0']['value']; ?></h3>
-    			    <ul class="tags">
-    			      <?php foreach ($elink->field_externallink['und'] as $lk => $xlink): ?>
-    			        <li>
-    			          <?php print l($xlink['title'], $xlink['url']); ?>
-    			        </li>
-    			      <?php endforeach; ?>
-    			    </ul>
-    			  <?php endforeach; ?>
-    			<?php endif; ?>
-
+          <?php if (!empty($cchunks_sidebar[$k])): ?>
+          <?php print $cchunks_sidebar[$k]; ?>
+          <?php endif; ?>
         </div>
       </div>
 

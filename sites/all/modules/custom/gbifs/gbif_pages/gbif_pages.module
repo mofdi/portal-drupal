@@ -149,3 +149,11 @@ function gbif_pages_term_view_relation() {
   );
   return $relation;
 }
+
+function gbif_pages_form_alter(&$form, &$form_state, $form_id) {
+  switch ($form_id) {
+    case 'generictemplate_node_form':
+      $form['body']['#suffix'] = '<p>' . t('For full-width images, please use 877 pixels as the width and make sure the dimensions are provided in the "Appearance" tab of the image dialogue box.') . '</p>';
+      break;
+  }
+}

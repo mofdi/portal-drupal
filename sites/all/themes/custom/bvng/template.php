@@ -319,7 +319,8 @@ function bvng_preprocess_node(&$variables) {
     $variables['next_node'] = $next_node;
   }
 
-  /* Prepare $cchunks, $anchors and $elinks for type "generic template"
+  /* Prepare $cchunks, $anchors and $elinks for type "generictemplate"
+   * @see http://drupal.stackexchange.com/questions/35355/accessing-a-field-collection
    */
   // Prepare $cchunks.
   if ($variables['node']->type == 'generictemplate' && !empty($variables['field_cchunk'])) {
@@ -328,17 +329,79 @@ function bvng_preprocess_node(&$variables) {
   	foreach ($fields_collection as $idx => $data) $cchunks[$idx] = field_collection_item_load($fields_collection[$idx]['value']);
   	$variables['cchunks'] = $cchunks;
 
-  	// Prepare $anchors and $elinks.
+
+  	// Prepare title, content and sidebar for each chunk.
+  	$cchunks_title = array();
+  	$cchunks_content = array();
+  	$cchunks_sidebar = array();
   	$anchors = array();
   	$elinks = array();
+
   	foreach ($variables['cchunks'] as $k => $cchunk) {
-  	  $anchors[$k] = field_collection_item_load($cchunk->field_anchorlinkslist['und'][0]['value']);
-  	  foreach ($cchunk->field_externallinkslist['und'] as $i => $eblock) {
-  	    $elinks[$k][$i] = field_collection_item_load($eblock['value']);
-  	  }
+  	  $cchunks_title[$k] = _bvng_get_field_value('field_collection_item', $cchunk, 'field_title');
+  	  $cchunks_content[$k] = _bvng_get_field_value('field_collection_item', $cchunk, 'field_sectioncontent');
+
+      $sidebar_fields = array(
+        'anchors' => 'field_anchorlinkslist',
+        'elinks' => 'field_externallinkslist',
+      );
+      foreach ($sidebar_fields as $var => $sidebar_field) {
+    	  $field_links = array();
+        $field_links[] = field_get_items('field_collection_item', $cchunk, $sidebar_field);
+        foreach ($field_links as $i => $field_link) {
+          foreach ($field_link as $f_link) {
+            $cat_var = &$$var;
+          	$cat_var[$k][] = field_collection_item_load($f_link['value']);
+          }
+        }
+      }
+
+      $cchunks_sidebar[$k] = '';
+
+      if (!empty($anchors[$k])) {
+        foreach ($anchors[$k] as $anchor) {
+          if ($anchor !== FALSE) {
+            $anchors_title = _bvng_get_field_value('field_collection_item', $anchor, 'field_anchorlinkslisttitle');
+            $anchors_links = _bvng_get_field_value('field_collection_item', $anchor, 'field_anchorlink');
+
+            $cchunks_sidebar[$k] .= '<h3>' . $anchors_title . '</h3>';
+            $cchunks_sidebar[$k] .= '<ul class="tags">';
+            foreach ($anchors_links as $anchors_link) {
+              $cchunks_sidebar[$k] .= '<li><a href="#' . $anchors_link['link'] . '">' . $anchors_link['title'] . '</a></li>';
+            }
+            $cchunks_sidebar[$k] .= '</ul>';
+          }
+        }
+      }
+
+      if (!empty($elinks[$k])) {
+        foreach ($elinks[$k] as $elink) {
+        	if ($elink !== FALSE) {
+          	$elinks_title = _bvng_get_field_value('field_collection_item', $elink, 'field_externallinkslisttitle');
+          	$elinks_links = _bvng_get_field_value('field_collection_item', $elink, 'field_externallink');
+
+          	$cchunks_sidebar[$k] .= '<h3>' . $elinks_title . '</h3>';
+          	$cchunks_sidebar[$k] .= '<ul class="tags">';
+          	foreach ($elinks_links as $elinks_link) {
+          		$link = array(
+          				'#theme' => 'link',
+          				'#text' => $elinks_link['title'],
+          				'#path' => $elinks_link['url'],
+          				'#options' => array('attributes' => $elinks_link['attributes']),
+          				'#prefix' => '<li>',
+          				'#suffix' => '</li>',
+          		);
+          		$cchunks_sidebar[$k] .= render($link);
+          	}
+          	$cchunks_sidebar[$k] .= '</ul>';
+        	}
+        }
+      }
   	}
-  	$variables['anchors'] = $anchors;
-  	$variables['elinks'] = $elinks;
+
+    $variables['cchunks_title'] = $cchunks_title;
+    $variables['cchunks_content'] = $cchunks_content;
+    $variables['cchunks_sidebar'] = $cchunks_sidebar;
   }
 
   /* Get footer fields for data use articles.
@@ -401,7 +464,7 @@ function bvng_preprocess_node(&$variables) {
   if (strlen($markup_location) !== 0) {
   	$variables['event_location'] = $markup_location;
   }
-  
+
 }
 
 /**
@@ -460,6 +523,8 @@ function bvng_preprocess_views_view_list(&$variables) {
 
 function bvng_preprocess_search_block_form(&$variables) {
 }
+
+
 
 /**
  * Implements template_preprocess_user_profile().
@@ -931,19 +996,19 @@ function _bvng_get_container_well() {
  * Helper function for getting the ready-to-print value of a field.
  *
  * This is done by wrapping field_get_items() so it shares the same params.
- * This function assumes only one value per language.
- * @todo How do we deal with cases that have multiple values for a language?
+ * If there is only one value per language, return the value directly.
+ * Otherwise return the array.
  */
 function _bvng_get_field_value($entity_type, $entity, $field_name, $langcode = NULL) {
   $field = field_get_items($entity_type, $entity, $field_name, $langcode);
   if ($field === FALSE) {
     return FALSE;
   }
-  elseif (count($field) == 1) {
+  elseif (count($field) == 1 && isset($field[0]['value'])) {
     return $field[0]['value'];
   }
 	else {
-	  return 'exception';
+	  return $field;
 	}
 }
 
