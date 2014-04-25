@@ -628,7 +628,7 @@ while ( $row < $resultsize ) {
 
 } 
 
-$PList = '<table style="" class="table table-bordered table-stripped"><tbody><tr><th width="30%">Participant</th><th>Delegation members</th></tr>';
+$PList = '<table style="" class="table table-curved"><tbody><tr><th width="30%">Participant</th><th>Delegation members</th></tr>';
 
 foreach ( $participants as $p => $data ) {
 	$PList .= "<tr><td>{$p}</td><td>";
@@ -672,7 +672,7 @@ function _gbifims_get_SecretariatList () {
 
 	$result = db_query('SELECT * FROM gbifims_Contact WHERE GBIF_Staff = 1 ORDER BY GBIF_Order') ;
 
-	$CList = '<table style="" class="table table-bordered table-stripped"><tbody>';
+	$CList = '<table style="" class="table table-curved"><tbody>';
 	// <thead><tr><th colspan="2" >'.$options[1].'</th><tr></thead>
 	foreach ( $result as $row) {
 		$CList .= "<tr><td>
@@ -747,7 +747,7 @@ function _gbifims_get_CommitteeList( $committee ) {
 
 
 	// hook_theme? What hook_theme... :-| 	
-	$CList = '<table style="" class="table table-bordered table-stripped"><tbody>';
+	$CList = '<table style="" class="table table-curved"><tbody>';
 	// <thead><tr><th colspan="2" >'.$options[1].'</th><tr></thead>
 	foreach ( $result as $row) {
 		$contactNameCSS = $row->Name_First == 'pending' ? '':'contactName' ; 		// remove class for "pending" so it's not clickable
@@ -814,7 +814,7 @@ function _gbifims_get_NCList( ) {
 
 	// hook_theme? What hook_theme... :-| 
 
-	$CList = '<table style="" class="table table-bordered table-stripped"><tbody>';
+	$CList = '<table style="" class="table table-curved"><tbody>';
 	// <thead><tr><th colspan="2" >'.$options[1].'</th><tr></thead>
 	foreach ( $result as $row) {
 		$contactNameCSS = $row->Name_First == 'pending' ? '':'contactName' ; 		// remove class for "pending" so it's not clickable
@@ -835,7 +835,7 @@ function _gbifims_get_NCList( ) {
 					</div>
 				</div>
 			</div>
-		</td><td width='18%'>$row->GroupRoleName</td><td width='20%'>$row->Name_Short</td>";
+		</td><td width='20%'>$row->GroupRoleName</td><td width='2%'>$row->Name_Short</td>";
 	}
 	$CList .= '</tbody></table>' ;
 

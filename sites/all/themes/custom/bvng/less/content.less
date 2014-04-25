@@ -552,27 +552,56 @@ image won't shift it's position.
   }
 }
 
-.table-bordered {
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  border-left: 0;
+// @see http://stackoverflow.com/questions/18729638/rounded-tables-in-twitter-bootstrap-3
+.table-curved {
+  border-collapse: separate;
+}
+.table-curved {
+  border: solid @table-border-color 1px;
+  border-radius: @table-radius;
+  border-left:0px;
+  border-top: none;
+}
+.table-curved td, .table-curved th {
+  border-left: 1px solid @table-border-color;
+  //border-top: 1px solid @table-border-color;
+}
+.table-curved th {
+  //border-top: none;
+}
+.table-curved th:first-child {
+  border-radius: @table-radius 0 0 0;
+}
+.table-curved th:last-child {
+  border-radius: 0 @table-radius 0 0;
+}
+.table-curved th:only-child{
+  border-radius: @table-radius @table-radius 0 0;
+}
+.table-curved tr:last-child td:first-child {
+  border-radius: 0 0 0 @table-radius;
+}
+.table-curved tr:last-child td:last-child {
+  border-radius: 0 0 @table-radius 0;
+}
 
+.table-curved {
   th {
     color: @cGray2;
-    font-size: 14px;
+    font-size: 13px;
   }
   td {
     color: @cGray2;
-    font-size: 14px;
+    font-size: 13px;
     .contactName {
       text-decoration: underline;
       font-style: italic;
+      margin-bottom: 3px;
     }
     .contactPosition,
     .contactInstitution {
       color: @cGray3;
-      font-size: 13px;
+      font-size: 12px;
       padding-left: 5px;
     }
     .address {

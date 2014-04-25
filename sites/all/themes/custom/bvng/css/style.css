@@ -7622,36 +7622,59 @@ image won't shift it's position.
   float: right;
   margin-top: 8px;
 }
-.table-bordered {
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
+.table-curved {
+  border-collapse: separate;
+}
+.table-curved {
+  border: solid #dddddd 1px;
   border-radius: 4px;
-  border-left: 0;
+  border-left: 0px;
+  border-top: none;
 }
-.table-bordered th {
+.table-curved td,
+.table-curved th {
+  border-left: 1px solid #dddddd;
+}
+.table-curved th:first-child {
+  border-radius: 4px 0 0 0;
+}
+.table-curved th:last-child {
+  border-radius: 0 4px 0 0;
+}
+.table-curved th:only-child {
+  border-radius: 4px 4px 0 0;
+}
+.table-curved tr:last-child td:first-child {
+  border-radius: 0 0 0 4px;
+}
+.table-curved tr:last-child td:last-child {
+  border-radius: 0 0 4px 0;
+}
+.table-curved th {
   color: #666666;
-  font-size: 14px;
+  font-size: 13px;
 }
-.table-bordered td {
+.table-curved td {
   color: #666666;
-  font-size: 14px;
+  font-size: 13px;
 }
-.table-bordered td .contactName {
+.table-curved td .contactName {
   text-decoration: underline;
   font-style: italic;
+  margin-bottom: 3px;
 }
-.table-bordered td .contactPosition,
-.table-bordered td .contactInstitution {
+.table-curved td .contactPosition,
+.table-curved td .contactInstitution {
   color: #999999;
-  font-size: 13px;
+  font-size: 12px;
   padding-left: 5px;
 }
-.table-bordered td .address {
+.table-curved td .address {
   color: #999999;
   padding-left: 5px;
   margin-bottom: 5px;
 }
-.table-bordered td .address span {
+.table-curved td .address span {
   display: block;
 }
 button > a {
