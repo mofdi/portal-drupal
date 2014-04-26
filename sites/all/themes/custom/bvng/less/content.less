@@ -432,7 +432,10 @@
 }
 
 .content-header {
-  padding-right: 0px;
+	padding-right: 0px;
+	/* distance between header and the gray border from the next <div>
+	no need to specifically target individual elements inside header */
+	margin-bottom: 15px;
 }
 
 .user-header {
@@ -614,4 +617,28 @@ image won't shift it's position.
     }
   }
 }
+.node-resource-ims {
+	.node-content {
+		.field-name-body {
+			.field-label {
+				text-transform: uppercase;
+				font-weight: normal;
+				font-size: 13px;
+			}
+		}
+	}
+}
 
+.field-name-field-authors,
+.field-name-field-publisher,
+.field-name-field-target-audience,
+.field-name-field-contributors,
+.field-name-field-rights,
+.field-name-field-rights-holder {
+	.field-label {
+		text-transform: uppercase;
+		font-weight: normal;
+		font-size: 13px;
+	}
+	margin-bottom: 18px;
+}

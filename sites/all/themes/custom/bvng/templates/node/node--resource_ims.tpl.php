@@ -86,15 +86,15 @@
       <article id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
         <?php if ((!$page && !empty($title)) || !empty($title_prefix) || !empty($title_suffix) || $display_submitted): ?>
         <div class="row">
-          <header class="content-header col-md-12">
-            <h3><?php print render($type_title); ?></h3>
-            <?php print render($title_prefix); ?>
-            <?php if (!empty($title)): ?>
-            <h2<?php print $title_attributes; ?>><?php print $title; ?></h2>
-			<p><?php print render($content['field_alternative_title']); ?></p>
-            <?php endif; ?>
-            <?php print render($title_suffix); ?>
-          </header>
+			<header class="content-header col-md-8">
+				<h3><?php print render($type_title); ?></h3>
+				<?php print render($title_prefix); ?>
+				<?php if (!empty($title)): ?>
+					<h2<?php print $title_attributes; ?>><?php print $title; ?></h2>
+					<?php print render($content['field_alternative_title']); ?>
+				<?php endif; ?>
+				<?php print render($title_suffix); ?>
+			</header>
         </div>
         <?php endif; ?>
         <div class="row">
@@ -115,6 +115,12 @@
               hide($content['links']);
               hide($content['field_tags']);
               print render($content['body']);
+              print render($content['field_authors']);
+              print render($content['field_publisher']);
+              print render($content['field_target_audience']);
+              print render($content['field_contributors']);
+              print render($content['field_rights']);
+              print render($content['field_rights_holder']);
             ?>
             <?php if (!empty($content['field_tags']) || !empty($content['links'])): ?>
             <footer>
