@@ -111,16 +111,6 @@ function bvng_preprocess_html(&$variables) {
 }
 
 
-function bvng_preprocess_field(&$variables) {
-
-	if ( $variables['element']['#field_name'] == 'field_contributors') {
-		$bb = '1234';
-		$a = 'bau!' ;
-
-	}
-
-}
-
 /**
  * Implements template_preprocess_page().
  *
