@@ -50,7 +50,7 @@ See http://api.drupal.org/api/function/theme_field/7 for details.
 After copying this file to your theme's folder and customizing it, remove this
 HTML comment.
 -->
-<?php if ($items[0]['#markup'] != '') { ?>
+<?php if ($items[0]['#markup'] != '') : ?>
 	<div class="<?php print $classes; ?>"<?php print $attributes; ?>>
 		<?php if (!$label_hidden): ?>
 			<div class="field-label"<?php print $title_attributes; ?>><?php print $label ?>:&nbsp;</div>
@@ -61,4 +61,4 @@ HTML comment.
 			<?php endforeach; ?>
 		</div>
 	</div>
-<?php } ?>
+<?php endif ?>
