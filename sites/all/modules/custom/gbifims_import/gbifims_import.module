@@ -107,7 +107,7 @@ switch ($_GET['ot'])
 				$newnode->status = 1;
 				$newnode->created = time();
 				$newnode->changed = $newnode->created;
-				$newnode->comment = 2;
+				$newnode->comment = 0; 
 				$newnode->promote = 1;
 				$newnode->sticky = 0;
 				$newnode->field_original_ims_id["und"][0]["value"] = $ridi;
@@ -165,7 +165,7 @@ switch ($_GET['ot'])
 				$newnode->status = 1;
 				// $newnode->created is useless if you avoid node_submit()! You need to change $node-date ;
 				$newnode->date = $DOPublication ;
-				$newnode->comment = 2;
+				$newnode->comment = 0;
 				$newnode->promote = 0;
 				$newnode->sticky = 0;
 				$newnode->field_orc_original_ims_id["und"][0]["value"] = $ridi;
@@ -251,7 +251,7 @@ switch ($_GET['ot'])
 			$newnode->status = 1;
 			// $newnode->created = time(); // We want to respect this one
 			$newnode->changed = time();
-			$newnode->comment = 2;
+			$newnode->comment = 0;
 			$newnode->promote = 1;
 			$newnode->sticky = 0;
 			$newnode->field_original_ims_id["und"][0]["value"] = $ridi;
@@ -303,7 +303,7 @@ switch ($_GET['ot'])
 					$newnode->status = 1;
 					// $newnode->created = time();
 					$newnode->changed = time();
-					$newnode->comment = 2;
+					$newnode->comment = 0;
 					$newnode->promote = 1;
 					$newnode->sticky = 0;
 					// $newnode->field_orc_original_ims_id["und"][0]["value"] = $ridi;

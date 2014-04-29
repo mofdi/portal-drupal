@@ -132,7 +132,9 @@
 
           </div>
           <div class="node-sidebar col-md-3">
-            <?php
+            <?php print render($content['field_orc_resource_thumbnail']) ; ?>
+			<div><a href="http://imsgbif.gbif.org/CMS_ORC/?doc_id=<?php print render($content['field_orc_original_ims_id']) ; ?>&download=1"><span>Download<?php print render($content['field_size_text'])?></span></a></div>
+			<?php
               print $sidebar;
             ?>
           </div>

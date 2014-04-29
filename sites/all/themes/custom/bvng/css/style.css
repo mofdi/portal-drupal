@@ -7647,7 +7647,8 @@ image won't shift it's position.
 .table-curved td .address span {
   display: block;
 }
-.node-resource-ims .node-content .field-name-body .field-label {
+.node-resource-ims .node-content .field-name-body .field-label,
+.node-event-ims .node-content .field-name-body .field-label {
   text-transform: uppercase;
   font-weight: normal;
   font-size: 13px;
