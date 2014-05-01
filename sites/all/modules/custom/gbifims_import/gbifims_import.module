@@ -101,9 +101,10 @@ switch ($_GET['ot'])
 				$newnode->language = "und";
 				$newnode->name = $array_event_details["Name_Full"];
 				$newnode->title = $newnode->name;
-				$newnode->body["und"][0]["value"] = $array_event_details["Desc_Short"];
-				$newnode->body["und"][0]["summary"] = substr($array_event_details["Desc_Short"],0,200)."...";
-				$newnode->uid = 64;
+				$newnode->body['und'][0]['value'] = $array_event_details["Desc_Short"];
+				$newnode->body['und'][0]['summary'] = substr($array_event_details["Desc_Short"],0,200)."...";
+				$newnode->body['und'][0]['format'] = 'filtered_html'; 
+				$newnode->uid = 64;  
 				$newnode->status = 1;
 				$newnode->created = time();
 				$newnode->changed = $newnode->created;
@@ -111,22 +112,49 @@ switch ($_GET['ot'])
 				$newnode->promote = 1;
 				$newnode->sticky = 0;
 				$newnode->field_original_ims_id["und"][0]["value"] = $ridi;
-				$newnode->field_image_url["und"][0]["value"] = $array_event_details["image_url"];
-				$newnode->field_audience["und"][0]["value"] = $array_event_details["audience"];
-				$newnode->field_contact["und"][0]["value"] = $array_event_details["HowToContact"];
-				$newnode->field_venue["und"][0]["value"] = $array_event_details["venue"];
-				$newnode->field_city["und"][0]["value"] = $array_event_details["city"];
-				$newnode->field_venuecountry["und"][0]["value"] = $array_event_details["country"];			
-				$newnode->field_dates["und"][0]["value"] = $array_event_details["Date_Text"];
-				$newnode->field_status["und"][0]["value"] = $array_event_details["status"];
-				$newnode->field_language["und"][0]["value"] = $array_event_details["Language"];
-				$newnode->field_resources["und"][0]["value"] = $array_event_details["resources"];
-				$newnode->field_participants["und"][0]["value"] = $array_event_details["participants"];
-				// $newnode->field_type_images = $array_event_details["Desc_Short"];
-				$newnode->field_start_date["und"][0]["value"] = $array_event_details["startdate"];
+				
+				$fields = array (	'image_url'=>'image_url',
+									'audience'=>'audience',
+									'HowToContact'=>'contact',
+									'venue'=>'venue',
+									'city'=>'city',
+									'country'=>'venuecountry',
+									'Date_Text'=>'dates',
+									'status'=>'status',
+									'Language'=>'language',
+									'resources'=>'resources',
+									'participants'=>'participants',
+									'relatedparticipants'=>'country',
+									'region'=>'regions',
+								) ;
+
+								
+				foreach ( $fields as $fms => $drupal ) {
+					if ( !empty( trim( $array_event_details[$fms] ))) {
+						$newnode->{"field_".$drupal}["und"][0]["value"] = $array_event_details[$fms] ;
+					} 
+				}
+				
+				if ( !empty( trim( $array_event_details["startdate"] ))) { $newnode->field_start_date["und"][0]["value"] = $array_event_details["startdate"]; }
 				$newnode->field_start_date["und"][0]["date_type"] = "datestamp";
-				if (!empty($array_event_details["region"])) {$newnode->field_regions["und"][] = array('tid' => $array_event_details["region"],);}
-				if (!empty($array_event_details["relatedparticipants"])) {$newnode->field_country["und"] = $array_event_details["relatedparticipants"];}	
+
+				/*
+				if ( !empty( trim( $array_event_details["image_url"] ))) { $newnode->field_image_url["und"][0]["value"] = $array_event_details["image_url"] ;	}
+				if ( !empty( trim( $array_event_details["audience"] ))) { $newnode->field_audience["und"][0]["value"] =  $array_event_details["audience"] ; }
+				if ( !empty( trim( $array_event_details["HowToContact"] ))) { $newnode->field_contact["und"][0]["value"] = $array_event_details["HowToContact"] ; }
+				if ( !empty( trim( $array_event_details["venue"] ))) { $newnode->field_venue["und"][0]["value"] = $array_event_details["venue"] ; }
+				if ( !empty( trim( $array_event_details["city"] ))) { $newnode->field_city["und"][0]["value"] = $array_event_details["city"] ; }
+				if ( !empty( trim( $array_event_details["country"] ))) { $newnode->field_venuecountry["und"][0]["value"] =  $array_event_details["country"] ; }
+				if ( !empty( trim( $array_event_details["Date_Text"] ))) { $newnode->field_dates["und"][0]["value"] = $array_event_details["Date_Text"] ; }
+				if ( !empty( trim( $array_event_details["status"] ))) { $newnode->field_status["und"][0]["value"] = $array_event_details["status"] ; }
+				if ( !empty( trim( $array_event_details["Language"] ))) { $newnode->field_language["und"][0]["value"] = $array_event_details["Language"] ; }
+				if ( !empty( trim( $array_event_details["resources"] ))) { $newnode->field_resources["und"][0]["value"] = $array_event_details["resources"] ; }
+				if ( !empty( trim( $array_event_details["participants"] ))) { $newnode->field_participants["und"][0]["value"] = $array_event_details["participants"] ; }
+				// $newnode->field_type_images = $array_event_details["Desc_Short"];
+				if ( !empty( trim( $array_event_details["region"] ))) {$newnode->field_regions["und"][] = array('tid' => $array_event_details["region"],);}
+				if ( !empty( trim( $array_event_details["relatedparticipants"] ))) {$newnode->field_country["und"] = $array_event_details["relatedparticipants"];}	
+				*/
+				
 				if ($newnode = node_submit($newnode)) {
 					node_save($newnode);
 
@@ -161,36 +189,59 @@ switch ($_GET['ot'])
 				$newnode->title = $newnode->name;
 				$newnode->body["und"][0]["value"] = $array_resource_details["Description"];
 				$newnode->body["und"][0]["summary"] = substr($array_resource_details["Description"],0,200)."...";
-				$newnode->uid = 64;
+				$newnode->body['und'][0]['format'] = 'filtered_html'; 
+				$newnode->uid = 64; 
 				$newnode->status = 1;
 				// $newnode->created is useless if you avoid node_submit()! You need to change $node-date ;
 				$newnode->date = $DOPublication ;
 				$newnode->comment = 0;
 				$newnode->promote = 0;
 				$newnode->sticky = 0;
+				$newnode->field_publishing_date["und"][0]["value"] = $UDOPublication ;				
 				$newnode->field_orc_original_ims_id["und"][0]["value"] = $ridi;
-				$newnode->field_authors["und"][0]["value"] = $array_resource_details["Author"];
-				$newnode->field_alternative_title["und"][0]["value"] = $array_resource_details["AlternativeTitle"];
-				$newnode->field_publisher["und"][0]["value"] = $array_resource_details["Publisher"];
-				$newnode->field_publishing_date["und"][0]["value"] = $UDOPublication ;
-				$newnode->field_target_audience["und"][0]["value"] = $array_resource_details["Audience"];			
-				$newnode->field_abstract["und"][0]["value"] = $array_resource_details["Abstract"];
-				$newnode->field_bibliographic_citation["und"][0]["value"] = $array_resource_details["BibliographicCitation"];
-				$newnode->field_contributors["und"][0]["value"] = $array_resource_details["Contributor"];
-				$newnode->field_rights["und"][0]["value"] = $array_resource_details["Rights"];
-				$newnode->field_rights_holder["und"][0]["value"] = $array_resource_details["RightsHolder"];
-				$newnode->field_number_downloads["und"][0]["value"] = (int)$array_resource_details["NumDownloads"];
-				$newnode->field_size_text["und"][0]["value"] = $array_resource_details["Size_Text"];								
 				
+				$fields = array (	'Author'=>'authors',
+								'AlternativeTitle'=>'alternative_title',
+								'Publisher'=>'publisher',
+								'Audience'=>'target_audience',
+								'Abstract'=>'abstract',
+								'BibliographicCitation'=>'bibliographic_citation',
+								'Contributor'=>'contributors',
+								'Rights'=>'rights',
+								'RightsHolder'=>'rights_holder',
+								'NumDownloads'=>'number_downloads',
+								'Size_Text'=>'size_text',
+								'Language'=>'orc_language',
+								'ResourceType'=>'resource_type',
+								'VersionSelector'=>'version_selector',) ;	
+				
+				foreach ( $fields as $fms => $drupal ) {
+					if ( !empty( trim( $array_resource_details[$fms] ))) {
+						$newnode->{"field_".$drupal}["und"][0]["value"] = $array_resource_details[$fms] ;
+					} 
+				}
+				/*
+				if ( !empty( trim( $array_resource_details["Author"] ))) { $newnode->field_authors["und"][0]["value"] = $array_resource_details["Author"] ; }
+				if ( !empty( trim( $array_resource_details["AlternativeTitle"] ))) { $newnode->field_alternative_title["und"][0]["value"] = $array_resource_details["AlternativeTitle"] ; }
+				if ( !empty( trim( $array_resource_details["Publisher"] ))) { $newnode->field_publisher["und"][0]["value"] = $array_resource_details["Publisher"]; }
+				if ( !empty( trim( $array_resource_details["Audience"] ))) { $newnode->field_target_audience["und"][0]["value"] = $array_resource_details["Audience"] ; }
+				if ( !empty( trim( $array_resource_details["Abstract"] ))) { $newnode->field_abstract["und"][0]["value"] = $array_resource_details["Abstract"] ; }
+				if ( !empty( trim( $array_resource_details["BibliographicCitation"] ))) { $newnode->field_bibliographic_citation["und"][0]["value"] = $array_resource_details["BibliographicCitation"] ; }
+				if ( !empty( trim( $array_resource_details["Contributor"] ))) { $newnode->field_contributors["und"][0]["value"] = $array_resource_details["Contributor"] ; }
+				if ( !empty( trim( $array_resource_details["Rights"] ))) { $newnode->field_rights["und"][0]["value"] = $array_resource_details["Rights"] ; }
+				if ( !empty( trim( $array_resource_details["RightsHolder"] ))) { $newnode->field_rights_holder["und"][0]["value"] = $array_resource_details["RightsHolder"] ; }
+				if ( !empty( trim( $array_resource_details["NumDownloads"] ))) { $newnode->field_number_downloads["und"][0]["value"] = (int)$array_resource_details["NumDownloads"] ; }
+				if ( !empty( trim( $array_resource_details["Size_Text"] ))) { $newnode->field_size_text["und"][0]["value"] = $array_resource_details["Size_Text"] ; }
+				if ( !empty( trim( $array_resource_details["Language"]))) { $newnode->field_orc_language["und"][0]["value"] = $array_resource_details["Language"] ; }
+				if ( !empty( trim( $array_resource_details["ResourceType"]))) { $newnode->field_resource_type["und"][0]["value"] = $array_resource_details["ResourceType"] ; }
+				if ( !empty( trim( $array_resource_details["VersionSelector"]))) { $newnode->field_version_selector["und"][0]["value"] = $array_resource_details["VersionSelector"] ; }
+				*/
 				$orc_featured = $array_resource_details["Featured"];
 				$newnode->field_orc_featured["und"][0]["value"] = ($orc_featured =='') ? 0 : (int)$orc_featured ;
 				
 				$orc_short_listed = $array_resource_details["ShortListed"];
 				$newnode->field_orc_short_listed["und"][0]["value"] = ($orc_short_listed =='') ? 0 : (int)$orc_short_listed ;
 				
-				$newnode->field_orc_language["und"][0]["value"] = $array_resource_details["Language"];
-				$newnode->field_resource_type["und"][0]["value"] = $array_resource_details["ResourceType"];
-				$newnode->field_version_selector["und"][0]["value"] = $array_resource_details["VersionSelector"];								
 				
 	//			if (!empty($array_resource_details["region"])) {$newnode->field_regions["und"][] = array('tid' => $array_resource_details["region"],);}
 	//			if (!empty($array_resource_details["relatedparticipants"])) {$newnode->field_country["und"] = $array_resource_details["relatedparticipants"];}	
@@ -255,23 +306,51 @@ switch ($_GET['ot'])
 			$newnode->promote = 1;
 			$newnode->sticky = 0;
 			$newnode->field_original_ims_id["und"][0]["value"] = $ridi;
-			$newnode->field_image_url["und"][0]["value"] = $array_event_details["image_url"];
-			$newnode->field_audience["und"][0]["value"] = $array_event_details["audience"];
-			$newnode->field_contact["und"][0]["value"] = $array_event_details["HowToContact"];
-			$newnode->field_venue["und"][0]["value"] = $array_event_details["venue"];
-			$newnode->field_city["und"][0]["value"] = $array_event_details["city"];
-			$newnode->field_venuecountry["und"][0]["value"] = $array_event_details["country"];
-			$newnode->field_dates["und"][0]["value"] = $array_event_details["Date_Text"];
-			$newnode->field_status["und"][0]["value"] = $array_event_details["status"];
-			$newnode->field_language["und"][0]["value"] = $array_event_details["Language"];
-			$newnode->field_resources["und"][0]["value"] = $array_event_details["resources"];
-			$newnode->field_participants["und"][0]["value"] = $array_event_details["participants"];
-			// $newnode->field_type_images = $array_event_details["Desc_Short"];
-			$newnode->field_start_date["und"][0]["value"] = $array_event_details["startdate"];
-			$newnode->field_start_date["und"][0]["date_type"] = "datestamp";			
-			if (!empty($array_event_details["region"])) {$newnode->field_regions["und"][] = array('tid' => $array_event_details["region"],);}
-			if (!empty($array_event_details["relatedparticipants"])) {$newnode->field_country["und"] = $array_event_details["relatedparticipants"];}	
 
+			// note "startdate" is missing from the array
+			$fields = array (	'image_url'=>'image_url',
+								'audience'=>'audience',
+								'HowToContact'=>'contact',
+								'venue'=>'venue',
+								'city'=>'city',
+								'country'=>'venuecountry',
+								'Date_Text'=>'dates',
+								'status'=>'status',
+								'Language'=>'language',
+								'resources'=>'resources',
+								'participants'=>'participants',
+								'relatedparticipants'=>'country',
+								'region'=>'regions',
+								) ;
+
+			foreach ( $fields as $fms => $drupal ) {
+				if ( !empty( trim( $array_event_details[$fms] ))) {
+					$newnode->{"field_".$drupal}["und"][0]["value"] = $array_event_details[$fms] ;
+				} else {
+					unset ( $newnode->{"field_".$fld}["und"][0]["value"] ) ;
+				}
+			}
+			
+			$newnode->field_start_date["und"][0]["value"] = $array_event_details["startdate"] ;
+			$newnode->field_start_date["und"][0]["date_type"] = "datestamp";
+			
+/*			if ( !empty( trim( $array_event_details["image_url"] ))) { unset ( $newnode->field_image_url["und"][0]["value"] ) ; }
+			if ( !empty( trim( $array_event_details["audience"] ))) { unset ( $newnode->field_audience["und"][0]["value"] = $array_event_details["audience"] ) ; }
+			if ( !empty( trim( $array_event_details["HowToContact"] ))) { unset ( $newnode->field_contact["und"][0]["value"] = $array_event_details["HowToContact"] ) ; }
+			if ( !empty( trim( $array_event_details["venue"] ))) { $newnode->field_venue["und"][0]["value"] = $array_event_details["venue"] ; }
+			if ( !empty( trim( $array_event_details["city"] ))) { $newnode->field_city["und"][0]["value"] = $array_event_details["city"] ; }
+			if ( !empty( trim( $array_event_details["country"] ))) { $newnode->field_venuecountry["und"][0]["value"] = $array_event_details["country"] ; }
+			if ( !empty( trim( $array_event_details["Date_Text"] ))) { $newnode->field_dates["und"][0]["value"] = $array_event_details["Date_Text"] ; }
+			if ( !empty( trim( $array_event_details["status"] ))) { $newnode->field_status["und"][0]["value"] = $array_event_details["status"] ; }
+			if ( !empty( trim( $array_event_details["Language"] ))) { $newnode->field_language["und"][0]["value"] = $array_event_details["Language"] ; }
+			if ( !empty( trim( $array_event_details["resources"] ))) { $newnode->field_resources["und"][0]["value"] = $array_event_details["resources"] ; }
+			if ( !empty( trim( $array_event_details["participants"] ))) { $newnode->field_participants["und"][0]["value"] = $array_event_details["participants"] ; }
+			if ( !empty( trim( $array_event_details["startdate"] ))) { $newnode->field_start_date["und"][0]["value"] = $array_event_details["startdate"] ; }
+			if (!empty($array_event_details["relatedparticipants"])) {$newnode->field_country["und"] = $array_event_details["relatedparticipants"];}
+			if (!empty($array_event_details["region"])) {$newnode->field_regions["und"][] = array('tid' => $array_event_details["region"],);} */
+
+
+			
 			if ($newnode = node_submit($newnode)) {
 				node_save($newnode);
 				node_load(FALSE, NULL, TRUE);
@@ -307,30 +386,54 @@ switch ($_GET['ot'])
 					$newnode->promote = 1;
 					$newnode->sticky = 0;
 					// $newnode->field_orc_original_ims_id["und"][0]["value"] = $ridi;
-					$newnode->field_authors["und"][0]["value"] = $array_resource_details["Author"];
-					$newnode->field_alternative_title["und"][0]["value"] = $array_resource_details["AlternativeTitle"];
-					$newnode->field_publisher["und"][0]["value"] = $array_resource_details["Publisher"];
-					$newnode->field_publishing_date["und"][0]["value"] = $array_resource_details["DateOfPublication"];
-					$newnode->field_target_audience["und"][0]["value"] = $array_resource_details["Audience"];			
-					$newnode->field_abstract["und"][0]["value"] = $array_resource_details["Abstract"];
-					$newnode->field_bibliographic_citation["und"][0]["value"] = $array_resource_details["BibliographicCitation"];
-					$newnode->field_contributors["und"][0]["value"] = $array_resource_details["Contributor"];
-					$newnode->field_rights["und"][0]["value"] = $array_resource_details["Rights"];
-					$newnode->field_rights_holder["und"][0]["value"] = $array_resource_details["RightsHolder"];
-					$newnode->field_number_downloads["und"][0]["value"] = $array_resource_details["NumDownloads"];
-					$newnode->field_size_text["und"][0]["value"] = $array_resource_details["Size_Text"];												
 					
+					$fields = Array (	'Author'=>'authors',
+									'AlternativeTitle'=>'alternative_title',
+									'Publisher'=>'publisher',
+									'DateOfPublication'=>'publishing_date',
+									'Audience'=>'audience',
+									'Abstract'=>'abstract',
+									'BibliographicCitation'=>'bibliographic_citation',
+									'Contributor'=>'contributors',
+									'Rights'=>'rights',
+									'RightsHolder'=>'rights_holder',
+									'NumDownloads'=>'number_downloads',
+									'Size_Text'=>'size_text',
+									'Language'=>'language',
+									'ResourceType'=>'resource_type',
+									'VersionSelector'=>'version_selector', );
+					foreach ( $fields as $fms => $drupal ) {
+						if ( !empty( trim( $array_resource_details[$fms] ))) {
+							$newnode->{"field_".$drupal}["und"][0]["value"] = $array_resource_details[$fms] ;
+						} else {
+							unset ( $newnode->{"field_".$fdrupal}["und"][0]["value"] ) ;
+						}
+					}
+					
+					/* 
+					if ( !empty( trim( $array_resource_details["Author"] ))) { $newnode->field_authors["und"][0]["value"] = $array_resource_details["Author"] ; }
+					if ( !empty( trim( $array_resource_details["AlternativeTitle"] ))) { $newnode->field_alternative_title["und"][0]["value"] = $array_resource_details["AlternativeTitle"] ; }
+					if ( !empty( trim( $array_resource_details["Publisher"] ))) { $newnode->field_publisher["und"][0]["value"] = $array_resource_details["Publisher"] ; }
+					if ( !empty( trim( $array_resource_details["DateOfPublication"] ))) { $newnode->field_publishing_date["und"][0]["value"] = $array_resource_details["DateOfPublication"] ; }
+					if ( !empty( trim( $array_resource_details["Audience"] ))) { $newnode->field_target_audience["und"][0]["value"] = $array_resource_details["Audience"] ; }
+					if ( !empty( trim( $array_resource_details["Abstract"] ))) { $newnode->field_abstract["und"][0]["value"] = $array_resource_details["Abstract"] ; }
+					if ( !empty( trim( $array_resource_details["BibliographicCitation"] ))) { $newnode->field_bibliographic_citation["und"][0]["value"] = $array_resource_details["BibliographicCitation"] ; }
+					if ( !empty( trim( $array_resource_details["Contributor"] ))) { $newnode->field_contributors["und"][0]["value"] = $array_resource_details["Contributor"] ; }
+					if ( !empty( trim( $array_resource_details["Rights"] ))) { $newnode->field_rights["und"][0]["value"] = $array_resource_details["Rights"] ; }
+					if ( !empty( trim( $array_resource_details["RightsHolder"] ))) { $newnode->field_rights_holder["und"][0]["value"] = $array_resource_details["RightsHolder"] ; }
+					if ( !empty( trim( $array_resource_details["NumDownloads"] ))) { $newnode->field_number_downloads["und"][0]["value"] = $array_resource_details["NumDownloads"] ; }
+					if ( !empty( trim( $array_resource_details["Size_Text"] ))) { $newnode->field_size_text["und"][0]["value"] = $array_resource_details["Size_Text"] ; }
+					if ( !empty( trim( $array_resource_details["Language"] ))) { $newnode->field_orc_language["und"][0]["value"] = $array_resource_details["Language"] ; }
+					if ( !empty( trim( $array_resource_details["ResourceType"] ))) { $newnode->field_resource_type["und"][0]["value"] = $array_resource_details["ResourceType"] ; }					
+					$newnode->field_version_selector["und"][0]["value"] = $array_resource_details["VersionSelector"];												
+					*/
 					$orc_featured = $array_resource_details["Featured"];
 					$newnode->field_orc_featured["und"][0]["value"] = ($orc_featured =='') ? 0 : (int)$orc_featured ;
 					
 					$orc_short_listed = $array_resource_details["ShortListed"];
 					$newnode->field_orc_short_listed["und"][0]["value"] = ($orc_short_listed =='') ? 0 : (int)$orc_short_listed ;
 
-					$newnode->field_orc_language["und"][0]["value"] = $array_resource_details["Language"];
-					$newnode->field_resource_type["und"][0]["value"] = $array_resource_details["ResourceType"];
-					$newnode->field_version_selector["und"][0]["value"] = $array_resource_details["VersionSelector"];												
-		//			if (!empty($array_resource_details["region"])) {$newnode->field_regions["und"][] = array('tid' => $array_resource_details["region"],);}
-		//			if (!empty($array_resource_details["relatedparticipants"])) {$newnode->field_country["und"] = $array_resource_details["relatedparticipants"];}	
+					
 					
 					// Create the file object
 					$image = file_get_contents($array_resource_details["image_url"]);
@@ -402,8 +505,8 @@ switch ($_GET['ot'])
 	default:
 		//
 		// generic process. It verfies the current list against the IMS
-		$MaxEventRecordsToUpdate = 25;
-		$MaxResourceRecordsToUpdate = 20;
+		$MaxEventRecordsToUpdate = 125;
+		$MaxResourceRecordsToUpdate = 120;
 		switch ($_GET['rt'])
 		{
 			case 'e':
@@ -576,7 +679,7 @@ switch ($_GET['ot'])
 				//		
 				$page_array['gbifims_import_arguments'] = array(
 				  '#title' => t('GBIF IMS data import'),
-				  '#markup' => "<h1>".t('EVENT SYNCHRONIZATION RESULTS')."</h1>"."<br /><p>".t('Number of existing elements NOT needing an update: ').$NumberIgnored.".<br />&nbsp;<br />".t('Number of elements to be added: ').$NumberAdditions.".<br />".t('Number of existing elements needing an update: ').$NumberUpdates.".<br />".t('Number of elements deactivated: ').$NumberDeletions.".<br />&nbsp;</p>",);
+				  '#markup' => "<h3>".t('EVENT SYNCHRONIZATION RESULTS')."</h3>"."<br /><p>".t('Number of existing elements NOT needing an update: ').$NumberIgnored.".<br />&nbsp;<br />".t('Number of elements to be added: ').$NumberAdditions.".<br />".t('Number of existing elements needing an update: ').$NumberUpdates.".<br />".t('Number of elements deactivated: ').$NumberDeletions.".<br />&nbsp;</p>",);
 				If ($dummycounter == $MaxEventRecordsToUpdate) {
 					$page_array['gbifims_import_arguments']['#markup'] .= "<p>".t('IMPORTANT NOTE: To avoid server overload, only ').$MaxEventRecordsToUpdate.t(' update operations are performed every time you call this script. Reload this page to continue the synchronization till this message dissapears.')."<br />&nbsp;<br />&nbsp;</p>";
 				}
@@ -738,7 +841,7 @@ switch ($_GET['ot'])
 				//		
 				$page_array['gbifims_import_arguments'] = array(
 				  '#title' => t('GBIF IMS data import'),
-				  '#markup' => "<h1>".t('RESOURCE SYNCHRONIZATION RESULTS')."</h1>"."<br /><p>".t('Number of existing elements NOT needing an update: ').$NumberIgnored.".<br />&nbsp;<br />".t('Number of elements to be added: ').$NumberAdditions.".<br />".t('Number of existing elements needing an update: ').$NumberUpdates.".<br />".t('Number of elements deactivated: ').$NumberDeletions.".<br />&nbsp;</p>",);
+				  '#markup' => "<h3>".t('RESOURCE SYNCHRONIZATION RESULTS')."</h3>"."<br /><p>".t('Number of existing elements NOT needing an update: ').$NumberIgnored.".<br />&nbsp;<br />".t('Number of elements to be added: ').$NumberAdditions.".<br />".t('Number of existing elements needing an update: ').$NumberUpdates.".<br />".t('Number of elements deactivated: ').$NumberDeletions.".<br />&nbsp;</p>",);
 				If ($dummycounter == $MaxResourceRecordsToUpdate) {
 					$page_array['gbifims_import_arguments']['#markup'] .= "<p>".t('IMPORTANT NOTE: To avoid server overload, only ').$MaxResourceRecordsToUpdate.t(' update operations are performed every time you call this script. Reload this page to continue the synchronization till this message dissapears.')."</p>";
 				}
