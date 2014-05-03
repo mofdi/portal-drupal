@@ -124,7 +124,6 @@ switch ($_GET['ot'])
 									'Language'=>'language',
 									'resources'=>'resources',
 									'participants'=>'participants',
-									'relatedparticipants'=>'country',
 									'region'=>'regions',
 								) ;
 
@@ -155,12 +154,11 @@ switch ($_GET['ot'])
 				if ( !empty( trim( $array_event_details["region"] ))) {$newnode->field_regions["und"][] = array('tid' => $array_event_details["region"],);}
 				if ( !empty( trim( $array_event_details["relatedparticipants"] ))) {$newnode->field_country["und"] = $array_event_details["relatedparticipants"];}	
 				*/
-				
-				if ($newnode = node_submit($newnode)) {
-					node_save($newnode);
 
+				if ( $newnode = node_submit($newnode) ) {
+					node_save($newnode);
 				} else {
-					echo "error!";
+					// On Error Resume Next
 				}
 			break; // End of Creating event
 			
@@ -508,7 +506,7 @@ switch ($_GET['ot'])
 	default:
 		//
 		// generic process. It verfies the current list against the IMS
-		$MaxEventRecordsToUpdate = 5;
+		$MaxEventRecordsToUpdate = 120;
 		$MaxResourceRecordsToUpdate = 120;
 		switch ($_GET['rt'])
 		{
@@ -528,16 +526,19 @@ switch ($_GET['ot'])
 				
 				fmsSetPage($ListPublicEvents_find,'ListPublicEvents',10000); 
 				
+				// $ListPublicEvents_find->setRange(0, $MaxEventRecordsToUpdate);
+
 				$ListPublicEvents_result = $ListPublicEvents_find->execute(); 
 				
 				if(FileMaker::isError($ListPublicEvents_result)) fmsTrapError($ListPublicEvents_result,"error.php"); 
 				
 				fmsSetLastPage($ListPublicEvents_result,'ListPublicEvents',10000); 
 				
+				
 				$ListPublicEvents_row = current($ListPublicEvents_result->getRecords());
 				
 				foreach($ListPublicEvents_result->getRecords() as $ListPublicEvents_row) {
-				$array_ListPublicEvents[$ListPublicEvents_row->getField('__kp_ID')] = array($ListPublicEvents_row->getField('zz__Modified_Timestamp__lxm'), "0");
+					$array_ListPublicEvents[$ListPublicEvents_row->getField('__kp_ID')] = array($ListPublicEvents_row->getField('zz__Modified_Timestamp__lxm'), "0");
 				}
 				
 				//
@@ -665,7 +666,7 @@ switch ($_GET['ot'])
 
 				foreach($array_UrlsToCall as $i => $url) {
 					If ($dummycounter < $MaxResourceRecordsToUpdate) {
-					// var_dump($url);
+					// echo "<a href='$url'>$url</a><br>";
 						$ch = curl_init($url);
 						curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5); 
 						curl_setopt( $ch, CURLOPT_TIMEOUT, 5);
