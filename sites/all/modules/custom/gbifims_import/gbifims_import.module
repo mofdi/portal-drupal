@@ -130,11 +130,12 @@ switch ($_GET['ot'])
 
 								
 				foreach ( $fields as $fms => $drupal ) {
-					if ( !empty( trim( $array_event_details[$fms] ))) {
+					// if ( !empty( trim( $array_event_details[$fms] ))) {
+						
 						$newnode->{"field_".$drupal}["und"][0]["value"] = $array_event_details[$fms] ;
-					} 
+					// } 
 				}
-				
+
 				if ( !empty( trim( $array_event_details["startdate"] ))) { $newnode->field_start_date["und"][0]["value"] = $array_event_details["startdate"]; }
 				$newnode->field_start_date["und"][0]["date_type"] = "datestamp";
 
@@ -159,7 +160,7 @@ switch ($_GET['ot'])
 					node_save($newnode);
 
 				} else {
-					// echo "error!";
+					echo "error!";
 				}
 			break; // End of Creating event
 			
@@ -216,9 +217,9 @@ switch ($_GET['ot'])
 								'VersionSelector'=>'version_selector',) ;	
 				
 				foreach ( $fields as $fms => $drupal ) {
-					if ( !empty( trim( $array_resource_details[$fms] ))) {
+					// if ( !empty( trim( $array_resource_details[$fms] ))) {
 						$newnode->{"field_".$drupal}["und"][0]["value"] = $array_resource_details[$fms] ;
-					} 
+					// } 
 				}
 				/*
 				if ( !empty( trim( $array_resource_details["Author"] ))) { $newnode->field_authors["und"][0]["value"] = $array_resource_details["Author"] ; }
@@ -327,7 +328,7 @@ switch ($_GET['ot'])
 				if ( !empty( trim( $array_event_details[$fms] ))) {
 					$newnode->{"field_".$drupal}["und"][0]["value"] = $array_event_details[$fms] ;
 				} else {
-					unset ( $newnode->{"field_".$fld}["und"][0]["value"] ) ;
+					unset ( $newnode->{"field_".$drupal}["und"] ) ;
 				}
 			}
 			
@@ -372,7 +373,7 @@ switch ($_GET['ot'])
 			// assigning values
 			//
 				$newnode = node_load($ridd);
-				
+				echo "bau!";
 				if ( $newnode ) { // because nobody guarantees that you can load it
 					$newnode->name = $array_resource_details["Name"];
 					$newnode->title = $newnode->name;
@@ -391,7 +392,7 @@ switch ($_GET['ot'])
 									'AlternativeTitle'=>'alternative_title',
 									'Publisher'=>'publisher',
 									'DateOfPublication'=>'publishing_date',
-									'Audience'=>'audience',
+									'Audience'=>'target_audience',
 									'Abstract'=>'abstract',
 									'BibliographicCitation'=>'bibliographic_citation',
 									'Contributor'=>'contributors',
@@ -406,7 +407,8 @@ switch ($_GET['ot'])
 						if ( !empty( trim( $array_resource_details[$fms] ))) {
 							$newnode->{"field_".$drupal}["und"][0]["value"] = $array_resource_details[$fms] ;
 						} else {
-							unset ( $newnode->{"field_".$fdrupal}["und"][0]["value"] ) ;
+							echo "<br> field_".$drupal;
+							unset( $newnode->{"field_".$drupal}['und'] ) ;
 						}
 					}
 					
@@ -453,6 +455,7 @@ switch ($_GET['ot'])
 
 					$newnode->field_orc_resource_thumbnail[LANGUAGE_NONE][0] = (array)$file;			
 
+					var_dump($newnode) ;
 					if ($newnode = node_submit($newnode)) {
 						node_save($newnode);
 						node_load(FALSE, NULL, TRUE);					
@@ -505,7 +508,7 @@ switch ($_GET['ot'])
 	default:
 		//
 		// generic process. It verfies the current list against the IMS
-		$MaxEventRecordsToUpdate = 125;
+		$MaxEventRecordsToUpdate = 5;
 		$MaxResourceRecordsToUpdate = 120;
 		switch ($_GET['rt'])
 		{
