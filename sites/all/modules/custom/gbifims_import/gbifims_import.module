@@ -327,7 +327,7 @@ switch ($_GET['ot'])
 
 			foreach ( $fields as $fms => $drupal ) {
 				$detail = trim( $array_event_details[$fms] ) ; // 5.5 vs. 5.3
-				if ( !empty( $detail ))) {
+				if ( !empty( $detail )) {
 					$newnode->{"field_".$drupal}["und"][0]["value"] = $array_event_details[$fms] ;
 				} else {
 					unset ( $newnode->{"field_".$drupal}["und"] ) ;
