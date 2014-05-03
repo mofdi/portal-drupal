@@ -86,7 +86,7 @@
       <article id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
         <?php if ((!$page && !empty($title)) || !empty($title_prefix) || !empty($title_suffix) || $display_submitted): ?>
         <div class="row">
-          <header class="content-header col-md-12">
+          <header class="content-header col-md-8">
             <h3><?php print render($type_title); ?></h3>
             <?php print render($title_prefix); ?>
             <?php if (!empty($title)): ?>
@@ -115,6 +115,11 @@
               hide($content['field_tags']);
               print render($content['field_image']);
               print render($content['body']);
+              print render($content['field_audience']);
+              print render($content['field_contact']);
+              print render($content['field_resources']);
+				print render($content['field_participants']);
+              
             ?>
             <?php if (!empty($content['field_tags']) || !empty($content['links'])): ?>
             <footer>
@@ -127,6 +132,11 @@
           </div>
           <div class="node-sidebar col-md-3">
             <?php
+            print render($content['field_image_url']);
+            print render($content['field_dates']);
+            print render($content['field_venuecountry']);
+            print render($content['field_status']);
+            print render($content['field_language']);
               print $sidebar;
             ?>
           </div>

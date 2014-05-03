@@ -7655,21 +7655,44 @@ image won't shift it's position.
 }
 .field-name-field-authors,
 .field-name-field-publisher,
+.field-name-field-publishing-date,
 .field-name-field-target-audience,
 .field-name-field-contributors,
+.field-name-field-abstract,
+.field-name-field-bibliographic-citation,
 .field-name-field-rights,
-.field-name-field-rights-holder {
+.field-name-field-rights-holder,
+.field-name-field-audience,
+.field-name-field-contact,
+.field-name-field-participants,
+.field-name-field-dates,
+.field-name-field-venuecountry,
+.field-name-field-status,
+.field-name-field-language {
   margin-bottom: 18px;
 }
 .field-name-field-authors .field-label,
 .field-name-field-publisher .field-label,
+.field-name-field-publishing-date .field-label,
 .field-name-field-target-audience .field-label,
 .field-name-field-contributors .field-label,
+.field-name-field-abstract .field-label,
+.field-name-field-bibliographic-citation .field-label,
 .field-name-field-rights .field-label,
-.field-name-field-rights-holder .field-label {
+.field-name-field-rights-holder .field-label,
+.field-name-field-audience .field-label,
+.field-name-field-contact .field-label,
+.field-name-field-participants .field-label,
+.field-name-field-dates .field-label,
+.field-name-field-venuecountry .field-label,
+.field-name-field-status .field-label,
+.field-name-field-language .field-label {
   text-transform: uppercase;
   font-weight: normal;
   font-size: 13px;
+}
+.field-name-field-image-url {
+  margin-bottom: 20px;
 }
 button > a {
   color: #ffffff;

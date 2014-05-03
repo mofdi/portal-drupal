@@ -116,7 +116,9 @@
               hide($content['field_tags']);
               print render($content['body']);
               print render($content['field_authors']);
-              print render($content['field_publisher']);
+              print render($content['field_publisher']);print render($content['field_publishing_date']);
+              print render($content['field_abstract']);
+              print render($content['field_bibliographic_citation']);
               print render($content['field_target_audience']);
               print render($content['field_contributors']);
               print render($content['field_rights']);
