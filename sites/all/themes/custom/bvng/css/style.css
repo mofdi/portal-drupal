@@ -7668,7 +7668,8 @@ image won't shift it's position.
 .field-name-field-dates,
 .field-name-field-venuecountry,
 .field-name-field-status,
-.field-name-field-language {
+.field-name-field-language,
+.field-name-field-resources {
   margin-bottom: 18px;
 }
 .field-name-field-authors .field-label,
@@ -7686,7 +7687,8 @@ image won't shift it's position.
 .field-name-field-dates .field-label,
 .field-name-field-venuecountry .field-label,
 .field-name-field-status .field-label,
-.field-name-field-language .field-label {
+.field-name-field-language .field-label,
+.field-name-field-resources .field-label {
   text-transform: uppercase;
   font-weight: normal;
   font-size: 13px;

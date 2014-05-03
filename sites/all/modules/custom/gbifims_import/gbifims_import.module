@@ -129,10 +129,11 @@ switch ($_GET['ot'])
 
 								
 				foreach ( $fields as $fms => $drupal ) {
-					// if ( !empty( trim( $array_event_details[$fms] ))) {
-						
+					// you just can't do:  "if ( !empty( trim( $array_event_details[$fms] ))) " in PHP 5.3...  
+					$detail trim( $array_event_details[$fms] ) ;
+					if ( !empty( $detail )) {
 						$newnode->{"field_".$drupal}["und"][0]["value"] = $array_event_details[$fms] ;
-					// } 
+					} 
 				}
 
 				// this one works in a single shot in 5.5 but not in 5.3
@@ -218,9 +219,10 @@ switch ($_GET['ot'])
 								'VersionSelector'=>'version_selector',) ;	
 				
 				foreach ( $fields as $fms => $drupal ) {
-					// if ( !empty( trim( $array_resource_details[$fms] ))) {
+					$detail = trim ( $array_resource_details[$fms] ) ;
+					if ( !empty( $detail )) {
 						$newnode->{"field_".$drupal}["und"][0]["value"] = $array_resource_details[$fms] ;
-					// } 
+					} 
 				}
 				/*
 				if ( !empty( trim( $array_resource_details["Author"] ))) { $newnode->field_authors["und"][0]["value"] = $array_resource_details["Author"] ; }
@@ -294,12 +296,13 @@ switch ($_GET['ot'])
 			// assigning values
 			//
 			$newnode = node_load($ridd);
-			$newnode->type = "event_ims";
-			$newnode->language = "und";
-			$newnode->name = $array_event_details["Name_Full"];
+			$newnode->type = 'event_ims';
+			$newnode->language = 'und';
+			$newnode->name = $array_event_details['Name_Full'];
 			$newnode->title = $newnode->name;
-			$newnode->body["und"][0]["value"] = $array_event_details["Desc_Short"];
-			$newnode->body["und"][0]["summary"] = substr($array_event_details["Desc_Short"],0,200)."...";
+			$newnode->body['und'][0]['value'] = $array_event_details['Desc_Short'];
+			$newnode->body['und'][0]['summary'] = substr($array_event_details['Desc_Short'],0,200)."...";
+			$newnode->body['und'][0]['format'] = ( $newnode->body['und'][0]['format'] === NULL ) ? 'filtered_html' : $newnode->body['und'][0]['format'] ;
 			$newnode->uid = 64;
 			$newnode->status = 1;
 			// $newnode->created = time(); // We want to respect this one
@@ -328,7 +331,8 @@ switch ($_GET['ot'])
 			foreach ( $fields as $fms => $drupal ) {
 				$detail = trim( $array_event_details[$fms] ) ; // 5.5 vs. 5.3
 				if ( !empty( $detail )) {
-					$newnode->{"field_".$drupal}["und"][0]["value"] = $array_event_details[$fms] ;
+					$newnode->{"field_".$drupal}['und'][0]['value'] = $array_event_details[$fms] ;
+					$newnode->{"field_".$drupal}['und'][0]['format'] =  ( $newnode->{"field_".$drupal}['und'][0]['format'] === NULL ) ? 'filtered_html' : $newnode->{"field_".$drupal}['und'][0]['format'] ;
 				} else {
 					unset ( $newnode->{"field_".$drupal}["und"] ) ;
 				}
@@ -352,8 +356,6 @@ switch ($_GET['ot'])
 			if (!empty($array_event_details["relatedparticipants"])) {$newnode->field_country["und"] = $array_event_details["relatedparticipants"];}
 			if (!empty($array_event_details["region"])) {$newnode->field_regions["und"][] = array('tid' => $array_event_details["region"],);} */
 
-
-			
 			if ($newnode = node_submit($newnode)) {
 				node_save($newnode);
 				node_load(FALSE, NULL, TRUE);
@@ -375,12 +377,12 @@ switch ($_GET['ot'])
 			// assigning values
 			//
 				$newnode = node_load($ridd);
-				echo "bau!";
 				if ( $newnode ) { // because nobody guarantees that you can load it
-					$newnode->name = $array_resource_details["Name"];
+					$newnode->name = $array_resource_details['Name'];
 					$newnode->title = $newnode->name;
-					$newnode->body["und"][0]["value"] = $array_resource_details["Description"];
-					$newnode->body["und"][0]["summary"] = substr($array_resource_details["Description"],0,200)."...";
+					$newnode->body['und'][0]['value'] = $array_resource_details['Description'];
+					$newnode->body['und'][0]['summary'] = substr($array_resource_details['Description'],0,200)."...";
+					$newnode->body['und'][0]['format'] = ( $newnode->body['und'][0]['format'] === NULL ) ? 'filtered_html' : $newnode->body['und'][0]['format'] ;
 					$newnode->uid = 64;
 					$newnode->status = 1;
 					// $newnode->created = time();
@@ -408,7 +410,8 @@ switch ($_GET['ot'])
 					foreach ( $fields as $fms => $drupal ) {
 						$detail = trim( $array_resource_details[$fms] ) ;
 						if ( !empty( $detail )) {
-							$newnode->{"field_".$drupal}["und"][0]["value"] = $array_resource_details[$fms] ;
+							$newnode->{'field_'.$drupal}['und'][0]['value'] = $array_resource_details[$fms] ;
+							$newnode->{'field_'.$drupal}['und'][0]['format'] =  ( $newnode->{"field_".$drupal}['und'][0]['format'] === NULL ) ? 'filtered_html' : $newnode->{'field_'.$drupal}['und'][0]['format'] ;
 						} else {
 							unset( $newnode->{"field_".$drupal}['und'] ) ;
 						}
@@ -457,7 +460,6 @@ switch ($_GET['ot'])
 
 					$newnode->field_orc_resource_thumbnail[LANGUAGE_NONE][0] = (array)$file;			
 
-					var_dump($newnode) ;
 					if ($newnode = node_submit($newnode)) {
 						node_save($newnode);
 						node_load(FALSE, NULL, TRUE);					
