@@ -130,7 +130,7 @@ switch ($_GET['ot'])
 								
 				foreach ( $fields as $fms => $drupal ) {
 					// you just can't do:  "if ( !empty( trim( $array_event_details[$fms] ))) " in PHP 5.3...  
-					$detail trim( $array_event_details[$fms] ) ;
+					$detail = trim( $array_event_details[$fms] ) ;
 					if ( !empty( $detail )) {
 						$newnode->{"field_".$drupal}["und"][0]["value"] = $array_event_details[$fms] ;
 					} 
