@@ -406,10 +406,10 @@ switch ($_GET['ot'])
 									'ResourceType'=>'resource_type',
 									'VersionSelector'=>'version_selector', );
 					foreach ( $fields as $fms => $drupal ) {
-						if ( !empty( trim( $array_resource_details[$fms] ))) {
+						$detail = trim( $array_resource_details[$fms] ) ;
+						if ( !empty( $detail )) {
 							$newnode->{"field_".$drupal}["und"][0]["value"] = $array_resource_details[$fms] ;
 						} else {
-							echo "<br> field_".$drupal;
 							unset( $newnode->{"field_".$drupal}['und'] ) ;
 						}
 					}
