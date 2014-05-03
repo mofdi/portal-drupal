@@ -135,7 +135,10 @@ switch ($_GET['ot'])
 					// } 
 				}
 
-				if ( !empty( trim( $array_event_details["startdate"] ))) { $newnode->field_start_date["und"][0]["value"] = $array_event_details["startdate"]; }
+				// this one works in a single shot in 5.5 but not in 5.3
+				// if ( !empty( trim( $array_event_details["startdate"] ))) { $newnode->field_start_date["und"][0]["value"] = $array_event_details["startdate"]; }
+				$detail = trim( $array_event_details["startdate"] ) ;
+				if ( !empty( $detail )) { $newnode->field_start_date["und"][0]["value"] = $array_event_details["startdate"]; }
 				$newnode->field_start_date["und"][0]["date_type"] = "datestamp";
 
 				/*
@@ -323,7 +326,8 @@ switch ($_GET['ot'])
 								) ;
 
 			foreach ( $fields as $fms => $drupal ) {
-				if ( !empty( trim( $array_event_details[$fms] ))) {
+				$detail = trim( $array_event_details[$fms] ; // 5.5 vs. 5.3
+				if ( !empty( $detail ))) {
 					$newnode->{"field_".$drupal}["und"][0]["value"] = $array_event_details[$fms] ;
 				} else {
 					unset ( $newnode->{"field_".$drupal}["und"] ) ;
