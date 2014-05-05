@@ -426,6 +426,24 @@ function bvng_preprocess_node(&$variables) {
   $sidebar = _bvng_get_sidebar_content($variables['nid'], $variables['vid']);
   $variables['sidebar'] = $sidebar;
 
+  
+	/* Build a combo value consisting of publisher and publishing date
+	*/
+	if ($variables['node']->type == 'resource_ims' && !empty($variables['field_publishing_date']) && !empty($variables['field_publisher']) ) {
+	/* 
+	* fix me: It should have been done with "render()" so that we can make use of the format decided in "manage display"
+	*/
+		$publishing_date = _bvng_get_field_value ('node', $variables['node'], 'field_publishing_date') ; 
+		$publisher = _bvng_get_field_value ('node', $variables['node'], 'field_publisher') ; 
+		// Friday, April 11, 2014
+		$publishing_date =  date( 'l, M d, Y', $publishing_date );
+		$publisher_w_date = $publisher.', '.$publishing_date ;
+		$variables['publisher_w_date'] = '<div class="field field-name-field-publisher-w-date field-type-text-long field-label-above">
+		<div class="field-label">Publisher&nbsp;</div>
+		<div class="field-items">
+			<div class="field-item even">'.$publisher_w_date.'</div></div></div>';
+	}
+  
   /* Process menu_local_tasks()
    */
   global $user;
