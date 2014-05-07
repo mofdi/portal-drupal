@@ -21,7 +21,8 @@
 function _menu_import_lookup_path($path, $title, array $options) {
   $result = array(
     'nid' => FALSE,
-    'link_path' => ''
+    'link_path' => '',
+    'options' => array(),
   );
 
   // Search by alias by default, but use only
@@ -39,7 +40,7 @@ function _menu_import_lookup_path($path, $title, array $options) {
   if (isset($parsed_link['fragment'])) {
   	$path = $parsed_link['path'];
   }
-  
+
   // Does an alias exist in the system?
   $system_url = drupal_lookup_path('source', $path);
   if (!$system_url) {
@@ -74,7 +75,7 @@ function _menu_import_lookup_path($path, $title, array $options) {
   elseif (drupal_valid_path($system_url)) {
     $result['link_path'] = $system_url . $query;
     if (isset($parsed_link['fragment'])) {
-    	$result['link_path'] .= '#' . $parsed_link['fragment'];
+    	$result['options']['fragment'] = $parsed_link['fragment'];
     }
   }
 
@@ -156,6 +157,7 @@ function menu_import_parse_line($line, $prev_level, array $weights, array $paren
   $menuitem = array(
     'error' => FALSE,
     'link_title' => NULL,
+    'options' => array(),
     'children' => array(),
     'parent' => 0,
     'nid' => FALSE,
@@ -243,6 +245,7 @@ function menu_import_parse_line($line, $prev_level, array $weights, array $paren
     $result = _menu_import_lookup_path($path, $title, $options);
     $menuitem['link_path'] = $result['link_path'];
     $menuitem['nid'] = $result['nid'];
+    $menuitem['options'] = $result['options'];
   }
 
   if ($description) {
