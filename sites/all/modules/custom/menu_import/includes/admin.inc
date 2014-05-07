@@ -226,7 +226,8 @@ function menu_import_form_step1_validate($form, &$form_state) {
   );
 
   if (empty($form_state['values']['text'])) {
-    $file = file_save_upload('upload', $validators);
+    $temp = sys_get_temp_dir();
+  	$file = file_save_upload('upload', $validators);
     if (!$file) {
       form_set_error('upload', t('You must select a valid text file to upload.'));
     }

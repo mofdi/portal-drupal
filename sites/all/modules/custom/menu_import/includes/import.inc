@@ -33,6 +33,13 @@ function _menu_import_lookup_path($path, $title, array $options) {
   }
   $path = $path[0];
 
+  // Before checking whether the menu item is an alias,
+  // Check if an anchor exists.
+  $parsed_link = parse_url($path);
+  if (isset($parsed_link['fragment'])) {
+  	$path = $parsed_link['path'];
+  }
+  
   // Does an alias exist in the system?
   $system_url = drupal_lookup_path('source', $path);
   if (!$system_url) {
@@ -66,6 +73,9 @@ function _menu_import_lookup_path($path, $title, array $options) {
   // Is there any registered path?
   elseif (drupal_valid_path($system_url)) {
     $result['link_path'] = $system_url . $query;
+    if (isset($parsed_link['fragment'])) {
+    	$result['link_path'] .= '#' . $parsed_link['fragment'];
+    }
   }
 
   return $result;

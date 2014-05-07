@@ -208,7 +208,7 @@ function gbif_navigation_form_menu_edit_item_alter(&$form, &$form_state, $form_i
   }
   $form['description']['#weight'] = 0;
 
-  // The default menu_edit_item_validate() doesn't work for internal links
+  // The default menu_edit_item_validate() doesn't work for internal alias
   // with anchor. So we unset the default validation, move the business logic
   // to gbif_navigation_menu_edit_validate(), and modified according to our need.
   if (($key = array_search('menu_edit_item_validate', $form['#validate'])) !== false) {
@@ -230,6 +230,7 @@ function gbif_navigation_form_menu_edit_item_alter(&$form, &$form_state, $form_i
 
 /**
  * Custom validation handler.
+ * This handler includes the business logic of menu_edit_item_validate().
  */
 function gbif_navigation_menu_edit_validate($form, &$form_state) {
   $item = &$form_state['values'];
