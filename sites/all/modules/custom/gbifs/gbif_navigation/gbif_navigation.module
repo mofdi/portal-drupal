@@ -27,7 +27,7 @@ function gbif_navigation_block_info() {
 function gbif_navigation_block_view($delta = '') {
   $block = array();
   switch ($delta) {
-    // 
+    //
     case 'footer_credits':
       $block = array(
         'subject' => '<none>',
@@ -48,17 +48,17 @@ function gbif_navigation_block_info_alter(&$block, $theme, $code_blocks) {
       $block['system']['navigation']['weight'] = 0;
       $block['system']['navigation']['status'] = 0;
       $block['system']['navigation']['region'] = -1;
-      
+
       // Turn off the existing level2-menu.
       $block['menu_block']['1']['weight'] = 0;
       $block['menu_block']['1']['status'] = 0;
       $block['menu_block']['1']['region'] = -1;
-      
+
       $block['menu_block']['gbif_navigation_nav']['weight'] = 0;
       $block['menu_block']['gbif_navigation_nav']['status'] = 1;
       $block['menu_block']['gbif_navigation_nav']['region'] = 'navigation';
       $block['menu_block']['gbif_navigation_nav']['title'] = '<none>';
-   
+
       $block['menu_block']['gbif_navigation_menu_tabs']['weight'] = 0;
       $block['menu_block']['gbif_navigation_menu_tabs']['status'] = 1;
       $block['menu_block']['gbif_navigation_menu_tabs']['region'] = 'menu';
@@ -75,7 +75,7 @@ function gbif_navigation_block_info_alter(&$block, $theme, $code_blocks) {
       $block['menu_block']['gbif_navigation_footer_links']['status'] = 1;
       $block['menu_block']['gbif_navigation_footer_links']['region'] = 'links';
       $block['menu_block']['gbif_navigation_footer_links']['title'] = '<none>';
-      
+
       break;
   }
 }
@@ -138,7 +138,7 @@ function gbif_navigation_menu_block_blocks() {
  *
  * We use this hook to set the active menu item so visitors would have
  * a clearer idea about where they are.
- * 
+ *
  * Note that use menu_set_active_item() at the node view level will render
  * menu_local_tasks pointing to the item being set. We use theme_preprocess_page()
  * instead.
@@ -157,8 +157,8 @@ function gbif_navigation_node_view($node, $view_mode, $langcode) {
 		menu_tree_set_path('gbif-menu', 'taxonomy/term/569'); // newsroom/events
 	break;
 		case 'resource_ims':
-		menu_tree_set_path('gbif-menu', 'taxonomy/term/764'); // resources/summary 
-	break; 		
+		menu_tree_set_path('gbif-menu', 'taxonomy/term/764'); // resources/summary
+	break;
 	}
 }
 
@@ -172,7 +172,7 @@ function gbif_navigation_node_view($node, $view_mode, $langcode) {
  * especially those outside Drupal. This hook will take care of the data portal base URL
  * for the editor.
  *
- * @todo For stream-lined deployment, eventually all data portal base URLs have to be 
+ * @todo For stream-lined deployment, eventually all data portal base URLs have to be
  *       erased from the menu_links table, so all data portal links refer to the
  *       environment settings. This will require a replacement of default validation,
  *       instead of adding extra validation. Also, to ensure the link still shows in the
@@ -193,12 +193,12 @@ function gbif_navigation_form_menu_edit_item_alter(&$form, &$form_state, $form_i
     '#default_value' => isset($result['non_drupal_url']) ? $result['non_drupal_url'] : 0,
     '#weight' => -1,
   );
-	
+
 	// Organise form items in a desired order.
   $form['link_title']['#weight'] = -5;
   $form['link_path']['#weight'] = -3;
   $form['link_path']['#description'] .= ' If the path points to the Java part of the portal, leave the base URL and check the "Non-Drupal URL" below.';
-  
+
   // Assuming the link_path is a non-Drupal URL, it should have
   // the data portal base URL identical as $conf['data_portal_base_url'],
   // Therefore only the base path will be displayed and used as the input
@@ -208,12 +208,18 @@ function gbif_navigation_form_menu_edit_item_alter(&$form, &$form_state, $form_i
   }
   $form['description']['#weight'] = 0;
 
+  // The default menu_edit_item_validate() doesn't work for internal links
+  // with anchor. So we unset the default validation, move the business logic
+  // to gbif_navigation_menu_edit_validate(), and modified according to our need.
+  if (($key = array_search('menu_edit_item_validate', $form['#validate'])) !== false) {
+    unset($form['#validate'][$key]);
+  }
   array_unshift($form['#validate'], 'gbif_navigation_menu_edit_validate');
   // Depending on whether mlid is available or not, which means editing
   // or adding a menu item, respectively, we put the extra submit handler
   // before or after the default one. If the menu item is being added, then
   // mild will be available after the default handler, so we can keep the
-  // same update query.  
+  // same update query.
   if ($form['mlid']['#value'] == 0) {
   	array_push($form['#submit'], 'gbif_navigation_menu_edit_submit');
   }
@@ -227,13 +233,50 @@ function gbif_navigation_form_menu_edit_item_alter(&$form, &$form_state, $form_i
  */
 function gbif_navigation_menu_edit_validate($form, &$form_state) {
   $item = &$form_state['values'];
-  
+
+  if (!url_is_external($item['link_path'])) {
+    $parsed_link = parse_url($item['link_path']);
+
+    if (isset($parsed_link['query'])) {
+      $item['options']['query'] = drupal_get_query_array($parsed_link['query']);
+    }
+    else {
+      // Use unset() rather than setting to empty string
+      // to avoid redundant serialized data being stored.
+      unset($item['options']['query']);
+    }
+
+    $normal_path = drupal_get_normal_path($parsed_link['path']);
+
+    if (isset($parsed_link['fragment'])) {
+      $item['options']['fragment'] = $parsed_link['fragment'];
+      $normal_path_with_fragment = $normal_path . '#' . $parsed_link['fragment'];
+    }
+    else {
+      unset($item['options']['fragment']);
+    }
+
+    if ($item['link_path'] != $normal_path) {
+      drupal_set_message(t('The menu system stores system paths only, but will use the URL alias for display. %link_path has been stored as %normal_path', array('%link_path' => $item['link_path'], '%normal_path' => $normal_path_with_fragment)));
+      $item['link_path'] = $normal_path;
+    }
+
+    if (isset($parsed_link['path']) && $parsed_link['path'] != $item['link_path']) {
+      $parsed_link['path'] = $item['link_path'];
+    }
+  }
+
+  if (!trim($item['link_path']) || !drupal_valid_path($item['link_path'], TRUE)) {
+    form_set_error('link_path', t("The path '@link_path' is either invalid or you do not have access to it.", array('@link_path' => $item['link_path'])));
+  }
+
   // Add the data portal base URL underneath so it'll pass normal Drupal
   // link validation as an external link.
   if ($item['non_drupal_url'] == 1) {
     $data_portal_base_url = variable_get('data_portal_base_url');
     $item['link_path'] = $data_portal_base_url . '/' . $item['link_path'];
-  }  
+  }
+
 }
 
 /**
@@ -246,7 +289,7 @@ function gbif_navigation_menu_edit_submit($form, &$form_state) {
       ->fields(array('non_drupal_url' => $item['non_drupal_url']))
       ->condition('mlid', $item['mlid'])
       ->execute();
-  }  
+  }
 }
 
 /**
@@ -254,8 +297,8 @@ function gbif_navigation_menu_edit_submit($form, &$form_state) {
  */
 function gbif_navigation_menu_local_tasks_alter(&$data, $router_item, $root_path) {
   if ($data) {
-    
-  }  
+
+  }
 }
 
 /**
@@ -280,8 +323,8 @@ function gbif_navigation_menu_alter(&$items) {
   //$items['user']['menu_name'] = 'gbif-menu';
   //$items['user']['tab-parent'] = '<front>';
   //$items['user/%user']['menu_name'] = 'gbif-menu';
-  
-  
+
+
   //$items['user/%user/edit']['title'] = 'Account';
   //$items['user/%user/edit']['description'] = 'User account and personal settings';
   //$items['user/%user/edit']['menu-name'] = 'gbif-menu';
