@@ -7698,6 +7698,9 @@ image won't shift it's position.
 .field-name-field-image-url {
   margin-bottom: 20px;
 }
+.w240 {
+  width: 240px ;
+}
 button > a {
   color: #ffffff;
 }
