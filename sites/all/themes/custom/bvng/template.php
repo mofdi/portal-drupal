@@ -538,12 +538,6 @@ function bvng_preprocess_views_view_field(&$variables, $hook) {
   }
 }
 
-function bvng_preprocess_field( &$variables ) {
-	$b = TRUE;
-	if ( $variables['element']['#title'] == 'description' ) { 
-		$a = 'bau!';				
-	}
-}
 
 function bvng_preprocess_views_view_list(&$variables) {
   switch ($variables['view']->name) {
