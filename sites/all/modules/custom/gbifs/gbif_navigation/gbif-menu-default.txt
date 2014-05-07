@@ -15,8 +15,8 @@ Data {"url":"<front>"}
 --Methods {"url":"usingdata\/methods"}
 --Data applications {"url":"usingdata\/dataapplications"}
 --Policy relevance {"url":"usingdata\/policyrelevance"}
--Infrastructure {"url":"taxonomy\/term\/745", "description": "How GBIF works as a global informatics infrastructure"}
---Summary {"url":"taxonomy\/term\/745"}
+-Infrastructure {"url":"infrastructure\/summary", "description": "How GBIF works as a global informatics infrastructure", "non_drupal_url":true}
+--Summary {"url":"infrastructure\/summary", "non_drupal_url":true}
 --Registry {"url":"<front>"}
 --occurence {"url":"<front>"}
 --Tools {"url":"infrastructure\/tools"}
@@ -37,13 +37,13 @@ News {"url":"newsroom\/summary"}
 --Events {"url":"newsroom\/events"}
 ---GBIF events archive {"url":"newsroom\/events\/archive", "description":"GBIF events archive"}
 ---GBIF upcoming events {"url":"newsroom\/events\/upcoming", "description":"GBIF upcoming events"}
---Newsletter {"url":"page\/2996"}
+--Newsletter {"url":"newsroom\/newsletter"}
 --Consultations {"url":"newsroom\/consultations"}
 -Featured data use {"url":"newsroom\/uses"}
 --A view of all data use articles {"url":"newsroom\/archive\/alldatausearticles"}
 -Opportunities {"url":"newsroom\/opportunities"}
 -Events {"url":"newsroom\/events"}
--Newsletter {"url":"page\/2996"}
+-Newsletter {"url":"newsroom\/newsletter"}
 -Consultations {"url":"newsroom\/consultations"}
 Community {"url":"participation\/summary"}
 -Participation {"url":"participation\/summary", "description": "Being part of the GBIF community"}

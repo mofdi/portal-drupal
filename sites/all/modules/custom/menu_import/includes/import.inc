@@ -165,6 +165,7 @@ function menu_import_parse_line($line, $prev_level, array $weights, array $paren
     'weight' => 0,
     'external' => FALSE,
     'level' => 0,
+    'non_drupal_url' => FALSE,
   );
 
   // Set default language
@@ -191,8 +192,8 @@ function menu_import_parse_line($line, $prev_level, array $weights, array $paren
       $description = !empty($details->description) ? trim($details->description) : '';
       $expanded = !empty($details->expanded);
       $hidden = !empty($details->hidden);
-      $language = !empty($details->lang) && in_array($details->lang, $langs)
-                    ? $details->lang : NULL;
+      $language = !empty($details->lang) && in_array($details->lang, $langs) ? $details->lang : NULL;
+      $non_drupal_url = !empty($details->non_drupal_url) ? $details->non_drupal_url : NULL;
     }
     else {
       return _menu_import_mark_error_item($menuitem, t('malformed item details'), $line);
@@ -237,9 +238,16 @@ function menu_import_parse_line($line, $prev_level, array $weights, array $paren
   $menuitem['level'] = $level;
   $menuitem['path'] = $path;
 
+  $menuitem['non_drupal_url'] = $non_drupal_url;
+
   if (url_is_external($path)) {
     $menuitem['external'] = TRUE;
     $menuitem['link_path'] = $path;
+  }
+  elseif ($non_drupal_url == TRUE) {
+    $data_portal_base_url = variable_get('data_portal_base_url');
+    $menuitem['external'] = TRUE;
+    $menuitem['link_path'] = $data_portal_base_url . '/' . $path;
   }
   else {
     $result = _menu_import_lookup_path($path, $title, $options);
@@ -497,6 +505,15 @@ function menu_import_save_menu($menu, $options) {
 
       // Save menuitem and set mlid.
       $mlid = menu_link_save($menuitem);
+
+      // Save non_drupal_url value.
+      if (isset($menuitem['non_drupal_url']) && isset($mlid)) {
+        db_update('menu_links')
+        ->fields(array('non_drupal_url' => $menuitem['non_drupal_url']))
+        ->condition('mlid', $mlid)
+        ->execute();
+      }
+
       if (!$mlid) {
         $failed_cnt++;
       }

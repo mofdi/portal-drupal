@@ -3,9 +3,9 @@ Join the community {"url":"<nolink>"}
 -Sign up to GBits newsletter {"url":"newsroom\/summary#signup"}
 -GBIF Online Resource Centre {"url":"resources\/summary"}
 Who's participating {"url":"<nolink>"}
--Countries {"url":"participation\/list#voting"}
--Organizations {"url":"participation/list#other"}
--Data publishers {"url":"publisher\/search"}
+-Countries {"url":"participation\/list#voting", "non_drupal_url":true}
+-Organizations {"url":"participation/list#other", "non_drupal_url":true}
+-Data publishers {"url":"publisher\/search", "non_drupal_url":true}
 Key documents {"url":"<nolink>"}
 -Disclaimer {"url":"disclaimer"}
 -Data use agreement {"url":"disclaimer\/datause"}
@@ -16,6 +16,6 @@ Key documents {"url":"<nolink>"}
 -GBIF Work Programme  {"url":"resources\/2970"}
 -GBIF Travel guidelines  {"url":"http://links.gbif.org\/travel_guidelines.pdf"}
 For developers {"url":"<nolink>"}
--Portal API  {"url":"developer"}
+-Portal API  {"url":"developer", "non_drupal_url":true}
 -Developer blog  {"url":"http:\/\/gbif.blogspot.com\/"}
--Tools  {"url":"infrastructure\/tools"}
+-Tools  {"url":"infrastructure\/tools", "non_drupal_url":true}
