@@ -573,7 +573,7 @@ function bvng_preprocess_user_profile(&$variables) {
     $edit_link = l('[' . t('Edit your account') . ']', 'user/' . $variables['user']->uid . '/edit');
     $variables['edit_link'] = $edit_link;
 
-    $variables['user_profile']['field_country']['#title'] = t('Country');
+    $variables['user_profile']['field_country_mono']['#title'] = t('Country');
 
     unset($variables['user_profile']['summary']['#title']);
   }
@@ -594,6 +594,10 @@ function bvng_preprocess_user_register_form(&$variables) {
     $disclaimer .= '<h3>' . t('Disclaimer') . '</h3>';
     $disclaimer .= '<p>' . t('By registering with GBIF you agree to abide by the terms of usage set out !here.', array('!here' => l('here', 'disclaimer/datause'))) . '</p>';
     $variables['disclaimer'] = $disclaimer;
+
+    // We preprocess a class value here to allow proper functioning of jquery chosen
+    // on country select by taking out the 'form-control' CSS class.
+    unset($variables['form']['field_country_mono']['und']['#attributes']['class'][0]);
   }
 }
 

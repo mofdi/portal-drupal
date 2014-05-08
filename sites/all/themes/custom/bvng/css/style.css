@@ -7686,6 +7686,9 @@ image won't shift it's position.
   font-weight: normal;
   font-size: 13px;
 }
+.form-item-field-country-mono-und {
+  width: 240px;
+}
 .field-name-field-authors,
 .field-name-field-publisher,
 .field-name-field-publishing-date,
