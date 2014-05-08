@@ -42,7 +42,7 @@ function gbif_tweaks_install() {
     'jquery_update',
     'views_slideshow',
     'views_slideshow_cycle',
-    //'chosen',
+    'chosen',
   ));
   
   // jquery_update settings.

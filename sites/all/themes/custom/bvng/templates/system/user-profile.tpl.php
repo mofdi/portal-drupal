@@ -50,7 +50,7 @@
           <div class="profile"<?php print $attributes; ?>>
             <?php print $full_name . ' ' . $edit_link; ?>
             <br>
-            <?php print render($user_profile['field_country']); ?>
+            <?php print render($user_profile['field_country_mono']); ?>
             <?php print render($user_profile['summary']); ?>
           </div>
         </div>

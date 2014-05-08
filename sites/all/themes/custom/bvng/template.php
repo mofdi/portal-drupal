@@ -426,15 +426,15 @@ function bvng_preprocess_node(&$variables) {
   $sidebar = _bvng_get_sidebar_content($variables['nid'], $variables['vid']);
   $variables['sidebar'] = $sidebar;
 
-  
+
 	/* Build a combo value consisting of publisher and publishing date
 	*/
 	if ($variables['node']->type == 'resource_ims' && !empty($variables['field_publishing_date']) && !empty($variables['field_publisher']) ) {
-	/* 
+	/*
 	* fix me: It should have been done with "render()" so that we can make use of the format decided in "manage display"
 	*/
-		$publishing_date = _bvng_get_field_value ('node', $variables['node'], 'field_publishing_date') ; 
-		$publisher = _bvng_get_field_value ('node', $variables['node'], 'field_publisher') ; 
+		$publishing_date = _bvng_get_field_value ('node', $variables['node'], 'field_publishing_date') ;
+		$publisher = _bvng_get_field_value ('node', $variables['node'], 'field_publisher') ;
 		// Friday, April 11, 2014
 		$publishing_date =  date( 'l, M d, Y', $publishing_date );
 		$publisher_w_date = $publisher.', '.$publishing_date ;
@@ -443,7 +443,7 @@ function bvng_preprocess_node(&$variables) {
 		<div class="field-items">
 			<div class="field-item even">'.$publisher_w_date.'</div></div></div>';
 	}
-  
+
   /* Process menu_local_tasks()
    */
   global $user;
@@ -538,6 +538,8 @@ function bvng_preprocess_views_view_field(&$variables, $hook) {
   }
 }
 
+function bvng_preprocess_field(&$variables) {
+}
 
 function bvng_preprocess_views_view_list(&$variables) {
   switch ($variables['view']->name) {
@@ -590,7 +592,7 @@ function bvng_preprocess_user_register_form(&$variables) {
 
     $disclaimer = $notice_icon;
     $disclaimer .= '<h3>' . t('Disclaimer') . '</h3>';
-    $disclaimer .= '<p>' . t('Any user accounts created may be deleted; users might need to recreate their accounts in the future. By registering with GBIF you agree to abide by the terms of usage set out !here.', array('!here' => l('here', 'disclaimer/datause'))) . '</p>';
+    $disclaimer .= '<p>' . t('By registering with GBIF you agree to abide by the terms of usage set out !here.', array('!here' => l('here', 'disclaimer/datause'))) . '</p>';
     $variables['disclaimer'] = $disclaimer;
   }
 }

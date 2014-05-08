@@ -19,7 +19,7 @@
   				<?php print render($form['field_firstname']); ?>
   				<?php print render($form['field_lastname']); ?>
   				<?php print render($form['account']['mail']); ?>
-  				<?php print render($form['field_country']); ?> 
+  				<?php print render($form['field_country_mono']); ?> 
         </div>
       </div>
       <div class="row user-login-action">

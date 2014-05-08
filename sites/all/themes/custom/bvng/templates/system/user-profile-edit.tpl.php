@@ -13,7 +13,7 @@
     				<?php print render($form['account']['mail']); ?>
     				<?php print render($form['account']['current_pass']); ?>
     				<?php print render($form['account']['pass']); ?>
-    				<?php print render($form['field_country']); ?>
+    				<?php print render($form['field_country_mono']); ?>
           </div>
         </div>
         <div class="row user-login-action">
