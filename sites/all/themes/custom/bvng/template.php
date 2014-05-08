@@ -188,11 +188,17 @@ function bvng_preprocess_page(&$variables) {
 
   // Load javascript only when needed.
   switch ($req_path) {
-    case 'node/223': // contact/directoryofcontacts
-      drupal_add_js(drupal_get_path('theme', 'bvng') . '/js/contacts.js', array('type' => 'file', 'scope' => 'footer'));
-      break;
+	case 'node/223': // contact/directoryofcontacts
+		drupal_add_js(drupal_get_path('theme', 'bvng') . '/js/contacts.js', array('type' => 'file', 'scope' => 'footer'));
+		break;
+	
   }
 
+	if ( drupal_is_front_page() ) {
+		drupal_add_js( libraries_get_path('leaflet').'/leaflet.js', array( 'type' => 'file', 'scope' => 'header' )); // should have been without /dist; the leaflet module expects it in /leaflet/leaflet.js
+		drupal_add_js( libraries_get_path('moment').'/moment.js', array( 'type' => 'file', 'scope' => 'header' )); 
+		drupal_add_js( drupal_get_path('theme', 'bvng') . '/js/init_homepage_map.js', array( 'type' => 'file', 'scope' => 'header' ));
+	}
 
   // _bvng_load_javascript()
 }
