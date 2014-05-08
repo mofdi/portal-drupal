@@ -1,7 +1,9 @@
 name = GBIF Fixer
 description = "A collection of various fixes needed for the GBIF implementation on Drupal"
-package = GBIF
 core = 7.x
+package = GBIFS
+project = GBIF Portal
+
 files[] = gfxr.module
 files[] = gfxr.install
 files[] = gfxr.admin.inc

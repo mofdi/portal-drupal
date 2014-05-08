@@ -1,6 +1,8 @@
 name = GBIF IMS 
 description = "Provides a locally accessible copy for some relevant IMS data"
-package = GBIF
+package = GBIFS
+project = GBIF Portal
+
 core = 7.x
 files[] = gbifims.module
 files[] = gbifims.install

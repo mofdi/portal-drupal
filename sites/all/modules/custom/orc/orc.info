@@ -2,7 +2,10 @@ name = GBIF ORC Module
 description = This module creates allows to create URLs like www.gbif.org/orc/?doc_id=1300, used in the GBIF website since 2011.
 core = 7.x
 version = 0.1
-package = gbif_ims
+package = GBIFS
+project = GBIF Portal
+
+
 ; dependencies[] = panels
 ; files[] = example.test
 
