@@ -77,9 +77,7 @@
  * @ingroup themeable
  */
 ?>
-<div id='homepageMap'></div>
 <section id="masthead">
-
   <div class="container">
     <div class="row">
       <div class="col-md-3 col-md-push-9"> 
@@ -135,6 +133,11 @@
   			<?php print render($page['highlighted']); ?>
   			<?php endif; ?>
       </div>
+      <div id="region-menu" class="col-md-12">
+  			<?php if (!empty($page['menu'])): ?>
+        <?php print render($page['menu']); ?>
+  			<?php endif; ?>
+      </div>
     </div>
   </div>
 </section>
@@ -145,6 +148,21 @@
 -->
 <section id="main">
   <a id="main-content"></a>
+  <?php if (!empty($messages)): ?>
+        <?php print $messages; ?>
+  <?php endif; ?>    
+    
+  <?php if (!empty($page['help'])): ?>
+    <div class="container well well-lg">
+        <div class="row">
+          <?php print render($page['help']); ?>
+        </div>
+    </div>
+  <?php endif; ?>
+
+  <?php if (!empty($action_links)): ?>
+    <ul class="action-links"><?php print render($action_links); ?></ul>
+  <?php endif; ?>
   <?php print render($page['content']); ?>
 
 </section>
