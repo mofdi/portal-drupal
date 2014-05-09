@@ -7933,8 +7933,8 @@ div.button span {
 .well-right-bg {
   background: url("/sites/all/themes/custom/bvng/images/box_results_bkg.png") 118% 0% repeat-y #ffffff;
 }
-#masthead,
-#banner {
+#masthead-fp,
+#banner-fp {
   background: none ;
 }
 #homepageMap {
