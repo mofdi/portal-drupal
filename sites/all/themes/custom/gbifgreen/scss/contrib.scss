@@ -25,7 +25,36 @@
 .form-radios > .form-item {
   margin-top: 3px;
 }
-
+#edit-field-corenews-und {
+  > .form-type-radio {
+    width: 240px;
+    display: inline-block;
+  }
+} 
+#edit-field-capacity-und {
+  > .form-type-checkbox {
+    width: 240px;
+    display: inline-block;
+  }
+} 
+#edit-field-opportunities-und {
+  > .form-type-checkbox {
+    width: 240px;
+    display: inline-block;
+  }
+}
+#edit-field-organizations-und {
+  > .form-type-checkbox {
+    width: 240px;
+    display: inline-block;
+  }
+}
+#edit-field-regions-und {
+  > .form-type-checkbox {
+    width: 240px;
+    display: inline-block;
+  }
+}
 /* Inline Entity Form */
 .field-type-commerce-product-reference fieldset.form-wrapper {
   border: 0;

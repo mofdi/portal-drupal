@@ -1,5 +1,17 @@
 <?php
 
+function gbifgreen_theme() {
+	$items = array();
+	$items['newsarticle_node_form'] = array(
+		'render element' => 'form',
+		'template' => 'templates/newsarticle-node-form',
+		'preprocess functions' => array(
+			'gbifgreen_preprocess_newsarticle_node_form'
+		),
+	);
+	return $items;
+}
+
 /**
  * Implements hook_views_bulk_operations_form_alter().
  *
@@ -48,6 +60,10 @@ function gbifgreen_preprocess_page(&$vars) {
       $vars['breadcrumb'] = '';
     }
   }
+}
+
+function gbifgreen_preprocess_newsarticle_node_form(&$vars) {
+	return;
 }
 
 /**
