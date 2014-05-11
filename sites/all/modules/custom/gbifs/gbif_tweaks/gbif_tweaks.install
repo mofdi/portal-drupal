@@ -65,7 +65,7 @@ function gbif_tweaks_install() {
     'gbif_pages',
     'gbif_vocabularies',
 		'gbif_user',
-    //'gbif_navigation',
+    'gbif_navigation',
   ));
 
 }

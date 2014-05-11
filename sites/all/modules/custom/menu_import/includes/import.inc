@@ -142,7 +142,7 @@ function _menu_import_body_is_translatable() {
  * @param $line
  *   One line from input file.
  * @param $prev_level
- *   Previous level to build ierarchy.
+ *   Previous level to build hierarchy.
  * @param $weights
  *   Array of menu items' weights.
  * @param $parents

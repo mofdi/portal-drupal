@@ -1,17 +1,16 @@
 # Ignore configuration files that may contain sensitive information.
 sites/*/settings*.php
-sites/default/global.settings.inc
-sites/*/environment_settings.php
+
+# Ignore local modules
+sites/*/modules
 
 # Ignore paths that contain user-generated content.
 sites/*/files
 sites/*/private
 sites/10088.bko.gbif.org
-sites/10088.portal-drupal.bkolocal
 
 # Ignore files only relevant for development environment.
 .htaccess
-.buildpath
-.project
-.settings
 dummy.php
+
+.idea
