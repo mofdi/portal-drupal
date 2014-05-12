@@ -46,8 +46,8 @@ function gbif_tweaks_install() {
   ));
   
   // jquery_update settings.
-  variable_set('jquery_update_jquery_cdn', 'google');
-  variable_set('jquery_update_jquery_version', '1.7');
+  variable_set('jquery_update_jquery_cdn', 'none');
+  variable_set('jquery_update_jquery_version', '1.8');
   
   // file_public_path settings.
   variable_set('file_public_path', 'sites/default/files');
