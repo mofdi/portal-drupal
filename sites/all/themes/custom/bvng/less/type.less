@@ -145,7 +145,7 @@ cite    { font-style: normal; }
   h2 {
     margin-top: 0px;
     margin-bottom: 0px;
-    padding-bottom: 15px;
+    padding-bottom: 5px;
     padding-right: 20px;
     font-size: 23px;
     font-weight: normal;
@@ -162,6 +162,34 @@ cite    { font-style: normal; }
   h3 {
     margin-top: 0px;
     margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: normal;
+    text-transform: uppercase;
+    text-shadow: 0 1px white;
+  }
+}
+
+.next-header {
+  h2 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 10px;
+    padding-right: 20px;
+    font-size: 23px;
+    font-weight: normal;
+    line-height: 25px;
+    text-shadow: 0 1px @cWhite;
+    //border-bottom: 1px solid @page-header-border-color;
+    
+    a {
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+  h3 {
+    margin-top: 0px;
+    margin-bottom: 0px;
     font-size: 13px;
     font-weight: normal;
     text-transform: uppercase;

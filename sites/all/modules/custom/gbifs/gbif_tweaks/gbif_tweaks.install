@@ -31,7 +31,6 @@ function gbif_tweaks_install() {
     'local_fonts',
     'fontyourface_ui',
     'fontyourface',
-    'colorbox',
   );
   module_disable($module_list);
   drupal_uninstall_modules($module_list, FALSE);
