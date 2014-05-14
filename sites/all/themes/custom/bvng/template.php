@@ -194,13 +194,15 @@ function bvng_preprocess_page(&$variables) {
 	
   }
 
-	if ( drupal_is_front_page() ) {
-		drupal_add_js( libraries_get_path('leaflet').'/leaflet.js', array( 'type' => 'file', 'scope' => 'header' )); // should have been without /dist; the leaflet module expects it in /leaflet/leaflet.js
-		drupal_add_js( libraries_get_path('moment').'/moment.js', array( 'type' => 'file', 'scope' => 'header' )); 
-		drupal_add_js( drupal_get_path('theme', 'bvng') . '/js/init_homepage_map.js', array( 'type' => 'file', 'scope' => 'header' ));
+  // Load javascript specifically for the front page.
+	if (drupal_is_front_page()) {
+		drupal_add_js(libraries_get_path('leaflet') . '/leaflet.js', array('type' => 'file', 'scope' => 'header')); // should have been without /dist; the leaflet module expects it in /leaflet/leaflet.js
+		drupal_add_js(libraries_get_path('moment') . '/moment.js', array('type' => 'file', 'scope' => 'header')); 
+		drupal_add_js(drupal_get_path('theme', 'bvng') . '/js/init_homepage_map.js', array('type' => 'file', 'scope' => 'header'));
 	}
 
-  // _bvng_load_javascript()
+  // Load javascript for every pages.
+	drupal_add_js('http://dev.gbif.org/issues/s/en_UKkby86d-1988229788/6096/5/1.4.0-m2/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=a2e9eca4', array('type' => 'file', 'scope' => 'footer'));
 }
 
 /**
