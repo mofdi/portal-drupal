@@ -52,20 +52,43 @@
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>
   <?php print $styles; ?>
+  
+
+<style>@import url("http://dd.gbif.org/sites/all/themes/custom/bvng/css/style.css?n5b3hh");</style>
+
+
+   <link rel="stylesheet" href="http://dd.gbif.org/sites/all/libraries/leaflet/leaflet.css" />
   <!-- HTML5 element support for IE6-8 -->
   <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
   <!-- beginning Drupal scripts -->
-  <?php print $scripts; ?>
+  <?php //print $scripts; ?>
+  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script>window.jQuery || document.write("<script src='/sites/all/modules/contrib/jquery_update/replace/jquery/1.7/jquery.min.js'>\x3C/script>")</script>
+<script src="http://dd.gbif.org/misc/jquery.once.js?v=1.2"></script>
+<script src="http://www.gbif.org/cfg"></script>
+<script src="http://dd.gbif.org/sites/all/libraries/leaflet/leaflet.js?n542hp"></script>
+<script src="http://dd.gbif.org/sites/all/libraries/moment/moment.js?n542hp"></script>
+<script src="http://dd.gbif.org/sites/all/themes/custom/bvng/js/init_homepage_map.js?n542hp"></script>
+<!-- script src="http://dd.gbif.org/misc/drupal.js?n542hp"></script -->  
+
+	<!-- script type="text/javascript" src="http://www.gbif.org/js/vendor/jquery-1.7.1.min.js"></script>
+	<script src="http://dd.gbif.org/sites/all/libraries/leaflet/dist/leaflet.js?n542hp"></script>
+	<script src="http://dd.gbif.org/sites/all/libraries/moment/moment.js?n542hp"></script>
+	<script src="http://dd.gbif.org/sites/all/themes/custom/bvng/js/init_homepage_map.js?n542hp"></script -->
+	
   <!-- ending Drupal scripts -->
 </head>
 <body class="<?php print $classes; ?>" <?php print $attributes;?>>
+	<div id='homepageMap' class="leaflet-container"></div>
+
   <div id="skip-link">
     <a href="#main-content" class="element-invisible element-focusable"><?php print t('Skip to main content'); ?></a>
   </div>
-  <?php print $page_top; ?>
-  <?php print $page; ?>
-  <?php print $page_bottom; ?>
+	<?php print $page_top; ?>
+	<?php print $page; ?>
+	<?php print $page_bottom; ?>  
 </body>
 </html>

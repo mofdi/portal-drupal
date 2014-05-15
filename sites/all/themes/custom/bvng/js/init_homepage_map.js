@@ -5,6 +5,7 @@
  * Because .noconflict() is called by drupal.js use the alternate 
  * syntax while preserving $; see http://api.jquery.com/ready
  */
+
 jQuery(document).ready(function($) {
 	var maxVisible = 300; // at any time
 	var delayMsecs = 1000;
@@ -24,6 +25,8 @@ jQuery(document).ready(function($) {
 		scrollWheelZoom: false,
 		doubleClickZoom: false
 	});
+	
+	
 	
 	L.tileLayer('http://www.gbif.org/img/tiles/{z}/{x}/{y}.png', {
 		maxZoom: 4,

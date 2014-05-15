@@ -1,18 +1,44 @@
 #masthead-fp, #banner-fp {
-	background: none ;
+	height: 2px !important;
+	position: relative;
+	z-index: 1000;
 }
+
+#center-fp {
+	border: 1px solid red;
+	position: absolute;
+	left: 50%;
+	margin-left: -462px;
+	text-align: left;
+	width: 924px;
+	height: 490px;
+	z-index: 400;
+	.well.well-lg {
+		//float:right;
+		position: absolute;
+		margin-top: -150px;
+	}
+}
+
 
 #homepageMap { 
 	display: block;
 	height: 490px;
 	position: absolute;
 	width: 100%;
-	z-index: -10 !important;
+	z-index: 0;
 }
 
-.leaflet-container { 
-	font: 12px/1.5 "Helvetica Neue", "Arial", "Helvetica", sans-serif;
-	background: #DDDDDD;
-	outline: 0px none currentColor;
-	overflow: hidden;
+#header-fp {
+	height: 490px;
+	z-index: 400;
 }
+
+.region-user {
+	float:right;
+}
+
+#branding, #navigation-menu{
+	// float:right;
+}
+
