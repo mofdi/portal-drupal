@@ -195,12 +195,16 @@ function bvng_preprocess_page(&$variables) {
   }
 
 	if ( drupal_is_front_page() ) {
-		drupal_add_js( libraries_get_path('leaflet').'/leaflet.js', array( 'type' => 'file', 'scope' => 'header' )); // should have been without /dist; the leaflet module expects it in /leaflet/leaflet.js
+		drupal_add_js( libraries_get_path('leaflet').'/leaflet.js', array( 'type' => 'file', 'scope' => 'header' )); 
 		drupal_add_js( libraries_get_path('moment').'/moment.js', array( 'type' => 'file', 'scope' => 'header' )); 
 		drupal_add_js( drupal_get_path('theme', 'bvng') . '/js/init_homepage_map.js', array( 'type' => 'file', 'scope' => 'header' ));
 		
 		$variables['search_form'] = module_invoke('search', 'block_view', 'search_form');
 
+		$variables['logo'] = drupal_get_path('theme', 'bvng') . '/images/logo_white.png' ;
+		
+		$variables['site_name'] = "Global Biodiversity Information Facility";
+		
 	}
 
   // _bvng_load_javascript()
@@ -249,10 +253,14 @@ function bvng_preprocess_region(&$variables) {
       }
       else {
         $account_string .= l(t('Login'), 'user/login', array('query' => drupal_get_destination()));
-        $account_string .= ' or ';
+        $account_string .= '<span class="ordim"> or </span>';
         $account_string .= l(t('Create a new account'), 'user/register');
       }
       $variables['account_string'] = $account_string;
+      
+      // change the <div class="account"> only for front page. 
+      $variables['account_classes'] = drupal_is_front_page()? 'account account-fp' : 'account'  ;
+      
       break;
   }
 }

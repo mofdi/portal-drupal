@@ -30,7 +30,7 @@
 ?>
 <?php if ($content): ?>
   <div class="<?php print $classes; ?>">
-    <div class="account">
+    <div class="<?php print $account_classes; ?>">
       <?php print $account_string; ?>
     </div>
   </div>

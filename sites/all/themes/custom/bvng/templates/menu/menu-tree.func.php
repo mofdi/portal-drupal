@@ -29,7 +29,18 @@ function bvng_menu_tree__secondary(&$variables) {
  * Use bootstrap nav-pills class to style navigation.
  */
 function bvng_menu_tree__menu_block__gbif_navigation_nav(&$variables) {
-  return '<ul class="menu nav nav-pills">' . $variables['tree'] . '</ul>';
+	$menu_start = '<ul class="menu nav nav-pills">' ;
+	
+	// silence the main menu dummy placeholder while on front page and add a helper class 
+	if (drupal_is_front_page()) {
+ 		$pattern = '/<li\s.+title="This is the placeholder for the search form that aligns with the navigation\.".+li>/';
+		$rep = '';
+		$variables['tree'] = preg_replace ( $pattern, $rep, $variables['tree']);
+		
+		$menu_start = '<ul class="menu nav nav-pills menu-fp">';
+	}
+	
+	return $menu_start . $variables['tree'] . '</ul>';
 }
 
 

@@ -45,32 +45,33 @@ function bvng_menu_link(array $variables) {
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
   
   // If it's a separator, then we use Bootstrap divider.
-  if ($element['#href'] == '<separator>') {
-    $output = '';
-    $element['#attributes']['class'][] = 'divider';
-  }
-  
-  // If it's the search form, we insert the form here.
-  elseif ($element['#href'] == '<nolink>' && $element['#title'] == 'Search') {
-    if (drupal_is_front_page()) {
-		$element['#title'] = '';
- 		$output = l($element['#title'], $element['#href'], $element['#localized_options']);
-    }
-    else {
+	if ($element['#href'] == '<separator>') {
 		$output = '';
-		$element['#attributes']['class'][] = 'search';
-		$block = module_invoke('search', 'block_view');
-		// Insert a class for search input so we can style it.
-		// @todo Decide whether this should be implemented with hook_block_view_alter().
-		$block['content']['search_block_form']['#attributes']['class'][] = 'nav_search_input';
-		$block['content']['search_block_form']['#attributes']['placeholder'] = 'News and articles';
-		$output = render($block['content']);
+		$element['#attributes']['class'][] = 'divider';
 	}
-  }
+  
+	// If it's the search form, we insert the form here
+	elseif ($element['#href'] == '<nolink>' && $element['#title'] == 'Search') {
+		// ... unless we are on the front page; we later on delete it completely in meny-tree.func.php;
+		if (drupal_is_front_page()) {
+			$element['#title'] = ''; // but keep the actual <li>text</li> empty so that if someone changes the desc from CP at least we don't get stray text on FP!
+			$output = l($element['#title'], $element['#href'], $element['#localized_options']);
+		}
+		else {
+			$output = '';
+			$element['#attributes']['class'][] = 'search';
+			$block = module_invoke('search', 'block_view');
+			// Insert a class for search input so we can style it.
+			// @todo Decide whether this should be implemented with hook_block_view_alter().
+			$block['content']['search_block_form']['#attributes']['class'][] = 'nav_search_input';
+			$block['content']['search_block_form']['#attributes']['placeholder'] = 'News and articles';
+			$output = render($block['content']);
+		}
+	}
 
-  if (count($element['#attributes']['class']) == 0) {
-    return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
-  }
+	if (count($element['#attributes']['class']) == 0) {
+		return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+	}
 
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }

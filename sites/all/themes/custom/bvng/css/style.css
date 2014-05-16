@@ -6830,6 +6830,9 @@ table .checkbox input[type="checkbox"] {
   position: absolute;
   right: 0px;
 }
+.ordim {
+  color: #ADD8B8;
+}
 #region-highlighted {
   padding-left: 0px;
 }
@@ -7945,6 +7948,19 @@ div.button span {
 }
 #region-navigation {
   height: 1px !important ;
+}
+.account-fp {
+  background: none;
+}
+.menu-fp > li.active > a:hover,
+.menu-fp > li.active > a:focus,
+.menu-fp > li > a:hover,
+.menu-fp > li > a:focus {
+  color: #0099cc;
+}
+.menu-fp > li.active > a,
+.menu-fp > li > a {
+  color: #FFF;
 }
 #center-fp {
   border: 1px solid red;

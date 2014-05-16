@@ -77,6 +77,8 @@
  * @ingroup themeable
  */
 ?>
+
+
 <section id="masthead-fp">
   <div class="container">
     <div class="row">
