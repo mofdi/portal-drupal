@@ -83,27 +83,27 @@
   <div class="container">
     <div class="row">
       <div class="col-md-3 col-md-push-9"> 
-        <?php print render($page['user']); ?>
+	<?php print render($page['user']); ?>
 		</div>
     </div>
     <div class="row">
       <div id="region-navigation" class="col-md-12">
     		<div class="navbar-header">
     			<div id="branding">
-        		<?php if ($logo): ?>
-          		<a class="logo" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
-          			<img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
-          		</a>
-        		<?php endif; ?>
-        		<?php if (!empty($site_name)): ?>
-        		  <h1><a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>"><?php print $site_name; ?></a></h1>
-        		<?php endif; ?>
-        		<?php if (!empty($site_slogan)): ?>
-            	<span><?php print $site_slogan; ?></span>
-            <?php endif; ?>
+			<?php if ($logo): ?>
+	  		<a class="logo" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
+	  			<img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
+	  		</a>
+			<?php endif; ?>
+			<?php if (!empty($site_name)): ?>
+			  <h1><a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>"><?php print $site_name; ?></a></h1>
+			<?php endif; ?>
+			<?php if (!empty($site_slogan)): ?>
+	    	<span><?php print $site_slogan; ?></span>
+	    <?php endif; ?>
       		</div>
 
-          <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
+	  <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
     			<div id="navigation-menu" class="nav-inline">
       			<nav role="navigation">
       				<?php if (!empty($page['navigation'])): ?>
@@ -128,7 +128,45 @@
 		<?php // if (!empty($breadcrumb)): print $breadcrumb; endif;?>
 	</div>	
 -->
-<section id="main" class="main-fp">
+
+<section id="intro">
+	<div id="center-fp">
+		<div class="well well-lg">
+			<div class="row">
+				<div class="col-md-4">
+					<h3>Sharing biodiversity <br/>data for re-use</h3>
+					<ul>
+						<li><a href="http://www.gbif.org/whatisgbif">Learn about GBIF</a></li>
+						<li><a href="http://www.gbif.org/publishingdata/summary">Publish your data through GBIF</a></li>
+						<li><a href="http://www.gbif.org/infrastructure/summary">Technical infrastructure</a></li>
+					</ul>
+				</div>
+				<div class="col-md-4">
+					<h3>Providing evidence for research and decisions</h3>
+					<ul>
+						<li><a href="http://www.gbif.org/usingdata/summary">Using data through GBIF</a></li>
+						<li><a href="http://www.gbif.org/usingdata/sciencerelevance">Enabling biodiversity science</a></li>
+						<li><a href="http://www.gbif.org/usingdata/policyrelevance">Supporting global targets</a></li>
+					</ul>
+				</div>
+				<div class="col-md-4">
+						<h3>Collaborating as a <br/> global community</h3>
+						<ul>
+							<li><a href="http://www.gbif.org/participation/list">Current Participants</a></li>
+							<li><a href="http://www.gbif.org/governance/finance">How GBIF is funded</a></li>
+							<li><a href="http://www.gbif.org/capacityenhancement/summary">Enhancing capacity</a></li>
+						</ul>
+				</div>
+			</div>
+			<div class="row">
+				<?php print render($search_form); ?>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<section id="main">
 
   <?php print render($page['content']); ?>
 
@@ -138,20 +176,20 @@
   <div id="footer-links">
     <div class="container">
       <div class="row">
-        <div class="footer col-md-12">
-          <?php print render($page['links']); ?>
-        </div>
+	<div class="footer col-md-12">
+	  <?php print render($page['links']); ?>
+	</div>
       </div>
     </div>
   </div>
   <div id="footer-credits">
     <div class="container">
       <div class="row">
-        <div class="footer col-md-12">
-            <?php print render($page['credits']); ?>
-            <!-- Print the footer here for compatibility reason. -->
-            <?php print render($page['footer']); ?>
-        </div>
+	<div class="footer col-md-12">
+	    <?php print render($page['credits']); ?>
+	    <!-- Print the footer here for compatibility reason. -->
+	    <?php print render($page['footer']); ?>
+	</div>
       </div>
     </div>
   </div>
