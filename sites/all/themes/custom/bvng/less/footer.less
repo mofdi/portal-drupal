@@ -1,8 +1,10 @@
 // mixin for the icons
 
 .social_icon(@imgpath) {
-  background: url(@imgpath) 0 0 no-repeat;
-  background-size: 25px 25px;
+  background: url(@imgpath) no-repeat;
+  width: 25px;
+  height: 25px;
+  background-size: cover;
 }
 
 #footer {
@@ -115,7 +117,7 @@
               width:80px;
               height:94px;
               margin: 0 0 10px 0;
-              background: url("../images/logo_black.png") no-repeat;
+              background: url("../images/images.png") no-repeat;
             }
             
           }
@@ -123,19 +125,19 @@
           &.social li {
             margin: 0 0 5px 0;
 
-            a { vertical-align:middle; }
+            a { vertical-align: middle; }
 
             i {
-             .inline_block();
-             vertical-align:middle;
-             width: 25px; height: 25px;
-             margin: 0 7px 0 0;
+              .inline_block();
+              vertical-align: middle;
+              width: 25px; height: 25px;
+              margin: 0 7px 0 0;
             }
 
-            &.twitter  i { .social_icon("../images/twitter.png"); }
-            &.facebook i { .social_icon("../images/facebook.png"); }
-            &.linkedin i { .social_icon("../images/linkedin.png"); }
-            &.vimeo    i { .social_icon("../images/vimeo.png"); }
+            &.twitter  i { .social_icon("../images/social-icons.png"); background-position: 0px 0px; }
+            &.facebook i { .social_icon("../images/social-icons.png"); background-position: 0px -26px; }
+            &.linkedin i { .social_icon("../images/social-icons.png"); background-position: 0px -51px; }
+            &.vimeo    i { .social_icon("../images/social-icons.png"); background-position: 0px -76px; }
           }
         }
       }
