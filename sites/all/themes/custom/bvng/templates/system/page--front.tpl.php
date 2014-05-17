@@ -137,8 +137,8 @@
 -->
 
 <section id="intro">
-	<div id="center-fp">
-		<div class="well well-lg">
+	<div class="region region-intro">
+		<div class="container well well-lg well-fp">
 			<div class="row">
 				<div class="col-md-4">
 					<h3>Sharing biodiversity <br/>data for re-use</h3>

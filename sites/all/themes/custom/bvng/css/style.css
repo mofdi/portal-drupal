@@ -7944,7 +7944,7 @@ div.button span {
   z-index: 0;
 }
 #masthead-fp {
-  height: 676px;
+  height: 370px;
 }
 #region-navigation.fp {
   height: 1px !important ;
@@ -7980,6 +7980,8 @@ div.button span {
 }
 .account-fp {
   background: none;
+  margin-top: -2px;
+  right: 0px;
 }
 .menu-fp > li.active > a:hover,
 .menu-fp > li.active > a:focus,
@@ -8026,12 +8028,7 @@ div.button span {
 .counters li:last-child {
   border: none;
 }
-#center-fp {
-  position: absolute;
-  left: 50%;
-  margin-left: -462px;
-  text-align: left;
-  width: 924px;
-  z-index: 600;
-  margin-top: -300px;
+.well-fp {
+  position: relative;
+  z-index: 400;
 }
