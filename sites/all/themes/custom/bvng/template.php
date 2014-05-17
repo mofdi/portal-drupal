@@ -197,6 +197,7 @@ function bvng_preprocess_page(&$variables) {
 	if ( drupal_is_front_page() ) {
 		drupal_add_js( libraries_get_path('leaflet').'/leaflet.js', array( 'type' => 'file', 'scope' => 'header' )); 
 		drupal_add_js( libraries_get_path('moment').'/moment.js', array( 'type' => 'file', 'scope' => 'header' )); 
+		drupal_add_js( drupal_get_path('theme', 'bvng') . '/js/cfg', array( 'type' => 'file', 'scope' => 'header' )); 
 		drupal_add_js( drupal_get_path('theme', 'bvng') . '/js/init_homepage_map.js', array( 'type' => 'file', 'scope' => 'header' ));
 		
 		$variables['search_form'] = module_invoke('search', 'block_view', 'search_form');

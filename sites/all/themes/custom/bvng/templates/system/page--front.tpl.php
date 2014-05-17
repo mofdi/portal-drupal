@@ -121,10 +121,10 @@
 		</div>
 		<div class="row">
 			<ul class="counters">
-				<li><a href="http://www.gbif.org/occurrence"><strong id="countOccurrences">448,525,599</strong> Occurrences</a></li>
-				<li><a href="http://www.gbif.org/species"><strong id="countSpecies">1,454,695</strong> Species</a></li>
-				<li><a href="http://www.gbif.org/dataset"><strong id="countDatasets">15,081</strong> Datasets</a></li>
-				<li><a href="http://www.gbif.org/publisher/search"><strong id="countPublishers">605</strong> Data publishers</a></li>
+				<li><a href="http://www.gbif.org/occurrence"><strong id="countOccurrences">?</strong> Occurrences</a></li>
+				<li><a href="http://www.gbif.org/species"><strong id="countSpecies">?</strong> Species</a></li>
+				<li><a href="http://www.gbif.org/dataset"><strong id="countDatasets">?</strong> Datasets</a></li>
+				<li><a href="http://www.gbif.org/publisher/search"><strong id="countPublishers">?</strong> Data publishers</a></li>
 			</ul>
 		</div>
 	</div>

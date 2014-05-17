@@ -43,6 +43,7 @@
  *
  * @ingroup themeable
  */
+
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN"
   "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 <html lang="<?php print $language->language; ?>" dir="<?php print $language->dir; ?>"<?php print $rdf_namespaces;?>>
@@ -63,23 +64,29 @@
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
   <!-- beginning Drupal scripts -->
-  <?php //print $scripts; ?>
-  
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script>window.jQuery || document.write("<script src='/sites/all/modules/contrib/jquery_update/replace/jquery/1.7/jquery.min.js'>\x3C/script>")</script>
-<script src="http://dd.gbif.org/misc/jquery.once.js?v=1.2"></script>
-<script src="http://www.gbif.org/cfg"></script>
-<script src="http://dd.gbif.org/sites/all/libraries/leaflet/leaflet.js?n542hp"></script>
-<script src="http://dd.gbif.org/sites/all/libraries/moment/moment.js?n542hp"></script>
-<script src="http://dd.gbif.org/sites/all/themes/custom/bvng/js/init_homepage_map.js?n542hp"></script>
-<!-- script src="http://dd.gbif.org/misc/drupal.js?n542hp"></script -->  
-
-	<!-- script type="text/javascript" src="http://www.gbif.org/js/vendor/jquery-1.7.1.min.js"></script>
-	<script src="http://dd.gbif.org/sites/all/libraries/leaflet/dist/leaflet.js?n542hp"></script>
-	<script src="http://dd.gbif.org/sites/all/libraries/moment/moment.js?n542hp"></script>
-	<script src="http://dd.gbif.org/sites/all/themes/custom/bvng/js/init_homepage_map.js?n542hp"></script -->
-	
+  <?php print $scripts; ?>
   <!-- ending Drupal scripts -->
+  
+<script type="text/javascript">
+	function numberWithCommas(x) {
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+	jQuery(document).ready(function($) {
+		$.getJSON('http://api.gbif.org/v0.9/occurrence/count?callback=?', function (data)
+		{ $("#countOccurrences").html(numberWithCommas(data)); }
+		);
+		$.getJSON('http://api.gbif.org/v0.9/species/search?dataset_key=7ddf754f-d193-4cc9-b351-99906754a03b&limit=1&rank=species&status=accepted&status=DOUBTFUL&callback=?', function (data)
+		{ $("#countSpecies").html(numberWithCommas(data.count)); }
+		);	
+		$.getJSON('http://api.gbif.org/v0.9/dataset/search?limit=1&callback=?', function (data)
+		{ $("#countDatasets").html(numberWithCommas(data.count)); }
+		);
+		$.getJSON('http://api.gbif.org/v0.9/organization/count?callback=?', function (data)
+		{ $("#countPublishers").html(numberWithCommas(data)); }
+		);
+	});
+</script>  
+  
 </head>
 <body class="<?php print $classes; ?>" <?php print $attributes;?>>
 	<div id='homepageMap' class="leaflet-container"></div>
