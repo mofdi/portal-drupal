@@ -11,8 +11,38 @@
 }
 
 
-#region-navigation{
+#region-navigation.fp{
 	height:1px !important ;
+	.logo {
+		left: 25px;
+	}
+	#navigation-menu {
+		right: 40px;
+	}
+	h1 {
+		left: 27px;
+		line-height: 44px ;
+		margin: 0px;
+		position: absolute;
+		top: 80px;
+		width: 410px;
+		a {
+			text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+			color: #FFF;
+			font-size: 48px ;
+			
+		}
+	}
+	h2 {
+		color: #333;
+		font-size: 20px;
+		left: 27px; 
+		margin: 0px;
+		position: absolute;
+		text-shadow: none;
+ 		top: 181px; 
+		width: 410px;
+	}
 }
 
 .account-fp {
@@ -26,6 +56,42 @@
 
 .menu-fp > li.active > a, .menu-fp  > li > a {
 	color: #FFF;
+}
+
+.counters {
+	left: 22px ;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	position: relative;
+	top: 294px;
+	z-index: 100;
+	li {
+		display: inline-block;
+		vertical-align: top;
+		margin: 0 20px 0 0;
+		border-right: 1px solid #fff;
+		border-right: 1px solid rgba(255, 255, 255, 0.3);
+		padding-right: 10px;
+		font-size: 13px;
+		color: #40523c;
+		text-transform: uppercase;
+		strong {
+			display: block;
+			margin: 0 0 5px 0;
+			font-size: 28px;
+			font-weight: normal;
+			line-height: 24px;
+			color: #ffffff;
+			text-transform: none;
+		}
+		a {
+			color: #333;
+		}
+	}
+	li:last-child {
+		border: none;
+	}
 }
 
 #center-fp {

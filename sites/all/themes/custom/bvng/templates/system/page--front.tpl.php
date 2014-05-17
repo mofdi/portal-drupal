@@ -80,47 +80,54 @@
 
 
 <section id="masthead-fp">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-3 col-md-push-9"> 
-	<?php print render($page['user']); ?>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3 col-md-push-9"> 
+		<?php print render($page['user']); ?>
+			</div>
 		</div>
-    </div>
-    <div class="row">
-      <div id="region-navigation" class="col-md-12">
-    		<div class="navbar-header">
-    			<div id="branding">
-			<?php if ($logo): ?>
-	  		<a class="logo" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
-	  			<img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
-	  		</a>
-			<?php endif; ?>
-			<?php if (!empty($site_name)): ?>
-			  <h1><a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>"><?php print $site_name; ?></a></h1>
-			<?php endif; ?>
-			<?php if (!empty($site_slogan)): ?>
-	    	<span><?php print $site_slogan; ?></span>
-	    <?php endif; ?>
-      		</div>
+		<div class="row">
+			<div id="region-navigation" class="col-md-12 fp">
+				<div class="navbar-header">
+					<div id="branding">
+						<?php if ($logo): ?>
+							<a class="logo" href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>">
+							<img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
+							</a>
+						<?php endif; ?>
+						<?php if (!empty($site_name)): ?>
+							<h1><a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>"><?php print $site_name; ?></a></h1>
+						<?php endif; ?>
+						<?php if (!empty($site_slogan)): ?>
+							<h2><?php print $site_slogan; ?></h2>
+						<?php endif; ?>
+					</div>
+					<?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
+						<div id="navigation-menu" class="nav-inline">
+							<nav role="navigation">
+								<?php if (!empty($page['navigation'])): ?>
+								<?php print render($page['navigation']); ?>
+								<?php endif; ?>
 
-	  <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
-    			<div id="navigation-menu" class="nav-inline">
-      			<nav role="navigation">
-      				<?php if (!empty($page['navigation'])): ?>
-      				<?php print render($page['navigation']); ?>
-      				<?php endif; ?>
-
-      				<!-- $primary_nav is kept for compatibility reason. -->
-      				<?php if (!empty($primary_nav)): ?>
-      				<?php print render($primary_nav); ?>
-      				<?php endif; ?>
-      			</nav>
-      		</div>
-      		<?php endif; ?>
-    		</div>
-    	</div>
-  	</div>
-  </div>
+								<!-- $primary_nav is kept for compatibility reason. -->
+								<?php if (!empty($primary_nav)): ?>
+								<?php print render($primary_nav); ?>
+								<?php endif; ?>
+							</nav>
+						</div>
+					<?php endif; ?>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<ul class="counters">
+				<li><a href="http://www.gbif.org/occurrence"><strong id="countOccurrences">448,525,599</strong> Occurrences</a></li>
+				<li><a href="http://www.gbif.org/species"><strong id="countSpecies">1,454,695</strong> Species</a></li>
+				<li><a href="http://www.gbif.org/dataset"><strong id="countDatasets">15,081</strong> Datasets</a></li>
+				<li><a href="http://www.gbif.org/publisher/search"><strong id="countPublishers">605</strong> Data publishers</a></li>
+			</ul>
+		</div>
+	</div>
 </section>
 
 <!-- Breadcrumb
