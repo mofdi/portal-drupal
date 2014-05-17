@@ -589,14 +589,8 @@ function bvng_preprocess_user_profile(&$variables) {
 
 function bvng_preprocess_user_register_form(&$variables) {
   if (isset($variables)) {
-  	$notice_icon = theme_image(array(
-  		'path' => drupal_get_path('theme', 'bvng') . '/images/notice_icon.png',
-  		'width' => 44,
-  		'height' => 44,
-  		'alt' => t('Disclaimer icon'),
-  		'title' => t('Disclaimer'),
-  		'attributes' => array(),
-  	));
+  	
+    $notice_icon = '<div class="notice-icon"></div>';
 
     $disclaimer = $notice_icon;
     $disclaimer .= '<h3>' . t('Disclaimer') . '</h3>';

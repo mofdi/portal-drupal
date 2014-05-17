@@ -5221,7 +5221,7 @@ a.list-group-item-danger.active:focus {
   margin-bottom: 50px;
 }
 .well-right-bg {
-  background: url("/sites/all/themes/custom/bvng/images/box_results_bkg.png") 118% 0% repeat-y #ffffff;
+  background: url("../images/box_results_bkg.png") 118% 0% repeat-y #ffffff;
 }
 .close {
   float: right;
@@ -6611,7 +6611,7 @@ table .checkbox input[type="checkbox"] {
   padding: 6px 0 0 7px;
   color: #ADD8B8;
   font-size: 11px;
-  background: url("../images/header_account_bkg.png") no-repeat;
+  background: url("../images/images.png") 0 -94px no-repeat;
   color: #ffffff;
 }
 .account a {
@@ -7655,9 +7655,12 @@ image won't shift it's position.
   color: #666666;
   font-size: 13px;
 }
-.disclaimer img {
+.disclaimer div.notice-icon {
   float: right;
   margin-top: 8px;
+  background: url("../images/images.png") -81px 0px no-repeat;
+  width: 44px;
+  height: 44px;
 }
 .table-curved {
   border-collapse: separate;
