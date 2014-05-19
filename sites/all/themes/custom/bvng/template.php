@@ -202,8 +202,8 @@ function bvng_preprocess_page(&$variables) {
 	}
 
   // Load javascript for every pages.
+	drupal_add_js('http://dev.gbif.org/issues/s/en_UKkby86d-1988229788/6096/5/1.4.0-m2/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=a2e9eca4', array('type' => 'file', 'scope' => 'footer', 'async_js' => TRUE));
 	_bvng_add_bootstrap_js();
-	drupal_add_js('http://dev.gbif.org/issues/s/en_UKkby86d-1988229788/6096/5/1.4.0-m2/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=a2e9eca4', array('type' => 'file', 'scope' => 'footer'));
 }
 
 /**
@@ -1110,7 +1110,7 @@ function _bvng_add_bootstrap_js() {
 	$options = array(
 		'type' => 'file',
 		'scope' => 'footer',
-		'async_js' => TRUE,
+		//'async_js' => TRUE,
 	);
 	$js_list = array(
 		array('altered' => FALSE, 'file' => 'affix.js'),
