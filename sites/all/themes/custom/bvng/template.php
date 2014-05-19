@@ -1110,21 +1110,21 @@ function _bvng_add_bootstrap_js() {
 	$options = array(
 		'type' => 'file',
 		'scope' => 'footer',
-		//'async_js' => TRUE,
+		'async_js' => TRUE,
 	);
 	$js_list = array(
-		array('altered' => FALSE, 'file' => 'affix.js'),
-		array('altered' => TRUE, 'file' => 'alert.js'),
-		array('altered' => FALSE, 'file' => 'button.js'),
-		array('altered' => FALSE, 'file' => 'carousel.js'),
-		array('altered' => FALSE, 'file' => 'collapse.js'),
-		array('altered' => FALSE, 'file' => 'dropdown.js'),
-		array('altered' => FALSE, 'file' => 'modal.js'),
-		array('altered' => FALSE, 'file' => 'tooltip.js'),
-		array('altered' => FALSE, 'file' => 'popover.js'),
-		array('altered' => FALSE, 'file' => 'scrollspy.js'),
-		array('altered' => FALSE, 'file' => 'tab.js'),
-		array('altered' => FALSE, 'file' => 'transition.js'),
+		array('altered' => FALSE, 'file' => 'affix.js', 'async_js' => TRUE),
+		array('altered' => TRUE, 'file' => 'alert.js', 'async_js' => TRUE),
+		array('altered' => FALSE, 'file' => 'button.js', 'async_js' => TRUE),
+		array('altered' => FALSE, 'file' => 'carousel.js', 'async_js' => TRUE),
+		array('altered' => FALSE, 'file' => 'collapse.js', 'async_js' => TRUE),
+		array('altered' => FALSE, 'file' => 'dropdown.js', 'async_js' => TRUE),
+		array('altered' => FALSE, 'file' => 'modal.js', 'async_js' => TRUE),
+		array('altered' => FALSE, 'file' => 'tooltip.js', 'async_js' => FALSE),
+		array('altered' => FALSE, 'file' => 'popover.js', 'async_js' => TRUE),
+		array('altered' => FALSE, 'file' => 'scrollspy.js', 'async_js' => TRUE),
+		array('altered' => FALSE, 'file' => 'tab.js', 'async_js' => TRUE),
+		array('altered' => FALSE, 'file' => 'transition.js', 'async_js' => TRUE),
 	);
 	foreach ($js_list as $js_file) {
 		if ($js_file['altered'] == FALSE) {
@@ -1133,6 +1133,6 @@ function _bvng_add_bootstrap_js() {
 		else {
 			$base = '';
 		}
-		drupal_add_js(drupal_get_path('theme', 'bvng') . '/' . $base . 'js/' . $js_file['file'], $options);
+		drupal_add_js(drupal_get_path('theme', 'bvng') . '/' . $base . 'js/' . $js_file['file'], array('type' => 'file', 'scope' => 'footer', 'async_js' => $js_file['async_js']));
 	}
 }
