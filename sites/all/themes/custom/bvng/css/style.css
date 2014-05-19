@@ -6584,7 +6584,7 @@ table .checkbox input[type="checkbox"] {
   float: right;
 }
 #masthead {
-  background: url('../images/navbar.jpg') repeat-x top;
+  background: url("../images/navbar.jpg") repeat-x top;
   height: 97px;
   position: relative;
 }
