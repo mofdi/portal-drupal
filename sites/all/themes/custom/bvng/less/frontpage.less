@@ -10,6 +10,11 @@
 	height: 370px;
 }
 
+.account-fp {
+	background: none;
+	margin-top: -2px;
+	right: 0px;
+} 
 
 #region-navigation.fp{
 	height:1px !important ;
@@ -45,13 +50,6 @@
 	}
 }
 
-.account-fp {
-	background: none;
-	margin-top: -2px;
-	right: 0px;
-} 
-
-
 .menu-fp > li.active > a:hover, .menu-fp > li.active > a:focus, .menu-fp > li > a:hover, .menu-fp > li > a:focus {
 	color: #0099cc;
 }
@@ -67,6 +65,7 @@
 	padding: 0;
 	position: relative;
 	top: 294px;
+	width:640px;
 	z-index: 100;
 	li {
 		border-right: 1px solid #fff;
@@ -101,7 +100,94 @@
 
 .well-fp{
 	position: relative;
+	padding: 0;
 	z-index: 400;
+	.row {
+		padding: 18px 50px 7px 50px; 
+		h3 {
+			margin: 0 0 20px 0;
+			height: 50px;
+			font-size: 22px;
+			display: inline-block;
+			line-height: 25px;
+			margin-bottom: 17px;
+			text-transform: none;
+			text-align: center;
+			color: #909090;
+			width: 100%;
+		}
+		ul {
+			margin: 0 0 18px 0;
+			display: inline-block;
+			line-height: 24px;
+			font-size: 15px;
+			padding: 0;
+			width: 250px;
+			text-align: center;
+			li {
+				width: 250px;
+				display: inline-block;
+				vertical-align: top;
+				list-style: none;
+				text-align: center;
+				background: none;
+				a {
+					display: block;
+					width: 250px;
+				}
+			}
+		
+		}
+	}
+	.row-search-fp {
+		padding: 28px 0 4px 0;
+		font-size: 15px;
+		height: 105px;
+		border-top: 1px solid #D8DCE1;
+		background-color: #f2fafc;
+		text-align: center;
+	}
+	.input-group {
+		.form-control {
+			border: 0;
+			background: url("../images/input_bkg.png") no-repeat left -62px;
+			color: #333333;
+			font-size: 17px;
+			height: 37px;
+			margin: 0 0 0 200px ;
+			padding: 0 15px 0 15px;
+			outline: none;
+			width: 388px;
+		}
+	}
+	input:focus {
+		box-shadow: none !important;
+	}
+	.search-btn-fp {
+		background: url("../images/button_search.png") no-repeat left top;
+		border: 0;
+		font-size: 17px;
+		height: 37px;
+		outline: none;
+		padding-right: 33px;
+		position: relative;
+		left: 180px;
+		top: -37px;
+		width: 109px;
+	}
+	.search-btn-fp:hover {
+		border: 0 ;
+		outline: none;
+		background: url("../images/button_search.png") no-repeat left -37px;
+	}
+	.search-btn-fp:active{
+		border: 0 ;
+		outline: none;
+		background: url("../images/button_search.png") no-repeat left -74px;
+	}
+	.glyphicon-search {
+		display: none
+	}
 }
 
 

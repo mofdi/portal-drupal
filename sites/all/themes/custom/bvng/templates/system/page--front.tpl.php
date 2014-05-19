@@ -165,7 +165,7 @@
 						</ul>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row-search-fp">
 				<?php print render($search_form); ?>
 			</div>
 		</div>

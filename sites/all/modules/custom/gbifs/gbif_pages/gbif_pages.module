@@ -160,7 +160,7 @@ function gbif_pages_form_alter(&$form, &$form_state, $form_id) {
     case 'user_login':
       $form['actions']['submit']['#value'] = t('Login');
       break;
-		case 'user_profile_form':
-			break;
+    case 'user_profile_form':
+      break;
   }
 }

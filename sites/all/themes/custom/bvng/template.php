@@ -575,7 +575,14 @@ function bvng_preprocess_views_view_list(&$variables) {
 function bvng_preprocess_search_block_form(&$variables) {
 }
 
-
+// gbif_pages_form_alter() in gbif_pages will return 0 for drupal_is_front_page() no matter what. 
+function bvng_form_alter (&$variables) {
+	if ( drupal_is_front_page() && $variables['#id'] == 'search-block-form--2' ) {
+		$variables['actions']['submit']['#attributes']['class'][0] = 'search-btn-fp';
+		$variables['search_block_form']['#attributes']['title'] = 'Search news items and information pages...' ;
+		$variables['search_block_form']['#attributes']['placeholder'] = 'Search news items and information pages...' ;
+	}
+}
 
 /**
  * Implements template_preprocess_user_profile().

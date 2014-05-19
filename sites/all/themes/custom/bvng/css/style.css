@@ -7946,6 +7946,11 @@ div.button span {
 #masthead-fp {
   height: 370px;
 }
+.account-fp {
+  background: none;
+  margin-top: -2px;
+  right: 0px;
+}
 #region-navigation.fp {
   height: 1px !important ;
 }
@@ -7978,11 +7983,6 @@ div.button span {
   top: 181px;
   width: 410px;
 }
-.account-fp {
-  background: none;
-  margin-top: -2px;
-  right: 0px;
-}
 .menu-fp > li.active > a:hover,
 .menu-fp > li.active > a:focus,
 .menu-fp > li > a:hover,
@@ -8000,6 +8000,7 @@ div.button span {
   padding: 0;
   position: relative;
   top: 294px;
+  width: 640px;
   z-index: 100;
 }
 .counters li {
@@ -8030,5 +8031,89 @@ div.button span {
 }
 .well-fp {
   position: relative;
+  padding: 0;
   z-index: 400;
+}
+.well-fp .row {
+  padding: 18px 50px 7px 50px;
+}
+.well-fp .row h3 {
+  margin: 0 0 20px 0;
+  height: 50px;
+  font-size: 22px;
+  display: inline-block;
+  line-height: 25px;
+  margin-bottom: 17px;
+  text-transform: none;
+  text-align: center;
+  color: #909090;
+  width: 100%;
+}
+.well-fp .row ul {
+  margin: 0 0 18px 0;
+  display: inline-block;
+  line-height: 24px;
+  font-size: 15px;
+  padding: 0;
+  width: 250px;
+  text-align: center;
+}
+.well-fp .row ul li {
+  width: 250px;
+  display: inline-block;
+  vertical-align: top;
+  list-style: none;
+  text-align: center;
+  background: none;
+}
+.well-fp .row ul li a {
+  display: block;
+  width: 250px;
+}
+.well-fp .row-search-fp {
+  padding: 28px 0 4px 0;
+  font-size: 15px;
+  height: 105px;
+  border-top: 1px solid #D8DCE1;
+  background-color: #f2fafc;
+  text-align: center;
+}
+.well-fp .input-group .form-control {
+  border: 0;
+  background: url("../images/input_bkg.png") no-repeat left -62px;
+  color: #333333;
+  font-size: 17px;
+  height: 37px;
+  margin: 0 0 0 200px ;
+  padding: 0 15px 0 15px;
+  outline: none;
+  width: 388px;
+}
+.well-fp input:focus {
+  box-shadow: none !important;
+}
+.well-fp .search-btn-fp {
+  background: url("../images/button_search.png") no-repeat left top;
+  border: 0;
+  font-size: 17px;
+  height: 37px;
+  outline: none;
+  padding-right: 33px;
+  position: relative;
+  left: 180px;
+  top: -37px;
+  width: 109px;
+}
+.well-fp .search-btn-fp:hover {
+  border: 0 ;
+  outline: none;
+  background: url("../images/button_search.png") no-repeat left -37px;
+}
+.well-fp .search-btn-fp:active {
+  border: 0 ;
+  outline: none;
+  background: url("../images/button_search.png") no-repeat left -74px;
+}
+.well-fp .glyphicon-search {
+  display: none;
 }
