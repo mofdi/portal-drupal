@@ -202,6 +202,7 @@ function bvng_preprocess_page(&$variables) {
 	}
 
   // Load javascript for every pages.
+	_bvng_add_bootstrap_js();
 	drupal_add_js('http://dev.gbif.org/issues/s/en_UKkby86d-1988229788/6096/5/1.4.0-m2/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=a2e9eca4', array('type' => 'file', 'scope' => 'footer'));
 }
 
@@ -1100,4 +1101,38 @@ function _bvng_load_javascript() {
   drupal_add_js($data_portal_base_url . '/js/graphs.js', array('type' => 'file', 'scope' => 'footer'));
   drupal_add_js($data_portal_base_url . '/js/vendor/resourcebundle.js', array('type' => 'file', 'scope' => 'footer'));
   drupal_add_js($data_portal_base_url . '/js/widgets.js', array('type' => 'file', 'scope' => 'footer'));
+}
+
+/**
+ * Helper function to control how default bootstrap javascript is loaded.
+ */
+function _bvng_add_bootstrap_js() {
+	$options = array(
+		'type' => 'file',
+		'scope' => 'footer',
+		'async_js' => TRUE,
+	);
+	$js_list = array(
+		array('altered' => FALSE, 'file' => 'affix.js'),
+		array('altered' => TRUE, 'file' => 'alert.js'),
+		array('altered' => FALSE, 'file' => 'button.js'),
+		array('altered' => FALSE, 'file' => 'carousel.js'),
+		array('altered' => FALSE, 'file' => 'collapse.js'),
+		array('altered' => FALSE, 'file' => 'dropdown.js'),
+		array('altered' => FALSE, 'file' => 'modal.js'),
+		array('altered' => FALSE, 'file' => 'tooltip.js'),
+		array('altered' => FALSE, 'file' => 'popover.js'),
+		array('altered' => FALSE, 'file' => 'scrollspy.js'),
+		array('altered' => FALSE, 'file' => 'tab.js'),
+		array('altered' => FALSE, 'file' => 'transition.js'),
+	);
+	foreach ($js_list as $js_file) {
+		if ($js_file['altered'] == FALSE) {
+			$base = 'bootstrap/';
+		}
+		else {
+			$base = '';
+		}
+		drupal_add_js(drupal_get_path('theme', 'bvng') . '/' . $base . 'js/' . $js_file['file'], $options);
+	}
 }
