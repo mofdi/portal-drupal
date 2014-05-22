@@ -63,6 +63,8 @@ function gbif_navigation_block_info_alter(&$block, $theme, $code_blocks) {
       $block['menu_block']['gbif_navigation_menu_tabs']['status'] = 1;
       $block['menu_block']['gbif_navigation_menu_tabs']['region'] = 'menu';
       $block['menu_block']['gbif_navigation_menu_tabs']['title'] = '<none>';
+      $block['menu_block']['gbif_navigation_menu_tabs']['visibility'] = BLOCK_VISIBILITY_NOTLISTED;
+      $block['menu_block']['gbif_navigation_menu_tabs']['pages'] = "search/*";
 
       $block['menu_block']['gbif_navigation_user_menu_tabs']['weight'] = 5;
       $block['menu_block']['gbif_navigation_user_menu_tabs']['status'] = 1;
@@ -105,7 +107,7 @@ function gbif_navigation_menu_block_blocks() {
       'level'       => 3,
       'follow'      => 0,
       'depth'       => 1,
-      'expanded'    => 0,
+      'expanded'    => 1,
       'sort'        => 0,
     ),
     'gbif_navigation_user_menu_tabs' => array(

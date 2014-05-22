@@ -158,7 +158,7 @@ function bvng_preprocess_page(&$variables) {
 		$altered_path = drupal_get_normal_path('newsroom/events'); // taxonomy/term/569
 	}
 	elseif (drupal_match_path($req_path, 'user') || drupal_match_path($req_path, 'user/*')) {
-		$altered_path = 'user' ;
+		$altered_path = 'user';
 	}
 
 	if ($altered_path) {
@@ -186,12 +186,20 @@ function bvng_preprocess_page(&$variables) {
     drupal_set_title(t('GBIF Newsroom'));
   }
 
+	// Relocate the search form to region 'highlighted'.
+	if (isset($variables['page']['content']['system_main']['search_form'])) {
+		unset($variables['page']['content']['system_main']['search_form']['advanced']);
+		$search_form = $variables['page']['content']['system_main']['search_form'];
+		$search_form['#attributes']['class'][] = 'banner_search_input';
+		$variables['page']['highlighted'][] = $search_form;
+		unset($variables['page']['content']['system_main']['search_form']);
+	}
+
   // Load javascript only when needed.
   switch ($req_path) {
-	case 'node/223': // contact/directoryofcontacts
-		drupal_add_js(drupal_get_path('theme', 'bvng') . '/js/contacts.js', array('type' => 'file', 'scope' => 'footer'));
-		break;
-	
+	 	case 'node/223': // contact/directoryofcontacts
+			drupal_add_js(drupal_get_path('theme', 'bvng') . '/js/contacts.js', array('type' => 'file', 'scope' => 'footer'));
+			break;
   }
 
 	if ( drupal_is_front_page() ) {
@@ -208,7 +216,6 @@ function bvng_preprocess_page(&$variables) {
 		
 	}
 
-  // _bvng_load_javascript()
 }
 
 /**
@@ -271,7 +278,7 @@ function bvng_preprocess_region(&$variables) {
  */
 function bvng_preprocess_block(&$variables) {
 
-	// We only need to work on the system main block.
+	// Preprocess for system main block.
 	if ($variables['block']->module == 'system' && $variables['block']->delta == 'main') {
 
 		// Use our own template for generic taxonomy term page.
@@ -311,7 +318,7 @@ function bvng_preprocess_block(&$variables) {
   		array_push($variables['theme_hook_suggestions'], 'block__system__main__404');
 
 		  $suggested_path = 'http://www-old.gbif.org/' . $variables['block']->requested_path;
-
+			$suggested_text = '';
 		  $suggested_text .= '<p>' . t('We are sorry for the inconvenience.') . '</p>';
 		  $suggested_text .= '<p>' . t('Did you try searching? Enter a keyword(s) in the search field above.') . '</p>';
 		  $suggested_text .= '<p>' . t('You may be following an out-dated link based on GBIF’s previous portal which was active until September 2013 – if so, you may find the content you are looking for !here', array('!here' => l('here', $suggested_path))) . '.</p>';
@@ -319,8 +326,6 @@ function bvng_preprocess_block(&$variables) {
 
     }
   }
-
-
 }
 
 /**
@@ -550,15 +555,6 @@ function bvng_preprocess_views_view(&$variables) {
   }
 }
 
-function bvng_preprocess_views_view_field(&$variables, $hook) {
-  if ($variables['view']->name == 'featurednewsarticles') {
-    $new = '';
-  }
-}
-
-function bvng_preprocess_field(&$variables) {
-}
-
 function bvng_preprocess_views_view_list(&$variables) {
   switch ($variables['view']->name) {
     case 'usesofdatafeaturedarticles':
@@ -572,15 +568,32 @@ function bvng_preprocess_views_view_list(&$variables) {
   }
 }
 
-function bvng_preprocess_search_block_form(&$variables) {
+/**
+ * Implements template_preprocess_search_results().
+ */
+function bvng_preprocess_search_results(&$variables) {
+	if (isset($variables)) {
+
+	}
+}
+
+/**
+ * Implements template_preprocess_search_result().
+ */
+function bvng_preprocess_search_result(&$variables) {
+	if (isset($variables)) {
+		$date_formatted = format_date($variables['result']['date'], 'custom', 'F jS, Y ');
+		$variables['result']['date_formatted'] = $date_formatted;
+
+	}
 }
 
 // gbif_pages_form_alter() in gbif_pages will return 0 for drupal_is_front_page() no matter what. 
-function bvng_form_alter (&$variables) {
-	if ( drupal_is_front_page() && $variables['#id'] == 'search-block-form--2' ) {
+function bvng_form_alter(&$variables) {
+	if (drupal_is_front_page() && $variables['#id'] == 'search-block-form--2') {
 		$variables['actions']['submit']['#attributes']['class'][0] = 'search-btn-fp';
-		$variables['search_block_form']['#attributes']['title'] = 'Search news items and information pages...' ;
-		$variables['search_block_form']['#attributes']['placeholder'] = 'Search news items and information pages...' ;
+		$variables['search_block_form']['#attributes']['title'] = 'Search news items and information pages...';
+		$variables['search_block_form']['#attributes']['placeholder'] = 'Search news items and information pages...';
 	}
 }
 
@@ -637,6 +650,7 @@ function _bvng_well_types($req_path, $system_main) {
     'allnewsarticles',
     'alldatausearticles',
     'events',
+		'search',
   );
 
   // Determine giving filter sidebar or not.
@@ -753,6 +767,11 @@ function _bvng_get_title_data($node_count = NULL, $user = NULL, $req_path = NULL
 			  'Item tagged with "@term"',
 				'Items tagged with "@term"',
 				array('@term' => $term->name)),
+		);
+	}
+	elseif (strpos(current_path(), 'search') !== FALSE) {
+		$title = array(
+			'name' => t('Search GBIF'),
 		);
 	}
 	return $title;
@@ -980,7 +999,7 @@ function _bvng_get_subject_links() {
   return $links;
 }
 
-function _bvng_get_more_search_options($tid) {
+function _bvng_get_more_search_options($tid = NULL, $search_string = NULL) {
   $data_portal_base_url = variable_get('data_portal_base_url');
   $term = taxonomy_term_load($tid);
   $voc = taxonomy_vocabulary_load($term->vid);
@@ -990,7 +1009,12 @@ function _bvng_get_more_search_options($tid) {
 
   // Publishers and datasets
   $link_text = t('Publishers and datasets');
-  $path_dataset = $data_portal_base_url . '/dataset/search?q=' . $term->name;
+	if ($tid !== NULL) {
+		$path_dataset = $data_portal_base_url . '/dataset/search?q=' . $term->name;
+	}
+	elseif ($search_string !== NULL) {
+		$path_dataset = $data_portal_base_url . '/dataset/search?q=' . $search_string;
+	}
   $links .= '<li>' . l($link_text, $path_dataset) . '</li>';
 
   // Countries

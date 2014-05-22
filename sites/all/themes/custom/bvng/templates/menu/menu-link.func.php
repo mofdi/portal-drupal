@@ -49,7 +49,6 @@ function bvng_menu_link(array $variables) {
 		$output = '';
 		$element['#attributes']['class'][] = 'divider';
 	}
-  
 	// If it's the search form, we insert the form here
 	elseif ($element['#href'] == '<nolink>' && $element['#title'] == 'Search') {
 		// ... unless we are on the front page; we later on delete it completely in meny-tree.func.php;
@@ -58,14 +57,21 @@ function bvng_menu_link(array $variables) {
 			$output = l($element['#title'], $element['#href'], $element['#localized_options']);
 		}
 		else {
-			$output = '';
-			$element['#attributes']['class'][] = 'search';
-			$block = module_invoke('search', 'block_view');
-			// Insert a class for search input so we can style it.
-			// @todo Decide whether this should be implemented with hook_block_view_alter().
-			$block['content']['search_block_form']['#attributes']['class'][] = 'nav_search_input';
-			$block['content']['search_block_form']['#attributes']['placeholder'] = 'News and articles';
-			$output = render($block['content']);
+			// The search result page has a search form in banner, so we only put a place holder.
+			$current_path = current_path();
+			if (strpos($current_path, 'search') !== FALSE) {
+				$output = '<div id="search-place-holder"></div>';
+			}
+			else {
+				$output = '';
+				$element['#attributes']['class'][] = 'search';
+				$block = module_invoke('search', 'block_view');
+				// Insert a class for search input so we can style it.
+				// @todo Decide whether this should be implemented with hook_block_view_alter().
+				$block['content']['search_block_form']['#attributes']['class'][] = 'nav_search_input';
+				$block['content']['search_block_form']['#attributes']['placeholder'] = 'News and articles';
+				$output = render($block['content']);
+			}
 		}
 	}
 

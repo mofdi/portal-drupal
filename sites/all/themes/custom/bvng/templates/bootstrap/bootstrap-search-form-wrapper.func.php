@@ -8,7 +8,9 @@
  * Theme function implementation for bootstrap_search_form_wrapper.
  */
 function bvng_bootstrap_search_form_wrapper($variables) {
-  $output = '<div class="input-group">';
+  $output = '';
+	
+	$output .= '<div class="input-group">';
   $output .= $variables['element']['#children'];
   
   // We don't want to show the search button, assuming
@@ -30,6 +32,7 @@ function bvng_bootstrap_search_form_wrapper($variables) {
 
   // We'd like to add a glyphicon here.
   $output .= '<span class="glyphicon glyphicon-search bring-forward"></span>';
+
   $output .= '</div>';
   return $output;
 }
