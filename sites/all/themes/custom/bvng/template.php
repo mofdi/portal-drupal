@@ -14,7 +14,6 @@ include_once(drupal_get_path('theme', 'bvng') . '/templates/bootstrap/bootstrap-
 include_once(drupal_get_path('theme', 'bvng') . '/templates/system/status-messages.func.php');
 include_once(drupal_get_path('theme', 'bvng') . '/templates/system/button.func.php');
 
-
 /**
  * Implements hook_theme().
  * @see http://www.danpros.com/2013/01/creating-custom-user-login-page-in.html
@@ -554,6 +553,28 @@ function bvng_preprocess_views_view(&$variables) {
       break;
   }
 }
+
+function bvng_preprocess_views_view_field(&$variables, $hook) {                      
+	if ($variables['view']->name == 'featurednewsarticles') {                          
+		$new = '';                                                                       
+	}                                                                                  
+	elseif ($variables['view']->name == 'viewallevents' && $variables['view']->current_display == 'latest4_fp') {
+		if ($variables['field']->field == 'field_start_date') { 
+			// allow extra divs and classes at a later time in template
+			// any lang where the short name of the month has blanks?
+			$pattern = '/(<span\s.+?>)(\w+\s\d\d)(<\/span>)/';
+			$replacement = '$2';
+			$target = $variables['field']->original_value ;
+			
+			$q = preg_replace ( $pattern, $replacement, $target);
+			$d = explode ( ' ', $q );
+			$variables['month_year'] = array ('month'=>$d[0] , 'year'=>$d[1]);
+		}
+	}                                                                                  
+}                                                                                    
+
+function bvng_preprocess_field(&$variables) {                                        
+}                                                                                    
 
 function bvng_preprocess_views_view_list(&$variables) {
   switch ($variables['view']->name) {

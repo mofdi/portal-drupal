@@ -130,16 +130,10 @@
 	</div>
 </section>
 
-<!-- Breadcrumb
-	<div class="row">
-		<?php // if (!empty($breadcrumb)): print $breadcrumb; endif;?>
-	</div>	
--->
-
 <section id="intro">
 	<div class="region region-intro">
 		<div class="container well well-lg well-fp">
-			<div class="row">
+			<div class="row row-intro-fp">
 				<div class="col-md-4">
 					<h3>Sharing biodiversity <br/>data for re-use</h3>
 					<ul>
@@ -157,12 +151,12 @@
 					</ul>
 				</div>
 				<div class="col-md-4">
-						<h3>Collaborating as a <br/> global community</h3>
-						<ul>
-							<li><a href="http://www.gbif.org/participation/list">Current Participants</a></li>
-							<li><a href="http://www.gbif.org/governance/finance">How GBIF is funded</a></li>
-							<li><a href="http://www.gbif.org/capacityenhancement/summary">Enhancing capacity</a></li>
-						</ul>
+					<h3>Collaborating as a <br/> global community</h3>
+					<ul>
+						<li><a href="http://www.gbif.org/participation/list">Current Participants</a></li>
+						<li><a href="http://www.gbif.org/governance/finance">How GBIF is funded</a></li>
+						<li><a href="http://www.gbif.org/capacityenhancement/summary">Enhancing capacity</a></li>
+					</ul>
 				</div>
 			</div>
 			<div class="row-search-fp">
@@ -172,12 +166,52 @@
 	</div>
 </section>
 
-
-<section id="main">
-
-  <?php print render($page['content']); ?>
-
+<section id="news-events-fp">
+	<div class="region region-news-events-fp">
+		<div class="container well well-lg well-news-events-fp">
+			<div class="row row-news-events-fp">
+				<div class="header header-fp" >
+					<h2>Latest GBIF news</h2>
+					<p>Go to <a href="/newsroom/summary">GBIF Newsroom</a></p>
+				</div>
+			</div>
+			<div class="row">
+				<?php print views_embed_view('newsarticles', 'latest1_fp'); ?>
+				<?php print views_embed_view('newsarticles', 'latest4_fp'); ?>
+				<?php print views_embed_view('viewallevents', 'latest4_fp'); ?>
+			</div>
+		</div>
+	</div>
 </section>
+
+
+
+<section id="featured-datause-fp">
+	<div class="region featured-datause-fp">
+		<div class="container well well-lg well-featured-datause-fp">
+			<div class="row">
+				<div class="header header-fp" >
+					<h2>Featured GBIF data use</h2>
+					<p>See all <a href="/newsroom/uses">GBIF data use stories</a></p>
+				</div>
+			</div>
+			<div class="row">
+				<?php print views_embed_view('usesofdatafeaturedarticles', 'latest3_fp'); ?>
+			</div>
+			
+			<div class="row row-staticlnx-bottom-fp">
+				<ul>
+					<li><a href="http://www.gbif.org/species/1">Animals</a> ·</li>
+					<li><a href="http://www.gbif.org/species/6">Plants</a> ·</li>
+					<li><a href="http://www.gbif.org/species/5">Fungi</a> ·</li>
+					<li><a href="http://www.gbif.org/species/3">Bacteria</a> ·</li>
+					<li><a href="http://www.gbif.org/species/2">Archaea</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</section>
+
 
 <section id="footer">
   <div id="footer-links">
