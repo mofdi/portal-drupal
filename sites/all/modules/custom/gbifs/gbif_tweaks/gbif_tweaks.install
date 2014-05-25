@@ -32,6 +32,7 @@ function gbif_tweaks_install() {
     'fontyourface_ui',
     'fontyourface',
     'colorbox',
+    'devel',
   );
   module_disable($module_list);
   drupal_uninstall_modules($module_list, FALSE);
