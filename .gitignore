@@ -2,7 +2,7 @@
 sites/*/settings*.php
 
 # Ignore local modules
-sites/*/modules
+sites/default/modules
 
 # Ignore style.map which is for local development.
 sites/all/themes/custom/bvng/style.map
