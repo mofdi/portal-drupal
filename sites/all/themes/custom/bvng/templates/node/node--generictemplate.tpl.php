@@ -144,6 +144,16 @@
       </div>
       <div class="row">
         <div class="node-content col-md-8">
+          <?php if (empty($body) && $k == 0): // Show contextual links in the first cchunk well if body field is not used. ?>
+            <?php if ($display_submitted && user_is_logged_in()): ?>
+            <div class="submitted">
+              <?php print $submitted; ?>
+          		<?php if (!empty($tabs)): ?>
+          			<?php print render($tabs); ?>
+          		<?php endif; ?>
+            </div>
+            <?php endif; ?>
+          <?php endif; ?>
   				<?php print token_replace($cchunks_content[$k]); ?>
         </div>
         <div class="node-sidebar col-md-3">
