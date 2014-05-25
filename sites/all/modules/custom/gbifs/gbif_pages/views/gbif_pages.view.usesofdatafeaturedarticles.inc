@@ -1,5 +1,5 @@
 <?php
-/**
+  /**
  * @file
  * gbif_pages.views.newsarticles.inc
  */                                     
@@ -61,7 +61,7 @@ function gbif_pages_view_usesofdatafeaturedarticles() {
   $handler->display->display_options['filters']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['filters']['tid']['field'] = 'tid';
   $handler->display->display_options['filters']['tid']['value'] = array(
-    0 => '567',
+  0 => '567',
   );
   $handler->display->display_options['filters']['tid']['reduce_duplicates'] = TRUE;
   $handler->display->display_options['filters']['tid']['vocabulary'] = 'taxanavigation';
@@ -82,18 +82,69 @@ function gbif_pages_view_usesofdatafeaturedarticles() {
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '3';
   $handler->display->display_options['pager']['options']['offset'] = '0';
+
+  /* Display: Latest 3 uses FP */
+  $handler = $view->new_display('block', 'Latest 3 uses FP', 'latest3_fp');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Featured data use';
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '3';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'list';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_options']['inline'] = array(
+  'title' => 'title',
+  );
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Featured */
+  $handler->display->display_options['fields']['field_featured']['id'] = 'field_featured';
+  $handler->display->display_options['fields']['field_featured']['table'] = 'field_data_field_featured';
+  $handler->display->display_options['fields']['field_featured']['field'] = 'field_featured';
+  $handler->display->display_options['fields']['field_featured']['label'] = '';
+  $handler->display->display_options['fields']['field_featured']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_featured']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_featured']['settings'] = array(
+  'image_style' => 'featured',
+  'image_link' => 'content',
+  );
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  /* Field: Content: Body */
+  $handler->display->display_options['fields']['body_1']['id'] = 'body_1';
+  $handler->display->display_options['fields']['body_1']['table'] = 'field_data_body';
+  $handler->display->display_options['fields']['body_1']['field'] = 'body';
+  $handler->display->display_options['fields']['body_1']['label'] = '';
+  $handler->display->display_options['fields']['body_1']['alter']['strip_tags'] = TRUE;
+  $handler->display->display_options['fields']['body_1']['alter']['trim'] = TRUE;
+  $handler->display->display_options['fields']['body_1']['alter']['html'] = TRUE;
+  $handler->display->display_options['fields']['body_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['body_1']['type'] = 'text_summary_or_trimmed';
+  $handler->display->display_options['fields']['body_1']['settings'] = array(
+  'trim_length' => '600',
+  );
   $translatables['usesofdatafeaturedarticles'] = array(
-    t('Master'),
-    t('Featured data uses'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Latest 6 uses'),
-    t('Latest 3 uses'),
-    t('Featured data use'),
+  t('Master'),
+  t('Featured data uses'),
+  t('more'),
+  t('Apply'),
+  t('Reset'),
+  t('Sort by'),
+  t('Asc'),
+  t('Desc'),
+  t('Latest 6 uses'),
+  t('Latest 3 uses'),
+  t('Featured data use'),
+  t('Latest 3 uses FP'),
   );
   
   return $view;
