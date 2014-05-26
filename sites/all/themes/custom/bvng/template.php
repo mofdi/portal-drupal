@@ -213,7 +213,8 @@ function bvng_preprocess_page(&$variables) {
 	}
 
   // Load javascript for every pages.
-	drupal_add_js('http://dev.gbif.org/issues/s/en_UKkby86d-1988229788/6096/5/1.4.0-m2/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=a2e9eca4', array('type' => 'file', 'scope' => 'footer'));
+	drupal_add_js(drupal_get_path('theme', 'bvng') . '/js/bootstrap.min.js', array('type' => 'file', 'scope' => 'footer'));
+	drupal_add_js('http://dev.gbif.org/issues/s/en_UKkby86d-1988229788/6096/5/1.4.0-m2/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=a2e9eca4', array('type' => 'file', 'scope' => 'footer', 'async_js' => TRUE));
 }
 
 /**
@@ -1152,6 +1153,7 @@ function _bvng_node_count($nodes) {
 function _bvng_load_javascript() {
   /* Load javascripts.
    */
+	$data_portal_base_url = variable_get('data_portal_base_url');
   drupal_add_js($data_portal_base_url . '/js/vendor/jquery.dropkick-1.0.0.js', array('type' => 'file', 'scope' => 'footer'));
   drupal_add_js($data_portal_base_url . '/js/vendor/jquery.uniform.min.js', array('type' => 'file', 'scope' => 'footer'));
   drupal_add_js($data_portal_base_url . '/js/vendor/mousewheel.js', array('type' => 'file', 'scope' => 'footer'));
