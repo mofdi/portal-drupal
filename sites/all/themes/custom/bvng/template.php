@@ -201,20 +201,19 @@ function bvng_preprocess_page(&$variables) {
 			break;
   }
 
-	if ( drupal_is_front_page() ) {
-		drupal_add_js( libraries_get_path('leaflet').'/leaflet.js', array( 'type' => 'file', 'scope' => 'header' )); 
-		drupal_add_js( libraries_get_path('moment').'/moment.js', array( 'type' => 'file', 'scope' => 'header' )); 
-		drupal_add_js( drupal_get_path('theme', 'bvng') . '/js/cfg', array( 'type' => 'file', 'scope' => 'header' )); 
-		drupal_add_js( drupal_get_path('theme', 'bvng') . '/js/init_homepage_map.js', array( 'type' => 'file', 'scope' => 'header' ));
+	if (drupal_is_front_page()) {
+		drupal_add_js(libraries_get_path('leaflet') . '/leaflet.js', array('type' => 'file', 'scope' => 'header'));
+		drupal_add_js(libraries_get_path('moment') . '/moment.js', array('type' => 'file', 'scope' => 'header'));
+		drupal_add_js(drupal_get_path('theme', 'bvng') . '/js/cfg', array('type' => 'file', 'scope' => 'header'));
+		drupal_add_js(drupal_get_path('theme', 'bvng') . '/js/init_homepage_map.js', array( 'type' => 'file', 'scope' => 'header' ));
 		
 		$variables['search_form'] = module_invoke('search', 'block_view', 'search_form');
-
-		$variables['logo'] = drupal_get_path('theme', 'bvng') . '/images/logo_white.png' ;
-		
+		$variables['logo'] = drupal_get_path('theme', 'bvng') . '/images/logo_white.png';
 		$variables['site_name'] = "Global Biodiversity Information Facility";
-		
 	}
 
+  // Load javascript for every pages.
+	drupal_add_js('http://dev.gbif.org/issues/s/en_UKkby86d-1988229788/6096/5/1.4.0-m2/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=a2e9eca4', array('type' => 'file', 'scope' => 'footer'));
 }
 
 /**
