@@ -56,7 +56,7 @@
 
       <hr>
       
-      <a href="/newsroom/archive/alldatausearticles" class="btn btn-primary">more featured data uses</a>
+      <a href="/newsroom/archive/alldatausearticles" class="btn btn-primary">More featured data uses</a>
       
       <?php if ($pager): ?>
         <?php print $pager; ?>
