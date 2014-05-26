@@ -227,3 +227,33 @@ function gbif_pages_form_alter(&$form, &$form_state, $form_id) {
       break;
   }
 }
+
+/**
+ * Implements hook_image_default_styles().
+ */
+function gbif_pages_image_default_styles() {
+	$styles = array();
+	$styles['featured_news_slideshow_image'] = array(
+		'label' => t('Featured news slideshow image'),
+		'effects' => array(
+			array(
+				'name' => 'image_scale',
+				'data' => array(
+					'width' => 628,
+					'upscale' => 1,
+				),
+				'weight' => 0,
+			),
+			array(
+				'name' => 'image_crop',
+				'data' => array(
+					'width' => 626,
+					'height' => 424,
+				),
+				'weight' => 1,
+			),
+		),
+	);
+
+	return $styles;
+}
