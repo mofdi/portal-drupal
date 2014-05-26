@@ -63,8 +63,8 @@ function gbif_navigation_block_info_alter(&$block, $theme, $code_blocks) {
       $block['menu_block']['gbif_navigation_menu_tabs']['status'] = 1;
       $block['menu_block']['gbif_navigation_menu_tabs']['region'] = 'menu';
       $block['menu_block']['gbif_navigation_menu_tabs']['title'] = '<none>';
-      $block['menu_block']['gbif_navigation_menu_tabs']['visibility'] = BLOCK_VISIBILITY_NOTLISTED;
-      $block['menu_block']['gbif_navigation_menu_tabs']['pages'] = "search/*";
+      $block['menu_block']['gbif_navigation_menu_tabs']['visibility'] = BLOCK_VISIBILITY_PHP;
+      $block['menu_block']['gbif_navigation_menu_tabs']['pages'] = "<?php return gbif_navigation_menutab_visibility(); ?>";
 
       $block['menu_block']['gbif_navigation_user_menu_tabs']['weight'] = 5;
       $block['menu_block']['gbif_navigation_user_menu_tabs']['status'] = 1;
@@ -355,4 +355,29 @@ function gbif_navigation_download_history() {
   $data_portal_base_url = variable_get('data_portal_base_url');
   $path = $data_portal_base_url . '/user/download';
   drupal_goto($path, array('external' => TRUE));
+}
+
+function gbif_navigation_menutab_visibility() {
+	$current_path = current_path();
+
+	$sql = 'SELECT link_path FROM {menu_links} m WHERE m.menu_name = :menu AND m.link_path LIKE :link GROUP BY m.link_path';
+	$results = db_query($sql, array(':menu' => 'gbif-menu', ':link' => 'taxonomy/term/%'))->fetchAll();
+
+	if (drupal_match_path($current_path, 'search/*')) { // Don't show menu tab for search results.
+		return FALSE;
+	}
+	elseif (drupal_match_path($current_path, 'node/*')) { // Do show menu tab for normal pages.
+		return TRUE;
+	}
+	elseif (drupal_match_path($current_path, 'taxonomy/term/*')) { // For taxonomy term page: show menu tab for those that are menu items.
+		foreach ($results as $result) {
+			if ($current_path == $result->link_path) {
+				return TRUE;
+			}
+		}
+	}
+	else {
+		return TRUE;
+	}
+
 }

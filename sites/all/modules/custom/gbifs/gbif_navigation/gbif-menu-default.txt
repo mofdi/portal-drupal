@@ -1,8 +1,8 @@
 Data {"url":"<front>"}
--Explore occurrences {"url":"http:\/\/www.gbif-dev.org\/occurrence"}
--Explore species {"url":"http:\/\/www.gbif-dev.org\/species"}
--Explore dataset {"url":"http:\/\/www.gbif-dev.org\/dataset"}
--Explore by country {"url":"http:\/\/www.gbif-dev.org\/country"}
+-Explore occurrences {"url":"http:\/\/www.gbif-dev.org\/occurrence", "non_drupal_url":true}
+-Explore species {"url":"http:\/\/www.gbif-dev.org\/species", "non_drupal_url":true}
+-Explore dataset {"url":"http:\/\/www.gbif-dev.org\/dataset", "non_drupal_url":true}
+-Explore by country {"url":"http:\/\/www.gbif-dev.org\/country", "non_drupal_url":true}
 -Separator {"url":"<separator>"}        
 -Publishing data {"url":"publishingdata\/summary", "description": "How and why you should make biodiversity datasets accessible through GBIF"}
 --Summary {"url":"publishingdata\/summary", "description": "How and why you should make biodiversity datasets accessible through GBIF"}
@@ -49,7 +49,7 @@ Community {"url":"participation\/summary"}
 -Participation {"url":"participation\/summary", "description": "Being part of the GBIF community"}
 --Summary {"url":"participation\/summary"}
 --Membership {"url":"participation\/membership"}
---Participant list {"url":"participation\/list"}
+--Participant list {"url":"participation\/list", "non_drupal_url":true}
 --How to join {"url":"participation\/howtojoin"}
 -Capacity enhancement {"url":"capacityenhancement\/summary", "description": "Sharing expertise, experience and technology around the GBIF community"}
 --Summary {"url":"capacityenhancement\/summary"}
