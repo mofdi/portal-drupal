@@ -7390,6 +7390,7 @@ table .checkbox input[type="checkbox"] {
 }
 .view-content-featured .item-list ul {
   padding-left: 0px;
+  margin-bottom: 0px;
 }
 .view-content-featured .item-list ul li {
   display: inline-block;
@@ -7506,7 +7507,8 @@ table .checkbox input[type="checkbox"] {
   margin-bottom: 3px;
 }
 .summary-ruler {
-  margin: 0px;
+  margin-top: 0px;
+  margin-bottom: 15px;
 }
 .header-ruler {
   margin-top: 0px;
