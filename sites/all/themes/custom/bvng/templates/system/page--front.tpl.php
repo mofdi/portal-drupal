@@ -184,6 +184,8 @@
 	</div>
 </section>
 
+
+
 <section id="featured-datause-fp">
 	<div class="region featured-datause-fp">
 		<div class="container well well-lg well-featured-datause-fp">
@@ -196,6 +198,7 @@
 			<div class="row">
 				<?php print views_embed_view('usesofdatafeaturedarticles', 'latest3_fp'); ?>
 			</div>
+			
 			<div class="row row-staticlnx-bottom-fp">
 				<ul>
 					<li><a href="http://www.gbif.org/species/1">Animals</a> ·</li>
@@ -209,24 +212,25 @@
 	</div>
 </section>
 
+
 <section id="footer">
   <div id="footer-links">
     <div class="container">
       <div class="row">
-				<div class="footer col-md-12">
-				  <?php print render($page['links']); ?>
-				</div>
-			      </div>
-			    </div>
-			  </div>
-			  <div id="footer-credits">
-			    <div class="container">
-			      <div class="row">
-				<div class="footer col-md-12">
-			    <?php print render($page['credits']); ?>
-			    <!-- Print the footer here for compatibility reason. -->
-			    <?php print render($page['footer']); ?>
-				</div>
+	<div class="footer col-md-12">
+	  <?php print render($page['links']); ?>
+	</div>
+      </div>
+    </div>
+  </div>
+  <div id="footer-credits">
+    <div class="container">
+      <div class="row">
+	<div class="footer col-md-12">
+	    <?php print render($page['credits']); ?>
+	    <!-- Print the footer here for compatibility reason. -->
+	    <?php print render($page['footer']); ?>
+	</div>
       </div>
     </div>
   </div>

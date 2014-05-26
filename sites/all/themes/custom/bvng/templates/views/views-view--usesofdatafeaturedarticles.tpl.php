@@ -27,7 +27,9 @@
  * @ingroup views_templates
  */
 ?>
-<?php if ($current_path == 'taxonomy/term/565'): // The same view on the newsroom/summary has a header, so shown here. ?>
+<?php
+  // The same view on the newsroom/summary has a header, so shown here.
+  if ($current_path == 'taxonomy/term/565'): ?>
 <div class="container well well-lg">
   <div class="row">
     <header class="news-summary col-md-12">
