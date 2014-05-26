@@ -654,6 +654,17 @@ function bvng_preprocess_user_register_form(&$variables) {
   }
 }
 
+function bvng_js_alter(&$js) {
+	if ($js) {
+		foreach ($js as $data => $attr) {
+			if ($attr['scope'] == 'header') {
+				$js[$data]['scope'] = 'footer';
+			}
+		}
+
+	}
+}
+
 function _bvng_well_types($req_path, $system_main) {
   // Term pages that has a special layout, hence no filter well.
   $special_layout = array(
