@@ -608,7 +608,7 @@ function bvng_preprocess_search_result(&$variables) {
 	}
 }
 
-// gbif_pages_form_alter() in gbif_pages will return 0 for drupal_is_front_page() no matter what. 
+// gbif_pages_form_alter() in gbif_pages will return 0 for drupal_is_front_page() no matter what.
 function bvng_form_alter(&$variables) {
 	if (drupal_is_front_page() && $variables['#id'] == 'search-block-form--2') {
 		$variables['actions']['submit']['#attributes']['class'][0] = 'search-btn-fp';
@@ -639,14 +639,8 @@ function bvng_preprocess_user_profile(&$variables) {
 
 function bvng_preprocess_user_register_form(&$variables) {
   if (isset($variables)) {
-  	$notice_icon = theme_image(array(
-  		'path' => drupal_get_path('theme', 'bvng') . '/images/notice_icon.png',
-  		'width' => 44,
-  		'height' => 44,
-  		'alt' => t('Disclaimer icon'),
-  		'title' => t('Disclaimer'),
-  		'attributes' => array(),
-  	));
+  	
+    $notice_icon = '<div class="notice-icon"></div>';
 
     $disclaimer = $notice_icon;
     $disclaimer .= '<h3>' . t('Disclaimer') . '</h3>';
@@ -673,7 +667,7 @@ function _bvng_well_types($req_path, $system_main) {
 		'search',
   );
 
-  // Determine giving filter sidebar or not.
+	// Determine giving filter sidebar or not.
   if (!empty($system_main['taxonomy_terms']) || !empty($system_main['term_heading']['term'])) {
     // If not a node page then the well is draw in the region level template.
     // Some term pages are special.
