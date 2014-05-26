@@ -6058,7 +6058,6 @@ table .checkbox input[type="checkbox"] {
   padding: 0;
   width: 14px;
   height: 14px;
-  background: url(../images/magnifier.png) no-repeat;
 }
 #masthead nav > ul > li.search form {
   opacity: 0;
@@ -6990,7 +6989,7 @@ table .checkbox input[type="checkbox"] {
   width: 80px;
   height: 94px;
   margin: 0 0 10px 0;
-  background: url("../images/logo_black.png") no-repeat;
+  background: url("../images/images.png") no-repeat;
 }
 #footer #footer-credits ul > li > ul.social li {
   margin: 0 0 5px 0;
@@ -7010,20 +7009,32 @@ table .checkbox input[type="checkbox"] {
   margin: 0 7px 0 0;
 }
 #footer #footer-credits ul > li > ul.social li.twitter i {
-  background: url("../images/twitter.png") 0 0 no-repeat;
-  background-size: 25px 25px;
+  background: url("../images/social-icons.png") no-repeat;
+  width: 25px;
+  height: 25px;
+  background-size: cover;
+  background-position: 0px 0px;
 }
 #footer #footer-credits ul > li > ul.social li.facebook i {
-  background: url("../images/facebook.png") 0 0 no-repeat;
-  background-size: 25px 25px;
+  background: url("../images/social-icons.png") no-repeat;
+  width: 25px;
+  height: 25px;
+  background-size: cover;
+  background-position: 0px -26px;
 }
 #footer #footer-credits ul > li > ul.social li.linkedin i {
-  background: url("../images/linkedin.png") 0 0 no-repeat;
-  background-size: 25px 25px;
+  background: url("../images/social-icons.png") no-repeat;
+  width: 25px;
+  height: 25px;
+  background-size: cover;
+  background-position: 0px -51px;
 }
 #footer #footer-credits ul > li > ul.social li.vimeo i {
-  background: url("../images/vimeo.png") 0 0 no-repeat;
-  background-size: 25px 25px;
+  background: url("../images/social-icons.png") no-repeat;
+  width: 25px;
+  height: 25px;
+  background-size: cover;
+  background-position: 0px -76px;
 }
 .caret {
   display: inline-block;
@@ -7191,7 +7202,7 @@ table .checkbox input[type="checkbox"] {
   padding-left: 10px;
   list-style: square;
   list-style-position: outside;
-  list-style-image: url("http://cdn.gbif.org/img/icons/bullet.png");
+  list-style-image: url("../images/bullet.png");
 }
 .view-column {
   margin-left: 15px;
@@ -7227,7 +7238,7 @@ table .checkbox input[type="checkbox"] {
   padding-left: 10px;
   list-style: square;
   list-style-position: outside;
-  list-style-image: url("http://cdn.gbif.org/img/icons/bullet.png");
+  list-style-image: url("../images/bullet.png");
 }
 .sidebar-header {
   margin-left: 40px;
