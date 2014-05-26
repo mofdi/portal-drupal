@@ -630,7 +630,7 @@ while ( $row < $resultsize ) {
 
 } 
 
-$PList = '<table style="" class="table table-bordered table-stripped"><tbody><tr><th width="30%">Participant</th><th>Delegation members</th></tr>';
+$PList = '<table style="" class="table table-curved"><tbody><tr><th width="30%">Participant</th><th>Delegation members</th></tr>';
 
 foreach ( $participants as $p => $data ) {
 	$PList .= "<tr><td>{$p}</td><td>";
