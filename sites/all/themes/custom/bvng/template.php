@@ -661,7 +661,6 @@ function bvng_js_alter(&$js) {
 				$js[$data]['scope'] = 'footer';
 			}
 		}
-
 	}
 }
 
