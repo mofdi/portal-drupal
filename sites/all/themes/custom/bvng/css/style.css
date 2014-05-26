@@ -7487,6 +7487,9 @@ table .checkbox input[type="checkbox"] {
 .slideshow-intro p .readmore {
   font-size: 0.9em;
 }
+.field-content hr {
+  margin-top: 15px;
+}
 .news-summary {
   padding-bottom: 10px;
 }
