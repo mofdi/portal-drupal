@@ -246,7 +246,6 @@ function gbif_pages_view_newsarticles() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'list';
-  $handler->display->display_options['style_options']['class'] = 'latest4-fp';
   $handler->display->display_options['style_options']['wrapper_class'] = 'latest4-fp';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
@@ -280,34 +279,34 @@ function gbif_pages_view_newsarticles() {
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
   $translatables['newsarticles'] = array(
-  t('Master'),
-  t('GBIF news'),
-  t('more'),
-  t('Apply'),
-  t('Reset'),
-  t('Sort by'),
-  t('Asc'),
-  t('Desc'),
-  t('Items per page'),
-  t('- All -'),
-  t('Offset'),
-  t('first'),
-  t('previous'),
-  t('next'),
-  t('last'),
-  t('Page'),
-  t('author'),
-  t('All'),
-  t('GBIF news about %1'),
-  t('Feed'),
-  t('GBIF news feed'),
-  t('Block of latest 3'),
-  t('Block of latest one'),
-  t('Block of one news item to be used on the front page'),
-  t('Read more'),
-  t('more GBIF news'),
-  t('Block of latest 4'),
-  t('More'),
+    t('Master'),
+    t('GBIF news'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('first'),
+    t('previous'),
+    t('next'),
+    t('last'),
+    t('Page'),
+    t('author'),
+    t('All'),
+    t('GBIF news about %1'),
+    t('Feed'),
+    t('GBIF news feed'),
+    t('Block of latest 3'),
+    t('Block of latest one'),
+    t('Block of one news item to be used on the front page'),
+    t('Read more'),
+    t('more GBIF news'),
+    t('Block of latest 4'),
+    t('More'),
   );
 
   return $view;
