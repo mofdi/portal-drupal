@@ -140,7 +140,7 @@
   <div class="row">
     <article class="col-md-12 node-next">
       <div class="row">
-      	<header class="content-header col-md-12">
+      	<header class="next-header col-md-12">
       		<h3>Next <?php print render($type_title); ?> Story</h3>
       		<h2><a href="<?php print '/page/' . $next_node->nid; ?>"><?php print $next_node->title; ?></a></h2>
       	</header>

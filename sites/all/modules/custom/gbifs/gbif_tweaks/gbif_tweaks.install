@@ -31,7 +31,7 @@ function gbif_tweaks_install() {
     'local_fonts',
     'fontyourface_ui',
     'fontyourface',
-    'colorbox',
+    //'colorbox',
     'devel',
   );
   module_disable($module_list);

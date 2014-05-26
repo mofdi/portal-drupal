@@ -587,6 +587,27 @@ a.bg-danger:hover {
   text-transform: uppercase;
   text-shadow: 0 1px white;
 }
+.next-header h2 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-bottom: 10px;
+  padding-right: 20px;
+  font-size: 23px;
+  font-weight: normal;
+  line-height: 25px;
+  text-shadow: 0 1px #ffffff;
+}
+.next-header h2 a:hover {
+  text-decoration: none;
+}
+.next-header h3 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 13px;
+  font-weight: normal;
+  text-transform: uppercase;
+  text-shadow: 0 1px white;
+}
 ul,
 ol {
   margin-top: 0;
