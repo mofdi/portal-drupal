@@ -5726,7 +5726,7 @@ ul li.leaf {
   margin: 0 0 10px;
 }
 .submitted {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 .submitted > span {
   font-style: italic;
@@ -7292,9 +7292,6 @@ table .checkbox input[type="checkbox"] {
 }
 .field-type-image > .field-label {
   display: none;
-}
-.field-type-image .field-item {
-  margin-top: 15px;
 }
 .node-content p > em > strong,
 .field-name-body p > em > strong,
