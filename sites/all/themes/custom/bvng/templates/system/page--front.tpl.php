@@ -78,7 +78,7 @@
  */
 ?>
 
-
+<div id='homepageMap' class="leaflet-container"></div>
 <section id="masthead-fp">
 	<div class="container">
 		<div class="row">
