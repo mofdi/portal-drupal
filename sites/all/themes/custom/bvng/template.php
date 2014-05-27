@@ -102,11 +102,9 @@ function bvng_preprocess(&$variables, $hook) {
  */
 function bvng_preprocess_html(&$variables) {
   $data_portal_base_url = $variables['data_portal_base_url'];
-  //drupal_add_js($data_portal_base_url . '/cfg', array('type' => 'file', 'scope' => 'header'));
-  //drupal_add_js($data_portal_base_url . '/js/vendor/modernizr-1.7.min.js', array('type' => 'file', 'scope' => 'header'));
-  //drupal_add_js($data_portal_base_url . '/js/vendor/jquery-1.7.1.min.js', array('type' => 'file', 'scope' => 'header'));
-  //drupal_add_js($data_portal_base_url . '/js/vendor/jscrollpane.min.js', array('type' => 'file', 'scope' => 'header'));
-  //drupal_add_js($data_portal_base_url . '/js/vendor/css_browser_selector.js', array('type' => 'file', 'scope' => 'header'));
+	if (drupal_is_front_page()) {
+		$variables['head_title'] = t('Free and Open Access to Biodiversity Data | GBIF.ORG');
+	}
 }
 
 

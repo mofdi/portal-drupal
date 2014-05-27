@@ -32,7 +32,7 @@
   <div class="<?php print $classes; ?>">
     <ul>
       <li>
-        <h3>2013 &copy; GBIF</h3>
+        <h3><?php echo date("Y"); ?> &copy; GBIF</h3>
         <ul>
           <li><div class='logo'></div></li>
         </ul>
