@@ -53,12 +53,7 @@
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>
   <?php print $styles; ?>
-  
 
-<style>@import url("http://dd.gbif.org/sites/all/themes/custom/bvng/css/style.css?n5b3hh");</style>
-
-
-   <link rel="stylesheet" href="http://dd.gbif.org/sites/all/libraries/leaflet/leaflet.css" />
   <!-- HTML5 element support for IE6-8 -->
   <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>

@@ -105,6 +105,9 @@ function bvng_preprocess_html(&$variables) {
 	if (drupal_is_front_page()) {
 		$variables['head_title'] = t('Free and Open Access to Biodiversity Data | GBIF.ORG');
 	}
+  drupal_add_js(drupal_get_path('theme', 'bvng') . '/js/contacts.js', array('type' => 'file', 'scope' => 'footer'));
+  drupal_add_css(drupal_get_path('theme', 'bvng') . '/css/style.css', array('type' => 'file', 'scope' => 'footer')) ;
+  drupal_add_css(libraries_get_path('leaflet') . '/leaflet.css', array('type' => 'file', 'scope' => 'header'));
 }
 
 
