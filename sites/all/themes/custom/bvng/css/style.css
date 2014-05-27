@@ -6924,6 +6924,9 @@ table .checkbox input[type="checkbox"] {
   font-weight: 400;
   margin-top: 7px;
 }
+#region-highlighted h5 > a {
+  color: #ffffff;
+}
 #footer {
   position: absolute;
   height: 498px;
