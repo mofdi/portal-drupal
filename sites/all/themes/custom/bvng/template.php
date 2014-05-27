@@ -833,24 +833,27 @@ function _bvng_get_sidebar_content($nid, $vid) {
 
           if ($idx <> 'tags') {
             $field_items = field_get_items('node', $node, $field['machine_name']);
-            switch ($field['field_type']) {
-              case 'node_date':
-          		  array_push($item_list['items'], array('data' => format_date($node->$field['machine_name'], 'custom', 'F jS, Y ')));
-                break;
-              case 'text':
-              	foreach ($field_items as $item) {
-              		array_push($item_list['items'], array('data' => $item['value']));
-              	}
-                break;
-              case 'link_field':
-              	foreach ($field_items as $item) {
-              		array_push($item_list['items'], array('data' => l($item['title'], $item['url'])));
-              	}
-                break;
-              case 'taxonomy_term_reference':
-                _bvng_get_tag_links($field_items, $item_list);
-                break;
-            }
+						if ($field_items !== FALSE) {
+							switch ($field['field_type']) {
+								case 'node_date':
+									array_push($item_list['items'], array('data' => format_date($node->$field['machine_name'], 'custom', 'F jS, Y ')));
+									break;
+								case 'text':
+									foreach ($field_items as $item) {
+										array_push($item_list['items'], array('data' => $item['value']));
+									}
+									break;
+								case 'link_field':
+									foreach ($field_items as $item) {
+										array_push($item_list['items'], array('data' => l($item['title'], $item['url'])));
+									}
+									break;
+								case 'taxonomy_term_reference':
+									_bvng_get_tag_links($field_items, $item_list);
+									break;
+							}
+							$markup .= theme_item_list($item_list);
+						}
           }
           elseif ($idx == 'tags') {
             $terms = array();
@@ -864,10 +867,11 @@ function _bvng_get_sidebar_content($nid, $vid) {
                 }
               }
             }
-            _bvng_get_tag_links($terms, $item_list);
+						if (count($terms) > 0) {
+							_bvng_get_tag_links($terms, $item_list);
+							$markup .= theme_item_list($item_list);
+						}
           }
-
-          $markup .= theme_item_list($item_list);
         }
         break;
     }
