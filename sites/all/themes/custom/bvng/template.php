@@ -208,6 +208,9 @@ function bvng_preprocess_page(&$variables) {
 		drupal_add_js(drupal_get_path('theme', 'bvng') . '/js/init_homepage_map.js', array( 'type' => 'file', 'scope' => 'footer','weight' => 50));
 		drupal_add_js(drupal_get_path('theme', 'bvng') . '/js/numbers_homepage.js', array( 'type' => 'file', 'scope' => 'footer','weight' => 70));
 		
+		// Pass the data_portal_base_url to javascript
+		drupal_add_js(array('data_portal_base_url' => $variables['data_portal_base_url']), 'setting');
+		
 		$variables['search_form'] = module_invoke('search', 'block_view', 'search_form');
 		$variables['logo'] = drupal_get_path('theme', 'bvng') . '/images/logo_white.png';
 		$variables['site_name'] = "Global Biodiversity Information Facility";

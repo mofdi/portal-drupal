@@ -28,12 +28,12 @@
 				doubleClickZoom: false
 			});
 
+            var tileURL = Drupal.settings.data_portal_base_url + '/img/tiles/{z}/{x}/{y}.png';
 
-
-			L.tileLayer('http://www.gbif.org/img/tiles/{z}/{x}/{y}.png', {
+			L.tileLayer(tileURL, {
 				maxZoom: 4,
-				minZoom: 0,
-			}).addTo(map);
+				minZoom: 0
+            }).addTo(map);
 
 			var points = [];
 			var visible = []; // at any time
@@ -47,7 +47,7 @@
 							color: '#FFF',
 							fillOpacity: 1,
 							opacity: 0.8,
-							radius: 4,
+							radius: 4
 						}));
 				}
 			}
