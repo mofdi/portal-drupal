@@ -181,7 +181,8 @@ function gbif_navigation_node_view($node, $view_mode, $langcode) {
  *       management page.
  */
 function gbif_navigation_form_menu_edit_item_alter(&$form, &$form_state, $form_id) {
-  $data_portal_base_url = variable_get('data_portal_base_url');
+  $env = variable_get('environment_settings');
+	$data_portal_base_url = $env['data_portal_base_url'];
   $mlid = $form['mlid']['#value'];
   $result = db_select('menu_links', 'm')
     ->fields('m', array('non_drupal_url'))
@@ -276,8 +277,9 @@ function gbif_navigation_menu_edit_validate($form, &$form_state) {
   // Add the data portal base URL underneath so it'll pass normal Drupal
   // link validation as an external link.
   if ($item['non_drupal_url'] == 1) {
-    $data_portal_base_url = variable_get('data_portal_base_url');
-    $item['link_path'] = $data_portal_base_url . '/' . $item['link_path'];
+		$env = variable_get('environment_settings');
+		$data_portal_base_url = $env['data_portal_base_url'];
+		$item['link_path'] = $data_portal_base_url . '/' . $item['link_path'];
   }
 
 }
@@ -352,7 +354,8 @@ function gbif_navigation_help($path, $arg) {
 */
 
 function gbif_navigation_download_history() {
-  $data_portal_base_url = variable_get('data_portal_base_url');
+	$env = variable_get('environment_settings');
+	$data_portal_base_url = $env['data_portal_base_url'];
   $path = $data_portal_base_url . '/user/download';
   drupal_goto($path, array('external' => TRUE));
 }

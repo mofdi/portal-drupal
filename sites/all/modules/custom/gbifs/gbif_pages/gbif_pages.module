@@ -31,10 +31,11 @@ function gbif_pages_block_info_alter(&$blocks, $theme, $code_blocks) {
  * Implements hook_library().
  */
 function gbif_pages_library() {
+	$env = variable_get('environment_settings');
   $libraries['gbif_page_widgets'] = array(
     'title' => 'GBIF Widgets',
     'js' => array(
-      variable_get('data_portal_base_url') . '/js/widgets.js' => array(
+			$env['data_portal_base_url'] . '/js/widgets.js' => array(
         'type' => 'file',
         'scope' => 'footer',
         'weight' => 20,

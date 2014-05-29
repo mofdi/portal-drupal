@@ -46,21 +46,21 @@ function bvng_theme() {
   return $items;
 }
 
-function bvng_preprocess_user_login() {
-
-}
-
 /**
  * Implements template_preprocess().
  */
 function bvng_preprocess(&$variables, $hook) {
-  $data_portal_base_url = variable_get('data_portal_base_url');
-  $variables['data_portal_base_url'] = $data_portal_base_url;
+	// Make the environmental settings available to the theming layer and javascript.
+	$env = variable_get('environment_settings');
+	$variables['data_portal_base_url'] = $env['data_portal_base_url'];
+	$variables['gbif_api_base_url'] = $env['gbif_api_base_url'];
+	$variables['gbif_api_version'] = $env['gbif_api_version'];
+	drupal_add_js(array('environment_settings' => $env), 'setting');
 
-  /* The $current_path will change after setting active menu item,
-   * therefore a requested_path value is inserted to content region
-   * for regional processing.
-   */
+	/* The $current_path will change after setting active menu item,
+	 * therefore a requested_path value is inserted to content region
+	 * for regional processing.
+	 */
   $current_path = current_path();
   $variables['current_path'] = $current_path;
 
@@ -101,7 +101,6 @@ function bvng_preprocess(&$variables, $hook) {
  * Implements template_preprocess_html().
  */
 function bvng_preprocess_html(&$variables) {
-  $data_portal_base_url = $variables['data_portal_base_url'];
 	if (drupal_is_front_page()) {
 		$variables['head_title'] = t('Free and Open Access to Biodiversity Data | GBIF.ORG');
 	}
@@ -205,12 +204,8 @@ function bvng_preprocess_page(&$variables) {
 		drupal_add_js(libraries_get_path('leaflet') . '/leaflet.js', array('type' => 'file', 'scope' => 'footer','weight' => 10));
 		drupal_add_js(libraries_get_path('moment') . '/moment.js', array('type' => 'file', 'scope' => 'footer','weight' => 20));
 		drupal_add_js(drupal_get_path('theme', 'bvng') . '/js/cfg', array('type' => 'file', 'scope' => 'footer','weight' => 30));
-		drupal_add_js(drupal_get_path('theme', 'bvng') . '/js/init_homepage_map.js', array( 'type' => 'file', 'scope' => 'footer','weight' => 50));
-		drupal_add_js(drupal_get_path('theme', 'bvng') . '/js/numbers_homepage.js', array( 'type' => 'file', 'scope' => 'footer','weight' => 70));
-		
-		// Pass the data_portal_base_url to javascript
-		drupal_add_js(array('data_portal_base_url' => $variables['data_portal_base_url']), 'setting');
-		
+		drupal_add_js(drupal_get_path('theme', 'bvng') . '/js/frontPageWidgets.js', array( 'type' => 'file', 'scope' => 'footer','weight' => 50));
+
 		$variables['search_form'] = module_invoke('search', 'block_view', 'search_form');
 		$variables['logo'] = drupal_get_path('theme', 'bvng') . '/images/logo_white.png';
 		$variables['site_name'] = "Global Biodiversity Information Facility";
@@ -1033,7 +1028,8 @@ function _bvng_get_subject_links() {
 }
 
 function _bvng_get_more_search_options($tid = NULL, $search_string = NULL) {
-  $data_portal_base_url = variable_get('data_portal_base_url');
+	$env = variable_get('environment_settings');
+	$data_portal_base_url = $env['data_portal_base_url'];
   $term = taxonomy_term_load($tid);
   $voc = taxonomy_vocabulary_load($term->vid);
 	$links = '<p>' . t('This search result only covers the text content of the news and information pages of the GBIF portal.') . '</p>';
@@ -1171,7 +1167,8 @@ function _bvng_node_count($nodes) {
 function _bvng_load_javascript() {
   /* Load javascripts.
    */
-	$data_portal_base_url = variable_get('data_portal_base_url');
+	$env = variable_get('environment_settings');
+	$data_portal_base_url = $env['data_portal_base_url'];
   drupal_add_js($data_portal_base_url . '/js/vendor/jquery.dropkick-1.0.0.js', array('type' => 'file', 'scope' => 'footer'));
   drupal_add_js($data_portal_base_url . '/js/vendor/jquery.uniform.min.js', array('type' => 'file', 'scope' => 'footer'));
   drupal_add_js($data_portal_base_url . '/js/vendor/mousewheel.js', array('type' => 'file', 'scope' => 'footer'));

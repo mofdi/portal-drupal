@@ -245,7 +245,8 @@ function menu_import_parse_line($line, $prev_level, array $weights, array $paren
     $menuitem['link_path'] = $path;
   }
   elseif ($non_drupal_url == TRUE) {
-    $data_portal_base_url = variable_get('data_portal_base_url');
+		$env = variable_get('environment_settings');
+    $data_portal_base_url = $env['data_portal_base_url'];
     $menuitem['external'] = TRUE;
     $menuitem['link_path'] = $data_portal_base_url . '/' . $path;
   }
