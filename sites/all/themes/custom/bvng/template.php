@@ -282,7 +282,6 @@ function bvng_preprocess_block(&$variables) {
 		// Use our own template for generic taxonomy term page.
 		if (strpos($variables['elements']['#block']->requested_path, 'taxonomy/term') !== FALSE) {
     	$relation = gbif_pages_term_view_relation();
-    	$tid = arg(2);
     	if (!array_key_exists(arg(2), $relation)) {
     		array_push($variables['theme_hook_suggestions'], 'block__system__main__taxonomy' . '__generic');
     	}
