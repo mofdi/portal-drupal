@@ -180,7 +180,6 @@ function gbif_pages_view_newsarticles() {
   $handler->display->display_options['fields']['title']['alter']['link_class'] = 'title';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
   /* Field: Content: Featured */
   $handler->display->display_options['fields']['field_featured']['id'] = 'field_featured';
   $handler->display->display_options['fields']['field_featured']['table'] = 'field_data_field_featured';
