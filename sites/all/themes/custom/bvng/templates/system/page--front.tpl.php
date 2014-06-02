@@ -76,6 +76,10 @@
  *
  * @ingroup themeable
  */
+
+$env = variable_get('environment_settings');
+$data_portal_base_url = $env['data_portal_base_url'];
+
 ?>
 
 <div id='homepageMap' class="leaflet-container"></div>
@@ -121,10 +125,10 @@
 		</div>
 		<div class="row">
 			<ul class="counters">
-				<li><a href="http://www.gbif.org/occurrence"><strong id="countOccurrences">?</strong> Occurrences</a></li>
-				<li><a href="http://www.gbif.org/species"><strong id="countSpecies">?</strong> Species</a></li>
-				<li><a href="http://www.gbif.org/dataset"><strong id="countDatasets">?</strong> Datasets</a></li>
-				<li><a href="http://www.gbif.org/publisher/search"><strong id="countPublishers">?</strong> Data publishers</a></li>
+				<li><a href="<?php print_r($data_portal_base_url); ?>/occurrence"><strong id="countOccurrences">?</strong> Occurrences</a></li>
+				<li><a href="<?php print_r($data_portal_base_url); ?>/species"><strong id="countSpecies">?</strong> Species</a></li>
+				<li><a href="<?php print_r($data_portal_base_url); ?>/dataset"><strong id="countDatasets">?</strong> Datasets</a></li>
+				<li><a href="<?php print_r($data_portal_base_url); ?>/publisher/search"><strong id="countPublishers">?</strong> Data publishers</a></li>
 			</ul>
 		</div>
 	</div>
@@ -137,25 +141,25 @@
 				<div class="col-md-4">
 					<h3>Sharing biodiversity <br/>data for re-use</h3>
 					<ul>
-						<li><a href="http://www.gbif.org/whatisgbif">Learn about GBIF</a></li>
-						<li><a href="http://www.gbif.org/publishingdata/summary">Publish your data through GBIF</a></li>
-						<li><a href="http://www.gbif.org/infrastructure/summary">Technical infrastructure</a></li>
+						<li><a href="<?php print_r($data_portal_base_url); ?>/whatisgbif">Learn about GBIF</a></li>
+						<li><a href="<?php print_r($data_portal_base_url); ?>/publishingdata/summary">Publish your data through GBIF</a></li>
+						<li><a href="<?php print_r($data_portal_base_url); ?>/infrastructure/summary">Technical infrastructure</a></li>
 					</ul>
 				</div>
 				<div class="col-md-4">
 					<h3>Providing evidence for research and decisions</h3>
 					<ul>
-						<li><a href="http://www.gbif.org/usingdata/summary">Using data through GBIF</a></li>
-						<li><a href="http://www.gbif.org/usingdata/sciencerelevance">Enabling biodiversity science</a></li>
-						<li><a href="http://www.gbif.org/usingdata/policyrelevance">Supporting global targets</a></li>
+						<li><a href="<?php print_r($data_portal_base_url); ?>/usingdata/summary">Using data through GBIF</a></li>
+						<li><a href="<?php print_r($data_portal_base_url); ?>/usingdata/sciencerelevance">Enabling biodiversity science</a></li>
+						<li><a href="<?php print_r($data_portal_base_url); ?>/usingdata/policyrelevance">Supporting global targets</a></li>
 					</ul>
 				</div>
 				<div class="col-md-4">
 					<h3>Collaborating as a <br/> global community</h3>
 					<ul>
-						<li><a href="http://www.gbif.org/participation/list">Current Participants</a></li>
-						<li><a href="http://www.gbif.org/governance/finance">How GBIF is funded</a></li>
-						<li><a href="http://www.gbif.org/capacityenhancement/summary">Enhancing capacity</a></li>
+						<li><a href="<?php print_r($data_portal_base_url); ?>/participation/list">Current Participants</a></li>
+						<li><a href="<?php print_r($data_portal_base_url); ?>/governance/finance">How GBIF is funded</a></li>
+						<li><a href="<?php print_r($data_portal_base_url); ?>/capacityenhancement/summary">Enhancing capacity</a></li>
 					</ul>
 				</div>
 			</div>
@@ -201,11 +205,11 @@
 			
 			<div class="row row-staticlnx-bottom-fp">
 				<ul>
-					<li><a href="http://www.gbif.org/species/1">Animals</a> ·</li>
-					<li><a href="http://www.gbif.org/species/6">Plants</a> ·</li>
-					<li><a href="http://www.gbif.org/species/5">Fungi</a> ·</li>
-					<li><a href="http://www.gbif.org/species/3">Bacteria</a> ·</li>
-					<li><a href="http://www.gbif.org/species/2">Archaea</a></li>
+					<li><a href="<?php print_r($data_portal_base_url); ?>/species/1">Animals</a> ·</li>
+					<li><a href="<?php print_r($data_portal_base_url); ?>/species/6">Plants</a> ·</li>
+					<li><a href="<?php print_r($data_portal_base_url); ?>/species/5">Fungi</a> ·</li>
+					<li><a href="<?php print_r($data_portal_base_url); ?>/species/3">Bacteria</a> ·</li>
+					<li><a href="<?php print_r($data_portal_base_url); ?>/species/2">Archaea</a></li>
 				</ul>
 			</div>
 		</div>
