@@ -357,7 +357,7 @@ h6,
   font-family: inherit;
   font-weight: 500;
   line-height: 1.1;
-  color: inherit;
+  color: #464646;
 }
 h1 small,
 h2 small,
@@ -5974,6 +5974,7 @@ html.js input.form-autocomplete {
 body {
   background: #efefef;
   margin-bottom: 548px;
+  color: #464646;
 }
 body.admin-expanded.admin-vertical.admin-nw .navbar,
 body.admin-expanded.admin-vertical.admin-sw .navbar {
@@ -7231,7 +7232,6 @@ table .checkbox input[type="checkbox"] {
   border-top: 1px solid #eeeeee;
 }
 .node-content p {
-  color: #555555;
   margin-bottom: 18px;
 }
 .node-content > ul {
