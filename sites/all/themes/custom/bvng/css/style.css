@@ -7344,7 +7344,7 @@ table .checkbox input[type="checkbox"] {
 .field-name-body p > em > strong,
 .node-content p > strong,
 .field-name-body p > strong {
-  font-weight: normal;
+  font-weight: bold;
 }
 .node-content p a[href^="mailto"],
 .field-name-body p a[href^="mailto"] {
