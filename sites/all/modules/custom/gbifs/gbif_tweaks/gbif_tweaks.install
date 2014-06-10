@@ -31,7 +31,7 @@ function gbif_tweaks_install() {
     'local_fonts',
     'fontyourface_ui',
     'fontyourface',
-    //'colorbox',
+    'colorbox',
     'devel',
   );
   module_disable($module_list);
@@ -44,6 +44,7 @@ function gbif_tweaks_install() {
     'views_slideshow',
     'views_slideshow_cycle',
     'chosen',
+		'themekey',
   ));
   
   // jquery_update settings.
@@ -56,6 +57,9 @@ function gbif_tweaks_install() {
   // GBIF definitions.
   gbif_tweaks_region_definition();
   gbif_tweaks_subject_definition();
+
+	// Theme control.
+	gbif_tweaks_theme_control();
 
   // Flush all caches so the special menu items can take effect.
   drupal_flush_all_caches();
@@ -142,4 +146,22 @@ function gbif_tweaks_subject_definition() {
     '640' => t('Species distributions'),
   );
   variable_set('gbif_subject_definition', $subjects);
+}
+
+/**
+ * ThemeKey settings
+ */
+function gbif_tweaks_theme_control() {
+	$themekey = array(
+		'property' => 'drupal:path',
+		'operator' => '=',
+		'value' => 'imce',
+		'weight' => 1,
+		'theme' => 'bartik',
+		'enabled' => 1,
+		'wildcards' => 'a:0:()',
+		'parent' => 0,
+		'module' => 'themekey',
+	);
+	drupal_write_record('themekey_properties', $themekey);
 }
