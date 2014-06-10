@@ -141,25 +141,25 @@ $data_portal_base_url = $env['data_portal_base_url'];
 				<div class="col-md-4">
 					<h3>Sharing biodiversity <br/>data for re-use</h3>
 					<ul>
-						<li><a href="<?php print_r($data_portal_base_url); ?>/whatisgbif">Learn about GBIF</a></li>
-						<li><a href="<?php print_r($data_portal_base_url); ?>/publishingdata/summary">Publish your data through GBIF</a></li>
+						<li><a href="whatisgbif">Learn about GBIF</a></li>
+						<li><a href="publishingdata/summary">Publish your data through GBIF</a></li>
 						<li><a href="<?php print_r($data_portal_base_url); ?>/infrastructure/summary">Technical infrastructure</a></li>
 					</ul>
 				</div>
 				<div class="col-md-4">
 					<h3>Providing evidence for research and decisions</h3>
 					<ul>
-						<li><a href="<?php print_r($data_portal_base_url); ?>/usingdata/summary">Using data through GBIF</a></li>
-						<li><a href="<?php print_r($data_portal_base_url); ?>/usingdata/sciencerelevance">Enabling biodiversity science</a></li>
-						<li><a href="<?php print_r($data_portal_base_url); ?>/usingdata/policyrelevance">Supporting global targets</a></li>
+						<li><a href="usingdata/summary">Using data through GBIF</a></li>
+						<li><a href="usingdata/sciencerelevance">Enabling biodiversity science</a></li>
+						<li><a href="usingdata/policyrelevance">Supporting global targets</a></li>
 					</ul>
 				</div>
 				<div class="col-md-4">
 					<h3>Collaborating as a <br/> global community</h3>
 					<ul>
 						<li><a href="<?php print_r($data_portal_base_url); ?>/participation/list">Current Participants</a></li>
-						<li><a href="<?php print_r($data_portal_base_url); ?>/governance/finance">How GBIF is funded</a></li>
-						<li><a href="<?php print_r($data_portal_base_url); ?>/capacityenhancement/summary">Enhancing capacity</a></li>
+						<li><a href="governance/finance">How GBIF is funded</a></li>
+						<li><a href="capacityenhancement/summary">Enhancing capacity</a></li>
 					</ul>
 				</div>
 			</div>
