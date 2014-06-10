@@ -5,7 +5,7 @@ sites/*/settings*.php
 sites/default/modules
 
 # Ignore style.map which is for local development.
-sites/all/themes/custom/bvng/style.map
+sites/all/themes/custom/bvng/less/style.css.map
 
 # Ignore paths that contain user-generated content.
 sites/*/files
