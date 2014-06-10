@@ -653,15 +653,13 @@ function bvng_preprocess_user_register_form(&$variables) {
 }
 
 function bvng_js_alter(&$js) {
-/*
 	if ($js) {
 		foreach ($js as $data => $attr) {
-			if ($attr['scope'] == 'header') {
+			if ($attr['group'] == 100) {
 				$js[$data]['scope'] = 'footer';
 			}
 		}
 	}
-*/
 }
 
 function _bvng_well_types($req_path, $system_main) {
@@ -1180,3 +1178,7 @@ function _bvng_load_javascript() {
   drupal_add_js($data_portal_base_url . '/js/vendor/resourcebundle.js', array('type' => 'file', 'scope' => 'footer'));
   drupal_add_js($data_portal_base_url . '/js/widgets.js', array('type' => 'file', 'scope' => 'footer'));
 }
+
+/**
+ * Bootstrap javascript
+ */
