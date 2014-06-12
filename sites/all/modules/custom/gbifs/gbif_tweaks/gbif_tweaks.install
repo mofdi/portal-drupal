@@ -73,6 +73,7 @@ function gbif_tweaks_install() {
     'gbif_vocabularies',
 		'gbif_user',
     'gbif_navigation',
+		'gbif_editor',
   ));
 
 }

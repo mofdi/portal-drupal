@@ -8,6 +8,8 @@
 
 /**
  * Implements hook_filter_info().
+ * This function register a "non_drupal_url" filter to detect registered menu links
+ * that points to a Struts page of the GBIF Portal.
  */
 function gbif_editor_filter_info() {
 	$filters['non_drupal_url'] = array(
@@ -30,6 +32,9 @@ function _filter_non_drupal_url($text) {
 
 /**
  * Thanks to Lowell Montgomery's very well commented intlinks module.
+ *
+ * This function does the actual checking whether the URL being filtered has
+ * an instance in menu_links table.
  *
  * @param $matches
  * @return mixed
