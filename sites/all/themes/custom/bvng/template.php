@@ -256,14 +256,13 @@ function bvng_preprocess_region(&$variables) {
 
     case 'user':
       $account_string = '';
-			$_GET['q'] = $variables['elements']['req_path'];
       if (isset($variables['user']->uid) && $variables['user']->uid !== 0) {
         $account_string .= t('Hello') . ' ' . l($variables['user']->name . '! ', 'user/' . $variables['user']->uid . '/edit');
-        $account_string .= l(t('Logout'), 'user/logout', array('query' => drupal_get_destination()));
+        $account_string .= l(t('Logout'), 'user/logout', array('query' => _bvng_get_destination($variables['elements']['req_path'])));
       }
       else {
 				// Force drupal_get_destination() pick up the correct origin.
-				$account_string .= l(t('Login'), 'user/login', array('query' => drupal_get_destination()));
+				$account_string .= l(t('Login'), 'user/login', array('query' => _bvng_get_destination($variables['elements']['req_path'])));
         $account_string .= '<span class="ordim"> or </span>';
         $account_string .= l(t('Create a new account'), 'user/register');
       }
@@ -1185,5 +1184,25 @@ function _bvng_load_javascript() {
 }
 
 /**
- * Bootstrap javascript
+ *
  */
+function _bvng_get_destination($req_path) {
+	$destination = &drupal_static(__FUNCTION__);
+
+	if (isset($destination)) {
+		return $destination;
+	}
+
+	if (isset($_GET['destination'])) {
+		$destination = array('destination' => $_GET['destination']);
+	}
+	else {
+		$path = $req_path;
+		$query = drupal_http_build_query(drupal_get_query_parameters());
+		if ($query != '') {
+			$path .= '?' . $query;
+		}
+		$destination = array('destination' => $path);
+	}
+	return $destination;
+}
