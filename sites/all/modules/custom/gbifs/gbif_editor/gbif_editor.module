@@ -1,0 +1,23 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: bko
+ * Date: 11/6/14
+ * Time: 12:08 PM
+ */
+
+/**
+ * Implements hook_filter_info().
+ */
+function gbif_editor_filter_info() {
+	$filters['non_drupal_url'] = array(
+		'title' => t('Point non-drupal URLs to JavaWeb'),
+		'process callback' => '_filter_non_drupal_url',
+		'settings callback' => '_filter_non_drupal_url_settings',
+		'default settings' => array(
+			'filter_url_length' => 72,
+		),
+		'tips callback' => '_filter_non_drupal_url_tips',
+	);
+	return $filters;
+}

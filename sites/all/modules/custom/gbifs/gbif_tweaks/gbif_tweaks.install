@@ -33,6 +33,7 @@ function gbif_tweaks_install() {
     'fontyourface',
     'colorbox',
     'devel',
+		'wysiwyg',
   );
   module_disable($module_list);
   drupal_uninstall_modules($module_list, FALSE);
@@ -45,6 +46,7 @@ function gbif_tweaks_install() {
     'views_slideshow_cycle',
     'chosen',
 		'themekey',
+		'ckeditor',
   ));
   
   // jquery_update settings.
