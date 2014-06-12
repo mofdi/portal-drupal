@@ -154,7 +154,7 @@
             </div>
             <?php endif; ?>
           <?php endif; ?>
-  				<?php print token_replace($cchunks_content[$k]); ?>
+  				<?php print check_markup(token_replace($cchunks_content[$k]), 'full_html', '', FALSE); ?>
         </div>
         <div class="node-sidebar col-md-3">
           <?php if (!empty($cchunks_sidebar[$k])): ?>
