@@ -1,15 +1,6 @@
 # Ignore configuration files that may contain sensitive information.
 sites/*/settings*.php
 
-# Ignore local modules
-sites/default/modules
-
 # Ignore paths that contain user-generated content.
 sites/*/files
 sites/*/private
-
-# Ignore files only relevant for development environment.
-.htaccess
-dummy.php
-
-.idea

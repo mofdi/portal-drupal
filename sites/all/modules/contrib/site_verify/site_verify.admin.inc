@@ -54,8 +54,15 @@ function site_verify_list() {
   return $build;
 }
 
+/**
+ * Form to add/edit a verification record.
+ *
+ * Step 1: Choose ENGINE (Bing, Google, etc).
+ * Step 2: Enter verification details (meta-tag or verification file).
+ */
 function site_verify_edit_form($form, &$form_state, $record = array(), $engine = NULL) {
   if (!isset($form_state['storage']['step'])) {
+    // Add default placeholders.
     $record += array(
       'svid' => NULL,
       'file' => '',
@@ -74,6 +81,7 @@ function site_verify_edit_form($form, &$form_state, $record = array(), $engine =
 
   switch ($form_state['storage']['step']) {
     case 1:
+      // Build  list of possible verification engines.
       $engines = site_verify_get_engines();
       $options = array();
       foreach ($engines as $key => $engine) {
@@ -91,8 +99,8 @@ function site_verify_edit_form($form, &$form_state, $record = array(), $engine =
         '#value' => t('Next'),
       );
       break;
-    case 2:
 
+    case 2:
       $form['svid'] = array(
         '#type' => 'value',
         '#value' => $record['svid'],
@@ -112,7 +120,7 @@ function site_verify_edit_form($form, &$form_state, $record = array(), $engine =
         '#type' => 'textfield',
         '#title' => t('Verification META tag'),
         '#default_value' => $record['meta'],
-        '#description' => t('This is the full meta tag provided for verification. Note that this meta tag will only be visible in the source code of your <a href="@frontpage">front page</a>.', array('@front-page' => url('<front>'))),
+        '#description' => t('This is the full meta tag provided for verification. Note that this meta tag will only be visible in the source code of your <a href="@frontpage">front page</a>.', array('@frontpage' => url('<front>'))),
         '#element_validate' => $record['engine']['meta_validate'],
         '#access' => $record['engine']['meta'],
         '#maxlength' => NULL,
@@ -140,6 +148,7 @@ function site_verify_edit_form($form, &$form_state, $record = array(), $engine =
         '#wysiwyg' => FALSE,
         '#access' => $record['engine']['file_contents'],
       );
+      // Add a warning message if Clean URLs is not available.
       if (!variable_get('clean_url', 0)) {
         drupal_set_message(t('Using verification files will not work if <a href="@clean-urls">clean URLs</a> are disabled.', array('@clean-urls' => url('admin/settings/clean-url'))), 'error', FALSE);
         $form['file']['#disabled'] = TRUE;
@@ -191,6 +200,8 @@ function site_verify_validate_file($form, &$form_state) {
     }
   }
 
+  // Confirm that the desired filename isn't already in use by another
+  // verification.
   if ($values['file']) {
     $existing_file = db_query("SELECT svid FROM {site_verify} WHERE LOWER(file) = LOWER(:file) AND svid <> :svid", array(':file' => $values['file'], ':svid' => $values['svid']))->fetchField();
     if ($existing_file) {
@@ -229,6 +240,9 @@ function site_verify_edit_form_submit($form, &$form_state) {
   }
 }
 
+/**
+ * Delete form: found at admin/config/search/verifications/xxx/delete
+ */
 function site_verify_delete_form($form, $form_state, $record) {
   $form['record'] = array(
     '#type' => 'value',
@@ -258,6 +272,10 @@ function site_verify_delete_form_submit($form, &$form_state) {
   variable_set('menu_rebuild_needed', TRUE);
 }
 
+
+/**
+ * Validate that the 'meta' property uses the correct pattern for Google.
+ */
 function site_verify_validate_meta_google($element, &$form_state) {
   $value = strtolower(trim($element['#value']));
   if ($value != '' && !preg_match('%\A<meta name="verify-v1" content="[\S]+" />\Z%', $value)) {

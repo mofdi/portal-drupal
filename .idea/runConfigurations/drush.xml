@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="drush" type="PhpLocalRunConfigurationType" factoryName="PHP Console" singleton="true" path="/usr/local/zend/share/pear/drush/drush.php">
+    <RunnerSettings RunnerId="PhpScriptDebugRunner" />
+    <ConfigurationWrapper RunnerId="PhpScriptDebugRunner" />
+    <method />
+  </configuration>
+</component>
