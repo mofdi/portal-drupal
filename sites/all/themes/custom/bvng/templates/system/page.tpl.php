@@ -133,7 +133,7 @@
   			<?php print render($page['highlighted']); ?>
   			<?php endif; ?>
       </div>
-      <div id="region-menu" class="col-md-12">
+      <div id="region-menu" class="col-md-11">
   			<?php if (!empty($page['menu'])): ?>
         <?php print render($page['menu']); ?>
   			<?php endif; ?>
