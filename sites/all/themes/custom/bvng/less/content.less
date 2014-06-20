@@ -201,6 +201,60 @@
   }
 }
 
+// These rules need to be cleaned up together with Mendeley module.
+#mendeley-citation {
+  border-top: 1px solid @page-header-border-color;
+	margin-top: 0px;
+  margin-bottom: 20px;
+  padding-top: 10px;
+  color: @cGray75;
+
+  p {
+    font-size: 13px;
+		margin-bottom: 0px;
+  }
+
+	h3 {
+    margin: 10px 0px 2px 0px;
+    font-size: 13px;
+    font-weight: normal;
+    text-transform: uppercase;
+    text-shadow: 0 1px @cWhite;
+    color: @cGray3;
+	}
+
+  h2 {
+    margin-top: 10px;
+    margin-bottom: 7px;
+    padding-bottom: 0px;
+    font-size: 17px;
+    font-weight: bold;
+
+    > a {
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  footer {
+    font-size: 13px;
+    p { margin-bottom: 0px; }
+    .date {
+      color: @cGray3;
+      margin-bottom: 0px;
+      margin-top: 5px;
+    }
+  }
+
+	.result {
+		border-bottom: 1px solid @page-header-border-color;
+		padding-bottom: 15px;
+		margin-bottom: 15px;
+	}
+
+}
+
 .node-featured {
   article {
     border-top: none;

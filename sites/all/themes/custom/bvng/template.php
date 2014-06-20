@@ -161,6 +161,9 @@ function bvng_preprocess_page(&$variables) {
 	elseif (drupal_match_path($req_path, 'user') || drupal_match_path($req_path, 'user/*')) {
 		$altered_path = 'user';
 	}
+	elseif (strpos($req_path, 'mendeley') !== FALSE) {
+		$altered_path = drupal_get_normal_path('mendeley');
+	}
 
 	if ($altered_path) {
 		if ($altered_path != 'user' ) {
@@ -312,6 +315,11 @@ function bvng_preprocess_block(&$variables) {
       	$variables['elements']['#block']->title = $block_title;
       }
     }
+
+		if (strpos($variables['elements']['#block']->requested_path, 'mendeley') !== FALSE) {
+			array_push($variables['theme_hook_suggestions'], 'block__system__main__mendeley');
+			$variables['elements']['#block']->title = $GLOBALS['npt_mendeley_block_title'];
+		}
 
     // If it's 404 not found.
     $status = drupal_get_http_header("status");
@@ -678,9 +686,10 @@ function _bvng_well_types($req_path, $system_main) {
     'alldatausearticles',
     'events',
 		'search',
+		'mendeley',
   );
 
-	// Determine giving filter sidebar or not.
+	// Determine to give filter sidebar or not.
   if (!empty($system_main['taxonomy_terms']) || !empty($system_main['term_heading']['term'])) {
     // If not a node page then the well is draw in the region level template.
     // Some term pages are special.
@@ -1073,6 +1082,19 @@ function _bvng_get_more_search_options($tid = NULL, $search_string = NULL) {
 
   $links .= '</ul>';
   return $links;
+}
+
+function _bvng_get_more_use_cases() {
+	$tags = variable_get('npt_mendeley_tags');
+	$links = '';
+	$links .= '<ul class="filter-list">';
+	foreach ($tags as $tag) {
+		if ($tag['type'] == 'gbif_used') {
+			$links .= '<li>'. l($tag['tab_name'], 'mendeley/' . $tag['machine_name']) . '</li>';
+		}
+	}
+	$links .= '</ul>';
+	return $links;
 }
 
 /**

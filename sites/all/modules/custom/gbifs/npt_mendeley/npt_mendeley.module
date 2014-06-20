@@ -306,22 +306,22 @@ function npt_mendeley_full_list($gbif_cat_type = 'usecases', $machine_name = '',
     foreach ($tag_sets as $tag_set) {
       if ($gbif_cat_type == 'country') {
         if ($tag_set['machine_name'] == $machine_name) {
-			$$machine_name = json_decode(file_get_contents(file_build_uri('npt_mendeley/countries/' . $machine_name . '.json')));
-			$doc_count = count($$machine_name);
-			$title = format_plural($doc_count,
-					'1 publication for '.$tag_set['name'],
-					'@count publications for '.$tag_set['name']);
-			drupal_set_title($title);
+			    $$machine_name = json_decode(file_get_contents(file_build_uri('npt_mendeley/countries/' . $machine_name . '.json')));
+			    $doc_count = count($$machine_name);
+			    $title = format_plural($doc_count,
+					  '1 publication for '.$tag_set['tab_name'],
+					  '@count publications for '.$tag_set['tab_name']);
+          $GLOBALS['npt_mendeley_block_title'] = $title;
         }
       }
       else {
         if ($tag_set['machine_name'] == $gbif_cat_type) {
- 			$$machine_name = json_decode(file_get_contents(file_build_uri('npt_mendeley/' . $gbif_cat_type. '.json')));
-			$doc_count = count($$machine_name);
-			$title = format_plural($doc_count,
-				'1 publication in "'.$tag_set['name'].'"',
-				'@count publications in "'.$tag_set['name']).'"';
-			drupal_set_title($title);
+ 		      $$machine_name = json_decode(file_get_contents(file_build_uri('npt_mendeley/' . $gbif_cat_type . '.json')));
+		      $doc_count = count($$machine_name);
+		      $title = format_plural($doc_count,
+		        '1 publication in "'.$tag_set['tab_name'] . '"',
+		        '@count publications in "'.$tag_set['tab_name']) . '"';
+          $GLOBALS['npt_mendeley_block_title'] = $title;
         }
       }
     }
@@ -437,12 +437,12 @@ function _npt_mendeley_list_documents($gbif_cat_type, $machine_name, $render) {
  					
 					$content .= $list_item;
 									// Add pagination.
-					$pagination = '<ul class="numbered-pagination">';
-					$pagination .= '<li class="first"><a href="#" class="first" data-action="first">First</a></li>';
+					$pagination = '<ul class="pagination">';
+					$pagination .= '<li class="first"><a href="#" class="first" data-action="first">&laquo;</a></li>';
 					$pagination .= '<li><a href="#" class="previous" data-action="previous">&lsaquo;</a></li>';
 					$pagination .= '<input class="mendeley_pager" type="text" readonly="readonly" data-max-page="30" />';
 					$pagination .= '<li><a href="#" class="next" data-action="next">&rsaquo;</a></li>';
-					$pagination .= '<li class="last"><a href="#" class="last" data-action="last">Last</a></li>';
+					$pagination .= '<li class="last"><a href="#" class="last" data-action="last">&raquo;</a></li>';
 					$pagination .= '</ul>';
 
 					$content .= $pagination; 

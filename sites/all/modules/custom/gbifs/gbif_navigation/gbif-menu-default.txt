@@ -84,6 +84,8 @@ Home {"url":"<front>","hidden":true}
 -Frequently Asked Questions {"url":"<front>","hidden":true, "description": "Contact us on <a href=\"mailto:helpdesk@gbif.org\">helpdesk@gbif.org<\/a> for more assistance"}
 --Data use {"url":"faq\/datause"}
 --Data processing {"url":"faq\/data-processing","hidden":true}
+-Peer-reviewed publications {"url":"<front>","hidden":true, "description":"(via <a href=\"http:\/\/www.mendeley.com\/groups\/1068301\/gbif-public-library\/\">Mendeley<\/a>)"}
+--Publications {"url":"mendeley"}
 -Disclaimers and agreements {"url":"<front>","hidden":true, "description": "Terms relating to information and data accessed, used and shared through GBIF"}
 --Data sharing {"url":"disclaimer\/datasharing"}
 --Data use {"url":"disclaimer\/datause"}
@@ -96,4 +98,3 @@ Home {"url":"<front>","hidden":true}
 --Account {"url":"user\/password"}
 -Misc {"url": "<front>", "hidden":true}
 --Contact {"url": "newsroom\/contact", "hidden":true}
---Peer-reviewed publications {"url": "mendeley", "description":"(via Mendeley)"}

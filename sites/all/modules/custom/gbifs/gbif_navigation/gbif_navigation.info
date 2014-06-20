@@ -1,5 +1,5 @@
 name = GBIF Navigation
-description = Navigation structure that is specific to GBIF Portal. This module can ONLY BE ENABLED VIA UI.
+description = Navigation structure that is specific to GBIF Portal.
 core = 7.x
 version = 7.x-0.1
 package = GBIFS
