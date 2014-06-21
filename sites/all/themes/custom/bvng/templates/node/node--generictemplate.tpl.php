@@ -78,9 +78,13 @@
  *
  * @see bvng_preprocess_node() $cchunks, $anchors and $elinks.
  * @todo Use _bvng_get_field_value() to simplify the value retrieval.
+ * @todo Some settings are preventing tokens and text formats from being
+ * 			 rendered properly before they reach this template hence token_replace()
+ * 			 check_markup() are used.
  *
  * @ingroup themeable
  */
+
 ?>
 <article id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
 <?php if (!empty($body)): ?>
@@ -154,7 +158,16 @@
             </div>
             <?php endif; ?>
           <?php endif; ?>
-  				<?php print check_markup(token_replace($cchunks_content[$k]), 'full_html', '', FALSE); ?>
+  				<?php
+						// This is an ad hoc fix for IMS content. There are unexpected line-breaks
+						// in contact values so we use filtered_html for contact pages.
+						if (isset($requested_path) && $requested_path == 'node/223') {
+							print token_replace($cchunks_content[$k]);
+						}
+						else {
+							print check_markup(token_replace($cchunks_content[$k]), 'full_html', '', FALSE);
+						}
+					?>
         </div>
         <div class="node-sidebar col-md-3">
           <?php if (!empty($cchunks_sidebar[$k])): ?>

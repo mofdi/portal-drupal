@@ -670,23 +670,23 @@ function _gbifims_get_SecretariatList () {
 
 	$CList = '<table style="" class="table table-curved"><tbody>';
 	// <thead><tr><th colspan="2" >'.$options[1].'</th><tr></thead>
-	foreach ( $result as $row) {
-		$CList .= "<tr><td>
-			<div class='contact'>
-				<a name='$row->Name_First,$row->Name_Last'></a>
-				<div class='contactName'>$row->Name_First $row->Name_Last</div>
-				<div style='display: none;'>
-					<div class='contactPosition'>$row->Job_Position</div>
-					<div class='address'>
-						<span>$row->Address</span>
-						<span class='city'>$row->City</span>
-						<span class='email'><a href='mailto:$row->Email' title='email'>$row->Email</a></span>
-						<span class='phone'>$row->Phone_Office</span>
-						<span class='phone'>$row->Fax</span>
-					</div>
-				</div>
-			</div>
-		</td><td>$row->Job_Position</td>";
+	foreach ($result as $row) {
+		$CList .= '<tr><td>';
+		$CList .= '<div class="contact">';
+		$CList .= '<a name="' . $row->Name_First . ',' . $row->Name_Last . '"></a>';
+		$CList .= '<div class="contactName">' . $row->Name_First . ' ' . $row->Name_Last . '</div>';
+		$CList .= '<div style="display: none;">';
+		$CList .= '<div class="contactPosition">' . $row->Job_Position . '</div>';
+		$CList .= '<div class="address">';
+		$CList .= '<span>' . $row->Address . '</span>';
+		$CList .= '<span class="city">' . $row->City . '</span>';
+		$CList .= '<span class="email"><a href="mailto:' . $row->Email . ' title="email">' . $row->Email . '</a></span>';
+		$CList .= '<span class="phone">' . $row->Phone_Office . '</span>';
+		$CList .= '<span class="phone">' . $row->Fax . '</span>';
+		$CList .= '</div>';
+		$CList .= '</div>';
+		$CList .= '</div>';
+		$CList .= '</td><td>' . $row->Job_Position . '</td>';
 	}
 	$CList .= '</tbody></table>' ;
 	return $CList ;
