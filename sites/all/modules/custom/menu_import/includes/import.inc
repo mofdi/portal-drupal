@@ -6,76 +6,71 @@
  */
 
 /**
- * Helper function to find node associated to path.
+ * Helper function to find nodes associated with paths.
+ * Perform search by title if paths wasn't found.
  *
  * @param $path
  *   Path (node/* or any other) as described in the input file.
  * @param $title
  *   Node's title as described in the input file.
+ * @param $language
+ *   Language of the path.
  * @param $options
  *   Array import options provided.
- *
  * @return
  *   An array('nid' => '<node_id_or_false>', 'link_path' => '<path_if_exists_or_empty>').
  */
-function _menu_import_lookup_path($path, $title, array $options) {
+function _menu_import_lookup_path($path, $title, $language, array $options) {
   $result = array(
-    'nid' => FALSE,
+    'nid'       => FALSE,
     'link_path' => '',
-    'options' => array(),
+    'node_view' => FALSE,
+    'options'   => array(),
   );
 
-  // Search by alias by default, but use only
-  // path without query/argument part.
-  $query = '';
-  $path = explode('?', $path);
-  if (count($path) != 1) {
-    $query = '?' . $path[1];
+  // We need to handle any arguments appended to the path.
+  $parsed_url = drupal_parse_url($path);
+  $path = !empty($parsed_url['path']) ? $parsed_url['path'] : '';
+  if ($parsed_url['query']) {
+    $result['options']['query'] = $parsed_url['query'];
   }
-  $path = $path[0];
-
-  // Before checking whether the menu item is an alias,
-  // Check if an anchor exists.
-  $parsed_link = parse_url($path);
-  if (isset($parsed_link['fragment'])) {
-  	$path = $parsed_link['path'];
+  if ($parsed_url['fragment']) {
+    $result['options']['fragment'] = $parsed_url['fragment'];
   }
 
-  // Does an alias exist in the system?
-  $system_url = drupal_lookup_path('source', $path);
+  // Search by alias by default.
+  $system_url = drupal_lookup_path('source', $path, $language);
   if (!$system_url) {
     $system_url = $path;
   }
 
-  // Try to detect a direct path to node.
   $matches = array();
-  if (preg_match('/^node\/(\d+)/', $system_url, $matches)) {
-    // The node exists and we can safely link to it.
-    if (drupal_valid_path($system_url)) {
-      if ($options['link_to_content']) {
-        $result['link_path'] = $system_url . $query;
-        $result['nid'] = $matches[1];
-      }
+  $node_link = preg_match('|^node/(\d+)(/.*)?|', $system_url, $matches);
+
+  // Is there any registered path that is not a node link?
+  if (!$node_link && drupal_valid_path($system_url)) {
+    $result['link_path'] = $system_url;
+  }
+  elseif ($options['link_to_content']) {
+    // Link to existing content.
+    if ($node_link && drupal_valid_path($system_url)) {
+      $result['link_path'] = $system_url;
+      $result['nid'] = $matches[1];
+      $result['node_view'] = empty($matches[2]);
     }
-    // The node doesn't exist and we have to find it by title.
-    elseif ($options['link_to_content']) {
+    // Find existing content by title.
+    else {
       $nid = db_select('node', 'n')
         ->fields('n', array('nid'))
         ->condition('n.title', $title)
         ->execute()->fetchField();
 
-      // The node exists.
+      // The node is found.
       if ($nid) {
-        $result['link_path'] = 'node/' . $nid . $query;
+        $result['link_path'] = 'node/' . $nid;
         $result['nid'] = $nid;
+        $result['node_view'] = empty($matches[2]);
       }
-    }
-  }
-  // Is there any registered path?
-  elseif (drupal_valid_path($system_url)) {
-    $result['link_path'] = $system_url . $query;
-    if (isset($parsed_link['fragment'])) {
-    	$result['options']['fragment'] = $parsed_link['fragment'];
     }
   }
 
@@ -142,7 +137,7 @@ function _menu_import_body_is_translatable() {
  * @param $line
  *   One line from input file.
  * @param $prev_level
- *   Previous level to build hierarchy.
+ *   Previous level to build ierarchy.
  * @param $weights
  *   Array of menu items' weights.
  * @param $parents
@@ -157,7 +152,6 @@ function menu_import_parse_line($line, $prev_level, array $weights, array $paren
   $menuitem = array(
     'error' => FALSE,
     'link_title' => NULL,
-    'options' => array(),
     'children' => array(),
     'parent' => 0,
     'nid' => FALSE,
@@ -165,6 +159,7 @@ function menu_import_parse_line($line, $prev_level, array $weights, array $paren
     'weight' => 0,
     'external' => FALSE,
     'level' => 0,
+    'options' => array(),
     'non_drupal_url' => FALSE,
   );
 
@@ -174,13 +169,14 @@ function menu_import_parse_line($line, $prev_level, array $weights, array $paren
   }
   $langs = array_keys(language_list());
 
-  $path = $description = $expanded = $hidden = $language = '';
+  $path = $description = $expanded = $hidden = '';
+  $language = NULL;
 
   // JSON is used.
   // @todo: make the input JSON not so strict.
   if (($json_start = strpos($line, '{"')) != 0) {
     $json = substr($line, $json_start);
-    $details = json_decode($json);
+    $details = json_decode($json, TRUE);
 
     // Parse structure and title.
     $base_info = substr($line, 0, $json_start);
@@ -188,12 +184,15 @@ function menu_import_parse_line($line, $prev_level, array $weights, array $paren
 
     // Extract details.
     if (!is_null($details)) {
-      $path = !empty($details->url) ? trim($details->url) : '';
-      $description = !empty($details->description) ? trim($details->description) : '';
-      $expanded = !empty($details->expanded);
-      $hidden = !empty($details->hidden);
-      $language = !empty($details->lang) && in_array($details->lang, $langs) ? $details->lang : NULL;
-      $non_drupal_url = !empty($details->non_drupal_url) ? $details->non_drupal_url : NULL;
+      $path = empty($details['url']) ? '' : trim($details['url']);
+      $node_uuid = !empty($details['node_uuid']) ? trim($details['node_uuid']) : NULL;
+      $description = empty($details['description']) ? '' : trim($details['description']);
+      $expanded = !empty($details['expanded']);
+      $hidden = !empty($details['hidden']);
+      $language = !empty($details['lang']) && in_array($details['lang'], $langs)
+                    ? $details['lang'] : NULL;
+      $link_options = empty($details['options']) ? array() : $details['options'];
+      $non_drupal_url = !empty($details['non_drupal_url']) ? $details['non_drupal_url'] : NULL;
     }
     else {
       return _menu_import_mark_error_item($menuitem, t('malformed item details'), $line);
@@ -237,8 +236,11 @@ function menu_import_parse_line($line, $prev_level, array $weights, array $paren
   $menuitem['link_title'] = $title;
   $menuitem['level'] = $level;
   $menuitem['path'] = $path;
-
   $menuitem['non_drupal_url'] = $non_drupal_url;
+
+  if (!empty($link_options)) {
+    $menuitem['options'] = $link_options;
+  }
 
   if (url_is_external($path)) {
     $menuitem['external'] = TRUE;
@@ -246,15 +248,22 @@ function menu_import_parse_line($line, $prev_level, array $weights, array $paren
   }
   elseif ($non_drupal_url == TRUE) {
 		$env = variable_get('environment_settings');
-    $data_portal_base_url = $env['data_portal_base_url'];
     $menuitem['external'] = TRUE;
-    $menuitem['link_path'] = $data_portal_base_url . '/' . $path;
+    $menuitem['link_path'] = $env['data_portal_base_url'] . '/' . $path;
+  }
+  elseif (!empty($node_uuid)) {
+    $result = entity_get_id_by_uuid('node', array($node_uuid));
+    $menuitem['link_path'] = 'node/' . $result[$node_uuid];
+    $menuitem['nid'] = $result[$node_uuid];
   }
   else {
-    $result = _menu_import_lookup_path($path, $title, $options);
+    $result = _menu_import_lookup_path($path, $title, $language, $options);
     $menuitem['link_path'] = $result['link_path'];
     $menuitem['nid'] = $result['nid'];
-    $menuitem['options'] = $result['options'];
+    $menuitem['node_view'] = $result['node_view'];
+    if ($result['options']) {
+      $menuitem['options'] = array_merge($menuitem['options'], $result['options']);
+    }
   }
 
   if ($description) {
@@ -414,13 +423,14 @@ function menu_import_parse_menu_from_string($text, $menu_name, array $options) {
  *   Array of different statistics accumulated during the import.
  */
 function menu_import_save_menu($menu, $options) {
-  $nodes_deleted_cnt = $unknown_links_cnt = $external_links_cnt = 0;
+  $menu_items_deleted_cnt = $unknown_links_cnt = $external_links_cnt = 0;
   $nodes_matched_cnt = $nodes_new_cnt = $failed_cnt = 0;
 
   // Delete existing menu items.
   $menu_name = $menu[0]['menu_name'];
   if ($options['remove_menu_items']) {
-    $nodes_deleted_cnt = menu_import_delete_menuitems($menu_name);
+    $menu_items_deleted_cnt = count(menu_load_links($menu_name));
+    menu_delete_links($menu_name);
   }
 
   $menu[0]['mlid'] = 0;
@@ -435,22 +445,12 @@ function menu_import_save_menu($menu, $options) {
       $menuitem['plid'] = $menu[$menuitem['parent']]['mlid'];
       $menuitem['menu_name'] = $menu_name;
 
-      // Determine if this is the path to view a node (no edit or whatever).
-      $link_path = $menuitem['link_path'];
-      if ($link_path && arg(0, $link_path) == 'node'
-            && is_numeric(arg(1, $link_path)) && !arg(2, $link_path)) {
-        $node_path = true;
-      }
-      else {
-        $node_path = false;
-      }
-
       // Do not create nodes for external links.
       if ($menuitem['external']) {
         $external_links_cnt++;
       }
       // Internal link to not-a-content (settings, custom module path etc).
-      elseif ($link_path && !$node_path) {
+      elseif ($menuitem['link_path'] && empty($menuitem['node_view'])) {
         $unknown_links_cnt++;
       }
       // Handle links to nodes or missing links.
@@ -459,12 +459,14 @@ function menu_import_save_menu($menu, $options) {
         if ($menuitem['nid']) {
           // Try to link to existing content first.
           if ($options['link_to_content']) {
-            menu_import_delete_node_menuitem($menuitem);
+            // Delete any existing menu items from the current menu.
+            if (!$menu_items_deleted_cnt) {
+              menu_import_delete_node_menuitem($menuitem);
+            }
             $nodes_matched_cnt++;
           }
-          // We need to create new content only if no linking was selected.
+          // Create new content only if no linking was selected.
           elseif ($options['create_content']) {
-            menu_import_delete_node_menuitem($menuitem);
             $options['node_title'] = $menuitem['link_title'];
             $nid = menu_import_create_node($options);
             $menuitem['nid'] = $nid;
@@ -504,6 +506,9 @@ function menu_import_save_menu($menu, $options) {
         $menuitem['options']['attributes']['title'] = $menuitem['description'];
       }
 
+      // Allow other modules to alter the imported data.
+      drupal_alter('menu_import', $menuitem);
+
       // Save menuitem and set mlid.
       $mlid = menu_link_save($menuitem);
 
@@ -527,7 +532,7 @@ function menu_import_save_menu($menu, $options) {
     'unknown_links' => $unknown_links_cnt,
     'matched_nodes' => $nodes_matched_cnt,
     'new_nodes' => $nodes_new_cnt,
-    'deleted_menu_items' => $nodes_deleted_cnt,
+    'deleted_menu_items' => $menu_items_deleted_cnt,
     'failed' => $failed_cnt,
   );
 }
@@ -574,42 +579,7 @@ function menu_import_create_node($options) {
 }
 
 /**
- * Delete nodes attached to menu and menu items.
- *
- * @param $menu_name
- *   The machine name of the menu.
- * @param $with_nodes
- *   Delete nodes as well. Not used, reserved for future.
- *
- * @return
- *   Number of items deleted .
- */
-function menu_import_delete_menuitems($menu_name, $with_nodes = FALSE) {
-  $menuitems = db_select('menu_links', 'ml')
-    ->fields('ml', array('mlid', 'link_path'))
-    ->condition('ml.menu_name', $menu_name)
-    ->execute()->fetchAllAssoc('mlid', PDO::FETCH_ASSOC);
-
-  $deleted_cnt = 0;
-  foreach ($menuitems as $menuitem) {
-    db_delete('menu_links')->condition('mlid', $menuitem['mlid'])->execute();
-    if ($with_nodes) {
-      // Delete nodes only
-      $link = explode('/', $menuitem['link_path']);
-      if ($link[0] == 'node' && is_numeric($link[1])) {
-        $nid = $link[1];
-        db_delete('node')->condition('nid', $nid)->execute();
-        db_delete('node_revision')->condition('nid', $nid)->execute();
-      }
-    }
-    $deleted_cnt++;
-  }
-
-  return $deleted_cnt;
-}
-
-/**
- * Delete menu item by nid.
+ * Deletes a menu item by node ID.
  *
  * @param $menuitem
  *   Array describing the menu item.
@@ -618,7 +588,10 @@ function menu_import_delete_node_menuitem($menuitem) {
   $processed_items = &drupal_static(__FUNCTION__, array());
   $path = 'node/' . $menuitem['nid'];
   if (!in_array($path, $processed_items)) {
-    menu_link_delete(NULL, $path);
+    $mlid = db_query('SELECT mlid FROM {menu_links} WHERE menu_name=:menu AND link_path=:path',
+                      array(':menu' => $menuitem['menu_name'], ':path' => $path))
+                    ->fetchColumn();
+    menu_link_delete($mlid);
     $processed_items[] = $path;
   }
 }

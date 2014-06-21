@@ -68,13 +68,13 @@ function gbif_tweaks_install() {
   
   // Enable related GBIF modules.
   module_enable(array(
-    'gbif_blocks',
-    'gbif_pages',
-    'gbif_vocabularies',
-	'gbif_user',
-    'gbif_navigation',
-	'gbif_editor',
-	'gbif_role',
+		'gbif_blocks',
+		'gbif_pages',
+		'gbif_vocabularies',
+		'gbif_user',
+		'gbif_navigation',
+		'gbif_editor',
+		'gbif_role',
   ));
 
 }
