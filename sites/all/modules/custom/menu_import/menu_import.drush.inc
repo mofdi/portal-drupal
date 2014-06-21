@@ -51,10 +51,8 @@ function menu_import_drush_command() {
       'menu-name' => 'Required. Name of the menu to export.',
     ),
     'options' => array(
-      'export-language' => 'Export language',
       'line-ending' => 'Line endings to be used. Allowed values are: unix, mac, dos.'
-       . ' Defaults to current system\'s line ending.',
-      'export-options' => 'Export options',
+       . ' Defaults to current system\'s line ending.'
     ),
     'aliases' => array('mi-export', 'me'),
   );
@@ -214,21 +212,6 @@ function drush_menu_import_export() {
         $options['line_ending'] = "\r\n";
         break;
     }
-  }
-
-  // Export language by default if i18n_menu is enabled.
-  if (module_exists('i18n_menu')) {
-    $options['export_language'] = 1;
-  }
-  $export_language = drush_get_option_list('export-language');
-  if (count($export_language)) {
-    $options['export_language'] = current($export_language);
-  }
-
-  // Export menu options.
-  $export_options = drush_get_option_list('export-options');
-  if (count($export_options)) {
-    $options['options'] = 1;
   }
 
   module_load_include('inc', 'menu_import', 'includes/export');
