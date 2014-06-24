@@ -700,7 +700,14 @@ function _bvng_well_types($req_path, $system_main) {
   }
   elseif (!empty($system_main['nodes']) || strpos($req_path, 'user') !== FALSE) {
     // If it's a node page or the user page then the well is draw in the node/user level template.
-    return 'none';
+		// Except if the user page is forbidden.
+		$status = drupal_get_http_header("status");
+		if (isset($status) && $status == '403 Forbidden') {
+			return 'normal';
+		}
+		else {
+			return 'none';
+		}
   }
   elseif ($req_path) {
     // Others are views.
@@ -763,6 +770,12 @@ function _bvng_get_title_data($node_count = NULL, $user = NULL, $req_path = NULL
     	   		'description' => t('User account and personal settings'),
     	  	);
         }
+				elseif ($status == '403 Forbidden') {
+					$title = array(
+						'name' => t('You need to log in to visit this page'),
+						'description' => t('403 Forbidden: proper permission required'),
+					);
+				}
         elseif (isset($user->uid) && $user->uid == 0) {
         	$title = array(
         		'name' => t('Log in to GBIF'),
@@ -777,6 +790,12 @@ function _bvng_get_title_data($node_count = NULL, $user = NULL, $req_path = NULL
 	   'name' => t("Hmm, the page can't be found"),
 	   'description' => t('404 Not Found'),
 	  );
+	}
+	elseif ($status == '403 Forbidden') {
+		$title = array(
+			'name' => t('You need to log in to visit this page'),
+			'description' => t('403 Forbidden: proper permission required'),
+		);
 	}
 	elseif ($active_menu_item) {
 		// The resource/summary and resources/keyinformation are shared by two menu parents
