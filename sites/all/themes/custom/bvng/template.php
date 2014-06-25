@@ -842,12 +842,12 @@ function _bvng_get_title_data($node_count = NULL, $user = NULL, $req_path = NULL
  */
 function _bvng_get_sidebar_content($nid, $vid) {
   $node = node_load($nid, $vid);
+	$markup = '';
 
-  if ($node) {
+	if ($node) {
     switch ($node->type) {
       case 'newsarticle':
       case 'usesofdata':
-        $markup = '';
         $fields = _bvng_get_sidebar_fields($node->type);
         foreach ($fields as $idx => $field) {
           $variable_name = str_replace('-', '_', $idx);
@@ -905,6 +905,13 @@ function _bvng_get_sidebar_content($nid, $vid) {
           }
         }
         break;
+			case 'resource_ims':
+				$orc_id = _bvng_get_field_value('node', $node, 'field_orc_original_ims_id');
+				$file_size_text = _bvng_get_field_value('node', $node, 'field_size_text');
+				$resource_url = 'http://imsgbif.gbif.org/CMS_ORC/?doc_id=' . $orc_id . '&download=1';
+				$download_link = l('Download' . ' (' . $file_size_text . ')', $resource_url);
+				$markup .= $download_link;
+				break;
     }
   }
 

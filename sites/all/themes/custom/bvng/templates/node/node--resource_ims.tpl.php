@@ -86,27 +86,27 @@
       <article id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
         <?php if ((!$page && !empty($title)) || !empty($title_prefix) || !empty($title_suffix) || $display_submitted): ?>
         <div class="row">
-			<header class="content-header col-md-8">
-				<h3><?php print render($type_title); ?></h3>
-				<?php print render($title_prefix); ?>
-				<?php if (!empty($title)): ?>
-					<h2<?php print $title_attributes; ?>><?php print $title; ?></h2>
-					<?php print render($content['field_alternative_title']); ?>
-				<?php endif; ?>
-				<?php print render($title_suffix); ?>
-			</header>
+					<header class="content-header col-md-8">
+						<h3><?php print render($type_title); ?></h3>
+						<?php print render($title_prefix); ?>
+						<?php if (!empty($title)): ?>
+							<h2<?php print $title_attributes; ?>><?php print $title; ?></h2>
+							<?php print render($content['field_alternative_title']); ?>
+						<?php endif; ?>
+						<?php print render($title_suffix); ?>
+					</header>
         </div>
         <?php endif; ?>
         <div class="row">
           <div class="node-content col-md-8">
 
             <?php if ($display_submitted && user_is_logged_in()): ?>
-            <div class="submitted">
-              <?php print $submitted; ?>
-          		<?php if (!empty($tabs)): ?>
-          			<?php print render($tabs); ?>
-          		<?php endif; ?>
-            </div>
+	            <div class="submitted">
+	              <?php print $submitted; ?>
+	          		<?php if (!empty($tabs)): ?>
+	          			<?php print render($tabs); ?>
+	          		<?php endif; ?>
+	            </div>
             <?php endif; ?>
 
             <?php
@@ -125,20 +125,17 @@
               print render($content['field_rights_holder']);
             ?>
             <?php if (!empty($content['field_tags']) || !empty($content['links'])): ?>
-            <footer>
-              <?php print render($content['field_tags']); ?>
-              <?php print render($content['links']); ?>
-              <?php print $node_footer; ?>
-            </footer>
+	            <footer>
+	              <?php print render($content['field_tags']); ?>
+	              <?php print render($content['links']); ?>
+	              <?php print $node_footer; ?>
+	            </footer>
             <?php endif; ?>
 
           </div>
           <div class="node-sidebar col-md-3">
             <?php print render($content['field_orc_resource_thumbnail']) ; ?>
-			<div><a href="http://imsgbif.gbif.org/CMS_ORC/?doc_id=<?php print render($content['field_orc_original_ims_id']) ; ?>&download=1"><span>Download<?php print render($content['field_size_text'])?></span></a></div>
-			<?php
-              print $sidebar;
-            ?>
+						<?php print $sidebar; ?>
           </div>
         </div>
       </article>
