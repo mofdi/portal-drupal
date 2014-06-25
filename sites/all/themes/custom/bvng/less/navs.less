@@ -68,6 +68,11 @@
   }
 }
 
+.menu.nav.nav-pills {
+  > li {
+    border-radius: 3px;
+  }
+}
 
 // Tabs
 // -------------------------
@@ -149,6 +154,7 @@
     
     // Active state
     &.active > a {
+      border-radius: @nav-pills-border-radius;
       &,
       &:hover,
       &:focus {

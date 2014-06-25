@@ -24,6 +24,14 @@ function bvng_menu_link(array $variables) {
       // Add our own wrapper.
       unset($element['#below']['#theme_wrappers']);
       $sub_menu = '<ul class="dropdown-menu">' . drupal_render($element['#below']) . '</ul>';
+			// POR-2193 We want to keep the top-level menu items active.
+			// And we don't want to break other dropdown behaviour.
+			$top_menu_items = array('Data', 'News', 'Community', 'About');
+			if (in_array($element['#title'], $top_menu_items)) {
+				if (!in_array('active', $element['#attributes']['class'])) {
+					$element['#attributes']['class'][] = 'active';
+				}
+			}
       // Generate as standard dropdown.
       $element['#title'] .= ' <span class="caret"></span>';
       $element['#attributes']['class'][] = 'dropdown';
@@ -42,6 +50,9 @@ function bvng_menu_link(array $variables) {
   if (($element['#href'] == $_GET['q'] || ($element['#href'] == '<front>' && drupal_is_front_page())) && (empty($element['#localized_options']['language']))) {
     $element['#attributes']['class'][] = 'active';
   }
+	// Top level menu items are always active.
+
+
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
   
   // If it's a separator, then we use Bootstrap divider.
@@ -51,7 +62,7 @@ function bvng_menu_link(array $variables) {
 	}
 	// If it's the search form, we insert the form here
 	elseif ($element['#href'] == '<nolink>' && $element['#title'] == 'Search') {
-		// ... unless we are on the front page; we later on delete it completely in meny-tree.func.php;
+		// ... unless we are on the front page; we later on delete it completely in menu-tree.func.php;
 		if (drupal_is_front_page()) {
 			$element['#title'] = ''; // but keep the actual <li>text</li> empty so that if someone changes the desc from CP at least we don't get stray text on FP!
 			$output = l($element['#title'], $element['#href'], $element['#localized_options']);

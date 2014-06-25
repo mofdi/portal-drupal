@@ -27,7 +27,7 @@ Data {"url":"<front>"}
 --Summary {"url":"ipt","hidden":true, "non_drupal_url":true}
 --Stats {"url":"ipt\/stats","hidden":true, "non_drupal_url":true}
 --Releases {"url":"ipt\/releases","hidden":true, "non_drupal_url":true}
-News {"url":"newsroom\/summary"}
+News {"url":"<front>"}
 -GBIF News {"url":"newsroom\/summary", "description": "News and events from around the GBIF community"}
 --Summary {"url":"newsroom\/summary"}
 --News {"url":"newsroom\/news"}
@@ -45,7 +45,7 @@ News {"url":"newsroom\/summary"}
 -Events {"url":"newsroom\/events"}
 -Newsletter {"url":"newsroom\/newsletter"}
 -Consultations {"url":"newsroom\/consultations"}
-Community {"url":"participation\/summary"}
+Community {"url":"<front>"}
 -Participation {"url":"participation\/summary", "description": "Being part of the GBIF community"}
 --Summary {"url":"participation\/summary"}
 --Membership {"url":"participation\/membership"}

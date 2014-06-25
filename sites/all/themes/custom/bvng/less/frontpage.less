@@ -50,14 +50,6 @@
 	}
 }
 
-.menu-fp > li.active > a:hover, .menu-fp > li.active > a:focus, .menu-fp > li > a:hover, .menu-fp > li > a:focus {
-	color: #0099cc;
-}
-
-.menu-fp > li.active > a, .menu-fp  > li > a {
-	color: #FFF;
-}
-
 .counters {
 	left: 22px ;
 	list-style-type: none;
@@ -99,7 +91,7 @@
 	}
 }
 
-.well-fp{
+.well-fp {
 	position: relative;
 	padding: 0;
 	z-index: 400;
@@ -352,3 +344,17 @@
 	}
 }
 
+.menu-fp {
+  > li {
+    &.active {
+      > a {
+        color: @cWhite;
+      }
+    }
+    &:hover {
+      > a {
+        color: @colorLink;
+      }
+    }
+  }
+}

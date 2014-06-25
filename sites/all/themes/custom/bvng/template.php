@@ -6,13 +6,13 @@
  * @see https://drupal.org/node/2217037 The fixed in included in the dev branch
  *      so we can avoid the include lines in this template.
  */
-include_once(drupal_get_path('theme', 'bvng') . '/templates/menu/menu-local-tasks.func.php');
-include_once(drupal_get_path('theme', 'bvng') . '/templates/menu/menu-local-task.func.php');
-include_once(drupal_get_path('theme', 'bvng') . '/templates/menu/menu-tree.func.php');
-include_once(drupal_get_path('theme', 'bvng') . '/templates/menu/menu-link.func.php');
-include_once(drupal_get_path('theme', 'bvng') . '/templates/bootstrap/bootstrap-search-form-wrapper.func.php');
-include_once(drupal_get_path('theme', 'bvng') . '/templates/system/status-messages.func.php');
-include_once(drupal_get_path('theme', 'bvng') . '/templates/system/button.func.php');
+include_once('templates/menu/menu-local-tasks.func.php');
+include_once('templates/menu/menu-local-task.func.php');
+include_once('templates/menu/menu-tree.func.php');
+include_once('templates/menu/menu-link.func.php');
+include_once('templates/bootstrap/bootstrap-search-form-wrapper.func.php');
+include_once('templates/system/status-messages.func.php');
+include_once('templates/system/button.func.php');
 
 /**
  * Implements hook_theme().

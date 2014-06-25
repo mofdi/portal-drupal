@@ -78,7 +78,6 @@
  */
 
 $env = variable_get('environment_settings');
-$data_portal_base_url = $env['data_portal_base_url'];
 
 ?>
 
@@ -125,10 +124,10 @@ $data_portal_base_url = $env['data_portal_base_url'];
 		</div>
 		<div class="row">
 			<ul class="counters">
-				<li><a href="<?php print_r($data_portal_base_url); ?>/occurrence"><strong id="countOccurrences">?</strong> Occurrences</a></li>
-				<li><a href="<?php print_r($data_portal_base_url); ?>/species"><strong id="countSpecies">?</strong> Species</a></li>
-				<li><a href="<?php print_r($data_portal_base_url); ?>/dataset"><strong id="countDatasets">?</strong> Datasets</a></li>
-				<li><a href="<?php print_r($data_portal_base_url); ?>/publisher/search"><strong id="countPublishers">?</strong> Data publishers</a></li>
+				<li><a href="<?php print_r($env['data_portal_base_url']); ?>/occurrence"><strong id="countOccurrences">?</strong> Occurrences</a></li>
+				<li><a href="<?php print_r($env['data_portal_base_url']); ?>/species"><strong id="countSpecies">?</strong> Species</a></li>
+				<li><a href="<?php print_r($env['data_portal_base_url']); ?>/dataset"><strong id="countDatasets">?</strong> Datasets</a></li>
+				<li><a href="<?php print_r($env['data_portal_base_url']); ?>/publisher/search"><strong id="countPublishers">?</strong> Data publishers</a></li>
 			</ul>
 		</div>
 	</div>
@@ -143,7 +142,7 @@ $data_portal_base_url = $env['data_portal_base_url'];
 					<ul>
 						<li><a href="whatisgbif">Learn about GBIF</a></li>
 						<li><a href="publishingdata/summary">Publish your data through GBIF</a></li>
-						<li><a href="<?php print_r($data_portal_base_url); ?>/infrastructure/summary">Technical infrastructure</a></li>
+						<li><a href="<?php print_r($env['data_portal_base_url']); ?>/infrastructure/summary">Technical infrastructure</a></li>
 					</ul>
 				</div>
 				<div class="col-md-4">
@@ -157,7 +156,7 @@ $data_portal_base_url = $env['data_portal_base_url'];
 				<div class="col-md-4">
 					<h3>Collaborating as a <br/> global community</h3>
 					<ul>
-						<li><a href="<?php print_r($data_portal_base_url); ?>/participation/list">Current Participants</a></li>
+						<li><a href="<?php print_r($env['data_portal_base_url']); ?>/participation/list">Current Participants</a></li>
 						<li><a href="governance/finance">How GBIF is funded</a></li>
 						<li><a href="capacityenhancement/summary">Enhancing capacity</a></li>
 					</ul>
@@ -205,11 +204,11 @@ $data_portal_base_url = $env['data_portal_base_url'];
 			
 			<div class="row row-staticlnx-bottom-fp">
 				<ul>
-					<li><a href="<?php print_r($data_portal_base_url); ?>/species/1">Animals</a> ·</li>
-					<li><a href="<?php print_r($data_portal_base_url); ?>/species/6">Plants</a> ·</li>
-					<li><a href="<?php print_r($data_portal_base_url); ?>/species/5">Fungi</a> ·</li>
-					<li><a href="<?php print_r($data_portal_base_url); ?>/species/3">Bacteria</a> ·</li>
-					<li><a href="<?php print_r($data_portal_base_url); ?>/species/2">Archaea</a></li>
+					<li><a href="<?php print_r($env['data_portal_base_url']); ?>/species/1">Animals</a> ·</li>
+					<li><a href="<?php print_r($env['data_portal_base_url']); ?>/species/6">Plants</a> ·</li>
+					<li><a href="<?php print_r($env['data_portal_base_url']); ?>/species/5">Fungi</a> ·</li>
+					<li><a href="<?php print_r($env['data_portal_base_url']); ?>/species/3">Bacteria</a> ·</li>
+					<li><a href="<?php print_r($env['data_portal_base_url']); ?>/species/2">Archaea</a></li>
 				</ul>
 			</div>
 		</div>
