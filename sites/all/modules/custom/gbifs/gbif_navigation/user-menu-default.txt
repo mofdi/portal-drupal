@@ -1,1 +1,1 @@
-Downloads {"url":"http:\/\/www.gbif-dev.org\/user\/download", "weight":"12"}
+Downloads {"url":"user\/download", "weight":"12", "non-drupal-url":true}
