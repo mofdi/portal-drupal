@@ -260,7 +260,9 @@ function bvng_preprocess_region(&$variables) {
     case 'user':
       $account_string = '';
       if (isset($variables['user']->uid) && $variables['user']->uid !== 0) {
-        $account_string .= t('Hello') . ' ' . l($variables['user']->name . '! ', 'user/' . $variables['user']->uid);
+				$user = user_load($variables['user']->uid);
+				$firstname = _bvng_get_field_value('user', $user, 'field_firstname');
+        $account_string .= t('Hello,') . ' ' . l($firstname, 'user/' . $variables['user']->uid) . '! ';
         $account_string .= l(t('Logout'), 'user/logout', array('query' => _bvng_get_destination($variables['elements']['req_path'])));
       }
       else {
