@@ -18,7 +18,8 @@ Data {"url":"<front>"}
 -Infrastructure {"url":"infrastructure\/summary", "description": "How GBIF works as a global informatics infrastructure", "non_drupal_url":true}
 --Summary {"url":"infrastructure\/summary", "non_drupal_url":true}
 --Registry {"url":"infrastructure\/registry", "non_drupal_url":true}
---occurences {"url":"infrastructure\/occurrences", "non_drupal_url":true}
+--Occurences {"url":"infrastructure\/occurrences", "non_drupal_url":true}
+--Data processing {"url":"infrastructure\/data-processing","hidden":true}
 --Tools {"url":"infrastructure\/tools", "non_drupal_url":true}
 --Species {"url":"<front>","hidden":true, "non_drupal_url":true}
 --Maps {"url":"<front>","hidden":true, "non_drupal_url":true}
@@ -83,7 +84,6 @@ Search {"url":"<nolink>", "description":"This is the placeholder for the search 
 Home {"url":"<front>","hidden":true}
 -Frequently Asked Questions {"url":"<front>","hidden":true, "description": "Contact us on <a href=\"mailto:helpdesk@gbif.org\">helpdesk@gbif.org<\/a> for more assistance"}
 --Data use {"url":"faq\/datause"}
---Data processing {"url":"faq\/data-processing","hidden":true}
 -Peer-reviewed publications {"url":"<front>","hidden":true, "description":"(via <a href=\"http:\/\/www.mendeley.com\/groups\/1068301\/gbif-public-library\/\">Mendeley<\/a>)"}
 --Publications {"url":"mendeley"}
 -Disclaimers and agreements {"url":"<front>","hidden":true, "description": "Terms relating to information and data accessed, used and shared through GBIF"}
