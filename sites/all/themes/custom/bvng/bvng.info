@@ -9,7 +9,7 @@ base theme = bootstrap
 ;;;;;;;;;;;;;;;;;;;;;
 
 ; In the header section
-regions[user]           = 'User'
+regions[account]        = 'Account'
 regions[navigation]     = 'Navigation'
 regions[search]         = 'Search'
 

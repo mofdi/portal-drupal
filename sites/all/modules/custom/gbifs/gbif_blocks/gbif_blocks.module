@@ -30,9 +30,9 @@ function gbif_blocks_block_info() {
     'pages' => 'page/*',
     'cache' => DRUPAL_NO_CACHE,
   );
-  $blocks['gbif_blocks_user'] = array(
-    'info' => t('GBIF User'),
-    'region' => 'user',
+  $blocks['gbif_blocks_account'] = array(
+    'info' => t('Account'),
+    'region' => 'account',
     'weight' => -15,
     'status' => 1,
     'cache' => DRUPAL_NO_CACHE,
@@ -54,7 +54,7 @@ function gbif_blocks_block_view($delta = '') {
       $block['subject'] = '<none>';
       $block['content'] = _gbif_blocks_newsarticle_sidebar();
       break;
-    case 'gbif_blocks_user':
+    case 'gbif_blocks_account':
       $block['subject'] = '<none>';
       $block['content'] = ' ';
       break;

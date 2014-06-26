@@ -86,8 +86,8 @@ function bvng_preprocess(&$variables, $hook) {
   			if (isset($variables['node'])) {
     			$variables['node']->requested_path = $req_path;
   			}
-				if (isset($variables['page']['user'])) {
-					$variables['page']['user']['req_path'] = $req_path;
+				if (isset($variables['page']['account'])) {
+					$variables['page']['account']['req_path'] = $req_path;
 				}
   		}
   		break;
@@ -257,7 +257,7 @@ function bvng_preprocess_region(&$variables) {
       }
       break;
 
-    case 'user':
+    case 'account':
       $account_string = '';
       if (isset($variables['user']->uid) && $variables['user']->uid !== 0) {
 				$user = user_load($variables['user']->uid);

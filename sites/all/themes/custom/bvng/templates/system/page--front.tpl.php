@@ -86,7 +86,7 @@ $env = variable_get('environment_settings');
 	<div class="container">
 		<div class="row">
 			<div class="col-md-3 col-md-push-9"> 
-		<?php print render($page['user']); ?>
+				<?php print render($page['account']); ?>
 			</div>
 		</div>
 		<div class="row">
