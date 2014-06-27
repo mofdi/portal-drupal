@@ -67,7 +67,7 @@
     <div class="row">
       <div id="region-highlighted" class="col-md-12">
         <h1>GBIF.ORG is under maintenance</h1>
-        <h5></h5>
+        <h5>We are sorry for the inconvenience</h5>
   		</div>
       <div id="region-menu" class="col-md-11"></div>
     </div>
@@ -82,9 +82,9 @@
     				<div class="row">
   						<div class="view-column col-md-8">
     						<div class="generic-column">
-      						<p>We are sorry for the inconvenience.</p>
-									<p>GBIF.org shall be back shortly.</p>
-									<p>Thank you for your patience.</p>
+      						<p>We are deploying a new version of the <strong>GBIF Portal</strong>.</p>
+									<p>GBIF.org shall be much improved and back online shortly.</p>
+									<p>We are sorry for the inconvenience, but thanks to your patience and constructive feedback.</p>
 								</div>
   						</div>
 						</div>
