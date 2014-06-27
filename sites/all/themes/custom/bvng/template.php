@@ -689,6 +689,7 @@ function _bvng_well_types($req_path, $system_main) {
     'events',
 		'search',
 		'mendeley',
+		'resource',
   );
 
 	// Determine to give filter sidebar or not.
@@ -802,7 +803,7 @@ function _bvng_get_title_data($node_count = NULL, $user = NULL, $req_path = NULL
 	elseif ($active_menu_item) {
 		// The resource/summary and resources/keyinformation are shared by two menu parents
 		// so we force the title here.
-		if (drupal_match_path($req_path, 'taxonomy/term/764') || drupal_match_path($req_path, 'node/234')) {
+		if (drupal_match_path($req_path, 'taxonomy/term/764') || drupal_match_path($req_path, 'node/234') || drupal_match_path($req_path, 'resources/archive')) {
 		  $title = array(
 		    'name' => t('Resources'),
 		    'description' => t('Tools and information to support the GBIF community'),
