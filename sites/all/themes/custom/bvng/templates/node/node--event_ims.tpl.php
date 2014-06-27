@@ -117,7 +117,20 @@
               print render($content['body']);
               print render($content['field_audience']);
               print render($content['field_contact']);
-              print render($content['field_resources']);
+						?>
+
+						<?php if ($content['field_resources']): ?>
+							<div class="field field-name-field-resources field-type-text-long field-label-above">
+								<div class="field-label">Resources</div>
+								<div class="field-items">
+									<div class="field-item even">
+										<?php print $event_resource; ?>
+									</div>
+								</div>
+							</div>
+						<?php endif; ?>
+
+						<?php
 							print render($content['field_participants']);
             ?>
             <?php if (!empty($content['field_tags']) || !empty($content['links'])): ?>

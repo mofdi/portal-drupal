@@ -481,8 +481,8 @@ function bvng_preprocess_node(&$variables) {
 	/* Process the date of event.
 	 */
 	if ($variables['node']->type == 'event_ims') {
-		$event_date = _bvng_get_field_value('node', $variables['node'], 'field_dates');
-		$variables['event_date'] = $event_date;
+		$variables['event_date'] = _bvng_get_field_value('node', $variables['node'], 'field_dates');
+		$variables['event_resource'] = _bvng_get_field_value('node', $variables['node'], 'field_resources');
 	}
 
   /* Process menu_local_tasks()
