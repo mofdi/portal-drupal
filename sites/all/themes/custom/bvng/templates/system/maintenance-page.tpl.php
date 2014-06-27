@@ -14,19 +14,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=1024, user-scalable=yes">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="shortcut icon" href="http://portal-drupal.local:10088/sites/all/themes/custom/bvng/favicon.ico" type="image/vnd.microsoft.icon" />
+	<link rel="shortcut icon" href="/sites/all/themes/custom/bvng/favicon.ico" type="image/vnd.microsoft.icon" />
 	<meta name="Generator" content="Drupal 7 (http://drupal.org)" />
   <title>Page not found | GBIF.ORG</title>
-  <style>@import url("http://portal-drupal.local:10088/modules/system/system.base.css?n7sm76");</style>
-	<style>@import url("http://portal-drupal.local:10088/sites/all/themes/custom/bvng/css/style.css?n7sm76");</style>
+  <style>@import url("/modules/system/system.base.css?n7sm76");</style>
+	<style>@import url("/sites/all/themes/custom/bvng/css/style.css?n7sm76");</style>
   <!-- HTML5 element support for IE6-8 -->
   <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
   <!-- beginning Drupal scripts -->
-  <script src="http://portal-drupal.local:10088/sites/all/modules/contrib/jquery_update/replace/jquery/1.8/jquery.min.js?v=1.8.2"></script>
-	<script src="http://portal-drupal.local:10088/misc/jquery.once.js?v=1.2"></script>
-	<script src="http://portal-drupal.local:10088/misc/drupal.js?n7sm76"></script>
+  <script src="/sites/all/modules/contrib/jquery_update/replace/jquery/1.8/jquery.min.js?v=1.8.2"></script>
+	<script src="/misc/jquery.once.js?v=1.2"></script>
+	<script src="/misc/drupal.js?n7sm76"></script>
 	<script>jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"bvng","theme_token":"gI4lXqgN0expSzPYjZeBEL_f35AyByBlKZ1BqbOEJOw","js":{"http:\/\/dev.gbif.org\/issues\/s\/en_UKkby86d-1988229788\/6096\/5\/1.4.0-m2\/_\/download\/batch\/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector\/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=a2e9eca4":1,"sites\/all\/themes\/custom\/bvng\/js\/contacts.js":1,"sites\/all\/themes\/custom\/bvng\/bootstrap\/js\/affix.js":1,"sites\/all\/themes\/custom\/bvng\/js\/alert.js":1,"sites\/all\/themes\/custom\/bvng\/bootstrap\/js\/button.js":1,"sites\/all\/themes\/custom\/bvng\/bootstrap\/js\/carousel.js":1,"sites\/all\/themes\/custom\/bvng\/bootstrap\/js\/collapse.js":1,"sites\/all\/themes\/custom\/bvng\/bootstrap\/js\/dropdown.js":1,"sites\/all\/themes\/custom\/bvng\/bootstrap\/js\/modal.js":1,"sites\/all\/themes\/custom\/bvng\/bootstrap\/js\/tooltip.js":1,"sites\/all\/themes\/custom\/bvng\/bootstrap\/js\/popover.js":1,"sites\/all\/themes\/custom\/bvng\/bootstrap\/js\/scrollspy.js":1,"sites\/all\/themes\/custom\/bvng\/bootstrap\/js\/tab.js":1,"sites\/all\/themes\/custom\/bvng\/bootstrap\/js\/transition.js":1,"sites\/all\/themes\/contrib\/bootstrap\/js\/bootstrap.js":1,"sites\/all\/modules\/contrib\/jquery_update\/replace\/jquery\/1.8\/jquery.min.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1},"css":{"modules\/system\/system.base.css":1,"sites\/all\/modules\/contrib\/date\/date_api\/date.css":1,"sites\/all\/modules\/contrib\/date\/date_popup\/themes\/datepicker.1.7.css":1,"sites\/all\/modules\/contrib\/date\/date_repeat_field\/date_repeat_field.css":1,"modules\/field\/theme\/field.css":1,"sites\/all\/modules\/contrib\/views\/css\/views.css":1,"sites\/all\/modules\/contrib\/ckeditor\/css\/ckeditor.css":1,"sites\/all\/modules\/contrib\/ctools\/css\/ctools.css":1,"sites\/all\/libraries\/leaflet\/leaflet.css":1,"sites\/all\/themes\/custom\/bvng\/css\/style.css":1}},"environment_settings":{"data_portal_base_url":"http:\/\/www.gbif-dev.org","gbif_api_base_url":"http:\/\/api.gbif-dev.org","gbif_api_version":"0.9"},"bootstrap":{"anchorsFix":1,"anchorsSmoothScrolling":1,"popoverEnabled":1,"popoverOptions":{"animation":1,"html":0,"placement":"right","selector":"","trigger":"click","title":"","content":"","delay":0,"container":"body"},"tooltipEnabled":1,"tooltipOptions":{"animation":1,"html":0,"placement":"auto left","selector":"","trigger":"hover focus","delay":0,"container":"body"}}});</script>
   <!-- ending Drupal scripts -->
 </head>
@@ -46,7 +46,7 @@
       <div id="region-navigation" class="col-md-12">
     		<div class="navbar-header">
     			<div id="branding">
-        		<a class="logo" href="/" title="Home"><img src="http://portal-drupal.local:10088/sites/all/themes/custom/bvng/logo.png" alt="Home" /></a>
+        		<a class="logo" href="/" title="Home"><img src="/sites/all/themes/custom/bvng/logo.png" alt="Home" /></a>
         		<h1><a href="/" title="Home">GBIF.ORG</a></h1>
         		<span>Free and Open Access to Biodiversity Data</span>
           </div>
@@ -182,19 +182,19 @@
   </div>
 </section>
   <script src="http://dev.gbif.org/issues/s/en_UKkby86d-1988229788/6096/5/1.4.0-m2/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=a2e9eca4&amp;n7sm76"></script>
-<script src="http://portal-drupal.local:10088/sites/all/themes/custom/bvng/js/contacts.js?n7sm76"></script>
-<script src="http://portal-drupal.local:10088/sites/all/themes/custom/bvng/bootstrap/js/affix.js?n7sm76"></script>
-<script src="http://portal-drupal.local:10088/sites/all/themes/custom/bvng/js/alert.js?n7sm76"></script>
-<script src="http://portal-drupal.local:10088/sites/all/themes/custom/bvng/bootstrap/js/button.js?n7sm76"></script>
-<script src="http://portal-drupal.local:10088/sites/all/themes/custom/bvng/bootstrap/js/carousel.js?n7sm76"></script>
-<script src="http://portal-drupal.local:10088/sites/all/themes/custom/bvng/bootstrap/js/collapse.js?n7sm76"></script>
-<script src="http://portal-drupal.local:10088/sites/all/themes/custom/bvng/bootstrap/js/dropdown.js?n7sm76"></script>
-<script src="http://portal-drupal.local:10088/sites/all/themes/custom/bvng/bootstrap/js/modal.js?n7sm76"></script>
-<script src="http://portal-drupal.local:10088/sites/all/themes/custom/bvng/bootstrap/js/tooltip.js?n7sm76"></script>
-<script src="http://portal-drupal.local:10088/sites/all/themes/custom/bvng/bootstrap/js/popover.js?n7sm76"></script>
-<script src="http://portal-drupal.local:10088/sites/all/themes/custom/bvng/bootstrap/js/scrollspy.js?n7sm76"></script>
-<script src="http://portal-drupal.local:10088/sites/all/themes/custom/bvng/bootstrap/js/tab.js?n7sm76"></script>
-<script src="http://portal-drupal.local:10088/sites/all/themes/custom/bvng/bootstrap/js/transition.js?n7sm76"></script>
-<script src="http://portal-drupal.local:10088/sites/all/themes/contrib/bootstrap/js/bootstrap.js?n7sm76"></script>
+<script src="/sites/all/themes/custom/bvng/js/contacts.js?n7sm76"></script>
+<script src="/sites/all/themes/custom/bvng/bootstrap/js/affix.js?n7sm76"></script>
+<script src="/sites/all/themes/custom/bvng/js/alert.js?n7sm76"></script>
+<script src="/sites/all/themes/custom/bvng/bootstrap/js/button.js?n7sm76"></script>
+<script src="/sites/all/themes/custom/bvng/bootstrap/js/carousel.js?n7sm76"></script>
+<script src="/sites/all/themes/custom/bvng/bootstrap/js/collapse.js?n7sm76"></script>
+<script src="/sites/all/themes/custom/bvng/bootstrap/js/dropdown.js?n7sm76"></script>
+<script src="/sites/all/themes/custom/bvng/bootstrap/js/modal.js?n7sm76"></script>
+<script src="/sites/all/themes/custom/bvng/bootstrap/js/tooltip.js?n7sm76"></script>
+<script src="/sites/all/themes/custom/bvng/bootstrap/js/popover.js?n7sm76"></script>
+<script src="/sites/all/themes/custom/bvng/bootstrap/js/scrollspy.js?n7sm76"></script>
+<script src="/sites/all/themes/custom/bvng/bootstrap/js/tab.js?n7sm76"></script>
+<script src="/sites/all/themes/custom/bvng/bootstrap/js/transition.js?n7sm76"></script>
+<script src="/sites/all/themes/contrib/bootstrap/js/bootstrap.js?n7sm76"></script>
 </body>
 </html>
