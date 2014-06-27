@@ -483,16 +483,12 @@ function bvng_preprocess_node(&$variables) {
 	if ($variables['node']->type == 'event_ims') {
 		$variables['event_date'] = _bvng_get_field_value('node', $variables['node'], 'field_dates');
 		$event_resources = _bvng_get_field_value('node', $variables['node'], 'field_resources');
-		if (is_array($event_resources)) {
-			if ($event_resources[0]['value'] !== NULL) {
-				$variables['event_resources'] = $event_resources;
-			}
+		if (!is_array($event_resources)) {
+			$variables['event_resources'] = $event_resources;
 		}
 		$event_participants = _bvng_get_field_value('node', $variables['node'], 'field_participants');
-		if (is_array($event_participants)) {
-			if ($event_participants[0]['value'] !== NULL) {
-				$variables['event_participants'] = $event_participants;
-			}
+		if (!is_array($event_participants)) {
+			$variables['event_participants'] = $event_participants;
 		}
 	}
 
