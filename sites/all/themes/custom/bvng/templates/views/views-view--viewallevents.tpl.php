@@ -31,6 +31,9 @@
   <header class="content-header col-md-8">
     <h2><?php print $view->get_title(); ?></h2>
   </header>
+	<div class="content-header sidebar-header col-md-3">
+		<h2>More GBIF Events</h2>
+	</div>
 </div>
 <div class="row">
   <div class="view-column col-md-8">
@@ -74,13 +77,16 @@
         </div>
       <?php endif; ?>
       <?php if ($pager): ?>
-        <?php print $pager; ?>
+				<hr>
+				<?php print $pager; ?>
       <?php endif; ?>
     </div>
   </div>
-  <div class="col-md-3">
 
+  <div class="sidebar-filter col-md-3">
+		<?php print _bvng_get_event_links(); ?>
   </div>
+
     <?php if ($footer): ?>
       <div class="view-footer">
         <?php print $footer; ?>

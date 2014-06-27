@@ -462,20 +462,27 @@ function bvng_preprocess_node(&$variables) {
 
 
 	/* Build a combo value consisting of publisher and publishing date
-	*/
+	 */
 	if ($variables['node']->type == 'resource_ims' && !empty($variables['field_publishing_date']) && !empty($variables['field_publisher']) ) {
 	/*
-	* fix me: It should have been done with "render()" so that we can make use of the format decided in "manage display"
-	*/
-		$publishing_date = _bvng_get_field_value ('node', $variables['node'], 'field_publishing_date') ;
-		$publisher = _bvng_get_field_value ('node', $variables['node'], 'field_publisher') ;
-		// Friday, April 11, 2014
-		$publishing_date =  date( 'l, M d, Y', $publishing_date );
-		$publisher_w_date = $publisher.', '.$publishing_date ;
-		$variables['publisher_w_date'] = '<div class="field field-name-field-publisher-w-date field-type-text-long field-label-above">
+	 * fix me: It should have been done with "render()" so that we can make use of the format decided in "manage display"
+	 */
+	$publishing_date = _bvng_get_field_value ('node', $variables['node'], 'field_publishing_date');
+	$publisher = _bvng_get_field_value ('node', $variables['node'], 'field_publisher');
+	// Friday, April 11, 2014
+	$publishing_date =  date( 'l, M d, Y', $publishing_date);
+	$publisher_w_date = $publisher . ', ' . $publishing_date;
+	$variables['publisher_w_date'] = '<div class="field field-name-field-publisher-w-date field-type-text-long field-label-above">
 		<div class="field-label">Publisher&nbsp;</div>
 		<div class="field-items">
-			<div class="field-item even">'.$publisher_w_date.'</div></div></div>';
+		<div class="field-item even">' . $publisher_w_date . '</div></div></div>';
+	}
+
+	/* Process the date of event.
+	 */
+	if ($variables['node']->type == 'event_ims') {
+		$event_date = _bvng_get_field_value('node', $variables['node'], 'field_dates');
+		$variables['event_date'] = $event_date;
 	}
 
   /* Process menu_local_tasks()
@@ -1052,6 +1059,28 @@ function _bvng_get_regional_links() {
   }
   $links .= '</ul>';
   return $links;
+}
+
+function _bvng_get_event_links() {
+	$options = array(
+		'upcoming' => array(
+			'label' => t('Upcoming GBIF events'),
+			'url_base' => 'newsroom/events',
+		),
+		'past' => array(
+			'label' => t('Past GBIF events'),
+			'url_base' => 'newsroom/events/archive',
+		),
+	);
+	$links = '';
+	$links = '<ul class="filter-list">';
+	foreach ($options as $option) {
+		$links .= '<li>';
+		$links .= l($option['label'], $option['url_base']);
+		$links .= '</li>';
+	}
+	$links .= '</ul>';
+	return $links;
 }
 
 function _bvng_get_subject_links() {

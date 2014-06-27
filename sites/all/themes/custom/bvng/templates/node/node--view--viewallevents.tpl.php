@@ -107,10 +107,11 @@
     <footer>
 
       <?php if (!empty($event_location)): ?>	
-		  <p><?php print $event_location; ?></p>
+		  	<br>
+				<p><?php print $event_location; ?></p>
       <?php endif; ?> 
 
-      <p class="date"><?php print( $field_dates['und'][0]['value']); ?></p>
+      <p class="date"><?php print $event_date; ?></p>
 
     <?php if (!empty($also_tagged)): ?>
 		<?php print render($also_tagged); ?>
