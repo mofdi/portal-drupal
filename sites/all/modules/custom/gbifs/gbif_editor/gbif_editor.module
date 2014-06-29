@@ -69,5 +69,4 @@ function _filter_process_non_drupal_url($matches) {
 	else {
 		return $matches[0];
 	}
-
 }

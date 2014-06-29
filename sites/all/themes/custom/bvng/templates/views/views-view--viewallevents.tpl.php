@@ -32,7 +32,7 @@
     <h2><?php print $view->get_title(); ?></h2>
   </header>
 	<div class="content-header sidebar-header col-md-3">
-		<h2>More GBIF Events</h2>
+		<h2>More GBIF events</h2>
 	</div>
 </div>
 <div class="row">

@@ -114,6 +114,7 @@
               hide($content['links']);
               hide($content['field_tags']);
               print render($content['field_image']);
+							$body = render($content['body']);
               print render($content['body']);
             ?>
             <?php if (!empty($content['field_tags']) || !empty($content['links'])): ?>

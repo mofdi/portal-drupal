@@ -117,36 +117,16 @@
               print render($content['body']);
               print render($content['field_audience']);
               print render($content['field_contact']);
+							print render($content['field_resources']);
+							print render($content['field_participants']);
 						?>
 
-						<?php if ($event_resources): ?>
-							<div class="field field-name-field-resources field-type-text-long field-label-above">
-								<div class="field-label">Resources</div>
-								<div class="field-items">
-									<div class="field-item even">
-										<?php print $event_resources; ?>
-									</div>
-								</div>
-							</div>
-						<?php endif; ?>
-
-						<?php if ($event_participants): ?>
-							<div class="field field-name-field-participants field-type-text-long field-label-above">
-								<div class="field-label">Participants</div>
-								<div class="field-items">
-									<div class="field-item even">
-										<?php print $event_participants; ?>
-									</div>
-								</div>
-							</div>
-						<?php endif; ?>
-
             <?php if (!empty($content['field_tags']) || !empty($content['links'])): ?>
-            <footer>
-              <?php print render($content['field_tags']); ?>
-              <?php print render($content['links']); ?>
-              <?php print $node_footer; ?>
-            </footer>
+	            <footer>
+	              <?php print render($content['field_tags']); ?>
+	              <?php print render($content['links']); ?>
+	              <?php print $node_footer; ?>
+	            </footer>
             <?php endif; ?>
             <?php print render($content['comments']); ?>
           </div>
