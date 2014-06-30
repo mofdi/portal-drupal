@@ -916,7 +916,11 @@ function _bvng_get_sidebar_content($nid, $vid) {
 				$orc_id = _bvng_get_field_value('node', $node, 'field_orc_original_ims_id');
 				$file_size_text = _bvng_get_field_value('node', $node, 'field_size_text');
 				$resource_url = 'http://imsgbif.gbif.org/CMS_ORC/?doc_id=' . $orc_id . '&download=1';
-				$download_link = l('Download' . ' (' . $file_size_text . ')', $resource_url);
+				$download_text = t('Download');
+				if (!empty($file_size_text)) {
+					$download_text .= ' (' . $file_size_text . ')';
+				}
+				$download_link = l($download_text, $resource_url);
 				$markup .= $download_link;
 				break;
     }
