@@ -128,7 +128,7 @@
 	              <?php print $node_footer; ?>
 	            </footer>
             <?php endif; ?>
-            <?php print // render($content['comments']); ?>
+            <?php // print render($content['comments']); ?>
           </div>
           <div class="node-sidebar col-md-3">
             <?php
