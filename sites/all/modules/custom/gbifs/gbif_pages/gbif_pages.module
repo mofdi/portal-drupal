@@ -57,12 +57,13 @@ function gbif_pages_views_api() {
 
 function gbif_pages_views_register() {
 	$views = array(
-			'newsarticles',
-			'usesofdatafeaturedarticles',
-			'datausearticles',
-			'featurednewsarticles',
-			'viewallevents',
-			'viewallresources',
+		'newsarticles',
+		'usesofdatafeaturedarticles',
+		'datausearticles',
+		'featurednewsarticles',
+		'viewallevents',
+		'viewallresources',
+		'taxonomy_term_json',
 	);
 	return $views;
 }
