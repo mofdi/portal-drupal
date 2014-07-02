@@ -42,6 +42,9 @@ function bvng_theme() {
   $items['user_pass'] = array(
     'render element' => 'form',
     'template' => 'templates/system/user-password',
+		'preprocess function' => array(
+			'bvng_preprocess_user_pass',
+		),
   );
   return $items;
 }
@@ -670,6 +673,12 @@ function bvng_preprocess_user_register_form(&$variables) {
     // on country select by taking out the 'form-control' CSS class.
     unset($variables['form']['field_country_mono']['und']['#attributes']['class'][0]);
   }
+}
+
+function bvng_preprocess_user_pass(&$variables) {
+	if (isset($variables)) {
+		unset($variables['form']['actions']['submit']);
+	}
 }
 
 function bvng_js_alter(&$js) {

@@ -4,7 +4,7 @@
 
       <div class="row user-login-row">
         <div class="subscribe">
-          <?php print render($form['name']); ?>
+          <?php print drupal_render_children($form); ?>
         </div>
       </div>
       <div class="row user-login-action">
