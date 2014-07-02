@@ -20,8 +20,8 @@
       </div>
       <div class="row user-login-action">
           <?php print drupal_render($form['actions']); ?>
-          <p><a href="password">Forgot your password?</a></p>
-          <p>Do you need to sign up? <a href="register">Create your account.</a></p>
+          <p><a href="/user/password">Forgot your password?</a></p>
+          <p>Do you need to sign up? <a href="/user/register">Create your account.</a></p>
       </div>
 
     </div>
